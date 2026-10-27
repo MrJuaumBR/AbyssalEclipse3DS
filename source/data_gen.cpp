@@ -11,7 +11,7 @@ static const char* const UI_EN[S_COUNT] = {
   "CATALOG", // nav_catalog
   "OPTIONS", // nav_options
   "SURVIVE THE ABYSS.", // tagline
-  "v0.1 BETA", // version
+  "v0.1", // version
   "FOREST", // s_forest
   "DESERT", // s_desert
   "SNOW", // s_snow
@@ -38,7 +38,7 @@ static const char* const UI_EN[S_COUNT] = {
   "HAT", // hat
   "FACE", // face
   "COLOR", // color
-  "COSMETIC ONLY (DOES NOT AFFECT GAMEPLAY)", // cosmetic
+  "COSMETICS", // cosmetic
   "KNIGHT HELM", // hat_helm
   "WIZARD HAT", // hat_wizard
   "LEAF HOOD", // hat_leaf
@@ -241,6 +241,95 @@ static const char* const UI_EN[S_COUNT] = {
   "LV {n}", // spell_lv
   "MAX LEVEL", // max_lv
   "NEW!", // new_label
+  "ACHIEVEMENTS", // nav_achievements
+  "ACHIEVEMENTS", // ach_title
+  "LOCKED", // ach_locked
+  "UNLOCKED", // ach_unlocked
+  "FOREST COMPLETE", // ach_season_forest
+  "Clear all three Forest campaign levels.", // ach_season_forest_desc
+  "DESERT COMPLETE", // ach_season_desert
+  "Clear all three Desert campaign levels.", // ach_season_desert_desc
+  "SNOW COMPLETE", // ach_season_snow
+  "Clear all three Snow campaign levels.", // ach_season_snow_desc
+  "MOUNTAIN COMPLETE", // ach_season_mountain
+  "Clear all three Mountain campaign levels.", // ach_season_mountain_desc
+  "ECLIPSE COMPLETE", // ach_season_eclipse
+  "Clear all three Eclipse campaign levels.", // ach_season_eclipse_desc
+  "1,000 ENEMIES", // ach_kills_1000
+  "Defeat 1,000 enemies across all runs.", // ach_kills_1000_desc
+  "10,000 ENEMIES", // ach_kills_10000
+  "Defeat 10,000 enemies across all runs.", // ach_kills_10000_desc
+  "100,000 ENEMIES", // ach_kills_100000
+  "Defeat 100,000 enemies across all runs.", // ach_kills_100000_desc
+  "FOREST FIELD GUIDE", // ach_catalog_forest
+  "Discover every Forest-exclusive spell and enemy.", // ach_catalog_forest_desc
+  "DESERT FIELD GUIDE", // ach_catalog_desert
+  "Discover every Desert-exclusive spell and enemy.", // ach_catalog_desert_desc
+  "SNOW FIELD GUIDE", // ach_catalog_snow
+  "Discover every Snow-exclusive spell and enemy.", // ach_catalog_snow_desc
+  "MOUNTAIN FIELD GUIDE", // ach_catalog_mountain
+  "Discover every Mountain-exclusive spell and enemy.", // ach_catalog_mountain_desc
+  "ECLIPSE FIELD GUIDE", // ach_catalog_eclipse
+  "Discover every Eclipse-exclusive spell and enemy.", // ach_catalog_eclipse_desc
+  "MASTER CATALOG", // ach_full_catalog
+  "Discover every spell and enemy in the game.", // ach_full_catalog_desc
+  "LITTLE DUMMY", // ach_little_dummy
+  "Play for at least 1 hour.", // ach_little_dummy_desc
+  "ABYSS VETERAN", // ach_abyss_veteran
+  "Play for at least 10 hours.", // ach_abyss_veteran_desc
+  "GO TOUCH GRASS", // ach_touch_grass
+  "Play for at least 50 hours. Please take a break.", // ach_touch_grass_desc
+  "NIGHT WATCH", // ach_batman
+  "Play for at least 1 hour to unlock the Batman parody outfit.", // ach_batman_desc
+  "WHY SO SERIOUS\?", // ach_joker
+  "Play for at least 10 hours to unlock the Joker parody outfit.", // ach_joker_desc
+  "DIG DEEP", // ach_terraria
+  "Play for at least 50 hours to unlock the Terraria parody outfit.", // ach_terraria_desc
+  "IT'S-A ME", // ach_mario
+  "Defeat 1,000 enemies to unlock the Mario parody outfit.", // ach_mario_desc
+  "HEART OF IRON", // ach_iron_man
+  "Complete the full catalog to unlock the Iron Man parody outfit.", // ach_iron_man_desc
+  "RUNS", // stat_games
+  "WINS", // stat_wins
+  "LOSSES", // stat_losses
+  "LIFETIME KILLS", // stat_kills
+  "SPELLS ACQUIRED", // stat_picks
+  "SPELL ACTIVATIONS", // stat_casts
+  "SPELL UPGRADES", // stat_upgrades
+  "WEAPON ATTACKS", // stat_throws
+  "TIME PLAYED", // stat_time
+  "PROGRESS", // ach_progress
+  "UP/DOWN: SELECT   B: BACK", // ach_hint
+  "CLOTHES", // cat_clothes
+  "MUSIC", // cat_music
+  "CLEAR THE SEASON TO UNLOCK THIS TRACK", // music_locked
+  "A: PLAY TRACK", // music_play
+  "B: STOP PREVIEW", // music_stop
+  "NIGHT COWL", // cloth_bat_cowl
+  "GRINNING MASK", // cloth_joker_grin
+  "PIXEL MINER HELM", // cloth_terra_hat
+  "ABYSSAL CROWN", // cloth_abyss_crown
+  "KNIGHT HELM", // cloth_default
+  "WIZARD HAT", // cloth_wizard
+  "LEAF HOOD", // cloth_leaf
+  "TINY CROWN", // cloth_crown
+  "NONE", // cloth_none
+  "NIGHT COWL", // cloth_batman
+  "GRINNING MASK", // cloth_joker
+  "PIXEL MINER HELM", // cloth_terraria
+  "RED PLUMBER CAP", // cloth_mario
+  "ARC HELMET", // cloth_ironman
+  "DWARF BEARD", // face_dwarf_beard
+  "FOREST - ROOTS OF DUSK", // music_forest
+  "DESERT - SUNKEN HORIZON", // music_desert
+  "SNOW - WHITE SILENCE", // music_snow
+  "MOUNTAIN - STONE ABOVE", // music_mountain
+  "ECLIPSE - THE LAST LIGHT", // music_eclipse
+  "X: STORE POINTS", // store_points
+  "Y: USE STORED ({n})", // use_stored
+  "BANK USES LEFT: {n}/3", // stores_left
+  "POINTS STORED", // points_stored
+  "RELEASE", // release_status
 };
 static const char* const UI_PT[S_COUNT] = {
   "MENU", // nav_menu
@@ -252,7 +341,7 @@ static const char* const UI_PT[S_COUNT] = {
   "CATÁLOGO", // nav_catalog
   "OPÇÕES", // nav_options
   "SOBREVIVA AO ABISMO.", // tagline
-  "v0.1 BETA", // version
+  "v0.1", // version
   "FLORESTA", // s_forest
   "DESERTO", // s_desert
   "NEVE", // s_snow
@@ -279,7 +368,7 @@ static const char* const UI_PT[S_COUNT] = {
   "CHAPÉU", // hat
   "ROSTO", // face
   "COR", // color
-  "APENAS ESTÉTICO (NÃO AFETA A JOGABILIDADE)", // cosmetic
+  "COSMETICOS", // cosmetic
   "ELMO DE CAVALEIRO", // hat_helm
   "CHAPÉU DE MAGO", // hat_wizard
   "CAPUZ DE FOLHA", // hat_leaf
@@ -482,11 +571,100 @@ static const char* const UI_PT[S_COUNT] = {
   "NV {n}", // spell_lv
   "NIVEL MAXIMO", // max_lv
   "NOVO!", // new_label
+  "CONQUISTAS", // nav_achievements
+  "CONQUISTAS", // ach_title
+  "BLOQUEADA", // ach_locked
+  "DESBLOQUEADA", // ach_unlocked
+  "FLORESTA COMPLETA", // ach_season_forest
+  "Conclua as tres fases da Floresta.", // ach_season_forest_desc
+  "DESERTO COMPLETO", // ach_season_desert
+  "Conclua as tres fases do Deserto.", // ach_season_desert_desc
+  "NEVE COMPLETA", // ach_season_snow
+  "Conclua as tres fases da Neve.", // ach_season_snow_desc
+  "MONTANHA COMPLETA", // ach_season_mountain
+  "Conclua as tres fases da Montanha.", // ach_season_mountain_desc
+  "ECLIPSE COMPLETO", // ach_season_eclipse
+  "Conclua as tres fases do Eclipse.", // ach_season_eclipse_desc
+  "1.000 INIMIGOS", // ach_kills_1000
+  "Derrote 1.000 inimigos em todas as partidas.", // ach_kills_1000_desc
+  "10.000 INIMIGOS", // ach_kills_10000
+  "Derrote 10.000 inimigos em todas as partidas.", // ach_kills_10000_desc
+  "100.000 INIMIGOS", // ach_kills_100000
+  "Derrote 100.000 inimigos em todas as partidas.", // ach_kills_100000_desc
+  "GUIA DA FLORESTA", // ach_catalog_forest
+  "Descubra todas as magias e inimigos exclusivos da Floresta.", // ach_catalog_forest_desc
+  "GUIA DO DESERTO", // ach_catalog_desert
+  "Descubra todas as magias e inimigos exclusivos do Deserto.", // ach_catalog_desert_desc
+  "GUIA DA NEVE", // ach_catalog_snow
+  "Descubra todas as magias e inimigos exclusivos da Neve.", // ach_catalog_snow_desc
+  "GUIA DA MONTANHA", // ach_catalog_mountain
+  "Descubra todas as magias e inimigos exclusivos da Montanha.", // ach_catalog_mountain_desc
+  "GUIA DO ECLIPSE", // ach_catalog_eclipse
+  "Descubra todas as magias e inimigos exclusivos do Eclipse.", // ach_catalog_eclipse_desc
+  "CATALOGO COMPLETO", // ach_full_catalog
+  "Descubra todas as magias e inimigos do jogo.", // ach_full_catalog_desc
+  "PEQUENO BOBO", // ach_little_dummy
+  "Jogue por pelo menos 1 hora.", // ach_little_dummy_desc
+  "VETERANO DO ABISMO", // ach_abyss_veteran
+  "Jogue por pelo menos 10 horas.", // ach_abyss_veteran_desc
+  "VAI TOCAR GRAMA", // ach_touch_grass
+  "Jogue por pelo menos 50 horas. Faca uma pausa.", // ach_touch_grass_desc
+  "VIGILANTE NOTURNO", // ach_batman
+  "Jogue por pelo menos 1 hora para liberar a roupa parodia do Batman.", // ach_batman_desc
+  "POR QUE TAO SERIO\?", // ach_joker
+  "Jogue por pelo menos 10 horas para liberar a roupa parodia do Joker.", // ach_joker_desc
+  "CAVE FUNDO", // ach_terraria
+  "Jogue por pelo menos 50 horas para liberar a roupa parodia de Terraria.", // ach_terraria_desc
+  "AQUI E O MARIO", // ach_mario
+  "Derrote 1.000 inimigos para liberar a roupa parodia do Mario.", // ach_mario_desc
+  "CORACAO DE FERRO", // ach_iron_man
+  "Complete o catalogo para liberar a roupa parodia do Homem de Ferro.", // ach_iron_man_desc
+  "PARTIDAS", // stat_games
+  "VITORIAS", // stat_wins
+  "DERROTAS", // stat_losses
+  "ABATES TOTAIS", // stat_kills
+  "MAGIAS OBTIDAS", // stat_picks
+  "ATIVACOES DE MAGIA", // stat_casts
+  "MELHORIAS DE MAGIA", // stat_upgrades
+  "ATAQUES DA ARMA", // stat_throws
+  "TEMPO JOGADO", // stat_time
+  "PROGRESSO", // ach_progress
+  "CIMA/BAIXO: SELECIONAR   B: VOLTAR", // ach_hint
+  "ROUPAS", // cat_clothes
+  "MUSICAS", // cat_music
+  "CONCLUA A ESTACAO PARA DESBLOQUEAR ESTA MUSICA", // music_locked
+  "A: TOCAR MUSICA", // music_play
+  "B: PARAR PREVIA", // music_stop
+  "CAPUZ NOTURNO", // cloth_bat_cowl
+  "MASCARA SORRIDENTE", // cloth_joker_grin
+  "CAPACETE DO MINEIRO PIXEL", // cloth_terra_hat
+  "COROA ABISSAL", // cloth_abyss_crown
+  "ELMO DO CAVALEIRO", // cloth_default
+  "CHAPEU DE MAGO", // cloth_wizard
+  "CAPUZ DE FOLHAS", // cloth_leaf
+  "COROA PEQUENA", // cloth_crown
+  "NENHUM", // cloth_none
+  "CAPUZ NOTURNO", // cloth_batman
+  "MASCARA SORRIDENTE", // cloth_joker
+  "CAPACETE DO MINEIRO PIXEL", // cloth_terraria
+  "BONE VERMULHO", // cloth_mario
+  "CAPACETE ARC", // cloth_ironman
+  "BARBA DE ANAO", // face_dwarf_beard
+  "FLORESTA - RAIZES DO CREPUSCULO", // music_forest
+  "DESERTO - HORIZONTE SUBMERSO", // music_desert
+  "NEVE - SILENCIO BRANCO", // music_snow
+  "MONTANHA - PEDRA ACIMA", // music_mountain
+  "ECLIPSE - A ULTIMA LUZ", // music_eclipse
+  "X: GUARDAR PONTOS", // store_points
+  "Y: USAR GUARDADOS ({n})", // use_stored
+  "USOS DO BANCO: {n}/3", // stores_left
+  "PONTOS GUARDADOS", // points_stored
+  "LANCAMENTO", // release_status
 };
 const char* const* const UI_TABLE[LANG_COUNT] = { UI_EN, UI_PT };
 
-const int SPELL_COUNT = 141;
-const SpellDef SPELLS[141] = {
+const int SPELL_COUNT = 144;
+const SpellDef SPELLS[144] = {
   {EL_EARTH,TY_STATUS,ACT_SELF,R_COMMON,SC_GLOBAL,SEA_NONE,{{E_MAXHP,12.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // IRON WILL
   {EL_AIR,TY_STATUS,ACT_SELF,R_COMMON,SC_GLOBAL,SEA_NONE,{{E_MOVE_PCT,8.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // QUICKSTEP
   {EL_LIGHTNING,TY_STATUS,ACT_SELF,R_COMMON,SC_GLOBAL,SEA_NONE,{{E_CD_PCT,10.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // FOCUS STONE
@@ -500,7 +678,7 @@ const SpellDef SPELLS[141] = {
   {EL_EARTH,TY_DAMAGE,ACT_SELF,R_RARE,SC_GLOBAL,SEA_NONE,{{E_REFLECT,40.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // THORN MAIL
   {EL_AIR,TY_DAMAGE,ACT_SELF,R_RARE,SC_GLOBAL,SEA_NONE,{{E_CRIT,15.0f,0.0f,0.0f},{E_CRITDMG,25.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // HUNTER'S EYE
   {EL_LIGHTNING,TY_DAMAGE,ACT_AOE,R_RARE,SC_GLOBAL,SEA_NONE,{{E_AURA,2.0f,48.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // STATIC FIELD
-  {EL_AIR,TY_WEAPON,ACT_AOE,R_RARE,SC_GLOBAL,SEA_NONE,{{E_NTH_RING,5.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // ECHO CHAMBER
+  {EL_AIR,TY_WEAPON,ACT_AOE,R_RARE,SC_GLOBAL,SEA_NONE,{{E_NTH_RING,5.0f,12.0f,0.25f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // ECHO CHAMBER
   {EL_WATER,TY_WEAPON,ACT_TOUCH,R_RARE,SC_GLOBAL,SEA_NONE,{{E_HIT_FREEZE,20.0f,1.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // FROST LENS
   {EL_AIR,TY_WEAPON,ACT_TOUCH,R_RARE,SC_GLOBAL,SEA_NONE,{{E_BOUNCE_ENEMY,1.0f,50.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // RICOCHET
   {EL_WATER,TY_WEAPON,ACT_TOUCH,R_EPIC,SC_GLOBAL,SEA_NONE,{{E_PIERCE,3.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // TIDAL FORCE
@@ -597,7 +775,7 @@ const SpellDef SPELLS[141] = {
   {EL_LIGHTNING,TY_WEAPON,ACT_AOE,R_EPIC,SC_ELEMENT,SEA_NONE,{{E_NTH_BOLT,1.0f,6.0f,30.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // STORMCALLER
   {EL_LIGHTNING,TY_WEAPON,ACT_AOE,R_EPIC,SC_ELEMENT,SEA_NONE,{{E_ORBIT,3.0f,2.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // BALL LIGHTNING
   {EL_LIGHTNING,TY_STATUS,ACT_SELF,R_EPIC,SC_ELEMENT,SEA_NONE,{{E_CHAINPLUS,1.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // THUNDERHEAD
-  {EL_LIGHTNING,TY_STATUS,ACT_SELF,R_LEGENDARY,SC_ELEMENT,SEA_NONE,{{E_NTH_STRIKE3,5.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // TEMPEST CROWN
+  {EL_LIGHTNING,TY_STATUS,ACT_SELF,R_LEGENDARY,SC_ELEMENT,SEA_NONE,{{E_NTH_STRIKE3,5.0f,10.0f,3.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // TEMPEST CROWN
   {EL_LIGHTNING,TY_STATUS,ACT_SELF,R_LEGENDARY,SC_ELEMENT,SEA_NONE,{{E_LIGHTNING_PCT,30.0f,0.0f,0.0f},{E_ATKSPD_PCT,15.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // THUNDER GOD
   {EL_EARTH,TY_DAMAGE,ACT_SELF,R_RARE,SC_SEASON,SEA_FOREST,{{E_REFLECT,60.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // THORNBACK
   {EL_EARTH,TY_STATUS,ACT_SELF,R_EPIC,SC_SEASON,SEA_FOREST,{{E_HP_PER_WAVE,2.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // VERDANT GROWTH
@@ -628,8 +806,11 @@ const SpellDef SPELLS[141] = {
   {EL_AIR,TY_WEAPON,ACT_AOE,R_RARE,SC_ELEMENT,SEA_NONE,{{E_ORBIT,4.0f,1.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // KNIFE CIRCLE
   {EL_FIRE,TY_DAMAGE,ACT_AOE,R_EPIC,SC_ELEMENT,SEA_NONE,{{E_PERIODIC_BOMB,12.0f,40.0f,60.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // OCCASIONAL BOMB
   {EL_EARTH,TY_WEAPON,ACT_SELF,R_LEGENDARY,SC_ELEMENT,SEA_NONE,{{E_SENTINEL,1.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // SENTINEL
+  {EL_WATER,TY_DAMAGE,ACT_AOE,R_RARE,SC_ELEMENT,SEA_NONE,{{E_HIT_FREEZE,18.0f,1.2f,0.0f},{E_KILL_BURST,6.0f,32.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // GLACIAL BLOOM
+  {EL_LIGHTNING,TY_WEAPON,ACT_SELF,R_EPIC,SC_ELEMENT,SEA_NONE,{{E_NTH_BOLT,7.0f,14.0f,44.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // STARLANCE
+  {EL_BLOOD,TY_STATUS,ACT_SELF,R_RARE,SC_ELEMENT,SEA_NONE,{{E_KILL_HEALEVERY,1.5f,5.0f,0.0f},{E_LIFESTEAL,1.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // SOUL HARVEST
 };
-static const SpellText SPT_EN[141] = {
+static const SpellText SPT_EN[144] = {
   {"IRON WILL","+12 MAX HP.","+12 HP"},
   {"QUICKSTEP","+8% MOVE SPEED.","+8% SPD"},
   {"FOCUS STONE","-10% ATTACK COOLDOWN.","-10% CD"},
@@ -771,8 +952,11 @@ static const SpellText SPT_EN[141] = {
   {"KNIFE CIRCLE","SHARP KNIVES SPIN AROUND YOU, DEALING DAMAGE.","4 DPS, 1 KNIFE"},
   {"OCCASIONAL BOMB","A BOMB APPEARS NEAR YOU AND EXPLODES AFTER 1 SECOND.","12S INTERVAL, 40 DMG, 60PX"},
   {"SENTINEL","A STONE SENTINEL GUARDS YOU AND FIRES AT NEARBY FOES.","50 HP, 0.8S SHOTS"},
+  {"GLACIAL BLOOM","FREEZE FOES ON HIT, THEN SHATTER THEM WITH A BURST WHEN THEY FALL.","18% FREEZE, 6 BURST DMG / 32 RADIUS"},
+  {"STARLANCE","EVERY FEW ATTACKS, A LIGHTNING LANCE STRIKES NEARBY FOES.","EVERY 7TH THROW, 14 DMG / 44 RADIUS"},
+  {"SOUL HARVEST","KILLS FEED YOUR VITALITY; BLOODLUST RESTORES HEALTH ON EVERY HIT.","HEAL EVERY 5 KILLS, 1.5 HP / 1 LIFESTEAL"},
 };
-static const SpellText SPT_PT[141] = {
+static const SpellText SPT_PT[144] = {
   {"VONTADE DE FERRO","+12 DE VIDA MÁXIMA.","+12 VIDA"},
   {"PASSO LIGEIRO","+8% DE VELOCIDADE DE MOVIMENTO.","+8% VEL."},
   {"PEDRA DE FOCO","-10% DE RECARGA DO ATAQUE.","-10% REC."},
@@ -914,9 +1098,12 @@ static const SpellText SPT_PT[141] = {
   {"CIRCULO DE FACAS","FACAS AFIADAS GIRAM AO SEU REDOR E CAUSAM DANO.","4 DPS, 1 FACA"},
   {"BOMBA OCASIONAL","UMA BOMBA SURGE PERTO E EXPLODE APOS 1 SEGUNDO.","INTERVALO 12S, 40 DANO, 60PX"},
   {"SENTINELA","UMA SENTINELA DE PEDRA PROTEGE E ATIRA EM INIMIGOS.","50 VIDA, DISPARO 0,8S"},
+  {"FLOR GLACIAL","CONGELE INIMIGOS AO ACERTAR E OS ESTILHACA EM UMA EXPLOSAO AO CAIR.","18% CONGELAR, 6 DANO / RAIO 32"},
+  {"LANCA ESTELAR","A CADA POUCOS ATAQUES, UMA LANCA ELETRICA ATINGE INIMIGOS PROXIMOS.","A CADA 7 DISPAROS, 14 DANO / RAIO 44"},
+  {"COLHEITA DE ALMAS","ABATES ALIMENTAM SUA VITALIDADE; GOLPES DE SANGUE RESTAURAM VIDA.","CURA A CADA 5 ABATES, 1,5 VIDA / 1 DRENAGEM"},
 };
 const SpellText* const SPELL_TEXT[LANG_COUNT] = { SPT_EN, SPT_PT };
-static const char* const SLORE_EN[141] = {
+static const char* const SLORE_EN[144] = {
   "A horseshoe nailed above the door of a house that never fell.",
   "A note sewn into the sole: not responsible for where these take you.",
   "Smooth as a held breath, and just as patient.",
@@ -1058,8 +1245,11 @@ static const char* const SLORE_EN[141] = {
   "A wheel of sharpened steel, forever seeking a target.",
   "The fuse burns slowly. Its maker never came back for it.",
   "An ancient guardian that still recognizes the living.",
+  "Old ice blooms again wherever a foe falls, turning every defeat into a brittle frostburst.",
+  "A needle of starlight waits between volleys, then crosses the battlefield in a single bright instant.",
+  "The harvest is never wasted: every fallen enemy and every stolen heartbeat returns a little strength.",
 };
-static const char* const SLORE_PT[141] = {
+static const char* const SLORE_PT[144] = {
   "Uma ferradura pregada sobre a porta de uma casa que nunca caiu.",
   "Um bilhete costurado na sola: não nos responsabilizamos por aonde estas botas levam você.",
   "Lisa como um fôlego contido, e igualmente paciente.",
@@ -1201,6 +1391,9 @@ static const char* const SLORE_PT[141] = {
   "Uma roda de aco afiado, sempre a procura de um alvo.",
   "O pavio queima devagar. Quem a criou nunca voltou.",
   "Uma guardia antiga que ainda reconhece os vivos.",
+  "O gelo antigo floresce onde um inimigo cai, transformando cada derrota em uma explosao congelante.",
+  "Uma agulha de luz estelar aguarda entre disparos e cruza o campo em um unico instante brilhante.",
+  "Nada se perde na colheita: cada inimigo abatido e cada batimento roubado devolvem um pouco de vigor.",
 };
 const char* const* const SPELL_LORE[LANG_COUNT] = { SLORE_EN, SLORE_PT };
 
@@ -1343,64 +1536,70 @@ static const char* const ELORE_PT[25] = {
 };
 const char* const* const ENEMY_LORE[LANG_COUNT] = { ELORE_EN, ELORE_PT };
 
-static const PixRect ART_E_grub[] = {{2,7,12,6,0x0B0A12},{3,8,10,4,0x4FA85A},{4,8,2,1,0xA8E0A0},{11,9,1,1,0x0B0A12},{5,8,1,4,0x2F6B3A},{8,8,1,4,0x2F6B3A}};
-static const PixRect ART_E_wasp[] = {{4,5,8,8,0x0B0A12},{5,6,6,6,0xE8B54B},{5,8,6,1,0x0B0A12},{5,10,6,1,0x0B0A12},{2,3,4,3,0xD4E8F0},{10,3,4,3,0xD4E8F0},{7,13,2,2,0x0B0A12},{6,6,1,1,0x0B0A12},{9,6,1,1,0x0B0A12}};
-static const PixRect ART_E_beetle[] = {{2,3,12,11,0x0B0A12},{3,5,10,8,0x6B4A2E},{5,3,6,3,0x3A2A1A},{8,5,1,8,0x0B0A12},{4,6,2,1,0xA07A50}};
-static const PixRect ART_E_spider[] = {{1,5,3,1,0x0B0A12},{1,8,3,1,0x0B0A12},{1,11,3,1,0x0B0A12},{12,5,3,1,0x0B0A12},{12,8,3,1,0x0B0A12},{12,11,3,1,0x0B0A12},{4,5,8,7,0x0B0A12},{5,6,6,5,0x5A4A7A},{6,7,1,1,0xC43D3D},{9,7,1,1,0xC43D3D}};
-static const PixRect ART_E_brood[] = {{1,3,14,12,0x0B0A12},{2,4,12,10,0x7A5A2A},{4,1,2,3,0xE8B54B},{10,1,2,3,0xE8B54B},{5,7,2,2,0xC43D3D},{9,7,2,2,0xC43D3D},{6,11,4,2,0x0B0A12},{3,11,2,2,0xE8E0C0},{11,11,2,2,0xE8E0C0}};
-static const PixRect ART_E_scarab[] = {{3,4,10,10,0x0B0A12},{4,5,8,8,0x2F7F8F},{6,3,4,2,0x2F7F8F},{8,5,1,8,0x0B0A12},{5,6,2,1,0x7FD0D8},{2,6,1,1,0x0B0A12},{13,6,1,1,0x0B0A12},{2,10,1,1,0x0B0A12},{13,10,1,1,0x0B0A12}};
-static const PixRect ART_E_thrall[] = {{5,1,6,14,0x0B0A12},{6,2,4,12,0xE0D8B8},{6,5,4,1,0x9B8B60},{6,8,4,1,0x9B8B60},{6,11,4,1,0x9B8B60},{7,3,1,1,0xC43D3D},{9,3,1,1,0xC43D3D}};
-static const PixRect ART_E_hound[] = {{3,5,10,8,0x0B0A12},{4,6,8,6,0x3A3352},{4,2,2,4,0x0B0A12},{10,2,2,4,0x0B0A12},{5,9,6,1,0xE8B54B},{5,7,1,1,0xE8B54B},{10,7,1,1,0xE8B54B},{4,13,2,2,0x0B0A12},{10,13,2,2,0x0B0A12}};
-static const PixRect ART_E_guard[] = {{3,1,10,14,0x0B0A12},{4,2,8,12,0x9B8B70},{6,4,1,1,0x0B0A12},{9,4,1,1,0x0B0A12},{4,8,8,6,0x6B6480},{7,9,2,4,0x0B0A12}};
-static const PixRect ART_E_pharaoh[] = {{2,1,12,14,0x0B0A12},{3,2,10,12,0x2F7F8F},{5,5,6,6,0xE8B54B},{6,7,1,1,0x0B0A12},{9,7,1,1,0x0B0A12},{7,2,2,2,0xE85C2E},{7,11,2,3,0x2F7F8F},{6,9,4,1,0x0B0A12}};
-static const PixRect ART_E_bat[] = {{1,5,5,4,0x0B0A12},{10,5,5,4,0x0B0A12},{2,6,3,2,0x7AB8D9},{11,6,3,2,0x7AB8D9},{6,4,4,8,0x0B0A12},{7,5,2,6,0x4A7FC1},{7,6,1,1,0xF0EAD6},{6,2,1,2,0x0B0A12},{9,2,1,2,0x0B0A12}};
-static const PixRect ART_E_ice[] = {{4,3,8,11,0x0B0A12},{5,4,6,9,0x7AB8D9},{6,5,2,2,0xF0EAD6},{7,1,2,3,0x7AB8D9},{2,6,2,3,0x7AB8D9},{12,6,2,3,0x7AB8D9}};
-static const PixRect ART_E_archer[] = {{5,2,6,13,0x0B0A12},{6,3,4,11,0x7AB8D9},{5,2,6,4,0x0B0A12},{6,3,4,3,0x4A7FC1},{7,5,1,1,0xF0EAD6},{9,5,1,1,0xF0EAD6},{12,3,1,10,0xF0EAD6},{11,3,2,1,0x6B4A2E},{11,12,2,1,0x6B4A2E},{2,8,10,1,0xC8D0D8}};
-static const PixRect ART_E_stalker[] = {{2,6,12,7,0x0B0A12},{3,7,10,5,0xD4E8F0},{3,3,2,4,0x0B0A12},{4,4,1,2,0xD4E8F0},{11,3,2,4,0x0B0A12},{11,4,1,2,0xD4E8F0},{4,8,1,1,0x4A7FC1},{11,8,1,1,0x4A7FC1},{3,13,2,2,0x0B0A12},{11,13,2,2,0x0B0A12},{6,11,4,1,0x9B92B0}};
-static const PixRect ART_E_frozen[] = {{6,0,4,2,0x0B0A12},{4,2,8,2,0x0B0A12},{3,4,10,3,0x0B0A12},{1,7,14,8,0x0B0A12},{7,1,2,2,0xF0EAD6},{5,3,6,2,0xD4E8F0},{4,5,8,2,0x7AB8D9},{2,8,12,6,0x4A7FC1},{5,9,2,2,0xF0EAD6},{9,9,2,2,0xF0EAD6},{6,12,4,1,0x0B0A12}};
-static const PixRect ART_E_golem[] = {{2,2,12,13,0x0B0A12},{3,3,10,11,0x6B6480},{5,5,2,2,0xF0C860},{9,5,2,2,0xF0C860},{7,9,1,4,0x0B0A12},{4,4,3,1,0x9B92B0}};
-static const PixRect ART_E_brute[] = {{2,4,12,11,0x0B0A12},{3,5,10,9,0x7A7590},{2,2,2,3,0x0B0A12},{12,2,2,3,0x0B0A12},{3,3,1,2,0xF0EAD6},{12,3,1,2,0xF0EAD6},{4,7,3,1,0xC43D3D},{9,7,3,1,0xC43D3D},{4,5,3,1,0xF0EAD6},{9,5,3,1,0xF0EAD6},{6,11,4,2,0x0B0A12}};
-static const PixRect ART_E_sentry[] = {{2,13,12,2,0x3A3352},{3,3,10,11,0x0B0A12},{4,4,8,9,0x6B6480},{5,1,6,3,0x0B0A12},{6,2,4,1,0x9B92B0},{7,7,2,2,0xF0C860},{1,5,2,2,0x0B0A12},{13,5,2,2,0x0B0A12},{4,5,2,1,0x9B92B0}};
-static const PixRect ART_E_crawler[] = {{3,6,10,7,0x0B0A12},{4,7,8,5,0x8B5FBF},{4,3,2,4,0x0B0A12},{4,4,1,2,0xD8B8F0},{7,2,2,5,0x0B0A12},{7,3,1,3,0xD8B8F0},{10,3,2,4,0x0B0A12},{10,4,1,2,0xD8B8F0},{5,9,1,1,0xF0EAD6},{10,9,1,1,0xF0EAD6},{2,12,2,2,0x0B0A12},{12,12,2,2,0x0B0A12},{5,13,1,2,0x0B0A12},{10,13,1,2,0x0B0A12}};
-static const PixRect ART_E_king[] = {{2,3,12,12,0x0B0A12},{3,4,10,10,0x6B6480},{3,1,10,3,0x0B0A12},{4,2,8,1,0xE8B54B},{4,1,2,1,0xE8B54B},{7,0,2,2,0xE8B54B},{10,1,2,1,0xE8B54B},{5,7,2,2,0xF0C860},{9,7,2,2,0xF0C860},{5,11,6,3,0x9B92B0}};
-static const PixRect ART_E_acolyte[] = {{4,2,8,13,0x0B0A12},{5,3,6,11,0xA82E4A},{5,2,6,3,0x5A1F2F},{6,4,4,2,0x0B0A12},{6,5,1,1,0xC43D3D},{9,5,1,1,0xC43D3D},{7,9,2,2,0xE8B54B}};
-static const PixRect ART_E_flesh[] = {{2,5,12,8,0x0B0A12},{3,6,10,6,0xC46A6A},{5,8,2,2,0x0B0A12},{9,9,2,1,0x0B0A12},{12,9,2,1,0xF0EAD6},{11,7,1,1,0x0B0A12},{3,13,2,2,0x0B0A12},{10,13,2,2,0x0B0A12}};
-static const PixRect ART_E_eye[] = {{1,4,14,8,0x0B0A12},{2,5,12,6,0xF0EAD6},{5,5,6,6,0xB83A8A},{7,6,2,4,0x0B0A12},{6,6,1,1,0xF0EAD6},{7,1,2,3,0xB83A8A},{7,13,2,2,0xB83A8A},{2,2,2,2,0xB83A8A},{12,2,2,2,0xB83A8A}};
-static const PixRect ART_E_husk[] = {{4,2,8,13,0x0B0A12},{5,3,6,11,0x7A5A6A},{5,4,2,1,0x0B0A12},{9,4,2,1,0x0B0A12},{6,6,4,5,0x0B0A12},{7,8,2,2,0xC43D3D},{2,8,2,5,0x0B0A12},{12,8,2,5,0x0B0A12},{3,9,1,3,0x7A5A6A},{12,9,1,3,0x7A5A6A}};
-static const PixRect ART_E_choir[] = {{2,2,12,13,0x0B0A12},{3,3,10,11,0x3A2A5A},{4,5,2,3,0xB83A8A},{7,4,2,4,0xB83A8A},{10,5,2,3,0xB83A8A},{7,5,2,1,0xF0EAD6},{4,0,8,1,0xB83A8A},{4,11,2,1,0xB83A8A},{10,11,2,1,0xB83A8A}};
-const PixArt ART_ENEMY[25] = {{ART_E_grub,6},{ART_E_wasp,9},{ART_E_beetle,5},{ART_E_spider,10},{ART_E_brood,9},{ART_E_scarab,9},{ART_E_thrall,7},{ART_E_hound,9},{ART_E_guard,6},{ART_E_pharaoh,8},{ART_E_bat,9},{ART_E_ice,6},{ART_E_archer,10},{ART_E_stalker,11},{ART_E_frozen,11},{ART_E_golem,6},{ART_E_brute,11},{ART_E_sentry,9},{ART_E_crawler,14},{ART_E_king,10},{ART_E_acolyte,7},{ART_E_flesh,8},{ART_E_eye,9},{ART_E_husk,10},{ART_E_choir,9}};
-static const PixRect ART_H_helm[] = {{4,1,8,3,0x9B92B0},{4,3,8,1,0x6B6480},{5,2,2,1,0xF0EAD6},{7,0,2,1,0xC43D3D}};
+static const PixRect ART_E_grub[] = {{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{3,8,10,1,0x4FA85A},{3,9,10,1,0x4FA85A},{3,10,10,1,0x4FA85A},{3,11,10,1,0x4FA85A},{4,8,2,1,0xA8E0A0},{11,9,1,1,0x0B0A12},{5,8,1,1,0x2F6B3A},{5,9,1,1,0x2F6B3A},{5,10,1,1,0x2F6B3A},{5,11,1,1,0x2F6B3A},{8,8,1,1,0x2F6B3A},{8,9,1,1,0x2F6B3A},{8,10,1,1,0x2F6B3A},{8,11,1,1,0x2F6B3A}};
+static const PixRect ART_E_wasp[] = {{4,5,8,1,0x0B0A12},{4,6,8,1,0x0B0A12},{4,7,8,1,0x0B0A12},{4,8,8,1,0x0B0A12},{4,9,8,1,0x0B0A12},{4,10,8,1,0x0B0A12},{4,11,8,1,0x0B0A12},{4,12,8,1,0x0B0A12},{5,6,6,1,0xE8B54B},{5,7,6,1,0xE8B54B},{5,8,6,1,0xE8B54B},{5,9,6,1,0xE8B54B},{5,10,6,1,0xE8B54B},{5,11,6,1,0xE8B54B},{5,8,6,1,0x0B0A12},{5,10,6,1,0x0B0A12},{2,3,4,1,0xD4E8F0},{2,4,4,1,0xD4E8F0},{2,5,4,1,0xD4E8F0},{10,3,4,1,0xD4E8F0},{10,4,4,1,0xD4E8F0},{10,5,4,1,0xD4E8F0},{7,13,2,1,0x0B0A12},{7,14,2,1,0x0B0A12},{6,6,1,1,0x0B0A12},{9,6,1,1,0x0B0A12}};
+static const PixRect ART_E_beetle[] = {{2,3,12,1,0x0B0A12},{2,4,12,1,0x0B0A12},{2,5,12,1,0x0B0A12},{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{3,5,10,1,0x6B4A2E},{3,6,10,1,0x6B4A2E},{3,7,10,1,0x6B4A2E},{3,8,10,1,0x6B4A2E},{3,9,10,1,0x6B4A2E},{3,10,10,1,0x6B4A2E},{3,11,10,1,0x6B4A2E},{3,12,10,1,0x6B4A2E},{5,3,6,1,0x3A2A1A},{5,4,6,1,0x3A2A1A},{5,5,6,1,0x3A2A1A},{8,5,1,1,0x0B0A12},{8,6,1,1,0x0B0A12},{8,7,1,1,0x0B0A12},{8,8,1,1,0x0B0A12},{8,9,1,1,0x0B0A12},{8,10,1,1,0x0B0A12},{8,11,1,1,0x0B0A12},{8,12,1,1,0x0B0A12},{4,6,2,1,0xA07A50}};
+static const PixRect ART_E_spider[] = {{1,5,3,1,0x0B0A12},{1,8,3,1,0x0B0A12},{1,11,3,1,0x0B0A12},{12,5,3,1,0x0B0A12},{12,8,3,1,0x0B0A12},{12,11,3,1,0x0B0A12},{4,5,8,1,0x0B0A12},{4,6,8,1,0x0B0A12},{4,7,8,1,0x0B0A12},{4,8,8,1,0x0B0A12},{4,9,8,1,0x0B0A12},{4,10,8,1,0x0B0A12},{4,11,8,1,0x0B0A12},{5,6,6,1,0x5A4A7A},{5,7,6,1,0x5A4A7A},{5,8,6,1,0x5A4A7A},{5,9,6,1,0x5A4A7A},{5,10,6,1,0x5A4A7A},{6,7,1,1,0xC43D3D},{9,7,1,1,0xC43D3D}};
+static const PixRect ART_E_brood[] = {{1,3,14,1,0x0B0A12},{1,4,14,1,0x0B0A12},{1,5,14,1,0x0B0A12},{1,6,14,1,0x0B0A12},{1,7,14,1,0x0B0A12},{1,8,14,1,0x0B0A12},{1,9,14,1,0x0B0A12},{1,10,14,1,0x0B0A12},{1,11,14,1,0x0B0A12},{1,12,14,1,0x0B0A12},{1,13,14,1,0x0B0A12},{1,14,14,1,0x0B0A12},{2,4,12,1,0x7A5A2A},{2,5,12,1,0x7A5A2A},{2,6,12,1,0x7A5A2A},{2,7,12,1,0x7A5A2A},{2,8,12,1,0x7A5A2A},{2,9,12,1,0x7A5A2A},{2,10,12,1,0x7A5A2A},{2,11,12,1,0x7A5A2A},{2,12,12,1,0x7A5A2A},{2,13,12,1,0x7A5A2A},{4,1,2,1,0xE8B54B},{4,2,2,1,0xE8B54B},{4,3,2,1,0xE8B54B},{10,1,2,1,0xE8B54B},{10,2,2,1,0xE8B54B},{10,3,2,1,0xE8B54B},{5,7,2,1,0xC43D3D},{5,8,2,1,0xC43D3D},{9,7,2,1,0xC43D3D},{9,8,2,1,0xC43D3D},{6,11,4,1,0x0B0A12},{6,12,4,1,0x0B0A12},{3,11,2,1,0xE8E0C0},{3,12,2,1,0xE8E0C0},{11,11,2,1,0xE8E0C0},{11,12,2,1,0xE8E0C0}};
+static const PixRect ART_E_scarab[] = {{3,4,10,1,0x0B0A12},{3,5,10,1,0x0B0A12},{3,6,10,1,0x0B0A12},{3,7,10,1,0x0B0A12},{3,8,10,1,0x0B0A12},{3,9,10,1,0x0B0A12},{3,10,10,1,0x0B0A12},{3,11,10,1,0x0B0A12},{3,12,10,1,0x0B0A12},{3,13,10,1,0x0B0A12},{4,5,8,1,0x2F7F8F},{4,6,8,1,0x2F7F8F},{4,7,8,1,0x2F7F8F},{4,8,8,1,0x2F7F8F},{4,9,8,1,0x2F7F8F},{4,10,8,1,0x2F7F8F},{4,11,8,1,0x2F7F8F},{4,12,8,1,0x2F7F8F},{6,3,4,1,0x2F7F8F},{6,4,4,1,0x2F7F8F},{8,5,1,1,0x0B0A12},{8,6,1,1,0x0B0A12},{8,7,1,1,0x0B0A12},{8,8,1,1,0x0B0A12},{8,9,1,1,0x0B0A12},{8,10,1,1,0x0B0A12},{8,11,1,1,0x0B0A12},{8,12,1,1,0x0B0A12},{5,6,2,1,0x7FD0D8},{2,6,1,1,0x0B0A12},{13,6,1,1,0x0B0A12},{2,10,1,1,0x0B0A12},{13,10,1,1,0x0B0A12}};
+static const PixRect ART_E_thrall[] = {{5,1,6,1,0x0B0A12},{5,2,6,1,0x0B0A12},{5,3,6,1,0x0B0A12},{5,4,6,1,0x0B0A12},{5,5,6,1,0x0B0A12},{5,6,6,1,0x0B0A12},{5,7,6,1,0x0B0A12},{5,8,6,1,0x0B0A12},{5,9,6,1,0x0B0A12},{5,10,6,1,0x0B0A12},{5,11,6,1,0x0B0A12},{5,12,6,1,0x0B0A12},{5,13,6,1,0x0B0A12},{5,14,6,1,0x0B0A12},{6,2,4,1,0xE0D8B8},{6,3,4,1,0xE0D8B8},{6,4,4,1,0xE0D8B8},{6,5,4,1,0xE0D8B8},{6,6,4,1,0xE0D8B8},{6,7,4,1,0xE0D8B8},{6,8,4,1,0xE0D8B8},{6,9,4,1,0xE0D8B8},{6,10,4,1,0xE0D8B8},{6,11,4,1,0xE0D8B8},{6,12,4,1,0xE0D8B8},{6,13,4,1,0xE0D8B8},{6,5,4,1,0x9B8B60},{6,8,4,1,0x9B8B60},{6,11,4,1,0x9B8B60},{7,3,1,1,0xC43D3D},{9,3,1,1,0xC43D3D}};
+static const PixRect ART_E_hound[] = {{3,5,10,1,0x0B0A12},{3,6,10,1,0x0B0A12},{3,7,10,1,0x0B0A12},{3,8,10,1,0x0B0A12},{3,9,10,1,0x0B0A12},{3,10,10,1,0x0B0A12},{3,11,10,1,0x0B0A12},{3,12,10,1,0x0B0A12},{4,6,8,1,0x3A3352},{4,7,8,1,0x3A3352},{4,8,8,1,0x3A3352},{4,9,8,1,0x3A3352},{4,10,8,1,0x3A3352},{4,11,8,1,0x3A3352},{4,2,2,1,0x0B0A12},{4,3,2,1,0x0B0A12},{4,4,2,1,0x0B0A12},{4,5,2,1,0x0B0A12},{10,2,2,1,0x0B0A12},{10,3,2,1,0x0B0A12},{10,4,2,1,0x0B0A12},{10,5,2,1,0x0B0A12},{5,9,6,1,0xE8B54B},{5,7,1,1,0xE8B54B},{10,7,1,1,0xE8B54B},{4,13,2,1,0x0B0A12},{4,14,2,1,0x0B0A12},{10,13,2,1,0x0B0A12},{10,14,2,1,0x0B0A12}};
+static const PixRect ART_E_guard[] = {{3,1,10,1,0x0B0A12},{3,2,10,1,0x0B0A12},{3,3,10,1,0x0B0A12},{3,4,10,1,0x0B0A12},{3,5,10,1,0x0B0A12},{3,6,10,1,0x0B0A12},{3,7,10,1,0x0B0A12},{3,8,10,1,0x0B0A12},{3,9,10,1,0x0B0A12},{3,10,10,1,0x0B0A12},{3,11,10,1,0x0B0A12},{3,12,10,1,0x0B0A12},{3,13,10,1,0x0B0A12},{3,14,10,1,0x0B0A12},{4,2,8,1,0x9B8B70},{4,3,8,1,0x9B8B70},{4,4,8,1,0x9B8B70},{4,5,8,1,0x9B8B70},{4,6,8,1,0x9B8B70},{4,7,8,1,0x9B8B70},{4,8,8,1,0x9B8B70},{4,9,8,1,0x9B8B70},{4,10,8,1,0x9B8B70},{4,11,8,1,0x9B8B70},{4,12,8,1,0x9B8B70},{4,13,8,1,0x9B8B70},{6,4,1,1,0x0B0A12},{9,4,1,1,0x0B0A12},{4,8,8,1,0x6B6480},{4,9,8,1,0x6B6480},{4,10,8,1,0x6B6480},{4,11,8,1,0x6B6480},{4,12,8,1,0x6B6480},{4,13,8,1,0x6B6480},{7,9,2,1,0x0B0A12},{7,10,2,1,0x0B0A12},{7,11,2,1,0x0B0A12},{7,12,2,1,0x0B0A12}};
+static const PixRect ART_E_pharaoh[] = {{2,1,12,1,0x0B0A12},{2,2,12,1,0x0B0A12},{2,3,12,1,0x0B0A12},{2,4,12,1,0x0B0A12},{2,5,12,1,0x0B0A12},{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{2,14,12,1,0x0B0A12},{3,2,10,1,0x2F7F8F},{3,3,10,1,0x2F7F8F},{3,4,10,1,0x2F7F8F},{3,5,10,1,0x2F7F8F},{3,6,10,1,0x2F7F8F},{3,7,10,1,0x2F7F8F},{3,8,10,1,0x2F7F8F},{3,9,10,1,0x2F7F8F},{3,10,10,1,0x2F7F8F},{3,11,10,1,0x2F7F8F},{3,12,10,1,0x2F7F8F},{3,13,10,1,0x2F7F8F},{5,5,6,1,0xE8B54B},{5,6,6,1,0xE8B54B},{5,7,6,1,0xE8B54B},{5,8,6,1,0xE8B54B},{5,9,6,1,0xE8B54B},{5,10,6,1,0xE8B54B},{6,7,1,1,0x0B0A12},{9,7,1,1,0x0B0A12},{7,2,2,1,0xE85C2E},{7,3,2,1,0xE85C2E},{7,11,2,1,0x2F7F8F},{7,12,2,1,0x2F7F8F},{7,13,2,1,0x2F7F8F},{6,9,4,1,0x0B0A12}};
+static const PixRect ART_E_bat[] = {{1,5,5,1,0x0B0A12},{1,6,5,1,0x0B0A12},{1,7,5,1,0x0B0A12},{1,8,5,1,0x0B0A12},{10,5,5,1,0x0B0A12},{10,6,5,1,0x0B0A12},{10,7,5,1,0x0B0A12},{10,8,5,1,0x0B0A12},{2,6,3,1,0x7AB8D9},{2,7,3,1,0x7AB8D9},{11,6,3,1,0x7AB8D9},{11,7,3,1,0x7AB8D9},{6,4,4,1,0x0B0A12},{6,5,4,1,0x0B0A12},{6,6,4,1,0x0B0A12},{6,7,4,1,0x0B0A12},{6,8,4,1,0x0B0A12},{6,9,4,1,0x0B0A12},{6,10,4,1,0x0B0A12},{6,11,4,1,0x0B0A12},{7,5,2,1,0x4A7FC1},{7,6,2,1,0x4A7FC1},{7,7,2,1,0x4A7FC1},{7,8,2,1,0x4A7FC1},{7,9,2,1,0x4A7FC1},{7,10,2,1,0x4A7FC1},{7,6,1,1,0xF0EAD6},{6,2,1,1,0x0B0A12},{6,3,1,1,0x0B0A12},{9,2,1,1,0x0B0A12},{9,3,1,1,0x0B0A12}};
+static const PixRect ART_E_ice[] = {{4,3,8,1,0x0B0A12},{4,4,8,1,0x0B0A12},{4,5,8,1,0x0B0A12},{4,6,8,1,0x0B0A12},{4,7,8,1,0x0B0A12},{4,8,8,1,0x0B0A12},{4,9,8,1,0x0B0A12},{4,10,8,1,0x0B0A12},{4,11,8,1,0x0B0A12},{4,12,8,1,0x0B0A12},{4,13,8,1,0x0B0A12},{5,4,6,1,0x7AB8D9},{5,5,6,1,0x7AB8D9},{5,6,6,1,0x7AB8D9},{5,7,6,1,0x7AB8D9},{5,8,6,1,0x7AB8D9},{5,9,6,1,0x7AB8D9},{5,10,6,1,0x7AB8D9},{5,11,6,1,0x7AB8D9},{5,12,6,1,0x7AB8D9},{6,5,2,1,0xF0EAD6},{6,6,2,1,0xF0EAD6},{7,1,2,1,0x7AB8D9},{7,2,2,1,0x7AB8D9},{7,3,2,1,0x7AB8D9},{2,6,2,1,0x7AB8D9},{2,7,2,1,0x7AB8D9},{2,8,2,1,0x7AB8D9},{12,6,2,1,0x7AB8D9},{12,7,2,1,0x7AB8D9},{12,8,2,1,0x7AB8D9}};
+static const PixRect ART_E_archer[] = {{5,2,6,1,0x0B0A12},{5,3,6,1,0x0B0A12},{5,4,6,1,0x0B0A12},{5,5,6,1,0x0B0A12},{5,6,6,1,0x0B0A12},{5,7,6,1,0x0B0A12},{5,8,6,1,0x0B0A12},{5,9,6,1,0x0B0A12},{5,10,6,1,0x0B0A12},{5,11,6,1,0x0B0A12},{5,12,6,1,0x0B0A12},{5,13,6,1,0x0B0A12},{5,14,6,1,0x0B0A12},{6,3,4,1,0x7AB8D9},{6,4,4,1,0x7AB8D9},{6,5,4,1,0x7AB8D9},{6,6,4,1,0x7AB8D9},{6,7,4,1,0x7AB8D9},{6,8,4,1,0x7AB8D9},{6,9,4,1,0x7AB8D9},{6,10,4,1,0x7AB8D9},{6,11,4,1,0x7AB8D9},{6,12,4,1,0x7AB8D9},{6,13,4,1,0x7AB8D9},{5,2,6,1,0x0B0A12},{5,3,6,1,0x0B0A12},{5,4,6,1,0x0B0A12},{5,5,6,1,0x0B0A12},{6,3,4,1,0x4A7FC1},{6,4,4,1,0x4A7FC1},{6,5,4,1,0x4A7FC1},{7,5,1,1,0xF0EAD6},{9,5,1,1,0xF0EAD6},{12,3,1,1,0xF0EAD6},{12,4,1,1,0xF0EAD6},{12,5,1,1,0xF0EAD6},{12,6,1,1,0xF0EAD6},{12,7,1,1,0xF0EAD6},{12,8,1,1,0xF0EAD6},{12,9,1,1,0xF0EAD6},{12,10,1,1,0xF0EAD6},{12,11,1,1,0xF0EAD6},{12,12,1,1,0xF0EAD6},{11,3,2,1,0x6B4A2E},{11,12,2,1,0x6B4A2E},{2,8,10,1,0xC8D0D8}};
+static const PixRect ART_E_stalker[] = {{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{3,7,10,1,0xD4E8F0},{3,8,10,1,0xD4E8F0},{3,9,10,1,0xD4E8F0},{3,10,10,1,0xD4E8F0},{3,11,10,1,0xD4E8F0},{3,3,2,1,0x0B0A12},{3,4,2,1,0x0B0A12},{3,5,2,1,0x0B0A12},{3,6,2,1,0x0B0A12},{4,4,1,1,0xD4E8F0},{4,5,1,1,0xD4E8F0},{11,3,2,1,0x0B0A12},{11,4,2,1,0x0B0A12},{11,5,2,1,0x0B0A12},{11,6,2,1,0x0B0A12},{11,4,1,1,0xD4E8F0},{11,5,1,1,0xD4E8F0},{4,8,1,1,0x4A7FC1},{11,8,1,1,0x4A7FC1},{3,13,2,1,0x0B0A12},{3,14,2,1,0x0B0A12},{11,13,2,1,0x0B0A12},{11,14,2,1,0x0B0A12},{6,11,4,1,0x9B92B0}};
+static const PixRect ART_E_frozen[] = {{6,0,4,1,0x0B0A12},{6,1,4,1,0x0B0A12},{4,2,8,1,0x0B0A12},{4,3,8,1,0x0B0A12},{3,4,10,1,0x0B0A12},{3,5,10,1,0x0B0A12},{3,6,10,1,0x0B0A12},{1,7,14,1,0x0B0A12},{1,8,14,1,0x0B0A12},{1,9,14,1,0x0B0A12},{1,10,14,1,0x0B0A12},{1,11,14,1,0x0B0A12},{1,12,14,1,0x0B0A12},{1,13,14,1,0x0B0A12},{1,14,14,1,0x0B0A12},{7,1,2,1,0xF0EAD6},{7,2,2,1,0xF0EAD6},{5,3,6,1,0xD4E8F0},{5,4,6,1,0xD4E8F0},{4,5,8,1,0x7AB8D9},{4,6,8,1,0x7AB8D9},{2,8,12,1,0x4A7FC1},{2,9,12,1,0x4A7FC1},{2,10,12,1,0x4A7FC1},{2,11,12,1,0x4A7FC1},{2,12,12,1,0x4A7FC1},{2,13,12,1,0x4A7FC1},{5,9,2,1,0xF0EAD6},{5,10,2,1,0xF0EAD6},{9,9,2,1,0xF0EAD6},{9,10,2,1,0xF0EAD6},{6,12,4,1,0x0B0A12}};
+static const PixRect ART_E_golem[] = {{2,2,12,1,0x0B0A12},{2,3,12,1,0x0B0A12},{2,4,12,1,0x0B0A12},{2,5,12,1,0x0B0A12},{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{2,14,12,1,0x0B0A12},{3,3,10,1,0x6B6480},{3,4,10,1,0x6B6480},{3,5,10,1,0x6B6480},{3,6,10,1,0x6B6480},{3,7,10,1,0x6B6480},{3,8,10,1,0x6B6480},{3,9,10,1,0x6B6480},{3,10,10,1,0x6B6480},{3,11,10,1,0x6B6480},{3,12,10,1,0x6B6480},{3,13,10,1,0x6B6480},{5,5,2,1,0xF0C860},{5,6,2,1,0xF0C860},{9,5,2,1,0xF0C860},{9,6,2,1,0xF0C860},{7,9,1,1,0x0B0A12},{7,10,1,1,0x0B0A12},{7,11,1,1,0x0B0A12},{7,12,1,1,0x0B0A12},{4,4,3,1,0x9B92B0}};
+static const PixRect ART_E_brute[] = {{2,4,12,1,0x0B0A12},{2,5,12,1,0x0B0A12},{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{2,14,12,1,0x0B0A12},{3,5,10,1,0x7A7590},{3,6,10,1,0x7A7590},{3,7,10,1,0x7A7590},{3,8,10,1,0x7A7590},{3,9,10,1,0x7A7590},{3,10,10,1,0x7A7590},{3,11,10,1,0x7A7590},{3,12,10,1,0x7A7590},{3,13,10,1,0x7A7590},{2,2,2,1,0x0B0A12},{2,3,2,1,0x0B0A12},{2,4,2,1,0x0B0A12},{12,2,2,1,0x0B0A12},{12,3,2,1,0x0B0A12},{12,4,2,1,0x0B0A12},{3,3,1,1,0xF0EAD6},{3,4,1,1,0xF0EAD6},{12,3,1,1,0xF0EAD6},{12,4,1,1,0xF0EAD6},{4,7,3,1,0xC43D3D},{9,7,3,1,0xC43D3D},{4,5,3,1,0xF0EAD6},{9,5,3,1,0xF0EAD6},{6,11,4,1,0x0B0A12},{6,12,4,1,0x0B0A12}};
+static const PixRect ART_E_sentry[] = {{2,13,12,1,0x3A3352},{2,14,12,1,0x3A3352},{3,3,10,1,0x0B0A12},{3,4,10,1,0x0B0A12},{3,5,10,1,0x0B0A12},{3,6,10,1,0x0B0A12},{3,7,10,1,0x0B0A12},{3,8,10,1,0x0B0A12},{3,9,10,1,0x0B0A12},{3,10,10,1,0x0B0A12},{3,11,10,1,0x0B0A12},{3,12,10,1,0x0B0A12},{3,13,10,1,0x0B0A12},{4,4,8,1,0x6B6480},{4,5,8,1,0x6B6480},{4,6,8,1,0x6B6480},{4,7,8,1,0x6B6480},{4,8,8,1,0x6B6480},{4,9,8,1,0x6B6480},{4,10,8,1,0x6B6480},{4,11,8,1,0x6B6480},{4,12,8,1,0x6B6480},{5,1,6,1,0x0B0A12},{5,2,6,1,0x0B0A12},{5,3,6,1,0x0B0A12},{6,2,4,1,0x9B92B0},{7,7,2,1,0xF0C860},{7,8,2,1,0xF0C860},{1,5,2,1,0x0B0A12},{1,6,2,1,0x0B0A12},{13,5,2,1,0x0B0A12},{13,6,2,1,0x0B0A12},{4,5,2,1,0x9B92B0}};
+static const PixRect ART_E_crawler[] = {{3,6,10,1,0x0B0A12},{3,7,10,1,0x0B0A12},{3,8,10,1,0x0B0A12},{3,9,10,1,0x0B0A12},{3,10,10,1,0x0B0A12},{3,11,10,1,0x0B0A12},{3,12,10,1,0x0B0A12},{4,7,8,1,0x8B5FBF},{4,8,8,1,0x8B5FBF},{4,9,8,1,0x8B5FBF},{4,10,8,1,0x8B5FBF},{4,11,8,1,0x8B5FBF},{4,3,2,1,0x0B0A12},{4,4,2,1,0x0B0A12},{4,5,2,1,0x0B0A12},{4,6,2,1,0x0B0A12},{4,4,1,1,0xD8B8F0},{4,5,1,1,0xD8B8F0},{7,2,2,1,0x0B0A12},{7,3,2,1,0x0B0A12},{7,4,2,1,0x0B0A12},{7,5,2,1,0x0B0A12},{7,6,2,1,0x0B0A12},{7,3,1,1,0xD8B8F0},{7,4,1,1,0xD8B8F0},{7,5,1,1,0xD8B8F0},{10,3,2,1,0x0B0A12},{10,4,2,1,0x0B0A12},{10,5,2,1,0x0B0A12},{10,6,2,1,0x0B0A12},{10,4,1,1,0xD8B8F0},{10,5,1,1,0xD8B8F0},{5,9,1,1,0xF0EAD6},{10,9,1,1,0xF0EAD6},{2,12,2,1,0x0B0A12},{2,13,2,1,0x0B0A12},{12,12,2,1,0x0B0A12},{12,13,2,1,0x0B0A12},{5,13,1,1,0x0B0A12},{5,14,1,1,0x0B0A12},{10,13,1,1,0x0B0A12},{10,14,1,1,0x0B0A12}};
+static const PixRect ART_E_king[] = {{2,3,12,1,0x0B0A12},{2,4,12,1,0x0B0A12},{2,5,12,1,0x0B0A12},{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{2,14,12,1,0x0B0A12},{3,4,10,1,0x6B6480},{3,5,10,1,0x6B6480},{3,6,10,1,0x6B6480},{3,7,10,1,0x6B6480},{3,8,10,1,0x6B6480},{3,9,10,1,0x6B6480},{3,10,10,1,0x6B6480},{3,11,10,1,0x6B6480},{3,12,10,1,0x6B6480},{3,13,10,1,0x6B6480},{3,1,10,1,0x0B0A12},{3,2,10,1,0x0B0A12},{3,3,10,1,0x0B0A12},{4,2,8,1,0xE8B54B},{4,1,2,1,0xE8B54B},{7,0,2,1,0xE8B54B},{7,1,2,1,0xE8B54B},{10,1,2,1,0xE8B54B},{5,7,2,1,0xF0C860},{5,8,2,1,0xF0C860},{9,7,2,1,0xF0C860},{9,8,2,1,0xF0C860},{5,11,6,1,0x9B92B0},{5,12,6,1,0x9B92B0},{5,13,6,1,0x9B92B0}};
+static const PixRect ART_E_acolyte[] = {{4,2,8,1,0x0B0A12},{4,3,8,1,0x0B0A12},{4,4,8,1,0x0B0A12},{4,5,8,1,0x0B0A12},{4,6,8,1,0x0B0A12},{4,7,8,1,0x0B0A12},{4,8,8,1,0x0B0A12},{4,9,8,1,0x0B0A12},{4,10,8,1,0x0B0A12},{4,11,8,1,0x0B0A12},{4,12,8,1,0x0B0A12},{4,13,8,1,0x0B0A12},{4,14,8,1,0x0B0A12},{5,3,6,1,0xA82E4A},{5,4,6,1,0xA82E4A},{5,5,6,1,0xA82E4A},{5,6,6,1,0xA82E4A},{5,7,6,1,0xA82E4A},{5,8,6,1,0xA82E4A},{5,9,6,1,0xA82E4A},{5,10,6,1,0xA82E4A},{5,11,6,1,0xA82E4A},{5,12,6,1,0xA82E4A},{5,13,6,1,0xA82E4A},{5,2,6,1,0x5A1F2F},{5,3,6,1,0x5A1F2F},{5,4,6,1,0x5A1F2F},{6,4,4,1,0x0B0A12},{6,5,4,1,0x0B0A12},{6,5,1,1,0xC43D3D},{9,5,1,1,0xC43D3D},{7,9,2,1,0xE8B54B},{7,10,2,1,0xE8B54B}};
+static const PixRect ART_E_flesh[] = {{2,5,12,1,0x0B0A12},{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{3,6,10,1,0xC46A6A},{3,7,10,1,0xC46A6A},{3,8,10,1,0xC46A6A},{3,9,10,1,0xC46A6A},{3,10,10,1,0xC46A6A},{3,11,10,1,0xC46A6A},{5,8,2,1,0x0B0A12},{5,9,2,1,0x0B0A12},{9,9,2,1,0x0B0A12},{12,9,2,1,0xF0EAD6},{11,7,1,1,0x0B0A12},{3,13,2,1,0x0B0A12},{3,14,2,1,0x0B0A12},{10,13,2,1,0x0B0A12},{10,14,2,1,0x0B0A12}};
+static const PixRect ART_E_eye[] = {{1,4,14,1,0x0B0A12},{1,5,14,1,0x0B0A12},{1,6,14,1,0x0B0A12},{1,7,14,1,0x0B0A12},{1,8,14,1,0x0B0A12},{1,9,14,1,0x0B0A12},{1,10,14,1,0x0B0A12},{1,11,14,1,0x0B0A12},{2,5,12,1,0xF0EAD6},{2,6,12,1,0xF0EAD6},{2,7,12,1,0xF0EAD6},{2,8,12,1,0xF0EAD6},{2,9,12,1,0xF0EAD6},{2,10,12,1,0xF0EAD6},{5,5,6,1,0xB83A8A},{5,6,6,1,0xB83A8A},{5,7,6,1,0xB83A8A},{5,8,6,1,0xB83A8A},{5,9,6,1,0xB83A8A},{5,10,6,1,0xB83A8A},{7,6,2,1,0x0B0A12},{7,7,2,1,0x0B0A12},{7,8,2,1,0x0B0A12},{7,9,2,1,0x0B0A12},{6,6,1,1,0xF0EAD6},{7,1,2,1,0xB83A8A},{7,2,2,1,0xB83A8A},{7,3,2,1,0xB83A8A},{7,13,2,1,0xB83A8A},{7,14,2,1,0xB83A8A},{2,2,2,1,0xB83A8A},{2,3,2,1,0xB83A8A},{12,2,2,1,0xB83A8A},{12,3,2,1,0xB83A8A}};
+static const PixRect ART_E_husk[] = {{4,2,8,1,0x0B0A12},{4,3,8,1,0x0B0A12},{4,4,8,1,0x0B0A12},{4,5,8,1,0x0B0A12},{4,6,8,1,0x0B0A12},{4,7,8,1,0x0B0A12},{4,8,8,1,0x0B0A12},{4,9,8,1,0x0B0A12},{4,10,8,1,0x0B0A12},{4,11,8,1,0x0B0A12},{4,12,8,1,0x0B0A12},{4,13,8,1,0x0B0A12},{4,14,8,1,0x0B0A12},{5,3,6,1,0x7A5A6A},{5,4,6,1,0x7A5A6A},{5,5,6,1,0x7A5A6A},{5,6,6,1,0x7A5A6A},{5,7,6,1,0x7A5A6A},{5,8,6,1,0x7A5A6A},{5,9,6,1,0x7A5A6A},{5,10,6,1,0x7A5A6A},{5,11,6,1,0x7A5A6A},{5,12,6,1,0x7A5A6A},{5,13,6,1,0x7A5A6A},{5,4,2,1,0x0B0A12},{9,4,2,1,0x0B0A12},{6,6,4,1,0x0B0A12},{6,7,4,1,0x0B0A12},{6,8,4,1,0x0B0A12},{6,9,4,1,0x0B0A12},{6,10,4,1,0x0B0A12},{7,8,2,1,0xC43D3D},{7,9,2,1,0xC43D3D},{2,8,2,1,0x0B0A12},{2,9,2,1,0x0B0A12},{2,10,2,1,0x0B0A12},{2,11,2,1,0x0B0A12},{2,12,2,1,0x0B0A12},{12,8,2,1,0x0B0A12},{12,9,2,1,0x0B0A12},{12,10,2,1,0x0B0A12},{12,11,2,1,0x0B0A12},{12,12,2,1,0x0B0A12},{3,9,1,1,0x7A5A6A},{3,10,1,1,0x7A5A6A},{3,11,1,1,0x7A5A6A},{12,9,1,1,0x7A5A6A},{12,10,1,1,0x7A5A6A},{12,11,1,1,0x7A5A6A}};
+static const PixRect ART_E_choir[] = {{2,2,12,1,0x0B0A12},{2,3,12,1,0x0B0A12},{2,4,12,1,0x0B0A12},{2,5,12,1,0x0B0A12},{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{2,14,12,1,0x0B0A12},{3,3,10,1,0x3A2A5A},{3,4,10,1,0x3A2A5A},{3,5,10,1,0x3A2A5A},{3,6,10,1,0x3A2A5A},{3,7,10,1,0x3A2A5A},{3,8,10,1,0x3A2A5A},{3,9,10,1,0x3A2A5A},{3,10,10,1,0x3A2A5A},{3,11,10,1,0x3A2A5A},{3,12,10,1,0x3A2A5A},{3,13,10,1,0x3A2A5A},{4,5,2,1,0xB83A8A},{4,6,2,1,0xB83A8A},{4,7,2,1,0xB83A8A},{7,4,2,1,0xB83A8A},{7,5,2,1,0xB83A8A},{7,6,2,1,0xB83A8A},{7,7,2,1,0xB83A8A},{10,5,2,1,0xB83A8A},{10,6,2,1,0xB83A8A},{10,7,2,1,0xB83A8A},{7,5,2,1,0xF0EAD6},{4,0,8,1,0xB83A8A},{4,11,2,1,0xB83A8A},{10,11,2,1,0xB83A8A}};
+const PixArt ART_ENEMY[25] = {{ART_E_grub,20},{ART_E_wasp,26},{ART_E_beetle,31},{ART_E_spider,20},{ART_E_brood,38},{ART_E_scarab,33},{ART_E_thrall,31},{ART_E_hound,29},{ART_E_guard,38},{ART_E_pharaoh,40},{ART_E_bat,31},{ART_E_ice,31},{ART_E_archer,46},{ART_E_stalker,31},{ART_E_frozen,32},{ART_E_golem,33},{ART_E_brute,36},{ART_E_sentry,33},{ART_E_crawler,42},{ART_E_king,37},{ART_E_acolyte,33},{ART_E_flesh,23},{ART_E_eye,34},{ART_E_husk,49},{ART_E_choir,38}};
+static const PixRect ART_H_helm[] = {{4,1,8,1,0x9B92B0},{4,2,8,1,0x9B92B0},{4,3,8,1,0x9B92B0},{4,3,8,1,0x6B6480},{5,2,2,1,0xF0EAD6},{7,0,2,1,0xC43D3D}};
 static const PixRect ART_H_wizard[] = {{1,3,14,1,0x5B3F9F},{4,2,8,1,0x8B5FBF},{5,1,6,1,0x8B5FBF},{6,0,4,1,0x8B5FBF},{7,2,1,1,0xE8B54B}};
-static const PixRect ART_H_leaf[] = {{4,2,8,2,0x2F6B3A},{3,3,1,5,0x2F6B3A},{12,3,1,5,0x2F6B3A},{6,1,4,1,0x4FA85A},{5,2,1,1,0xA8E0A0}};
-static const PixRect ART_H_crown[] = {{5,2,6,2,0xE8B54B},{5,1,1,1,0xE8B54B},{7,1,2,1,0xE8B54B},{10,1,1,1,0xE8B54B},{7,2,2,1,0xC43D3D}};
-static const PixRect ART_H_none[] = {{4,2,8,2,0x6B4A2E}};
-const PixArt ART_HAT[5] = {{ART_H_helm,4},{ART_H_wizard,5},{ART_H_leaf,5},{ART_H_crown,5},{ART_H_none,1}};
-static const PixRect ART_F_beard[] = {{4,7,8,2,0x6B4A2E},{5,9,6,1,0x6B4A2E}};
-static const PixRect ART_F_glasses[] = {{4,5,4,1,0x0B0A12},{4,7,4,1,0x0B0A12},{4,5,1,3,0x0B0A12},{7,5,1,3,0x0B0A12},{8,5,4,1,0x0B0A12},{8,7,4,1,0x0B0A12},{8,5,1,3,0x0B0A12},{11,5,1,3,0x0B0A12}};
-static const PixRect ART_F_scar[] = {{9,4,1,4,0xC43D3D}};
+static const PixRect ART_H_leaf[] = {{4,2,8,1,0x2F6B3A},{4,3,8,1,0x2F6B3A},{3,3,1,1,0x2F6B3A},{3,4,1,1,0x2F6B3A},{3,5,1,1,0x2F6B3A},{3,6,1,1,0x2F6B3A},{3,7,1,1,0x2F6B3A},{12,3,1,1,0x2F6B3A},{12,4,1,1,0x2F6B3A},{12,5,1,1,0x2F6B3A},{12,6,1,1,0x2F6B3A},{12,7,1,1,0x2F6B3A},{6,1,4,1,0x4FA85A},{5,2,1,1,0xA8E0A0}};
+static const PixRect ART_H_crown[] = {{5,2,6,1,0xE8B54B},{5,3,6,1,0xE8B54B},{5,1,1,1,0xE8B54B},{7,1,2,1,0xE8B54B},{10,1,1,1,0xE8B54B},{7,2,2,1,0xC43D3D}};
+static const PixRect ART_H_none[] = {{4,2,8,1,0x6B4A2E},{4,3,8,1,0x6B4A2E}};
+static const PixRect ART_H_batman[] = {{3,1,10,1,0x0B0A12},{3,2,10,1,0x0B0A12},{3,3,10,1,0x0B0A12},{3,4,10,1,0x0B0A12},{3,5,10,1,0x0B0A12},{3,6,10,1,0x0B0A12},{3,7,10,1,0x0B0A12},{3,8,10,1,0x0B0A12},{5,3,6,1,0x252936},{5,4,6,1,0x252936},{5,5,6,1,0x252936},{5,6,6,1,0x252936},{5,5,1,1,0xE8B54B},{10,5,1,1,0xE8B54B},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{4,10,8,1,0x252936},{4,11,8,1,0x252936},{4,12,8,1,0x252936},{4,13,8,1,0x252936},{1,11,2,1,0x0B0A12},{1,12,2,1,0x0B0A12},{1,13,2,1,0x0B0A12},{13,11,2,1,0x0B0A12},{13,12,2,1,0x0B0A12},{13,13,2,1,0x0B0A12}};
+static const PixRect ART_H_joker[] = {{3,2,10,1,0x8B5FBF},{3,3,10,1,0x8B5FBF},{3,4,10,1,0x8B5FBF},{3,5,10,1,0x8B5FBF},{3,6,10,1,0x8B5FBF},{3,7,10,1,0x8B5FBF},{3,8,10,1,0x8B5FBF},{5,0,6,1,0x4FA85A},{5,1,6,1,0x4FA85A},{5,2,6,1,0x4FA85A},{5,5,1,1,0x0B0A12},{10,5,1,1,0x0B0A12},{3,9,10,1,0x5B3F9F},{3,10,10,1,0x5B3F9F},{3,11,10,1,0x5B3F9F},{3,12,10,1,0x5B3F9F},{3,13,10,1,0x5B3F9F},{5,10,6,1,0x4FA85A},{5,11,6,1,0x4FA85A}};
+static const PixRect ART_H_terraria[] = {{3,1,10,1,0xC8845A},{3,2,10,1,0xC8845A},{3,3,10,1,0xC8845A},{3,4,10,1,0xC8845A},{4,0,8,1,0x9B92B0},{4,1,8,1,0x9B92B0},{5,5,6,1,0xF0C8A0},{5,6,6,1,0xF0C8A0},{5,7,6,1,0xF0C8A0},{5,8,6,1,0xF0C8A0},{3,9,10,1,0x6B4A2E},{3,10,10,1,0x6B4A2E},{3,11,10,1,0x6B4A2E},{3,12,10,1,0x6B4A2E},{3,13,10,1,0x6B4A2E},{5,10,6,1,0x9B92B0},{5,11,6,1,0x9B92B0},{5,12,6,1,0x9B92B0}};
+static const PixRect ART_H_mario[] = {{3,1,10,1,0xC43D3D},{3,2,10,1,0xC43D3D},{3,3,10,1,0xC43D3D},{5,4,6,1,0xF0C8A0},{5,5,6,1,0xF0C8A0},{5,6,6,1,0xF0C8A0},{5,7,6,1,0xF0C8A0},{5,8,6,1,0xF0C8A0},{3,9,10,1,0x4A7FC1},{3,10,10,1,0x4A7FC1},{3,11,10,1,0x4A7FC1},{3,12,10,1,0x4A7FC1},{3,13,10,1,0x4A7FC1},{5,9,6,1,0xC43D3D},{5,10,6,1,0xC43D3D},{4,13,2,1,0x4A7FC1},{10,13,2,1,0x4A7FC1}};
+static const PixRect ART_H_ironman[] = {{3,2,10,1,0xC43D3D},{3,3,10,1,0xC43D3D},{3,4,10,1,0xC43D3D},{3,5,10,1,0xC43D3D},{3,6,10,1,0xC43D3D},{3,7,10,1,0xC43D3D},{3,8,10,1,0xC43D3D},{5,3,6,1,0xE8B54B},{5,4,6,1,0xE8B54B},{5,5,6,1,0xE8B54B},{5,6,6,1,0xE8B54B},{7,5,2,1,0x7FD0D8},{7,6,2,1,0x7FD0D8},{2,9,12,1,0xC43D3D},{2,10,12,1,0xC43D3D},{2,11,12,1,0xC43D3D},{2,12,12,1,0xC43D3D},{2,13,12,1,0xC43D3D},{4,10,8,1,0xE8B54B},{4,11,8,1,0xE8B54B},{4,12,8,1,0xE8B54B},{4,13,8,1,0xE8B54B},{7,10,2,1,0x7FD0D8},{7,11,2,1,0x7FD0D8}};
+const PixArt ART_HAT[10] = {{ART_H_helm,6},{ART_H_wizard,5},{ART_H_leaf,14},{ART_H_crown,6},{ART_H_none,2},{ART_H_batman,29},{ART_H_joker,19},{ART_H_terraria,18},{ART_H_mario,17},{ART_H_ironman,24}};
+static const PixRect ART_F_beard[] = {{4,7,8,1,0x6B4A2E},{4,8,8,1,0x6B4A2E},{5,9,6,1,0x6B4A2E}};
+static const PixRect ART_F_glasses[] = {{4,5,4,1,0x0B0A12},{4,7,4,1,0x0B0A12},{4,5,1,1,0x0B0A12},{4,6,1,1,0x0B0A12},{4,7,1,1,0x0B0A12},{7,5,1,1,0x0B0A12},{7,6,1,1,0x0B0A12},{7,7,1,1,0x0B0A12},{8,5,4,1,0x0B0A12},{8,7,4,1,0x0B0A12},{8,5,1,1,0x0B0A12},{8,6,1,1,0x0B0A12},{8,7,1,1,0x0B0A12},{11,5,1,1,0x0B0A12},{11,6,1,1,0x0B0A12},{11,7,1,1,0x0B0A12}};
+static const PixRect ART_F_scar[] = {{9,4,1,1,0xC43D3D},{9,5,1,1,0xC43D3D},{9,6,1,1,0xC43D3D},{9,7,1,1,0xC43D3D}};
 static const PixRect ART_F_freckles[] = {{5,7,1,1,0xC8845A},{7,7,1,1,0xC8845A},{8,7,1,1,0xC8845A},{10,7,1,1,0xC8845A}};
-const PixArt ART_FACE[5] = {{ART_F_beard,2},{ART_F_glasses,8},{ART_F_scar,1},{ART_F_freckles,4},{nullptr,0}};
-static const PixRect ART_I_leaf[] = {{6,2,4,2,0x4FA85A},{4,4,8,2,0x4FA85A},{3,6,9,3,0x4FA85A},{4,9,7,2,0x4FA85A},{5,11,3,1,0x4FA85A},{3,12,3,2,0x2F6B3A},{6,4,2,1,0xA8E0A0}};
-static const PixRect ART_I_pyr[] = {{7,2,2,2,0xF0C860},{6,4,4,2,0xF0C860},{5,6,6,2,0xF0C860},{4,8,8,2,0xF0C860},{3,10,10,2,0xF0C860},{2,12,12,2,0xB88A30},{7,4,1,2,0xFFF0B0}};
-static const PixRect ART_I_snow[] = {{6,6,4,4,0xF0EAD6},{6,2,4,1,0xF0EAD6},{6,13,4,1,0xF0EAD6},{8,1,1,1,0xCFE8F5},{8,2,1,1,0xCFE8F5},{8,3,1,1,0xCFE8F5},{8,4,1,1,0xCFE8F5},{8,5,1,1,0xCFE8F5},{8,6,1,1,0xCFE8F5},{8,7,1,1,0xCFE8F5},{8,8,1,1,0xCFE8F5},{8,9,1,1,0xCFE8F5},{8,10,1,1,0xCFE8F5},{8,11,1,1,0xCFE8F5},{8,12,1,1,0xCFE8F5},{8,13,1,1,0xCFE8F5},{8,14,1,1,0xCFE8F5},{8,15,1,1,0xCFE8F5},{2,4,1,1,0xCFE8F5},{3,5,1,1,0xCFE8F5},{4,5,1,1,0xCFE8F5},{5,6,1,1,0xCFE8F5},{6,6,1,1,0xCFE8F5},{7,7,1,1,0xCFE8F5},{8,8,1,1,0xCFE8F5},{9,8,1,1,0xCFE8F5},{10,9,1,1,0xCFE8F5},{11,9,1,1,0xCFE8F5},{12,10,1,1,0xCFE8F5},{13,10,1,1,0xCFE8F5},{14,11,1,1,0xCFE8F5},{2,11,1,1,0xCFE8F5},{3,10,1,1,0xCFE8F5},{4,10,1,1,0xCFE8F5},{5,9,1,1,0xCFE8F5},{6,9,1,1,0xCFE8F5},{7,8,1,1,0xCFE8F5},{8,8,1,1,0xCFE8F5},{9,7,1,1,0xCFE8F5},{10,6,1,1,0xCFE8F5},{11,6,1,1,0xCFE8F5},{12,5,1,1,0xCFE8F5},{13,5,1,1,0xCFE8F5},{14,4,1,1,0xCFE8F5}};
-static const PixRect ART_I_peak[] = {{7,2,2,2,0xF0EAD6},{6,4,4,2,0xF0EAD6},{5,6,6,2,0x9B92B0},{4,8,8,2,0x9B92B0},{3,10,10,2,0x9B92B0},{2,12,12,2,0x6B6480}};
-static const PixRect ART_I_ecl[] = {{7,0,2,2,0xB83A8A},{7,14,2,2,0xB83A8A},{0,7,2,2,0xB83A8A},{14,7,2,2,0xB83A8A},{2,2,2,2,0xB83A8A},{12,2,2,2,0xB83A8A},{2,12,2,2,0xB83A8A},{12,12,2,2,0xB83A8A},{3,3,10,10,0xE8B54B},{2,3,9,9,0x0B0A12}};
-static const PixRect ART_I_lock[] = {{5,2,6,2,0x9B92B0},{5,4,2,3,0x9B92B0},{9,4,2,3,0x9B92B0},{3,7,10,7,0xE8B54B},{7,9,2,3,0x0B0A12}};
-static const PixRect ART_I_book[] = {{2,2,12,12,0x8B5FBF},{4,2,1,12,0x0B0A12},{6,5,6,1,0xE8B54B},{6,7,5,1,0xE8B54B},{2,13,12,1,0x0B0A12}};
-static const PixRect ART_I_heart[] = {{3,3,3,2,0xC43D3D},{10,3,3,2,0xC43D3D},{2,5,12,3,0xC43D3D},{3,8,10,2,0xC43D3D},{5,10,6,2,0xC43D3D},{7,12,2,1,0xC43D3D},{4,4,1,1,0xF08080}};
-static const PixRect ART_I_gem[] = {{5,3,6,2,0xC43D3D},{3,5,10,3,0xC43D3D},{5,8,6,3,0xC43D3D},{7,11,2,2,0xC43D3D},{5,5,2,1,0xF08080}};
-static const PixRect ART_I_shield[] = {{3,2,10,2,0x4A7FC1},{3,4,10,5,0x4A7FC1},{4,9,8,2,0x4A7FC1},{6,11,4,2,0x4A7FC1},{7,4,2,8,0x9CC0F0}};
-static const PixRect ART_I_bolt[] = {{8,1,3,2,0x4A7FC1},{6,3,3,2,0x4A7FC1},{4,5,8,2,0x4A7FC1},{7,7,3,2,0x4A7FC1},{5,9,3,2,0x4A7FC1},{4,11,2,2,0x4A7FC1}};
-static const PixRect ART_I_clover[] = {{6,2,4,12,0x4FA85A},{2,6,12,4,0x4FA85A},{7,7,2,2,0xA8E0A0}};
-static const PixRect ART_I_star[] = {{7,2,2,12,0x8B5FBF},{2,7,12,2,0x8B5FBF},{5,5,6,6,0x8B5FBF},{7,7,2,2,0xD8B8F0}};
-static const PixRect ART_I_skull[] = {{3,2,10,8,0xF0EAD6},{4,10,8,3,0xF0EAD6},{5,6,2,2,0x0B0A12},{9,6,2,2,0x0B0A12},{7,9,2,1,0x0B0A12}};
-static const PixRect ART_I_clock[] = {{7,4,1,5,0x0B0A12},{7,8,3,1,0x0B0A12},{2,2,12,12,0xF0EAD6}};
-static const PixRect ART_I_trophy[] = {{4,2,8,5,0xE8B54B},{7,7,2,4,0xE8B54B},{5,11,6,2,0xE8B54B},{2,3,2,3,0xE8B54B},{12,3,2,3,0xE8B54B}};
-static const PixRect ART_I_dagger[] = {{12,1,2,2,0xC8D0D8},{10,3,2,2,0xC8D0D8},{8,5,2,2,0xC8D0D8},{6,7,2,2,0xC8D0D8},{12,1,1,1,0xF0EAD6},{2,7,2,2,0xE8B54B},{4,9,2,2,0xE8B54B},{6,11,2,2,0xE8B54B},{2,11,2,2,0x6B4A2E},{0,13,2,2,0x6B4A2E}};
-static const PixRect ART_I_bow[] = {{9,1,3,2,0x9A6A30},{11,3,2,3,0x9A6A30},{12,6,2,4,0x9A6A30},{11,10,2,3,0x9A6A30},{9,13,3,2,0x9A6A30},{8,3,1,10,0xF0EAD6},{2,8,10,1,0x9B92B0},{1,7,2,3,0xC8D0D8},{10,7,2,1,0xC43D3D},{10,9,2,1,0xC43D3D}};
-static const PixRect ART_I_axe[] = {{7,2,4,2,0x9B92B0},{9,4,5,3,0x9B92B0},{11,7,2,1,0x9B92B0},{8,2,1,1,0xF0EAD6},{8,6,2,2,0x6B4A2E},{6,8,2,2,0x6B4A2E},{4,10,2,2,0x6B4A2E},{2,12,2,2,0x6B4A2E}};
-static const PixRect ART_I_staff[] = {{10,1,4,4,0x8B5FBF},{11,2,1,1,0xD8B8F0},{8,5,2,2,0x6B4A2E},{6,7,2,2,0x6B4A2E},{4,9,2,2,0x6B4A2E},{2,11,2,2,0x6B4A2E},{1,13,2,2,0x6B4A2E}};
-static const PixRect ART_I_chest[] = {{2,5,12,8,0x6B4A2E},{2,5,12,2,0xE8B54B},{7,8,2,2,0xE8B54B}};
-static const PixRect ART_I_bug[] = {{5,5,6,7,0xC43D3D},{7,3,2,2,0xC43D3D},{3,6,2,1,0xC43D3D},{11,6,2,1,0xC43D3D},{3,9,2,1,0xC43D3D},{11,9,2,1,0xC43D3D},{6,7,1,1,0x0B0A12},{9,7,1,1,0x0B0A12}};
-static const PixRect ART_I_sprout[] = {{7,8,2,6,0x2F6B3A},{3,5,4,3,0x4FA85A},{9,4,4,3,0x4FA85A},{4,5,1,1,0xA8E0A0}};
-const PixArt ART_ICON[23] = {{ART_I_leaf,7},{ART_I_pyr,7},{ART_I_snow,44},{ART_I_peak,6},{ART_I_ecl,10},{ART_I_lock,5},{ART_I_book,5},{ART_I_heart,7},{ART_I_gem,5},{ART_I_shield,5},{ART_I_bolt,6},{ART_I_clover,3},{ART_I_star,4},{ART_I_skull,5},{ART_I_clock,3},{ART_I_trophy,5},{ART_I_dagger,10},{ART_I_bow,10},{ART_I_axe,8},{ART_I_staff,7},{ART_I_chest,3},{ART_I_bug,8},{ART_I_sprout,4}};
+static const PixRect ART_F_dwarf_beard[] = {{3,7,10,1,0xC8845A},{3,8,10,1,0xC8845A},{3,9,10,1,0xC8845A},{4,10,8,1,0x6B4A2E},{4,11,8,1,0x6B4A2E},{6,12,4,1,0x6B4A2E}};
+const PixArt ART_FACE[6] = {{ART_F_beard,3},{ART_F_glasses,16},{ART_F_scar,4},{ART_F_freckles,4},{nullptr,0},{ART_F_dwarf_beard,6}};
+static const PixRect ART_I_leaf[] = {{6,2,4,1,0x4FA85A},{6,3,4,1,0x4FA85A},{4,4,8,1,0x4FA85A},{4,5,8,1,0x4FA85A},{3,6,9,1,0x4FA85A},{3,7,9,1,0x4FA85A},{3,8,9,1,0x4FA85A},{4,9,7,1,0x4FA85A},{4,10,7,1,0x4FA85A},{5,11,3,1,0x4FA85A},{3,12,3,1,0x2F6B3A},{3,13,3,1,0x2F6B3A},{6,4,2,1,0xA8E0A0}};
+static const PixRect ART_I_pyr[] = {{7,2,2,1,0xF0C860},{7,3,2,1,0xF0C860},{6,4,4,1,0xF0C860},{6,5,4,1,0xF0C860},{5,6,6,1,0xF0C860},{5,7,6,1,0xF0C860},{4,8,8,1,0xF0C860},{4,9,8,1,0xF0C860},{3,10,10,1,0xF0C860},{3,11,10,1,0xF0C860},{2,12,12,1,0xB88A30},{2,13,12,1,0xB88A30},{7,4,1,1,0xFFF0B0},{7,5,1,1,0xFFF0B0}};
+static const PixRect ART_I_snow[] = {{7,0,2,1,0xCFE8F5},{7,1,2,1,0xCFE8F5},{7,2,2,1,0xCFE8F5},{7,3,2,1,0xCFE8F5},{7,4,2,1,0xCFE8F5},{7,5,2,1,0xCFE8F5},{7,6,2,1,0xCFE8F5},{7,7,2,1,0xCFE8F5},{7,8,2,1,0xCFE8F5},{7,9,2,1,0xCFE8F5},{7,10,2,1,0xCFE8F5},{7,11,2,1,0xCFE8F5},{7,12,2,1,0xCFE8F5},{7,13,2,1,0xCFE8F5},{7,14,2,1,0xCFE8F5},{7,15,2,1,0xCFE8F5},{1,4,3,1,0xCFE8F5},{2,5,3,1,0xCFE8F5},{4,6,3,1,0xCFE8F5},{6,7,3,1,0xCFE8F5},{7,8,3,1,0xCFE8F5},{9,9,3,1,0xCFE8F5},{11,10,3,1,0xCFE8F5},{12,11,3,1,0xCFE8F5},{12,4,3,1,0xCFE8F5},{11,5,3,1,0xCFE8F5},{9,6,3,1,0xCFE8F5},{7,7,3,1,0xCFE8F5},{6,8,3,1,0xCFE8F5},{4,9,3,1,0xCFE8F5},{2,10,3,1,0xCFE8F5},{1,11,3,1,0xCFE8F5},{6,6,4,1,0xF0EAD6},{6,7,4,1,0xF0EAD6},{6,8,4,1,0xF0EAD6},{6,9,4,1,0xF0EAD6},{6,2,4,1,0xF0EAD6},{6,13,4,1,0xF0EAD6}};
+static const PixRect ART_I_peak[] = {{7,2,2,1,0xF0EAD6},{7,3,2,1,0xF0EAD6},{6,4,4,1,0xF0EAD6},{6,5,4,1,0xF0EAD6},{5,6,6,1,0x9B92B0},{5,7,6,1,0x9B92B0},{4,8,8,1,0x9B92B0},{4,9,8,1,0x9B92B0},{3,10,10,1,0x9B92B0},{3,11,10,1,0x9B92B0},{2,12,12,1,0x6B6480},{2,13,12,1,0x6B6480}};
+static const PixRect ART_I_ecl[] = {{7,0,2,1,0xB83A8A},{7,1,2,1,0xB83A8A},{7,14,2,1,0xB83A8A},{7,15,2,1,0xB83A8A},{0,7,2,1,0xB83A8A},{0,8,2,1,0xB83A8A},{14,7,2,1,0xB83A8A},{14,8,2,1,0xB83A8A},{2,2,2,1,0xB83A8A},{2,3,2,1,0xB83A8A},{12,2,2,1,0xB83A8A},{12,3,2,1,0xB83A8A},{2,12,2,1,0xB83A8A},{2,13,2,1,0xB83A8A},{12,12,2,1,0xB83A8A},{12,13,2,1,0xB83A8A},{6,3,4,1,0xE8B54B},{4,4,8,1,0xE8B54B},{4,5,8,1,0xE8B54B},{3,6,10,1,0xE8B54B},{3,7,10,1,0xE8B54B},{3,8,10,1,0xE8B54B},{3,9,10,1,0xE8B54B},{4,10,8,1,0xE8B54B},{4,11,8,1,0xE8B54B},{6,12,4,1,0xE8B54B},{6,3,2,1,0x0B0A12},{4,4,6,1,0x0B0A12},{3,5,8,1,0x0B0A12},{2,6,9,1,0x0B0A12},{2,7,9,1,0x0B0A12},{2,8,9,1,0x0B0A12},{2,9,9,1,0x0B0A12},{3,10,8,1,0x0B0A12},{4,11,6,1,0x0B0A12},{6,12,2,1,0x0B0A12}};
+static const PixRect ART_I_lock[] = {{5,2,6,1,0x9B92B0},{5,3,6,1,0x9B92B0},{5,4,2,1,0x9B92B0},{5,5,2,1,0x9B92B0},{5,6,2,1,0x9B92B0},{9,4,2,1,0x9B92B0},{9,5,2,1,0x9B92B0},{9,6,2,1,0x9B92B0},{3,7,10,1,0xE8B54B},{3,8,10,1,0xE8B54B},{3,9,10,1,0xE8B54B},{3,10,10,1,0xE8B54B},{3,11,10,1,0xE8B54B},{3,12,10,1,0xE8B54B},{3,13,10,1,0xE8B54B},{7,9,2,1,0x0B0A12},{7,10,2,1,0x0B0A12},{7,11,2,1,0x0B0A12}};
+static const PixRect ART_I_book[] = {{2,2,12,1,0x8B5FBF},{2,3,12,1,0x8B5FBF},{2,4,12,1,0x8B5FBF},{2,5,12,1,0x8B5FBF},{2,6,12,1,0x8B5FBF},{2,7,12,1,0x8B5FBF},{2,8,12,1,0x8B5FBF},{2,9,12,1,0x8B5FBF},{2,10,12,1,0x8B5FBF},{2,11,12,1,0x8B5FBF},{2,12,12,1,0x8B5FBF},{2,13,12,1,0x8B5FBF},{4,2,1,1,0x0B0A12},{4,3,1,1,0x0B0A12},{4,4,1,1,0x0B0A12},{4,5,1,1,0x0B0A12},{4,6,1,1,0x0B0A12},{4,7,1,1,0x0B0A12},{4,8,1,1,0x0B0A12},{4,9,1,1,0x0B0A12},{4,10,1,1,0x0B0A12},{4,11,1,1,0x0B0A12},{4,12,1,1,0x0B0A12},{4,13,1,1,0x0B0A12},{6,5,6,1,0xE8B54B},{6,7,5,1,0xE8B54B},{2,13,12,1,0x0B0A12}};
+static const PixRect ART_I_heart[] = {{3,3,3,1,0xC43D3D},{3,4,3,1,0xC43D3D},{10,3,3,1,0xC43D3D},{10,4,3,1,0xC43D3D},{2,5,12,1,0xC43D3D},{2,6,12,1,0xC43D3D},{2,7,12,1,0xC43D3D},{3,8,10,1,0xC43D3D},{3,9,10,1,0xC43D3D},{5,10,6,1,0xC43D3D},{5,11,6,1,0xC43D3D},{7,12,2,1,0xC43D3D},{4,4,1,1,0xF08080}};
+static const PixRect ART_I_gem[] = {{5,3,6,1,0xC43D3D},{5,4,6,1,0xC43D3D},{3,5,10,1,0xC43D3D},{3,6,10,1,0xC43D3D},{3,7,10,1,0xC43D3D},{5,8,6,1,0xC43D3D},{5,9,6,1,0xC43D3D},{5,10,6,1,0xC43D3D},{7,11,2,1,0xC43D3D},{7,12,2,1,0xC43D3D},{5,5,2,1,0xF08080}};
+static const PixRect ART_I_shield[] = {{3,2,10,1,0x4A7FC1},{3,3,10,1,0x4A7FC1},{3,4,10,1,0x4A7FC1},{3,5,10,1,0x4A7FC1},{3,6,10,1,0x4A7FC1},{3,7,10,1,0x4A7FC1},{3,8,10,1,0x4A7FC1},{4,9,8,1,0x4A7FC1},{4,10,8,1,0x4A7FC1},{6,11,4,1,0x4A7FC1},{6,12,4,1,0x4A7FC1},{7,4,2,1,0x9CC0F0},{7,5,2,1,0x9CC0F0},{7,6,2,1,0x9CC0F0},{7,7,2,1,0x9CC0F0},{7,8,2,1,0x9CC0F0},{7,9,2,1,0x9CC0F0},{7,10,2,1,0x9CC0F0},{7,11,2,1,0x9CC0F0}};
+static const PixRect ART_I_bolt[] = {{8,1,3,1,0x4A7FC1},{8,2,3,1,0x4A7FC1},{6,3,3,1,0x4A7FC1},{6,4,3,1,0x4A7FC1},{4,5,8,1,0x4A7FC1},{4,6,8,1,0x4A7FC1},{7,7,3,1,0x4A7FC1},{7,8,3,1,0x4A7FC1},{5,9,3,1,0x4A7FC1},{5,10,3,1,0x4A7FC1},{4,11,2,1,0x4A7FC1},{4,12,2,1,0x4A7FC1}};
+static const PixRect ART_I_clover[] = {{6,2,4,1,0x4FA85A},{6,3,4,1,0x4FA85A},{6,4,4,1,0x4FA85A},{6,5,4,1,0x4FA85A},{6,6,4,1,0x4FA85A},{6,7,4,1,0x4FA85A},{6,8,4,1,0x4FA85A},{6,9,4,1,0x4FA85A},{6,10,4,1,0x4FA85A},{6,11,4,1,0x4FA85A},{6,12,4,1,0x4FA85A},{6,13,4,1,0x4FA85A},{2,6,12,1,0x4FA85A},{2,7,12,1,0x4FA85A},{2,8,12,1,0x4FA85A},{2,9,12,1,0x4FA85A},{7,7,2,1,0xA8E0A0},{7,8,2,1,0xA8E0A0}};
+static const PixRect ART_I_star[] = {{7,2,2,1,0x8B5FBF},{7,3,2,1,0x8B5FBF},{7,4,2,1,0x8B5FBF},{7,5,2,1,0x8B5FBF},{7,6,2,1,0x8B5FBF},{7,7,2,1,0x8B5FBF},{7,8,2,1,0x8B5FBF},{7,9,2,1,0x8B5FBF},{7,10,2,1,0x8B5FBF},{7,11,2,1,0x8B5FBF},{7,12,2,1,0x8B5FBF},{7,13,2,1,0x8B5FBF},{2,7,12,1,0x8B5FBF},{2,8,12,1,0x8B5FBF},{5,5,6,1,0x8B5FBF},{5,6,6,1,0x8B5FBF},{5,7,6,1,0x8B5FBF},{5,8,6,1,0x8B5FBF},{5,9,6,1,0x8B5FBF},{5,10,6,1,0x8B5FBF},{7,7,2,1,0xD8B8F0},{7,8,2,1,0xD8B8F0}};
+static const PixRect ART_I_skull[] = {{3,2,10,1,0xF0EAD6},{3,3,10,1,0xF0EAD6},{3,4,10,1,0xF0EAD6},{3,5,10,1,0xF0EAD6},{3,6,10,1,0xF0EAD6},{3,7,10,1,0xF0EAD6},{3,8,10,1,0xF0EAD6},{3,9,10,1,0xF0EAD6},{4,10,8,1,0xF0EAD6},{4,11,8,1,0xF0EAD6},{4,12,8,1,0xF0EAD6},{5,6,2,1,0x0B0A12},{5,7,2,1,0x0B0A12},{9,6,2,1,0x0B0A12},{9,7,2,1,0x0B0A12},{7,9,2,1,0x0B0A12}};
+static const PixRect ART_I_clock[] = {{6,2,4,1,0xF0EAD6},{4,3,8,1,0xF0EAD6},{3,4,10,1,0xF0EAD6},{3,5,10,1,0xF0EAD6},{2,6,12,1,0xF0EAD6},{2,7,12,1,0xF0EAD6},{2,8,12,1,0xF0EAD6},{2,9,12,1,0xF0EAD6},{3,10,10,1,0xF0EAD6},{3,11,10,1,0xF0EAD6},{4,12,8,1,0xF0EAD6},{6,13,4,1,0xF0EAD6},{5,2,6,1,0x0B0A12},{3,3,2,1,0x0B0A12},{11,3,2,1,0x0B0A12},{3,4,1,1,0x0B0A12},{12,4,1,1,0x0B0A12},{2,5,1,1,0x0B0A12},{13,5,1,1,0x0B0A12},{2,6,1,1,0x0B0A12},{13,6,1,1,0x0B0A12},{2,7,1,1,0x0B0A12},{13,7,1,1,0x0B0A12},{2,8,1,1,0x0B0A12},{13,8,1,1,0x0B0A12},{2,9,1,1,0x0B0A12},{13,9,1,1,0x0B0A12},{2,10,1,1,0x0B0A12},{13,10,1,1,0x0B0A12},{3,11,1,1,0x0B0A12},{12,11,1,1,0x0B0A12},{3,12,2,1,0x0B0A12},{11,12,2,1,0x0B0A12},{5,13,6,1,0x0B0A12},{7,4,1,1,0x0B0A12},{7,5,1,1,0x0B0A12},{7,6,1,1,0x0B0A12},{7,7,1,1,0x0B0A12},{7,8,1,1,0x0B0A12},{7,8,3,1,0x0B0A12}};
+static const PixRect ART_I_trophy[] = {{4,2,8,1,0xE8B54B},{4,3,8,1,0xE8B54B},{4,4,8,1,0xE8B54B},{4,5,8,1,0xE8B54B},{4,6,8,1,0xE8B54B},{7,7,2,1,0xE8B54B},{7,8,2,1,0xE8B54B},{7,9,2,1,0xE8B54B},{7,10,2,1,0xE8B54B},{5,11,6,1,0xE8B54B},{5,12,6,1,0xE8B54B},{2,3,2,1,0xE8B54B},{2,4,2,1,0xE8B54B},{2,5,2,1,0xE8B54B},{12,3,2,1,0xE8B54B},{12,4,2,1,0xE8B54B},{12,5,2,1,0xE8B54B}};
+static const PixRect ART_I_dagger[] = {{12,1,2,1,0xC8D0D8},{12,2,2,1,0xC8D0D8},{10,3,2,1,0xC8D0D8},{10,4,2,1,0xC8D0D8},{8,5,2,1,0xC8D0D8},{8,6,2,1,0xC8D0D8},{6,7,2,1,0xC8D0D8},{6,8,2,1,0xC8D0D8},{12,1,1,1,0xF0EAD6},{2,7,2,1,0xE8B54B},{2,8,2,1,0xE8B54B},{4,9,2,1,0xE8B54B},{4,10,2,1,0xE8B54B},{6,11,2,1,0xE8B54B},{6,12,2,1,0xE8B54B},{2,11,2,1,0x6B4A2E},{2,12,2,1,0x6B4A2E},{0,13,2,1,0x6B4A2E},{0,14,2,1,0x6B4A2E}};
+static const PixRect ART_I_bow[] = {{9,1,3,1,0x9A6A30},{9,2,3,1,0x9A6A30},{11,3,2,1,0x9A6A30},{11,4,2,1,0x9A6A30},{11,5,2,1,0x9A6A30},{12,6,2,1,0x9A6A30},{12,7,2,1,0x9A6A30},{12,8,2,1,0x9A6A30},{12,9,2,1,0x9A6A30},{11,10,2,1,0x9A6A30},{11,11,2,1,0x9A6A30},{11,12,2,1,0x9A6A30},{9,13,3,1,0x9A6A30},{9,14,3,1,0x9A6A30},{8,3,1,1,0xF0EAD6},{8,4,1,1,0xF0EAD6},{8,5,1,1,0xF0EAD6},{8,6,1,1,0xF0EAD6},{8,7,1,1,0xF0EAD6},{8,8,1,1,0xF0EAD6},{8,9,1,1,0xF0EAD6},{8,10,1,1,0xF0EAD6},{8,11,1,1,0xF0EAD6},{8,12,1,1,0xF0EAD6},{2,8,10,1,0x9B92B0},{1,7,2,1,0xC8D0D8},{1,8,2,1,0xC8D0D8},{1,9,2,1,0xC8D0D8},{10,7,2,1,0xC43D3D},{10,9,2,1,0xC43D3D}};
+static const PixRect ART_I_axe[] = {{7,2,4,1,0x9B92B0},{7,3,4,1,0x9B92B0},{9,4,5,1,0x9B92B0},{9,5,5,1,0x9B92B0},{9,6,5,1,0x9B92B0},{11,7,2,1,0x9B92B0},{8,2,1,1,0xF0EAD6},{8,6,2,1,0x6B4A2E},{8,7,2,1,0x6B4A2E},{6,8,2,1,0x6B4A2E},{6,9,2,1,0x6B4A2E},{4,10,2,1,0x6B4A2E},{4,11,2,1,0x6B4A2E},{2,12,2,1,0x6B4A2E},{2,13,2,1,0x6B4A2E}};
+static const PixRect ART_I_staff[] = {{10,1,4,1,0x8B5FBF},{10,2,4,1,0x8B5FBF},{10,3,4,1,0x8B5FBF},{10,4,4,1,0x8B5FBF},{11,2,1,1,0xD8B8F0},{8,5,2,1,0x6B4A2E},{8,6,2,1,0x6B4A2E},{6,7,2,1,0x6B4A2E},{6,8,2,1,0x6B4A2E},{4,9,2,1,0x6B4A2E},{4,10,2,1,0x6B4A2E},{2,11,2,1,0x6B4A2E},{2,12,2,1,0x6B4A2E},{1,13,2,1,0x6B4A2E},{1,14,2,1,0x6B4A2E}};
+static const PixRect ART_I_chest[] = {{2,5,12,1,0x6B4A2E},{2,6,12,1,0x6B4A2E},{2,7,12,1,0x6B4A2E},{2,8,12,1,0x6B4A2E},{2,9,12,1,0x6B4A2E},{2,10,12,1,0x6B4A2E},{2,11,12,1,0x6B4A2E},{2,12,12,1,0x6B4A2E},{2,5,12,1,0xE8B54B},{2,6,12,1,0xE8B54B},{7,8,2,1,0xE8B54B},{7,9,2,1,0xE8B54B}};
+static const PixRect ART_I_bug[] = {{5,5,6,1,0xC43D3D},{5,6,6,1,0xC43D3D},{5,7,6,1,0xC43D3D},{5,8,6,1,0xC43D3D},{5,9,6,1,0xC43D3D},{5,10,6,1,0xC43D3D},{5,11,6,1,0xC43D3D},{7,3,2,1,0xC43D3D},{7,4,2,1,0xC43D3D},{3,6,2,1,0xC43D3D},{11,6,2,1,0xC43D3D},{3,9,2,1,0xC43D3D},{11,9,2,1,0xC43D3D},{6,7,1,1,0x0B0A12},{9,7,1,1,0x0B0A12}};
+static const PixRect ART_I_sprout[] = {{7,8,2,1,0x2F6B3A},{7,9,2,1,0x2F6B3A},{7,10,2,1,0x2F6B3A},{7,11,2,1,0x2F6B3A},{7,12,2,1,0x2F6B3A},{7,13,2,1,0x2F6B3A},{3,5,4,1,0x4FA85A},{3,6,4,1,0x4FA85A},{3,7,4,1,0x4FA85A},{9,4,4,1,0x4FA85A},{9,5,4,1,0x4FA85A},{9,6,4,1,0x4FA85A},{4,5,1,1,0xA8E0A0}};
+const PixArt ART_ICON[23] = {{ART_I_leaf,13},{ART_I_pyr,14},{ART_I_snow,38},{ART_I_peak,12},{ART_I_ecl,36},{ART_I_lock,18},{ART_I_book,27},{ART_I_heart,13},{ART_I_gem,11},{ART_I_shield,19},{ART_I_bolt,12},{ART_I_clover,18},{ART_I_star,22},{ART_I_skull,16},{ART_I_clock,40},{ART_I_trophy,17},{ART_I_dagger,19},{ART_I_bow,30},{ART_I_axe,15},{ART_I_staff,15},{ART_I_chest,12},{ART_I_bug,15},{ART_I_sprout,13}};

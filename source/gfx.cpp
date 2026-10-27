@@ -7,7 +7,7 @@ const u32 FX_PALETTE[FX_COLORS] = {0xFFFFFF, 0xC43D3D, 0xF08030, 0x4A9FD9, 0x4FA
 enum { AW = 256, AH = 256 };
 static u32 g_atlas[AW * AH];                 // CPU copy (256 KB). Needed for the knight re-bake.
 
-static Spr g_enemy[NUM_ENEMIES], g_icon[IC_COUNT], g_spellIcon[TY_COUNT][EL_COUNT][ACT_COUNT], g_knight, g_drone, g_sentinel, g_proj[PS_COUNT];
+static Spr g_enemy[NUM_ENEMIES], g_icon[IC_COUNT], g_spellIcon[TY_COUNT][EL_COUNT][ACT_COUNT], g_knight, g_preview, g_drone, g_sentinel, g_proj[PS_COUNT];
 static Spr g_disc[FX_COLORS], g_ring[FX_COLORS], g_shadow;
 static float g_offX = 0.0f, g_offY = 0.0f;
 enum { GLYPH_ASCII = 64, GLYPH_COMP = 12, GLYPH_DEG = GLYPH_ASCII + GLYPH_COMP, GLYPH_COUNT = GLYPH_DEG + 1 };
@@ -194,16 +194,19 @@ static void bakeProjectiles() {
   { const Spr& s = g_proj[PS_TNT]; fillR(s, 1, 2, 6, 6, 0xB53C36); fillR(s, 2, 3, 2, 4, 0xD65A48); fillR(s, 5, 3, 1, 4, 0x702B32); fillR(s, 3, 1, 2, 2, WOOD); fillR(s, 4, 0, 3, 1, 0xF0E050); fillR(s, 6, 1, 1, 1, 0xF08030); }
 }
 
-static void bakeKnightCell(const Cosmetics& c) {
-  const Spr& s = g_knight;
+static void bakeKnightCell(const Spr& s, const Cosmetics& c) {
   for (int y = 0; y < 16; ++y) for (int x = 0; x < 16; ++x) put(s, x, y, 0);
   const u32 K = 0x0B0A12, BRN = 0x6B4A2E, SKIN = 0xF0C8A0, BOOT = 0x3A3352;
+  if (c.hat >= 5) {
+    paintArt(s, ART_HAT[c.hat % 10]);
+    return;
+  }
   fillR(s, 5, 13, 2, 2, BOOT); fillR(s, 9, 13, 2, 2, BOOT);
   fillR(s, 4, 9, 8, 5, K); fillR(s, 5, 9, 6, 4, HAT_COLORS[c.color % 6]); fillR(s, 5, 11, 6, 1, BRN);
   fillR(s, 2, 10, 2, 2, SKIN); fillR(s, 12, 10, 2, 2, SKIN);
   fillR(s, 3, 2, 10, 8, K); fillR(s, 4, 3, 8, 6, SKIN); fillR(s, 5, 6, 1, 1, K); fillR(s, 10, 6, 1, 1, K);
-  if (ART_FACE[c.face % 5].r) paintArt(s, ART_FACE[c.face % 5]);
-  paintArt(s, ART_HAT[c.hat % 5]);
+  if (ART_FACE[c.face % 6].r) paintArt(s, ART_FACE[c.face % 6]);
+  paintArt(s, ART_HAT[c.hat % 10]);
 }
 
 static void bakeDroneCell() {
@@ -221,7 +224,7 @@ static void bakeDroneCell() {
 }
 
 static void bakeSentinelCell() {
-  const Spr& s = g_sentinel;
+  const Spr& s = g_knight;
   const u32 edge = 0x252936, stone = 0x87909D, light = 0xC8D0D8, shade = 0x596273, glow = 0xE8B54B;
   fillR(s, 4, 1, 8, 13, edge);
   fillR(s, 5, 2, 6, 11, stone);
@@ -251,6 +254,7 @@ bool init(const Cosmetics& c) {
   for (int i = 0; i < NUM_ENEMIES; ++i) { g_enemy[i] = alloc(16, 16); paintArt(g_enemy[i], ART_ENEMY[i]); }
   for (int i = 0; i < IC_COUNT; ++i) { g_icon[i] = alloc(16, 16); paintArt(g_icon[i], ART_ICON[i]); }
   g_knight = alloc(16, 16);
+  g_preview = alloc(16, 16);
   g_drone = alloc(16, 16); bakeDroneCell();
   g_sentinel = alloc(16, 16); bakeSentinelCell();
   for (int t = 0; t < TY_COUNT; ++t) for (int e = 0; e < EL_COUNT; ++e) for (int a = 0; a < ACT_COUNT; ++a) {
@@ -265,19 +269,31 @@ bool init(const Cosmetics& c) {
     float dx = (x + 0.5f - 8.0f) / 8.0f, dy = (y + 0.5f - 3.0f) / 3.0f;
     if (dx * dx + dy * dy <= 1.0f) put(g_shadow, x, y, HEX(0x000000, 90));
   }
-  bakeKnightCell(c);
+  bakeKnightCell(g_knight, c);
+  bakeKnightCell(g_preview, c);
   if (py + rowH > AH) return false;                       // atlas overflow = build-time bug
   plat::atlasUpload(g_atlas, AW, AH);
   return true;
 }
 void setKnight(const Cosmetics& c) {
-  bakeKnightCell(c);
+  bakeKnightCell(g_knight, c);
   plat::atlasUpdate(g_knight.x, g_knight.y, 16, 16, g_atlas + g_knight.y * AW + g_knight.x, AW);
 }
 const Spr& enemy(int id) { return g_enemy[clampT(id, 0, NUM_ENEMIES - 1)]; }
 const Spr& icon(int id) { return g_icon[clampT(id, 0, (int)IC_COUNT - 1)]; }
 const Spr& spellIcon(int t, int e, int a) { return g_spellIcon[clampT(t, 0, 2)][clampT(e, 0, 5)][clampT(a, 0, 2)]; }
 const Spr& knight() { return g_knight; }
+const Spr& knightPreview(const Cosmetics& c) {
+  bakeKnightCell(g_preview, c);
+  plat::atlasUpdate(g_preview.x, g_preview.y, 16, 16, g_atlas + g_preview.y * AW + g_preview.x, AW);
+  return g_preview;
+}
+const Spr& clothingPreview(int hat) {
+  for (int y = 0; y < 16; ++y) for (int x = 0; x < 16; ++x) put(g_preview, x, y, 0);
+  paintArt(g_preview, ART_HAT[clampT(hat, 0, 9)]);
+  plat::atlasUpdate(g_preview.x, g_preview.y, 16, 16, g_atlas + g_preview.y * AW + g_preview.x, AW);
+  return g_preview;
+}
 const Spr& drone() { return g_drone; }
 const Spr& sentinel() { return g_sentinel; }
 const Spr& proj(int id) { return g_proj[clampT(id, 0, (int)PS_COUNT - 1)]; }

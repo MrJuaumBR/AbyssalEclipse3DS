@@ -10,7 +10,7 @@
       "nav_catalog": "CATALOG",
       "nav_options": "OPTIONS",
       "tagline": "SURVIVE THE ABYSS.",
-      "version": "v0.1 BETA",
+      "version": "v0.1",
       "s_forest": "FOREST",
       "s_desert": "DESERT",
       "s_snow": "SNOW",
@@ -37,7 +37,7 @@
       "hat": "HAT",
       "face": "FACE",
       "color": "COLOR",
-      "cosmetic": "COSMETIC ONLY (DOES NOT AFFECT GAMEPLAY)",
+      "cosmetic": "COSMETICS",
       "hat_helm": "KNIGHT HELM",
       "hat_wizard": "WIZARD HAT",
       "hat_leaf": "LEAF HOOD",
@@ -1404,7 +1404,7 @@
       "nav_catalog": "CATÁLOGO",
       "nav_options": "OPÇÕES",
       "tagline": "SOBREVIVA AO ABISMO.",
-      "version": "v0.1 BETA",
+      "version": "v0.1",
       "s_forest": "FLORESTA",
       "s_desert": "DESERTO",
       "s_snow": "NEVE",
@@ -1431,7 +1431,7 @@
       "hat": "CHAPÉU",
       "face": "ROSTO",
       "color": "COR",
-      "cosmetic": "APENAS ESTÉTICO (NÃO AFETA A JOGABILIDADE)",
+      "cosmetic": "COSMETICOS",
       "hat_helm": "ELMO DE CAVALEIRO",
       "hat_wizard": "CHAPÉU DE MAGO",
       "hat_leaf": "CAPUZ DE FOLHA",
@@ -2657,6 +2657,30 @@
           "s": [
             "50 VIDA",
             "DISPARO 0,8S"
+          ]
+        },
+        "GLACIAL BLOOM": {
+          "n": "FLOR GLACIAL",
+          "d": "CONGELE INIMIGOS AO ACERTAR E OS ESTILHACA EM UMA EXPLOSAO AO CAIR.",
+          "s": [
+            "18% CONGELAR",
+            "6 DANO / RAIO 32"
+          ]
+        },
+        "STARLANCE": {
+          "n": "LANCA ESTELAR",
+          "d": "A CADA POUCOS ATAQUES, UMA LANCA ELETRICA ATINGE INIMIGOS PROXIMOS.",
+          "s": [
+            "A CADA 7 DISPAROS",
+            "14 DANO / RAIO 44"
+          ]
+        },
+        "SOUL HARVEST": {
+          "n": "COLHEITA DE ALMAS",
+          "d": "ABATES ALIMENTAM SUA VITALIDADE; GOLPES DE SANGUE RESTAURAM VIDA.",
+          "s": [
+            "CURA A CADA 5 ABATES",
+            "1,5 VIDA / 1 DRENAGEM"
           ]
         }
       },
@@ -5014,6 +5038,48 @@
       ],
       "scope": "element",
       "season": null
+    },
+    {
+      "name": "GLACIAL BLOOM",
+      "element": "water",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "FREEZE FOES ON HIT, THEN SHATTER THEM WITH A BURST WHEN THEY FALL.",
+      "stats": [
+        "18% FREEZE",
+        "6 BURST DMG / 32 RADIUS"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "STARLANCE",
+      "element": "lightning",
+      "type": "weapon",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "EVERY FEW ATTACKS, A LIGHTNING LANCE STRIKES NEARBY FOES.",
+      "stats": [
+        "EVERY 7TH THROW",
+        "14 DMG / 44 RADIUS"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SOUL HARVEST",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "KILLS FEED YOUR VITALITY; BLOODLUST RESTORES HEALTH ON EVERY HIT.",
+      "stats": [
+        "HEAL EVERY 5 KILLS",
+        "1.5 HP / 1 LIFESTEAL"
+      ],
+      "scope": "element",
+      "season": null
     }
   ],
   "LORE": {
@@ -5064,7 +5130,10 @@
         "SUMMIT'S EDGE": "The piece of the mountain that argued with the sky.",
         "KNIFE CIRCLE": "A wheel of sharpened steel, forever seeking a target.",
         "OCCASIONAL BOMB": "The fuse burns slowly. Its maker never came back for it.",
-        "SENTINEL": "An ancient guardian that still recognizes the living."
+        "SENTINEL": "An ancient guardian that still recognizes the living.",
+        "GLACIAL BLOOM": "Old ice blooms again wherever a foe falls, turning every defeat into a brittle frostburst.",
+        "STARLANCE": "A needle of starlight waits between volleys, then crosses the battlefield in a single bright instant.",
+        "SOUL HARVEST": "The harvest is never wasted: every fallen enemy and every stolen heartbeat returns a little strength."
       },
       "enemies": {
         "grub": "It has no eyes, but it always finds you.",
@@ -5128,7 +5197,10 @@
         "WORLD ENDER": "Forjado no último dia de um mundo anterior e nunca guardado de volta.",
         "KNIFE CIRCLE": "Uma roda de aco afiado, sempre a procura de um alvo.",
         "OCCASIONAL BOMB": "O pavio queima devagar. Quem a criou nunca voltou.",
-        "SENTINEL": "Uma guardia antiga que ainda reconhece os vivos."
+        "SENTINEL": "Uma guardia antiga que ainda reconhece os vivos.",
+        "GLACIAL BLOOM": "O gelo antigo floresce onde um inimigo cai, transformando cada derrota em uma explosao congelante.",
+        "STARLANCE": "Uma agulha de luz estelar aguarda entre disparos e cruza o campo em um unico instante brilhante.",
+        "SOUL HARVEST": "Nada se perde na colheita: cada inimigo abatido e cada batimento roubado devolvem um pouco de vigor."
       },
       "enemies": {
         "grub": "Não tem olhos, mas sempre encontra você.",

@@ -4,6 +4,7 @@ SRC = ../source/data_gen.cpp ../source/data_static.cpp ../source/i18n.cpp ../sou
 FLAGS = -std=c++17 -O2 -Wall -Wextra -fno-exceptions -fno-rtti -I../source
 run: soak
 	./soak
+	cd .. && python3 tools/test_art_raster.py
 soak: $(SRC) $(wildcard ../source/*.h)
 	$(CXX) $(FLAGS) $(SRC) -o soak -lm
 asan: $(SRC)

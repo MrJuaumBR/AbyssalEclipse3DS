@@ -41,6 +41,7 @@ void musicSet(int season, float inten) {
   if (tr != M.track) { M.track = tr; M.step = 0; M.pos = 0; stepNote(); }
   M.inten = inten;
 }
+void musicPreview(int season) { musicSet(season, 0.75f); }
 void sfx(int id) {
   if (id < 0 || id >= SFX_COUNT || sfxVol == 0) return;
   int k = 0;

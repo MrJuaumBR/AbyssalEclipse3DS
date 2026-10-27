@@ -10,7 +10,7 @@ enum Act { ACT_AOE, ACT_SELF, ACT_TOUCH, ACT_COUNT };
 enum Rarity { R_COMMON, R_RARE, R_EPIC, R_LEGENDARY, R_COUNT };
 enum Scope { SC_GLOBAL, SC_ELEMENT, SC_SEASON };
 enum Season { SEA_FOREST, SEA_DESERT, SEA_SNOW, SEA_MOUNTAIN, SEA_ECLIPSE, SEA_COUNT, SEA_NONE = 255 };
-enum { NUM_SPELLS = 141, NUM_ENEMIES = 25 };
+enum { NUM_SPELLS = 144, NUM_ENEMIES = 25 };
 
 // Effect kinds interpreted by spells.cpp. Fields a,b,c are documented per kind there.
 enum EffKind : u8 {
@@ -70,8 +70,8 @@ extern const char* const* const UI_TABLE[LANG_COUNT];
 struct PixRect { u8 x, y, w, h; u32 rgb; };
 struct PixArt { const PixRect* r; u8 n; };
 extern const PixArt ART_ENEMY[NUM_ENEMIES];
-extern const PixArt ART_HAT[5];
-extern const PixArt ART_FACE[5];
+extern const PixArt ART_HAT[10];
+extern const PixArt ART_FACE[6];
 enum IconId { IC_LEAF, IC_PYR, IC_SNOW, IC_PEAK, IC_ECL, IC_LOCK, IC_BOOK, IC_HEART, IC_GEM, IC_SHIELD, IC_BOLT, IC_CLOVER,
               IC_STAR, IC_SKULL, IC_CLOCK, IC_TROPHY, IC_DAGGER, IC_BOW, IC_AXE, IC_STAFF, IC_CHEST, IC_BUG, IC_SPROUT, IC_COUNT };
 extern const PixArt ART_ICON[IC_COUNT];
@@ -93,6 +93,6 @@ extern const StrId TYPE_NAME[TY_COUNT];
 extern const StrId ACT_NAME[ACT_COUNT];
 extern const StrId WEAPON_NAME[W_COUNT];
 extern const StrId WEAPON_FIRE[W_COUNT];
-extern const StrId HAT_NAME[5];
-extern const StrId FACE_NAME[5];
+extern const StrId HAT_NAME[10];
+extern const StrId FACE_NAME[6];
 extern const StrId COLOR_NAME[6];

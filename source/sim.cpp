@@ -7,6 +7,7 @@ using namespace bal;
 
 // ================================================================================ helpers
 static void setToast(Sim& s, const char* t) { snprintf(s.toast, sizeof s.toast, "%s", t); s.toastT = 2.0f; }
+static void spellCast(Sim& s) { if (s.runSpellsCasted != 0xFFFFFFFFu) ++s.runSpellsCasted; }
 
 static Fx* newFx(Sim& s) {
   for (int i = 0; i < MAX_FX; ++i) if (s.fx[i].kind == FX_NONE) return &s.fx[i];
@@ -69,23 +70,51 @@ const char* phaseName(Phase p) {
 }
 
 // ================================================================================ spell engine
-static Eff scaleEff(Eff e, float m) {
+static Eff scaleEff(Eff e, float m, int level) {
+  const int rank = maxT(0, level - 1);
   switch (e.kind) {
     case E_MAXHP: case E_MAXHP_PCT: case E_MOVE_PCT: case E_ATKSPD_PCT: case E_CD_PCT: case E_CRIT: case E_CRITDMG:
-    case E_FLATDMG: case E_DMG_PCT: case E_TAKEN_PCT: case E_RANGED_TAKEN_PCT: case E_DEBUFF_PCT: case E_LIFESTEAL:
-    case E_REFLECT: case E_DODGE: case E_THROWSPD_PCT: case E_RANGE_PCT: case E_VS_SLOWED: case E_VS_BURNING:
-    case E_VS_WOUNDED: case E_VS_FROZEN: case E_LOWHP_DMG: case E_CRITBONUS: case E_LIGHTNING_PCT: case E_MIRROR:
-    case E_ATTACKER_DMG: case E_WARMTH: case E_SHIELD_WAVE: case E_HP_PER_WAVE: case E_REVIVE: case E_HIT_SLOW:
-    case E_HIT_FREEZE: case E_HIT_STUN: case E_HIT_BURN: case E_HIT_BLEED: case E_HIT_CHAIN: case E_HIT_BURST:
-    case E_HIT_BOLT: case E_CRIT_BURN: case E_EXSANG: case E_MARK: case E_KILL_BURST: case E_KILL_POISON:
-    case E_KILL_CLOUD: case E_KILL_SLOWAOE: case E_KILL_CHAIN: case E_KILL_CURSE: case E_KILL_EXPLODE_BURNING:
-    case E_EXPLODE: case E_ORBIT: case E_WHIRL: case E_TRAIL_FIRE: case E_TRAIL_SPARK: case E_AURA_WEAKEN:
-    case E_AURA_MISS: case E_KILL_MOVE: case E_BURN_TOUCH:
+    case E_FLATDMG: case E_DMG_PCT: case E_RES: case E_TAKEN_PCT: case E_RANGED_TAKEN_PCT: case E_DEBUFF_PCT:
+    case E_LIFESTEAL: case E_REFLECT: case E_DODGE: case E_THROWSPD_PCT: case E_RANGE_PCT: case E_HEAL_PCT:
+    case E_DEALT_PCT: case E_LOWHP_DMG: case E_VS_SLOWED: case E_VS_BURNING: case E_VS_WOUNDED: case E_VS_FROZEN:
+    case E_CRITBONUS: case E_IMMUNE_SLOW: case E_HP_PER_WAVE: case E_LIGHTNING_PCT: case E_REVIVE:
+    case E_AURA_PULL: case E_AURA_HEALKILL: case E_HIT_ROOT: case E_CRIT_HEAL: case E_ARMOR_IGNORE:
+    case E_DRONE_MINIGUN: case E_SENTINEL: case E_KNOCKBACK: case E_WARMTH: case E_SHIELD_WAVE:
+    case E_MIRROR: case E_ATTACKER_DMG: case E_EXSANG: case E_TRAIL_SPARK:
       e.a *= m; break;
-    case E_AURA: e.a *= m; e.c *= m; break;
-    case E_HIT_BONUS: e.b *= m; break;
-    case E_NTH_BLAST: case E_NTH_BOLT: case E_NTH_STUN: case E_PERIODIC_FLARE: case E_SPLIT: e.b *= m; break;
-    case E_PERIODIC_BOMB: e.b *= m; e.c *= m; break;
+    case E_AURA: e.a *= m; e.b *= m; e.c *= m; break;
+    case E_KILLHEAL: case E_REGEN: e.a *= m; e.b = maxT(0.5f, e.b / m); break;
+    case E_KILL_MAXHP: case E_KILL_HEALEVERY: e.a *= m; e.b = maxT(1.0f, e.b - rank); break;
+    case E_HIT_SLOW: case E_HIT_FREEZE: case E_HIT_STUN: case E_HIT_BURN: case E_HIT_BLEED:
+    case E_HIT_BONUS: case E_MARK: case E_CRIT_BURN: case E_BURN_TOUCH:
+      e.a *= m; e.b *= m; break;
+    case E_HIT_CHAIN: case E_HIT_BOLT:
+      e.a *= m; e.b += rank; break;
+    case E_HIT_BURST: case E_KILL_BURST: case E_KILL_EXPLODE_BURNING: case E_EXPLODE:
+      e.a *= m; e.b *= m; break;
+    case E_KILL_POISON: case E_KILL_CLOUD: case E_KILL_SLOWAOE: case E_KILL_CURSE:
+      e.a *= m; e.b *= m; e.c *= m; break;
+    case E_KILL_CHAIN: e.a *= m; e.b *= m; e.c *= m; break;
+    case E_CRIT_CHAIN: e.a += rank; e.b *= m; break;
+    case E_NTH_RING:
+      e.a = maxT(2.0f, e.a - rank); if (e.b <= 0) e.b = 12; if (e.c <= 0) e.c = 0.25f; e.c *= m; break;
+    case E_NTH_DOUBLE:
+      e.a = maxT(2.0f, e.a - rank); if (e.b <= 0) e.b = 1.0f; e.b *= m; break;
+    case E_NTH_STRIKE3:
+      e.a = maxT(2.0f, e.a - rank); if (e.b <= 0) e.b = 10; else e.b *= m;
+      if (e.c <= 0) e.c = 3;
+      e.c += rank; break;
+    case E_NTH_BLAST: case E_NTH_STUN: case E_NTH_BOLT:
+      e.a = maxT(2.0f, e.a - rank); e.b *= m; e.c *= m; break;
+    case E_PERIODIC_FLARE: e.a = maxT(3.0f, e.a / m); e.b *= m; break;
+    case E_PERIODIC_BOMB: e.a = maxT(4.0f, e.a / m); e.b *= m; e.c *= m; break;
+    case E_CHAINPLUS: case E_BLOCK_WAVE: case E_PIERCE: case E_BOUNCE_WALL: case E_HOMING: break;
+    case E_BOUNCE_ENEMY: e.b *= m; break;
+    case E_SPLIT: e.a += rank; e.b *= m; break;
+    case E_ORBIT: case E_WHIRL: e.a *= m; if (e.kind == E_WHIRL) e.b *= m; break;
+    case E_TRAIL_FIRE: e.a *= m; e.b *= m; break;
+    case E_AURA_WEAKEN: case E_AURA_MISS: e.a *= m; e.b *= m; break;
+    case E_KILL_MOVE: e.a *= m; e.b *= m; break;
     default: break;
   }
   return e;
@@ -107,7 +136,8 @@ void recompute(Sim& s) {
     for (int k = 0; k < 3; ++k) {
       Eff e = SPELLS[s.slots[i].id].eff[k];
       if (e.kind == E_NONE || e.kind == E_ALLNUM_PCT) continue;
-      e = scaleEff(e, mult);
+      const int lv = s.slots[i].lv;
+      e = scaleEff(e, mult, lv);
       switch (e.kind) {
         case E_MAXHP: flatHp += e.a; break;
         case E_MAXHP_PCT: hpPct += e.a; break;
@@ -137,27 +167,27 @@ void recompute(Sim& s) {
         case E_VS_WOUNDED: m.vsWounded += e.a; break;
         case E_VS_FROZEN: m.vsFrozen += e.a; break;
         case E_CRITBONUS: m.critBonus += e.a; break;
-        case E_IMMUNE_SLOW: m.immuneSlow = true; break;
+        case E_IMMUNE_SLOW: m.immuneSlow = true; movePct += maxT(0.0f, e.a - 1.0f) * 10.0f; break;
         case E_HP_PER_WAVE: m.hpPerWave += e.a; break;
         case E_LIGHTNING_PCT: m.lightning += e.a; break;
-        case E_CHAINPLUS: m.chainPlus += (int)e.a; break;
+        case E_CHAINPLUS: m.chainPlus += maxT(0, (int)e.a) + lv - 1; break;
         case E_SHIELD_WAVE: m.shieldWave += e.a; break;
-        case E_BLOCK_WAVE: m.blockWave += (int)e.a; break;
+        case E_BLOCK_WAVE: m.blockWave += maxT(1, (int)e.a) + lv - 1; break;
         case E_REVIVE: m.revivePct = maxT(m.revivePct, e.a); break;
         case E_MIRROR: m.mirror += e.a; break;
         case E_ATTACKER_DMG: m.attackerDmg += e.a; break;
         case E_BURN_TOUCH: m.burnTouchDps += e.a; m.burnTouchDur = e.b; break;
         case E_WARMTH: m.warmth += e.a; break;
-        case E_ARMOR_IGNORE: m.armorIgnore = true; break;
-        case E_DRONE_MINIGUN: m.hasDrone = true; break;
-        case E_SENTINEL: m.hasSentinel = true; break;
-        case E_PIERCE: m.pierce += maxT(0, (int)e.a - 1); break;
-        case E_BOUNCE_ENEMY: m.bounceE += (int)e.a; m.bounceDmg = e.b; break;
-        case E_BOUNCE_WALL: m.bounceW += (int)e.a; break;
-        case E_HOMING: m.homing = true; break;
+        case E_ARMOR_IGNORE: m.armorIgnore = true; m.armorBonus += maxT(0.0f, e.a - 1.0f) * 25.0f; break;
+        case E_DRONE_MINIGUN: m.hasDrone = true; m.dronePower += e.a; break;
+        case E_SENTINEL: m.hasSentinel = true; m.sentinelPower += e.a; break;
+        case E_PIERCE: m.pierce += maxT(0, (int)e.a - 1) + lv - 1; break;
+        case E_BOUNCE_ENEMY: m.bounceE += maxT(1, (int)e.a) + lv - 1; m.bounceDmg = e.b; break;
+        case E_BOUNCE_WALL: m.bounceW += maxT(1, (int)e.a) + lv - 1; break;
+        case E_HOMING: m.homing = true; m.homingLevel = maxT(m.homingLevel, lv); break;
         case E_SPLIT: m.split += (int)e.a; m.splitDmg = e.b; break;
         case E_EXPLODE: m.explodeDmg += e.a; m.explodeR = maxT(m.explodeR, e.b); break;
-        case E_KNOCKBACK: m.knock = 1; break;
+        case E_KNOCKBACK: m.knock = maxT(m.knock, e.a); break;
         case E_ORBIT: m.nOrbit += (int)e.b + (s.slots[i].lv - 1); m.orbitDps += e.a; break;
         case E_WHIRL: m.whirlDps += e.a; m.whirlDur = e.b; break;
         default: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
@@ -178,9 +208,10 @@ void recompute(Sim& s) {
   m.cdMul = maxT(0.3f, 1 - 0.04f * INT - cdPct / 100.0f);
   m.crit = BASE_CRIT + 3 * LUCK + crit;
   m.critDmg = critDmg;
-  m.expMul = 1 + 0.08f * LUCK; m.rareBonus = 2 * LUCK; m.aoeMul = 1 + 0.06f * INT;
+  m.expMul = EXP_GAIN_MUL * (1 + 0.08f * LUCK); m.rareBonus = 2 * LUCK; m.aoeMul = 1 + 0.06f * INT;
   m.projSpd = 1 + thr / 100.0f; m.rangeMul = 1 + rng / 100.0f;
   m.healMul = maxT(0.0f, 1 + heal / 100.0f); m.dealt = maxT(0.2f, 1 + dealt / 100.0f);
+  m.allNumPct = crown;
   m.nOrbit = minT(m.nOrbit, (int)MAX_ORBIT); s.nOrb = m.nOrbit;
   p.maxhp = m.maxHp;
   if (oldMax > 0 && p.maxhp > oldMax) p.hp += p.maxhp - oldMax;
@@ -220,7 +251,10 @@ void hitEnemy(Sim& s, int ei, float base, float dx, float dy, bool events, bool 
   if ((def.beh & B_SHIELD) && fromProj) {                 // frontal shield: only hits from behind land
     if (dx * e.dirx + dy * e.diry <= 0) { fxText(s, e.x, e.y - 10, "BLOCK", 0); audio::sfx(audio::SFX_UI); return; }
   }
-  if ((def.beh & B_ARMOR) && !m.armorIgnore) d = maxT(1.0f, d - 1);
+  if (def.beh & B_ARMOR) {
+    if (!m.armorIgnore) d = maxT(1.0f, d - 1);
+    else d *= 1.0f + m.armorBonus / 100.0f;
+  }
   e.hp -= d; e.flash = 0.08f;
   if (crit || d >= 12) {
     char b[8]; snprintf(b, sizeof b, "%d", (int)d); fxText(s, e.x, e.y - 8, b, crit ? 7 : 0);
@@ -256,15 +290,16 @@ static void applyHitEvents(Sim& s, int ei, float dealt, bool crit, float dx, flo
   for (int i = 0; i < m.nEv; ++i) {
     const Ev& v = m.ev[i];
     switch (v.kind) {
-      case E_HIT_SLOW: statusOn(s, e, v.a, v.b, 0, 0, 0); break;
-      case E_HIT_FREEZE: if (s.rng.chance(v.a)) statusOn(s, e, 0, 0, v.b, 0, 0); break;
-      case E_HIT_STUN: if (crit && s.rng.chance(v.a)) statusOn(s, e, 0, 0, 0, v.b, 0); break;
-      case E_HIT_ROOT: if (crit) statusOn(s, e, 0, 0, 0, 0, v.a); break;
-      case E_HIT_BURN: e.burnDps = maxT(e.burnDps, v.a); e.burnT = maxT(e.burnT, v.b); break;
-      case E_HIT_BLEED: e.bleedDps = maxT(e.bleedDps, v.a); e.bleedT = maxT(e.bleedT, v.b); break;
-      case E_HIT_BONUS: if (s.rng.chance(v.a)) { e.hp -= v.b * lm; fxText(s, e.x + 6, e.y - 12, "ZAP", 6); } break;
-      case E_HIT_BURST: aoeDamage(s, e.x, e.y, v.b * m.aoeMul, v.a); fxRing(s, e.x, e.y, v.b * m.aoeMul, 3, 0.25f); break;
+      case E_HIT_SLOW: spellCast(s); statusOn(s, e, v.a, v.b, 0, 0, 0); break;
+      case E_HIT_FREEZE: if (s.rng.chance(v.a)) { spellCast(s); statusOn(s, e, 0, 0, v.b, 0, 0); } break;
+      case E_HIT_STUN: if (crit && s.rng.chance(v.a)) { spellCast(s); statusOn(s, e, 0, 0, 0, v.b, 0); } break;
+      case E_HIT_ROOT: if (crit) { spellCast(s); statusOn(s, e, 0, 0, 0, 0, v.a); } break;
+      case E_HIT_BURN: spellCast(s); e.burnDps = maxT(e.burnDps, v.a); e.burnT = maxT(e.burnT, v.b); break;
+      case E_HIT_BLEED: spellCast(s); e.bleedDps = maxT(e.bleedDps, v.a); e.bleedT = maxT(e.bleedT, v.b); break;
+      case E_HIT_BONUS: if (s.rng.chance(v.a)) { spellCast(s); e.hp -= v.b * lm; fxText(s, e.x + 6, e.y - 12, "ZAP", 6); } break;
+      case E_HIT_BURST: spellCast(s); aoeDamage(s, e.x, e.y, v.b * m.aoeMul, v.a); fxRing(s, e.x, e.y, v.b * m.aoeMul, 3, 0.25f); break;
       case E_HIT_CHAIN: case E_HIT_BOLT: {
+        spellCast(s);
         int n = (int)v.b + m.chainPlus, from = ei; float px = e.x, py = e.y;
         for (int c = 0; c < n; ++c) {
           int t = nearestEnemy(s, px, py, 64, from);
@@ -274,6 +309,7 @@ static void applyHitEvents(Sim& s, int ei, float dealt, bool crit, float dx, flo
         }
       } break;
       case E_CRIT_CHAIN: if (crit) {
+        spellCast(s);
         int n = (int)v.a + m.chainPlus, from = ei; float px = e.x, py = e.y;
         for (int c = 0; c < n; ++c) {
           int t = nearestEnemy(s, px, py, 70, from);
@@ -282,18 +318,18 @@ static void applyHitEvents(Sim& s, int ei, float dealt, bool crit, float dx, flo
           dotEnemy(s, t, dealt * v.b / 100.0f * lm); from = t; px = s.en[t].x; py = s.en[t].y;
         }
       } break;
-      case E_CRIT_BURN: if (crit) { e.burnDps = maxT(e.burnDps, v.a); e.burnT = maxT(e.burnT, v.b); } break;
-      case E_CRIT_HEAL: if (crit && s.p.critHealT <= 0) { heal(s, v.a); s.p.critHealT = 1.0f; } break;
+      case E_CRIT_BURN: if (crit) { spellCast(s); e.burnDps = maxT(e.burnDps, v.a); e.burnT = maxT(e.burnT, v.b); } break;
+      case E_CRIT_HEAL: if (crit && s.p.critHealT <= 0) { spellCast(s); heal(s, v.a); s.p.critHealT = 1.0f; } break;
       case E_EXSANG: break;
-      case E_MARK: e.markPct = maxT(e.markPct, v.a); e.markT = v.b; break;
+      case E_MARK: spellCast(s); e.markPct = maxT(e.markPct, v.a); e.markT = v.b; break;
       default: break;
     }
   }
   if (m.knock > 0 && !(ENEMIES[e.type].beh & B_BOSS)) {
     float l = sqrtf(dx * dx + dy * dy) + 0.001f;
-    e.kx += dx / l * 90; e.ky += dy / l * 90;
+    e.kx += dx / l * 90 * m.knock; e.ky += dy / l * 90 * m.knock;
   }
-  if (m.whirlDps > 0) newZone(s, Z_VORTEX, e.x, e.y, 22, m.whirlDur, m.whirlDps, 0);
+  if (m.whirlDps > 0) { spellCast(s); newZone(s, Z_VORTEX, e.x, e.y, 22, m.whirlDur, m.whirlDps, 0); }
 }
 
 // ================================================================================ kills, gems, healing
@@ -335,27 +371,29 @@ void killEnemy(Sim& s, int ei, int depth) {
     }
   }
   if (s.phase != PH_PLAY) return;
-  if (m.killHeal > 0 && s.p.killHealT <= 0) { heal(s, m.killHeal); s.p.killHealT = m.killHealCd; }
-  const float aoe = m.aoeMul, lm = 1 + m.lightning / 100.0f;
+  if (m.killHeal > 0 && s.p.killHealT <= 0) { spellCast(s); heal(s, m.killHeal); s.p.killHealT = m.killHealCd; }
+  const float aoe = m.aoeMul;
   for (int i = 0; i < m.nEv; ++i) {
     const Ev& v = m.ev[i];
     switch (v.kind) {
-      case E_KILL_BURST: aoeDamage(s, e.x, e.y, v.b * aoe, v.a * (v.kind == E_KILL_BURST ? 1.0f : lm)); fxRing(s, e.x, e.y, v.b * aoe, 2, 0.25f); break;
-      case E_KILL_POISON: newZone(s, Z_POISON, e.x, e.y, v.c * aoe, v.b, v.a / maxT(v.b, 0.1f), 0); break;
-      case E_KILL_CLOUD: newZone(s, Z_CLOUD, e.x, e.y, v.c * aoe, v.b, v.a, 0); break;
+      case E_KILL_BURST: spellCast(s); aoeDamage(s, e.x, e.y, v.b * aoe, v.a); fxRing(s, e.x, e.y, v.b * aoe, 2, 0.25f); break;
+      case E_KILL_POISON: spellCast(s); newZone(s, Z_POISON, e.x, e.y, v.c * aoe, v.b, v.a / maxT(v.b, 0.1f), 0); break;
+      case E_KILL_CLOUD: spellCast(s); newZone(s, Z_CLOUD, e.x, e.y, v.c * aoe, v.b, v.a, 0); break;
       case E_KILL_SLOWAOE:
+        spellCast(s);
         for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(e.x, e.y, s.en[k].x, s.en[k].y) < sq(v.c * aoe)) {
           s.en[k].slowPct = maxT(s.en[k].slowPct, v.a); s.en[k].slowT = maxT(s.en[k].slowT, v.b); }
         fxRing(s, e.x, e.y, v.c * aoe, 3, 0.3f); break;
       case E_KILL_CHAIN: if (depth < 2 && s.rng.chance(v.a)) {
+        spellCast(s);
         int t = nearestEnemy(s, e.x, e.y, 70, ei);
         if (t >= 0) { fxBolt(s, s.en[t].x, s.en[t].y - 6); s.en[t].hp = 0; killEnemy(s, t, depth + 1); } } break;
-      case E_KILL_MOVE: s.p.moveBonus = minT(s.p.moveBonus + v.a, v.b); break;
-      case E_KILL_MAXHP: if (++s.p.killsSinceMax >= (int)v.b) { s.p.killsSinceMax = 0; s.p.maxHpBonus += v.a; recompute(s); } break;
-      case E_KILL_CURSE: newZone(s, Z_CURSE, e.x, e.y, v.b * aoe, 1.0f, 0, v.a); break;
-      case E_KILL_EXPLODE_BURNING: if (e.burnT > 0) { aoeDamage(s, e.x, e.y, v.b * aoe, v.a); fxRing(s, e.x, e.y, v.b * aoe, 2, 0.25f); } break;
-      case E_KILL_HEALEVERY: if (++s.p.killsSinceHeal >= (int)v.b) { s.p.killsSinceHeal = 0; heal(s, v.a); } break;
-      case E_AURA_HEALKILL: if (dist2(e.x, e.y, s.p.x, s.p.y) < sq(56 * aoe)) heal(s, v.a); break;
+      case E_KILL_MOVE: spellCast(s); s.p.moveBonus = minT(s.p.moveBonus + v.a, v.b); break;
+      case E_KILL_MAXHP: if (++s.p.killsSinceMax >= (int)v.b) { spellCast(s); s.p.killsSinceMax = 0; s.p.maxHpBonus += v.a; recompute(s); } break;
+      case E_KILL_CURSE: spellCast(s); newZone(s, Z_CURSE, e.x, e.y, v.b * aoe, 1.0f, 0, v.a); break;
+      case E_KILL_EXPLODE_BURNING: if (e.burnT > 0) { spellCast(s); aoeDamage(s, e.x, e.y, v.b * aoe, v.a); fxRing(s, e.x, e.y, v.b * aoe, 2, 0.25f); } break;
+      case E_KILL_HEALEVERY: if (++s.p.killsSinceHeal >= (int)v.b) { spellCast(s); s.p.killsSinceHeal = 0; heal(s, v.a); } break;
+      case E_AURA_HEALKILL: if (dist2(e.x, e.y, s.p.x, s.p.y) < sq(56 * aoe)) { spellCast(s); heal(s, v.a); } break;
       default: break;
     }
   }
@@ -364,14 +402,14 @@ void killEnemy(Sim& s, int ei, int depth) {
 bool hurtPlayer(Sim& s, float dmg, bool ranged, Enemy* src, bool allowTiny) {
   Player& p = s.p; Mods& m = s.m;
   if (s.godMode || p.iframes > 0 || s.phase != PH_PLAY) return false;
-  if (s.rng.chance(m.dodge)) { fxText(s, p.x, p.y - 12, "DODGE", 3); p.iframes = 0.25f; return false; }
+  if (s.rng.chance(m.dodge)) { if (m.dodge > 0) spellCast(s); fxText(s, p.x, p.y - 12, "DODGE", 3); p.iframes = 0.25f; return false; }
   if (src && !ranged) for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_AURA_MISS &&
-      dist2(src->x, src->y, p.x, p.y) < sq(m.ev[i].b * m.aoeMul) && s.rng.chance(m.ev[i].a)) { fxText(s, p.x, p.y - 12, "MISS", 0); p.iframes = 0.2f; return false; }
+      dist2(src->x, src->y, p.x, p.y) < sq(m.ev[i].b * m.aoeMul) && s.rng.chance(m.ev[i].a)) { spellCast(s); fxText(s, p.x, p.y - 12, "MISS", 0); p.iframes = 0.2f; return false; }
   if (p.blocks > 0) { p.blocks--; fxText(s, p.x, p.y - 12, "BLOCK", 0); p.iframes = IFRAMES; return false; }
   dmg *= m.taken;
   if (ranged) dmg *= m.rangedTaken;
   if (p.burnT > 0) dmg *= 1 - m.warmth / 100.0f;
-  if (src) for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_AURA_WEAKEN && dist2(src->x, src->y, p.x, p.y) < sq(m.ev[i].b * m.aoeMul)) dmg *= 1 - m.ev[i].a / 100.0f;
+  if (src) for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_AURA_WEAKEN && dist2(src->x, src->y, p.x, p.y) < sq(m.ev[i].b * m.aoeMul)) { spellCast(s); dmg *= 1 - m.ev[i].a / 100.0f; }
   dmg = allowTiny ? maxT(0.0f, dmg) : maxT(0.5f, dmg);
   if (p.shield > 0) { float a = minT(p.shield, dmg); p.shield -= a; dmg -= a; if (dmg <= 0.01f) { p.iframes = IFRAMES * 0.5f; return true; } }
   p.hp -= dmg; p.iframes = IFRAMES; p.hurtFlash = 0.15f; s.shake = 0.15f;
@@ -379,14 +417,14 @@ bool hurtPlayer(Sim& s, float dmg, bool ranged, Enemy* src, bool allowTiny) {
   if (src) {
     int idx = (int)(src - s.en);
     if (idx >= 0 && idx < MAX_ENEMIES) {
-      if (m.reflect > 0) dotEnemy(s, idx, dmg * m.reflect / 100.0f);
-      if (m.attackerDmg > 0) dotEnemy(s, idx, m.attackerDmg);
-      if (m.burnTouchDps > 0 && s.en[idx].alive) { s.en[idx].burnDps = m.burnTouchDps; s.en[idx].burnT = m.burnTouchDur; }
+      if (m.reflect > 0) { spellCast(s); dotEnemy(s, idx, dmg * m.reflect / 100.0f); }
+      if (m.attackerDmg > 0) { spellCast(s); dotEnemy(s, idx, m.attackerDmg); }
+      if (m.burnTouchDps > 0 && s.en[idx].alive) { spellCast(s); s.en[idx].burnDps = m.burnTouchDps; s.en[idx].burnT = m.burnTouchDur; }
     }
   }
   if (p.hp <= 0) {
     if (m.revivePct > 0 && !p.usedRevive) {
-      p.usedRevive = true; p.hp = p.maxhp * m.revivePct / 100.0f; p.iframes = 2.0f;
+      spellCast(s); p.usedRevive = true; p.hp = p.maxhp * m.revivePct / 100.0f; p.iframes = 2.0f;
       fxText(s, p.x, p.y - 14, "REVIVE", 2); fxRing(s, p.x, p.y, 40, 2, 0.5f);
     } else { p.hp = 0; s.phase = PH_DEAD; s.phaseT = 0; audio::sfx(audio::SFX_DEATH); }
   }
@@ -424,6 +462,7 @@ static void fireWeapon(Sim& s, int ti, float angOff, float dmgMul) {
   q->r = (s.weapon == W_AXE ? 4.0f : w.radius) * m.sizeMul;
   q->life = (w.range * m.rangeMul) / speed * 1.1f;
   q->pierce = w.pierce + m.pierce; q->bounceE = (u8)m.bounceE; q->bounceW = (u8)m.bounceW; q->homing = m.homing;
+  q->homingRate = 7.0f * (1.0f + 0.20f * maxT(0, m.homingLevel - 1));
   if (s.weapon == W_AXE) {
     q->lob = true; q->tx = t.x; q->ty = t.y;
     float d = sqrtf(dist2(t.x, t.y, s.p.x, s.p.y));
@@ -447,30 +486,38 @@ static void doThrow(Sim& s) {
   int t = nearestEnemy(s, p.x, p.y, w.range * m.rangeMul, -1);
   if (t < 0) return;
   p.throws++;
-  bool dbl = false;
-  for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_NTH_DOUBLE && p.throws % (int)m.ev[i].a == 0) dbl = true;
+  float extraShots = 0.0f;
+  for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_NTH_DOUBLE && p.throws % maxT(1, (int)m.ev[i].a) == 0) {
+    extraShots = maxT(extraShots, m.ev[i].b); if (m.ev[i].b > 0) spellCast(s);
+  }
   fireWeapon(s, t, 0, 1.0f);
-  if (dbl) fireWeapon(s, t, 0.12f, 1.0f);
+  int bonusShots = (int)extraShots;
+  for (int j = 0; j < bonusShots; ++j) fireWeapon(s, t, (j & 1) ? -0.16f : 0.12f, 1.0f);
+  if (extraShots > bonusShots && s.rng.chance((extraShots - bonusShots) * 100.0f)) fireWeapon(s, t, 0.20f, 1.0f);
   audio::sfx(audio::SFX_SHOOT);
   const float baseDmg = (w.dmg + m.flat) * m.dmgMul * m.dealt;
   const float lm = 1 + m.lightning / 100.0f;
   for (int i = 0; i < m.nEv; ++i) {
     const Ev& v = m.ev[i];
     switch (v.kind) {
-      case E_NTH_RING: if (p.throws % (int)v.a == 0) radialShots(s, 12, baseDmg * 0.5f, false); break;
+      case E_NTH_RING: if (p.throws % maxT(1, (int)v.a) == 0) { spellCast(s); radialShots(s, maxT(1, (int)v.b), baseDmg * v.c, false); } break;
       case E_NTH_BLAST: if (p.throws % (int)v.a == 0) {
+        spellCast(s);
         const bool big = v.c >= 100;
         float cx = big ? p.x : s.en[t].x, cy = big ? p.y : s.en[t].y, r = minT(v.c, 999.0f) * m.aoeMul;
         if (v.c >= 900) { for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive) hitEnemy(s, k, v.b, 0, 0, false, false); fxDisc(s, p.x, p.y, 150, 7, 0.4f); s.shake = 0.3f; }
         else { aoeDamage(s, cx, cy, r, v.b); fxDisc(s, cx, cy, r, 2, 0.3f); fxRing(s, cx, cy, r, 7, 0.4f); }
         audio::sfx(audio::SFX_BLAST); } break;
       case E_NTH_STUN: if (p.throws % (int)v.a == 0) {
+        spellCast(s);
         for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(p.x, p.y, s.en[k].x, s.en[k].y) < sq(v.c * m.aoeMul)) statusOn(s, s.en[k], 0, 0, 0, v.b, 0);
         fxRing(s, p.x, p.y, v.c * m.aoeMul, 7, 0.3f); audio::sfx(audio::SFX_BLAST); } break;
       case E_NTH_BOLT: if (p.throws % (int)v.a == 0) {
+        spellCast(s);
         fxBolt(s, s.en[t].x, s.en[t].y - 6); aoeDamage(s, s.en[t].x, s.en[t].y, v.c * m.aoeMul, v.b * lm); } break;
       case E_NTH_STRIKE3: if (p.throws % (int)v.a == 0) {
-        for (int k = 0, n = 0; k < MAX_ENEMIES && n < 3; ++k) if (s.en[k].alive) { fxBolt(s, s.en[k].x, s.en[k].y - 6); dotEnemy(s, k, 10 * lm); ++n; } } break;
+        spellCast(s);
+        for (int k = 0, n = 0; k < MAX_ENEMIES && n < (int)v.c; ++k) if (s.en[k].alive) { fxBolt(s, s.en[k].x, s.en[k].y - 6); dotEnemy(s, k, v.b * lm); ++n; } } break;
       default: break;
     }
   }
@@ -489,7 +536,7 @@ static void updateProjectiles(Sim& s, float dt) {
       int t = nearestEnemy(s, q.x, q.y, 110, -1);
       if (t >= 0) {
         float sp = sqrtf(q.vx * q.vx + q.vy * q.vy) + 0.01f, dx = s.en[t].x - q.x, dy = s.en[t].y - q.y, l = sqrtf(dx * dx + dy * dy) + 0.01f;
-        float k = minT(1.0f, 7 * dt);
+        float k = minT(1.0f, (q.homingRate > 0 ? q.homingRate : 7.0f) * dt);
         q.vx += (dx / l * sp - q.vx) * k; q.vy += (dy / l * sp - q.vy) * k;
       }
     }
@@ -625,22 +672,29 @@ static void updateAuras(Sim& s, float dt) {
   for (int i = 0; i < m.nEv; ++i) {
     const Ev& v = m.ev[i];
     if (v.kind == E_AURA) {
+      bool active = false;
       for (int k = 0; k < MAX_ENEMIES; ++k) {
         Enemy& e = s.en[k];
         if (!e.alive || dist2(p.x, p.y, e.x, e.y) > sq(v.b * aoe)) continue;
+        active = true;
         if (v.c > 0) { e.slowPct = maxT(e.slowPct, v.c); e.slowT = maxT(e.slowT, 0.4f); }
         if (tick && v.a > 0) dotEnemy(s, k, v.a * 0.25f * lm);
       }
+      if (tick && active) spellCast(s);
     } else if (v.kind == E_AURA_PULL) {
+      bool active = false;
       for (int k = 0; k < MAX_ENEMIES; ++k) {
         Enemy& e = s.en[k];
         if (!e.alive || (ENEMIES[e.type].beh & B_BOSS) || dist2(p.x, p.y, e.x, e.y) > sq(v.a * aoe)) continue;
+        active = true;
         float dx = p.x - e.x, dy = p.y - e.y, l = sqrtf(dx * dx + dy * dy) + 0.01f;
         if (l > 14) { e.x += dx / l * 30 * dt; e.y += dy / l * 30 * dt; }
       }
+      if (tick && active) spellCast(s);
     } else if (v.kind == E_PERIODIC_FLARE) {
       p.flareT += dt;
       if (p.flareT >= v.a) {
+        spellCast(s);
         p.flareT = 0;
         for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive) hitEnemy(s, k, v.b, 0, 0, false, false);
         fxDisc(s, p.x, p.y, 140, 2, 0.35f); audio::sfx(audio::SFX_BLAST);
@@ -648,6 +702,7 @@ static void updateAuras(Sim& s, float dt) {
     } else if (v.kind == E_PERIODIC_BOMB) {
       p.bombT += dt;
       if (p.bombT >= v.a) {
+        spellCast(s);
         p.bombT = 0.0f;
         newZone(s, Z_BOMB, p.x, p.y, v.c * aoe, 1.0f, 0.0f, v.b);
         fxRing(s, p.x, p.y, v.c * aoe, 2, 0.35f);
@@ -734,15 +789,31 @@ bool simSpend(Sim& s, int st) {
   s.points--; s.alloc[st]++; recompute(s); audio::sfx(audio::SFX_UI);
   return true;
 }
+bool simStorePoints(Sim& s) {
+  if (s.phase != PH_ALLOC || s.points <= 0 || s.bankStores >= 3) return false;
+  s.bankedPoints += s.points;
+  s.points = 0;
+  ++s.bankStores;
+  audio::sfx(audio::SFX_UI);
+  return true;
+}
+bool simUseStoredPoints(Sim& s) {
+  if (s.phase != PH_ALLOC || s.bankedPoints <= 0) return false;
+  s.points += s.bankedPoints;
+  s.bankedPoints = 0;
+  audio::sfx(audio::SFX_UI);
+  return true;
+}
 void simFinishAlloc(Sim& s) { goSpellPhase(s); }
 void simPickOffer(Sim& s, int i) {
   if (s.phase != PH_SPELL) return;
   if (i >= 0 && i < s.nOffers) {
-    if (s.offersAreUpgrades) { int sl = s.offers[i]; if (s.slots[sl].lv < MAX_SPELL_LV) s.slots[sl].lv++; }
+    if (s.offersAreUpgrades) { int sl = s.offers[i]; if (s.slots[sl].lv < MAX_SPELL_LV) { s.slots[sl].lv++; ++s.runSpellUpgrades; } }
     else if (s.nSlots < MAX_SLOTS) {
       int id = s.offers[i];
       s.slots[s.nSlots++] = SpellSlot{(s16)id, 1};
       if (s.seenSpell[id] < 255) s.seenSpell[id]++;
+      ++s.runSpellsAcquired;
     }
     recompute(s); audio::sfx(audio::SFX_LEVEL);
   }
@@ -827,7 +898,7 @@ static void updateSentinels(Sim& s, float dt) {
       for (int i = 0; i < 2; ++i) if (!s.sentinels[i].active) {
         Sentinel& sent = s.sentinels[i];
         sent.active = true; sent.x = s.p.x; sent.y = s.p.y;
-        sent.hp = sent.maxhp = 50.0f; sent.fireT = 0.0f;
+        sent.hp = sent.maxhp = 50.0f * maxT(0.5f, s.m.sentinelPower); sent.fireT = 0.0f;
         fxRing(s, sent.x, sent.y, 16, 3, 0.35f);
         break;
       }
@@ -839,7 +910,8 @@ static void updateSentinels(Sim& s, float dt) {
     sent.iframes = maxT(0.0f, sent.iframes - dt);
     sent.fireT -= dt;
     if (sent.fireT > 0.0f) continue;
-    sent.fireT += 0.8f;
+    const float power = maxT(0.5f, s.m.sentinelPower);
+    sent.fireT += maxT(0.25f, 0.8f / power);
     const int target = nearestEnemy(s, sent.x, sent.y, 1200.0f, -1);
     if (target < 0) continue;
     const float dx = s.en[target].x - sent.x, dy = s.en[target].y - sent.y;
@@ -848,8 +920,8 @@ static void updateSentinels(Sim& s, float dt) {
     if (!q) continue;
     q->spr = gfx::PS_BOLT; q->x = sent.x; q->y = sent.y;
     q->vx = dx / len * 320.0f; q->vy = dy / len * 320.0f;
-    q->dmg = 6.0f * s.m.dmgMul * s.m.dealt; q->r = 3.0f; q->life = 2.0f;
-    q->kind = 5; q->rot = atan2f(q->vy, q->vx) + 1.5707963f;
+    q->dmg = 6.0f * power * s.m.dmgMul * s.m.dealt; q->r = 3.0f; q->life = 2.0f;
+    q->kind = 5; q->rot = atan2f(q->vy, q->vx) + 1.5707963f; spellCast(s);
   }
 }
 
@@ -859,7 +931,7 @@ static void playUpdate(Sim& s, const SimInput& in, float dt) {
   // timers
   p.iframes = maxT(0.0f, p.iframes - dt); p.critHealT -= dt; p.killHealT -= dt; p.hurtFlash -= dt;
   p.lsBudget = minT(1.0f, p.lsBudget + dt); p.slowT -= dt; p.burnT -= dt;
-  if (m.regenInt > 0) { p.regenT += dt; if (p.regenT >= m.regenInt) { p.regenT = 0; heal(s, m.regenHp); } }
+  if (m.regenInt > 0) { p.regenT += dt; if (p.regenT >= m.regenInt) { spellCast(s); p.regenT = 0; heal(s, m.regenHp); } }
   // movement
   float mx = in.mx, my = in.my, l = sqrtf(mx * mx + my * my);
   if (l > 1) { mx /= l; my /= l; }
@@ -888,8 +960,8 @@ static void playUpdate(Sim& s, const SimInput& in, float dt) {
         if (q) {
           q->spr = gfx::PS_SPARK; q->x = dx0; q->y = dy0;
           q->vx = dx / len * 420.0f; q->vy = dy / len * 420.0f;
-          q->dmg = 3.5f * m.dmgMul; q->r = 3.0f; q->life = 1.8f;
-          q->kind = 0; q->rot = atan2f(q->vy, q->vx) + 1.5707963f;
+          q->dmg = 3.5f * maxT(0.5f, m.dronePower) * m.dmgMul * m.dealt; q->r = 3.0f; q->life = 1.8f;
+          q->kind = 0; q->rot = atan2f(q->vy, q->vx) + 1.5707963f; spellCast(s);
         }
       }
     }
@@ -901,8 +973,8 @@ static void playUpdate(Sim& s, const SimInput& in, float dt) {
     if (p.trailT <= 0) {
       p.trailT = 0.22f;
       for (int i = 0; i < m.nEv; ++i) {
-        if (m.ev[i].kind == E_TRAIL_FIRE) newZone(s, Z_FIRE, p.x, p.y, 9, m.ev[i].b + 0.4f, m.ev[i].a, 0);
-        if (m.ev[i].kind == E_TRAIL_SPARK) newZone(s, Z_SPARK, p.x, p.y, 8, 0.8f, m.ev[i].a, 0);
+        if (m.ev[i].kind == E_TRAIL_FIRE) { spellCast(s); newZone(s, Z_FIRE, p.x, p.y, 9, m.ev[i].b + 0.4f, m.ev[i].a, 0); }
+        if (m.ev[i].kind == E_TRAIL_SPARK) { spellCast(s); newZone(s, Z_SPARK, p.x, p.y, 8, 0.8f, m.ev[i].a, 0); }
       }
     }
   }

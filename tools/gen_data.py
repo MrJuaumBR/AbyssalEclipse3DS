@@ -2,6 +2,7 @@
 """Generates source/data_gen.cpp + source/strings_gen.h from tools/data/*.json
 (exported from the Abyssal Eclipse HTML mockup).  Edit THIS file, never the output."""
 import json, re, os, sys
+from art_raster import rects
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 D = json.load(open(os.path.join(HERE, 'data', 'mock_data.json'), encoding='utf-8'))
@@ -89,6 +90,13 @@ S('KNIFE CIRCLE',('ORBIT',4.0,1.0))
 S('OCCASIONAL BOMB',('PERIODIC_BOMB',12.0,40.0,60.0))
 S('SENTINEL',('SENTINEL',1.0))
 S('SENTINEL DRONE',('DRONE_MINIGUN',1),season='ECLIPSE')
+# Level-tuned payloads for formerly binary/interval-only spells.
+S('ECHO CHAMBER',('NTH_RING',5,12,0.25))
+S('TEMPEST CROWN',('NTH_STRIKE3',5,10,3))
+# New hybrid spells combine existing systems and benefit from meaningful upgrades.
+S('GLACIAL BLOOM',('HIT_FREEZE',18,1.2),('KILL_BURST',6,32))
+S('STARLANCE',('NTH_BOLT',7,14,44))
+S('SOUL HARVEST',('KILL_HEALEVERY',1.5,5),('LIFESTEAL',1))
 
 KINDS = sorted({e[0] for v in M.values() for e in v})
 
@@ -131,7 +139,67 @@ EXTRA = {  # key: (en, pt)
  'hint_dpad':('D-PAD: MOVE   A: OK   B: BACK','D-PAD: MOVER   A: OK   B: VOLTAR'),
  'sea_n':('SEASON','ESTAÇÃO'),
  'spell_lv':('LV {n}','NV {n}'), 'max_lv':('MAX LEVEL','NIVEL MAXIMO'),
- 'new_label':('NEW!', 'NOVO!')
+ 'new_label':('NEW!', 'NOVO!'),
+ 'nav_achievements':('ACHIEVEMENTS','CONQUISTAS'), 'ach_title':('ACHIEVEMENTS','CONQUISTAS'),
+ 'ach_locked':('LOCKED','BLOQUEADA'), 'ach_unlocked':('UNLOCKED','DESBLOQUEADA'),
+ 'ach_season_forest':('FOREST COMPLETE','FLORESTA COMPLETA'),
+ 'ach_season_forest_desc':('Clear all three Forest campaign levels.','Conclua as tres fases da Floresta.'),
+ 'ach_season_desert':('DESERT COMPLETE','DESERTO COMPLETO'),
+ 'ach_season_desert_desc':('Clear all three Desert campaign levels.','Conclua as tres fases do Deserto.'),
+ 'ach_season_snow':('SNOW COMPLETE','NEVE COMPLETA'),
+ 'ach_season_snow_desc':('Clear all three Snow campaign levels.','Conclua as tres fases da Neve.'),
+ 'ach_season_mountain':('MOUNTAIN COMPLETE','MONTANHA COMPLETA'),
+ 'ach_season_mountain_desc':('Clear all three Mountain campaign levels.','Conclua as tres fases da Montanha.'),
+ 'ach_season_eclipse':('ECLIPSE COMPLETE','ECLIPSE COMPLETO'),
+ 'ach_season_eclipse_desc':('Clear all three Eclipse campaign levels.','Conclua as tres fases do Eclipse.'),
+ 'ach_kills_1000':('1,000 ENEMIES','1.000 INIMIGOS'),
+ 'ach_kills_1000_desc':('Defeat 1,000 enemies across all runs.','Derrote 1.000 inimigos em todas as partidas.'),
+ 'ach_kills_10000':('10,000 ENEMIES','10.000 INIMIGOS'),
+ 'ach_kills_10000_desc':('Defeat 10,000 enemies across all runs.','Derrote 10.000 inimigos em todas as partidas.'),
+ 'ach_kills_100000':('100,000 ENEMIES','100.000 INIMIGOS'),
+ 'ach_kills_100000_desc':('Defeat 100,000 enemies across all runs.','Derrote 100.000 inimigos em todas as partidas.'),
+ 'ach_catalog_forest':('FOREST FIELD GUIDE','GUIA DA FLORESTA'),
+ 'ach_catalog_forest_desc':('Discover every Forest-exclusive spell and enemy.','Descubra todas as magias e inimigos exclusivos da Floresta.'),
+ 'ach_catalog_desert':('DESERT FIELD GUIDE','GUIA DO DESERTO'),
+ 'ach_catalog_desert_desc':('Discover every Desert-exclusive spell and enemy.','Descubra todas as magias e inimigos exclusivos do Deserto.'),
+ 'ach_catalog_snow':('SNOW FIELD GUIDE','GUIA DA NEVE'),
+ 'ach_catalog_snow_desc':('Discover every Snow-exclusive spell and enemy.','Descubra todas as magias e inimigos exclusivos da Neve.'),
+ 'ach_catalog_mountain':('MOUNTAIN FIELD GUIDE','GUIA DA MONTANHA'),
+ 'ach_catalog_mountain_desc':('Discover every Mountain-exclusive spell and enemy.','Descubra todas as magias e inimigos exclusivos da Montanha.'),
+ 'ach_catalog_eclipse':('ECLIPSE FIELD GUIDE','GUIA DO ECLIPSE'),
+ 'ach_catalog_eclipse_desc':('Discover every Eclipse-exclusive spell and enemy.','Descubra todas as magias e inimigos exclusivos do Eclipse.'),
+ 'ach_full_catalog':('MASTER CATALOG','CATALOGO COMPLETO'),
+ 'ach_full_catalog_desc':('Discover every spell and enemy in the game.','Descubra todas as magias e inimigos do jogo.'),
+ 'ach_little_dummy':('LITTLE DUMMY','PEQUENO BOBO'), 'ach_little_dummy_desc':('Play for at least 1 hour.','Jogue por pelo menos 1 hora.'),
+ 'ach_abyss_veteran':('ABYSS VETERAN','VETERANO DO ABISMO'), 'ach_abyss_veteran_desc':('Play for at least 10 hours.','Jogue por pelo menos 10 horas.'),
+ 'ach_touch_grass':('GO TOUCH GRASS','VAI TOCAR GRAMA'), 'ach_touch_grass_desc':('Play for at least 50 hours. Please take a break.','Jogue por pelo menos 50 horas. Faca uma pausa.'),
+ 'ach_batman':('NIGHT WATCH','VIGILANTE NOTURNO'), 'ach_batman_desc':('Play for at least 1 hour to unlock the Batman parody outfit.','Jogue por pelo menos 1 hora para liberar a roupa parodia do Batman.'),
+ 'ach_joker':('WHY SO SERIOUS?','POR QUE TAO SERIO?'), 'ach_joker_desc':('Play for at least 10 hours to unlock the Joker parody outfit.','Jogue por pelo menos 10 horas para liberar a roupa parodia do Joker.'),
+ 'ach_terraria':('DIG DEEP','CAVE FUNDO'), 'ach_terraria_desc':('Play for at least 50 hours to unlock the Terraria parody outfit.','Jogue por pelo menos 50 horas para liberar a roupa parodia de Terraria.'),
+ 'ach_mario':("IT'S-A ME",'AQUI E O MARIO'), 'ach_mario_desc':('Defeat 1,000 enemies to unlock the Mario parody outfit.','Derrote 1.000 inimigos para liberar a roupa parodia do Mario.'),
+ 'ach_iron_man':('HEART OF IRON','CORACAO DE FERRO'), 'ach_iron_man_desc':('Complete the full catalog to unlock the Iron Man parody outfit.','Complete o catalogo para liberar a roupa parodia do Homem de Ferro.'),
+ 'stat_games':('RUNS','PARTIDAS'), 'stat_wins':('WINS','VITORIAS'), 'stat_losses':('LOSSES','DERROTAS'),
+ 'stat_kills':('LIFETIME KILLS','ABATES TOTAIS'), 'stat_picks':('SPELLS ACQUIRED','MAGIAS OBTIDAS'),
+ 'stat_casts':('SPELL ACTIVATIONS','ATIVACOES DE MAGIA'),
+ 'stat_upgrades':('SPELL UPGRADES','MELHORIAS DE MAGIA'), 'stat_throws':('WEAPON ATTACKS','ATAQUES DA ARMA'),
+ 'stat_time':('TIME PLAYED','TEMPO JOGADO'), 'ach_progress':('PROGRESS','PROGRESSO'),
+ 'ach_hint':('UP/DOWN: SELECT   B: BACK','CIMA/BAIXO: SELECIONAR   B: VOLTAR'),
+ 'cat_clothes':('CLOTHES','ROUPAS'), 'cat_music':('MUSIC','MUSICAS'),
+ 'music_locked':('CLEAR THE SEASON TO UNLOCK THIS TRACK','CONCLUA A ESTACAO PARA DESBLOQUEAR ESTA MUSICA'),
+ 'music_play':('A: PLAY TRACK','A: TOCAR MUSICA'), 'music_stop':('B: STOP PREVIEW','B: PARAR PREVIA'),
+ 'cloth_bat_cowl':('NIGHT COWL','CAPUZ NOTURNO'), 'cloth_joker_grin':('GRINNING MASK','MASCARA SORRIDENTE'),
+ 'cloth_terra_hat':('PIXEL MINER HELM','CAPACETE DO MINEIRO PIXEL'), 'cloth_abyss_crown':('ABYSSAL CROWN','COROA ABISSAL'),
+ 'cloth_default':('KNIGHT HELM','ELMO DO CAVALEIRO'), 'cloth_wizard':('WIZARD HAT','CHAPEU DE MAGO'), 'cloth_leaf':('LEAF HOOD','CAPUZ DE FOLHAS'), 'cloth_crown':('TINY CROWN','COROA PEQUENA'), 'cloth_none':('NONE','NENHUM'),
+ 'cloth_batman':('NIGHT COWL','CAPUZ NOTURNO'), 'cloth_joker':('GRINNING MASK','MASCARA SORRIDENTE'), 'cloth_terraria':('PIXEL MINER HELM','CAPACETE DO MINEIRO PIXEL'), 'cloth_mario':('RED PLUMBER CAP','BONE VERMULHO'), 'cloth_ironman':('ARC HELMET','CAPACETE ARC'),
+ 'face_dwarf_beard':('DWARF BEARD','BARBA DE ANAO'),
+ 'music_forest':('FOREST - ROOTS OF DUSK','FLORESTA - RAIZES DO CREPUSCULO'),
+ 'music_desert':('DESERT - SUNKEN HORIZON','DESERTO - HORIZONTE SUBMERSO'),
+ 'music_snow':('SNOW - WHITE SILENCE','NEVE - SILENCIO BRANCO'),
+ 'music_mountain':('MOUNTAIN - STONE ABOVE','MONTANHA - PEDRA ACIMA'),
+ 'music_eclipse':('ECLIPSE - THE LAST LIGHT','ECLIPSE - A ULTIMA LUZ'),
+ 'store_points':('X: STORE POINTS','X: GUARDAR PONTOS'), 'use_stored':('Y: USE STORED ({n})','Y: USAR GUARDADOS ({n})'),
+ 'stores_left':('BANK USES LEFT: {n}/3','USOS DO BANCO: {n}/3'), 'points_stored':('POINTS STORED','PONTOS GUARDADOS'),
+ 'release_status':('RELEASE','LANCAMENTO')
 }
 
 def main():
@@ -155,11 +223,13 @@ def main():
     o.append('const char* const* const UI_TABLE[LANG_COUNT] = { UI_EN, UI_PT };\n')
 
     spells = D['SPELLS']
+    assert len(spells) == 144, 'expected 144 spells; update source/data.h and tests with canonical data'
     o.append('const int SPELL_COUNT = %d;' % len(spells))
     o.append('const SpellDef SPELLS[%d] = {' % len(spells))
     for s in spells:
         key=(s['name'], s['season']); assert key in M, key
-        effs = list(M[key])[:3]
+        assert len(M[key]) <= 3, 'spell %s has more than three effects' % (s['name'],)
+        effs = list(M[key])
         while len(effs)<3: effs.append(('NONE',0))
         es=[]
         for e in effs:
@@ -215,36 +285,6 @@ def main():
         o.append('};')
     o.append('const char* const* const ENEMY_LORE[LANG_COUNT] = { ELORE_EN, ELORE_PT };\n')
 
-    def rects(svg):
-        out=[]
-        # Determine stroke color for lines (default to white)
-        stroke_match = re.search(r'stroke="#([0-9A-Fa-f]{6})"', svg)
-        line_color = int(stroke_match.group(1), 16) if stroke_match else 0xFFFFFF
-
-        # Parse Rects
-        for m in re.finditer(r'<rect x="(\d+)" y="(\d+)" width="(\d+)" height="(\d+)" fill="#([0-9A-Fa-f]{6})"',svg):
-            x,y,w,h,c = m.groups()
-            out.append((int(x),int(y),int(w),int(h),int(c,16)))
-            
-        # Parse Circles
-        for m in re.finditer(r'<circle cx="([\d\.]+)" cy="([\d\.]+)" r="([\d\.]+)" fill="#([0-9A-Fa-f]{6})"',svg):
-            cx, cy, r, c = m.groups()
-            cx, cy, r, c = float(cx), float(cy), float(r), int(c, 16)
-            x, y, w, h = int(cx - r), int(cy - r), int(r * 2), int(r * 2)
-            if w > 0 and h > 0:
-                out.append((x, y, w, h, c))
-                
-        # Parse Lines (convert to series of 1x1 rects)
-        for m in re.finditer(r'<line x1="([\d\.]+)" y1="([\d\.]+)" x2="([\d\.]+)" y2="([\d\.]+)"',svg):
-            x1, y1, x2, y2 = map(float, m.groups())
-            steps = max(abs(int(x2-x1)), abs(int(y2-y1)))
-            for i in range(steps + 1):
-                t = i / max(1, steps)
-                px, py = int(x1 + (x2-x1)*t), int(y1 + (y2-y1)*t)
-                out.append((px, py, 1, 1, line_color))
-                
-        return out
-
     def emit(name, svg):
         r = rects(svg)
         if not r: return 0
@@ -256,16 +296,16 @@ def main():
         n = emit('ART_E_'+e['key'], A['ENEMY'][e['key']]); arts.append(('ART_E_'+e['key'],n))
     o.append('const PixArt ART_ENEMY[%d] = {%s};' % (len(EN), ','.join('{%s,%d}'%a for a in arts)))
     
-    hats = ['helm','wizard','leaf','crown','none']; faces=['beard','glasses','scar','freckles','none']
+    hats = ['helm','wizard','leaf','crown','none','batman','joker','terraria','mario','ironman']; faces=['beard','glasses','scar','freckles','none','dwarf_beard']
     ha=[]
     for h in hats: n=emit('ART_H_'+h,A['HAT'][h]); ha.append(('ART_H_'+h,n))
-    o.append('const PixArt ART_HAT[5] = {%s};' % ','.join('{%s,%d}'%a for a in ha))
+    o.append('const PixArt ART_HAT[10] = {%s};' % ','.join('{%s,%d}'%a for a in ha))
     fa=[]
     for f in faces:
         svg=A['FACE'][f]
         if not rects(svg): fa.append(('nullptr',0)); continue
         n=emit('ART_F_'+f,svg); fa.append(('ART_F_'+f,n))
-    o.append('const PixArt ART_FACE[5] = {%s};' % ','.join('{%s,%d}'%a for a in fa))
+    o.append('const PixArt ART_FACE[6] = {%s};' % ','.join('{%s,%d}'%a for a in fa))
     
     icons = ['leaf','pyr','snow','peak','ecl','lock','book','heart','gem','shield','bolt','clover','star','skull','clock','trophy','dagger','bow','axe','staff','chest','bug','sprout']
     ia=[]

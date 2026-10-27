@@ -17,6 +17,8 @@ const Spr& enemy(int id);
 const Spr& icon(int id);
 const Spr& spellIcon(int type, int elem, int act);
 const Spr& knight();
+const Spr& knightPreview(const Cosmetics& c);
+const Spr& clothingPreview(int hat);
 const Spr& drone();
 const Spr& sentinel();
 enum ProjSpr { PS_DAGGER, PS_ARROW, PS_AXE, PS_ORB, PS_SHARD, PS_WEB, PS_BOLT, PS_EMBER, PS_GEM, PS_SPARK, PS_KNIFE, PS_TNT, PS_COUNT };

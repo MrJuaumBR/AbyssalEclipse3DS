@@ -13,6 +13,7 @@ static const int   MAX_SLOTS = 12;
 static const int   MAX_SPELL_LV = 5;
 static const float LV_BONUS = 0.20f;                        // +20% numeric effects per upgrade
 static const float MAGNET_R = 38.0f, PICKUP_R = 9.0f;
+static const float EXP_GAIN_MUL = 1.05f;                    // v0.1 release: +5% global XP
 static const float BASE_CRIT = 5.0f, CRIT_MUL = 1.5f;
 inline int expNeed(int level) { return 10 + (level - 1) * 5; }
 

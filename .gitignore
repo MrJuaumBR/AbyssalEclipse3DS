@@ -1,5 +1,5 @@
 build/
-*.3dsx
+# *.3dsx
 *.elf
 *.smdh
 *.o
@@ -14,3 +14,5 @@ host_test/save.bin*
 .DS_Store
 Thumbs.db
 *.exe
+__pycache__/
+*.pyc

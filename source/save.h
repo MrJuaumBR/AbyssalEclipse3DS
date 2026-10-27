@@ -15,10 +15,26 @@ struct SaveData {
   u16 spellFound[NUM_SPELLS];
   u16 enemyKills[NUM_ENEMIES];
   u8 enemySeen[NUM_ENEMIES + 3];
+  // Lifetime totals; saturate instead of wrapping. Older saves migrate these as zero.
+  u32 gamesPlayed, runsWon, runsLost, totalKills;
+  u32 spellsAcquired, spellsCasted, spellUpgrades, weaponThrows, playTimeSeconds;
 };
-enum { SAVE_MAGIC = 0x41453344u /* 'AE3D' */, SAVE_VERSION = 3 };
+enum { SAVE_MAGIC = 0x41453344u /* 'AE3D' */, SAVE_VERSION = 4 };
+
+enum AchievementId {
+  ACH_SEASON_FOREST, ACH_SEASON_DESERT, ACH_SEASON_SNOW, ACH_SEASON_MOUNTAIN, ACH_SEASON_ECLIPSE,
+  ACH_KILLS_1000, ACH_KILLS_10000, ACH_KILLS_100000,
+  ACH_CATALOG_FOREST, ACH_CATALOG_DESERT, ACH_CATALOG_SNOW, ACH_CATALOG_MOUNTAIN, ACH_CATALOG_ECLIPSE,
+  ACH_FULL_CATALOG,
+  ACH_LITTLE_DUMMY, ACH_ABYSS_VETERAN, ACH_TOUCH_GRASS,
+  ACH_CLOTH_BATMAN, ACH_CLOTH_JOKER, ACH_CLOTH_TERRARIA, ACH_CLOTH_MARIO, ACH_CLOTH_IRONMAN,
+  ACH_COUNT
+};
+
 void saveDefaults(SaveData& s);
 bool saveLoad(SaveData& s);          // true if a valid file was read; otherwise defaults are set
 bool saveStore(SaveData& s);         // false => SD problem (caller shows a toast, never crashes)
 bool seasonUnlocked(const SaveData& s, int season);
 bool levelUnlocked(const SaveData& s, int season, int level);
+void achievementProgress(const SaveData& s, int id, u32& current, u32& target);
+bool achievementUnlocked(const SaveData& s, int id);

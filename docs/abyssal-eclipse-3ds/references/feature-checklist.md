@@ -33,4 +33,12 @@ Legend: OK = implemented and exercised by the host soak test | APPROX = implemen
 - Y01 OK procedural atlas, 256x256 (fits; test asserts)  Y02 OK save/load/CRC/corruption fallback
 - Y03 OK mixer verified silent-vs-audible in test; sound QUALITY is UNVERIFIED (never listened)
 - Y04 OK adaptive 60/30 logic  Y05 UNVERIFIED suspend hook  Y06 OK live language switch
-- Y07 OK soak test + ASan/UBSan clean  Y08 OK syntax check vs MY OWN stubs only  Y09 UNVERIFIED Makefile (not run with devkitARM)
+- Y07 OK   soak test + ASan/UBSan clean  Y08 OK   syntax check vs MY OWN stubs only  Y09 UNVERIFIED Makefile (not run with devkitARM)
+
+## 0.1 release additions
+- R01 OK   Ordinary cosmetics are always usable; only Batman, Joker, Terraria, Mario, and Iron Man parody outfits are achievement-gated and skipped until unlocked
+- R02 OK   Four catalog tabs: spells, bestiary, clothes, and music
+- R03 OK   Completed-season music tracks unlock in the Music catalog and can be previewed with A
+- R04 OK   Active gameplay timer counts wave time only; menu, pause, allocation, and spell-choice time are excluded
+- R05 OK   Stat points can be deferred with a maximum of three store actions per run and can be reclaimed during allocation
+- R06 OK   Global XP gain increased by 5% before Luck's existing modifier

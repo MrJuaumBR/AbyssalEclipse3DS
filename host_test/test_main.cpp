@@ -14,6 +14,21 @@ namespace plat { u64 statMaxDrawsPerFrame(); }
 static int fails = 0;
 #define CHECK(c, ...) do { if (!(c)) { ++fails; printf("FAIL %s:%d: ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); } } while (0)
 
+struct SaveV3Fixture {
+  u32 magic; u16 version; u16 size; u32 crc;
+  u8 lang, musicVol, sfxVol, fps30; u8 showFps;
+  u8 hat, face, color, lastWeapon; u8 unlockAll, pad0, pad1, pad2;
+  u8 levelCleared[SEA_COUNT]; u8 pad3[3];
+  u16 bestWave[SEA_COUNT]; u16 pad4[3]; u16 spellFound[141];
+  u16 enemyKills[NUM_ENEMIES]; u8 enemySeen[NUM_ENEMIES + 3];
+};
+static_assert(sizeof(SaveV3Fixture) == 412, "test fixture must match the historical v3 save");
+static u32 testCrc32(const u8* p, size_t n) {
+  u32 c = 0xFFFFFFFFu;
+  for (size_t i = 0; i < n; ++i) { c ^= p[i]; for (int k = 0; k < 8; ++k) c = (c >> 1) ^ (0xEDB88320u & (0u - (c & 1u))); }
+  return ~c;
+}
+
 static void checkInvariants(Sim& s, const char* tag) {
   int ea = 0, pa = 0;
   for (int i = 0; i < bal::MAX_ENEMIES; ++i) if (s.en[i].alive) {
@@ -78,7 +93,7 @@ int main() {
   remove("save.bin");
   CHECK(gameInit(), "gameInit failed");
   printf("[data]\n");
-  CHECK(SPELL_COUNT == 137 && ENEMY_COUNT == 25, "data counts");
+  CHECK(SPELL_COUNT == NUM_SPELLS && SPELL_COUNT == 144 && ENEMY_COUNT == 25, "data counts");
   int perScope[3] = {0, 0, 0}; int per[SEA_COUNT] = {0}; int perEl[EL_COUNT] = {0};
   for (int i = 0; i < NUM_SPELLS; ++i) {
     perScope[SPELLS[i].sc]++;
@@ -87,9 +102,10 @@ int main() {
     CHECK(SPELLS[i].eff[0].kind != E_NONE, "spell %d has no effect", i);
     CHECK(spellName(i)[0] != 0, "spell %d name empty", i);
   }
-  CHECK(perScope[0] == 22 && perScope[1] == 90 && perScope[2] == 25, "scope counts %d/%d/%d", perScope[0], perScope[1], perScope[2]);
-  for (int e = 0; e < EL_COUNT; ++e) CHECK(perEl[e] == 15, "element %d has %d", e, perEl[e]);
-  for (int s = 0; s < SEA_COUNT; ++s) CHECK(per[s] == 5, "season %d has %d exclusives", s, per[s]);
+  CHECK(perScope[0] == 22 && perScope[1] == 96 && perScope[2] == 26, "scope counts %d/%d/%d", perScope[0], perScope[1], perScope[2]);
+  for (int e = 0; e < EL_COUNT; ++e) CHECK(perEl[e] == 16, "element %d has %d", e, perEl[e]);
+  const int expectedSeason[SEA_COUNT] = {5, 5, 5, 5, 6};
+  for (int s = 0; s < SEA_COUNT; ++s) CHECK(per[s] == expectedSeason[s], "season %d has %d exclusives", s, per[s]);
   for (int l = 0; l < LANG_COUNT; ++l) { g_lang = l; for (int i = 0; i < NUM_SPELLS; ++i) CHECK(spellName(i)[0], "lang %d spell %d", l, i); for (int i = 0; i < NUM_ENEMIES; ++i) CHECK(enemyName(i)[0], "lang %d enemy %d", l, i); }
   g_lang = LANG_EN;
 
@@ -100,6 +116,30 @@ int main() {
     s.slots[s.nSlots++] = SpellSlot{(s16)id, (u8)(1 + id % 3)}; recompute(s);
     for (int f = 0; f < 360; ++f) { SimInput in{0.3f, 0.0f}; s.godMode = true; if (s.phase == PH_PLAY) simUpdate(s, in, 1.0f / 60); if (s.phase == PH_ALLOC || s.phase == PH_SPELL) break; }
     checkInvariants(s, spellName(id));
+  }
+
+  printf("[every spell level has an effective upgrade]\n");
+  for (int id = 0; id < NUM_SPELLS; ++id) {
+    Mods previous; bool havePrevious = false;
+    for (int level = 1; level <= bal::MAX_SPELL_LV; ++level) {
+      const int sea = SPELLS[id].season == SEA_NONE ? (int)SEA_FOREST : (int)SPELLS[id].season;
+      gameStartRunForTest(sea, 0, true, id % W_COUNT, 10000u + id);
+      Sim& levelSim = gameSim();
+      levelSim.slots[levelSim.nSlots++] = SpellSlot{(s16)id, (u8)level}; recompute(levelSim);
+      if (havePrevious) CHECK(memcmp(&previous, &levelSim.m, sizeof(Mods)) != 0,
+                              "%s level %d has no effective upgrade", spellName(id), level);
+      previous = levelSim.m; havePrevious = true;
+    }
+  }
+
+  int flareSpell = -1;
+  for (int id = 0; id < NUM_SPELLS; ++id) if (SPELLS[id].eff[0].kind == E_PERIODIC_FLARE) { flareSpell = id; break; }
+  CHECK(flareSpell >= 0, "periodic flare spell exists for cast counter test");
+  if (flareSpell >= 0) {
+    gameStartRunForTest(SEA_FOREST, 0, true, 0, 4242u); Sim& casts = gameSim(); casts.godMode = true;
+    casts.slots[casts.nSlots++] = SpellSlot{(s16)flareSpell, 1}; recompute(casts); casts.p.flareT = 100.0f;
+    simUpdate(casts, SimInput{0, 0}, 1.0f / 60.0f);
+    CHECK(casts.runSpellsCasted > 0, "periodic spell activation is counted");
   }
 
   printf("[full runs, 60 Hz logic]\n");
@@ -129,17 +169,55 @@ int main() {
   CHECK(s2.phase == PH_SPELL && s2.offersAreUpgrades, "12/12 offers upgrades");
   if (s2.phase == PH_SPELL) { int slot = s2.offers[0]; simPickOffer(s2, 0); CHECK(s2.slots[slot].lv == 2, "upgrade applied"); }
 
-  printf("[save round trip]\n");
-  SaveData a; saveDefaults(a); a.bestWave[2] = 17; a.levelCleared[0] = 7; a.spellFound[5] = 3; CHECK(saveStore(a), "store");
-  SaveData b; CHECK(saveLoad(b) && b.bestWave[2] == 17 && b.spellFound[5] == 3, "load");
+  printf("[achievement progression + catalog completion]\n");
+  SaveData ach; saveDefaults(ach); u32 current, target;
+  achievementProgress(ach, ACH_SEASON_FOREST, current, target);
+  CHECK(current == 0 && target == 3 && !achievementUnlocked(ach, ACH_SEASON_FOREST), "season achievement initial progress");
+  ach.levelCleared[SEA_FOREST] = 7;
+  CHECK(achievementUnlocked(ach, ACH_SEASON_FOREST), "season clear achievement");
+  ach.totalKills = 10000;
+  CHECK(achievementUnlocked(ach, ACH_KILLS_1000) && achievementUnlocked(ach, ACH_KILLS_10000) &&
+        !achievementUnlocked(ach, ACH_KILLS_100000), "kill milestone achievements");
+  for (int i = 0; i < NUM_SPELLS; ++i) if (SPELLS[i].sc == SC_SEASON && SPELLS[i].season == SEA_FOREST) ach.spellFound[i] = 1;
+  for (int i = 0; i < NUM_ENEMIES; ++i) if (ENEMIES[i].season == SEA_FOREST) ach.enemySeen[i] = 1;
+  CHECK(achievementUnlocked(ach, ACH_CATALOG_FOREST), "season catalog achievement");
+  for (int i = 0; i < NUM_SPELLS; ++i) ach.spellFound[i] = 1;
+  for (int i = 0; i < NUM_ENEMIES; ++i) ach.enemySeen[i] = 1;
+  CHECK(achievementUnlocked(ach, ACH_FULL_CATALOG), "full catalog achievement");
+
+  printf("[version-3 save migration + v4 round trip]\n");
+  SaveV3Fixture old = {}; old.magic = SAVE_MAGIC; old.version = 3; old.size = sizeof old;
+  old.lang = LANG_EN; old.musicVol = 45; old.sfxVol = 65; old.showFps = 1;
+  old.levelCleared[SEA_DESERT] = 7; old.bestWave[2] = 17; old.spellFound[140] = 9;
+  old.enemyKills[3] = 22; old.enemySeen[4] = 1;
+  old.crc = testCrc32((const u8*)&old + 12, sizeof old - 12);
+  FILE* fixture = fopen("save.bin", "wb"); CHECK(fixture != nullptr, "open legacy fixture");
+  if (fixture) { fwrite(&old, 1, sizeof old, fixture); fclose(fixture); }
+  SaveData migrated; CHECK(saveLoad(migrated), "load legacy v3 save");
+  CHECK(migrated.version == SAVE_VERSION && migrated.levelCleared[SEA_DESERT] == 7 && migrated.bestWave[2] == 17 &&
+        migrated.spellFound[140] == 9 && migrated.spellFound[143] == 0 && migrated.enemyKills[3] == 22 &&
+        migrated.enemySeen[4] && migrated.showFps == 1 && migrated.gamesPlayed == 0, "v3 progress preserved and new stats defaulted");
+  SaveData a; saveDefaults(a); a.bestWave[2] = 17; a.levelCleared[0] = 7; a.spellFound[5] = 3;
+  a.gamesPlayed = 12; a.spellsCasted = 987; a.totalKills = 54321; CHECK(saveStore(a), "store v4 save");
+  SaveData b; CHECK(saveLoad(b) && b.bestWave[2] == 17 && b.spellFound[5] == 3 && b.gamesPlayed == 12 &&
+                    b.spellsCasted == 987 && b.totalKills == 54321, "load v4 stats");
   CHECK(seasonUnlocked(b, 1) && !seasonUnlocked(b, 2) && levelUnlocked(b, 0, 2), "unlock chain");
-  FILE* f = fopen("save.bin", "r+b"); fseek(f, 40, SEEK_SET); fputc(0x55, f); fclose(f);
+  FILE* f = fopen("save.bin", "r+b"); if (f) { fseek(f, 40, SEEK_SET); fputc(0x55, f); fclose(f); }
   CHECK(!saveLoad(b) && b.bestWave[2] == 0, "corrupt save falls back to defaults");
 
   printf("[audio mixer]\n");
   s16 buf[2048]; audio::sfx(audio::SFX_BOSS); audio::mix(buf, 2048); int nz = 0; for (int i = 0; i < 2048; ++i) nz += buf[i] != 0; CHECK(nz > 100, "mixer produced sound (%d)", nz);
 
   printf("[ui frames: all screens draw without crashing]\n");
+  for (int lang = 0; lang < 2; ++lang) {
+    g_lang = lang;
+    gameStartRunForTest(SEA_FOREST, 0, false, 0, 888u + (u32)lang);
+    Sim& ui = gameSim(); ui.phase = PH_DEAD; ui.phaseT = 1.0f;
+    plat::Input nav; nav.down = plat::BTN_A; gameFrame(nav, 1.0f / 60.0f); // return to campaign
+    nav.down = plat::BTN_B; gameFrame(nav, 1.0f / 60.0f);                  // return to menu
+    nav.down = plat::BTN_DOWN; for (int k = 0; k < 3; ++k) gameFrame(nav, 1.0f / 60.0f);
+    nav.down = plat::BTN_A; gameFrame(nav, 1.0f / 60.0f); gameDraw();
+  }
   for (int lang = 0; lang < 2; ++lang) for (int scr = 0; scr < 6; ++scr) {
     g_lang = lang; plat::Input in; in.down = 0;
     for (int k = 0; k < 4; ++k) { gameFrame(in, 1.0f / 60); gameDraw(); }

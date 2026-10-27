@@ -9,7 +9,7 @@
 
 namespace {
 using plat::Input;
-enum Screen { SC_MENU, SC_CAMPAIGN, SC_WEAPON, SC_CUSTOM, SC_GAME, SC_CATALOG, SC_OPTIONS, SC_CREDITS };
+enum Screen { SC_MENU, SC_CAMPAIGN, SC_WEAPON, SC_CUSTOM, SC_GAME, SC_CATALOG, SC_ACHIEVEMENTS, SC_OPTIONS, SC_CREDITS };
 
 struct G {
   Screen scr = SC_MENU, back = SC_MENU;
@@ -18,7 +18,7 @@ struct G {
   float fpsElapsed = 0.0f; unsigned int fpsFrames = 0; int fps = 0;
   int season = 0, level = 0, weaponSel = 0, menuSel = 0;
   int tab = 0, slotSel = 0, allocSel = 0, offerSel = 0;
-  int catTab = 0, catSel = 0, catScroll = 0, optSel = 0, custRow = 0, loreScroll = 0;
+  int catTab = 0, catSel = 0, catScroll = 0, achSel = 0, achScroll = 0, optSel = 0, custRow = 0, loreScroll = 0;
   bool paused = false, debug = false; int pauseSel = 0, dbgSel = 0;
   char toast[48] = ""; float toastT = 0;
   bool inited = false, silent = false;
@@ -33,6 +33,7 @@ bool inR(const Input& in, int x, int y, int w, int h) { return in.touchDown && i
 bool pressed(const Input& in, u32 b) { return (in.down & b) != 0; }
 void toast(const char* t) { snprintf(g.toast, sizeof g.toast, "%s", t); g.toastT = 2.5f; }
 void persist() { if (!saveStore(g.save)) toast(T(S_save_failed)); }
+void addLifetime(u32& total, u32 amount) { const u32 maxValue = 0xFFFFFFFFu; total = amount > maxValue - total ? maxValue : total + amount; }
 void applyOptions() {
   g_lang = g.save.lang; audio::setVolumes(g.save.musicVol, g.save.sfxVol); plat::setTargetFps(g.save.fps30 ? 30 : 60);
 }
@@ -43,15 +44,38 @@ void go(Screen s) {
 gfx::Cosmetics cosm() { gfx::Cosmetics c; c.hat = g.save.hat; c.face = g.save.face; c.color = g.save.color; return c; }
 bool spellFound(int i) { return g.save.unlockAll || g.secretCatalog || g.save.spellFound[i] > 0; }
 bool enemyFound(int i) { return g.save.unlockAll || g.secretCatalog || g.save.enemySeen[i]; }
+static const StrId CLOTH_NAME[10] = {S_cloth_default, S_cloth_wizard, S_cloth_leaf, S_cloth_crown, S_cloth_none, S_cloth_batman, S_cloth_joker, S_cloth_terraria, S_cloth_mario, S_cloth_ironman};
+static const StrId MUSIC_NAME[5] = {S_music_forest, S_music_desert, S_music_snow, S_music_mountain, S_music_eclipse};
+bool clothUnlocked(int id) {
+  if (g.save.unlockAll || g.secretCatalog || id < 5) return true;
+  static const int ach[5] = {ACH_CLOTH_BATMAN, ACH_CLOTH_JOKER, ACH_CLOTH_TERRARIA, ACH_CLOTH_MARIO, ACH_CLOTH_IRONMAN};
+  return id >= 5 && id < 10 && achievementUnlocked(g.save, ach[id - 5]);
+}
+bool faceUnlocked(int id) {
+  return id >= 0 && id < 6;
+}
+bool colorUnlocked(int id) {
+  return id >= 0 && id < 6;
+}
+bool musicUnlocked(int id) { return g.save.unlockAll || g.secretCatalog || (id >= 0 && id < 5 && achievementUnlocked(g.save, ACH_SEASON_FOREST + id)); }
 
 void startRun() {
   g.save.lastWeapon = (u8)g.weaponSel;
+  addLifetime(g.save.gamesPlayed, 1);
+  persist();
   simStart(g_sim, g.season, g.level, g.endless, g.weaponSel, (u32)plat::nowMs() | 1u, g.allSeasons);
   g.scr = SC_GAME; g.tab = 0; g.slotSel = 0; g.allocSel = 0; g.offerSel = 0; g.paused = false; g.debug = false;
   audio::musicSet(g.season, 0.4f);
 }
 void finishRun(bool victory) {
   Sim& s = g_sim;
+  addLifetime(g.save.totalKills, (u32)maxT(0, s.totalKills));
+  addLifetime(victory ? g.save.runsWon : g.save.runsLost, 1);
+  addLifetime(g.save.spellsAcquired, s.runSpellsAcquired);
+  addLifetime(g.save.spellsCasted, s.runSpellsCasted);
+  addLifetime(g.save.spellUpgrades, s.runSpellUpgrades);
+  addLifetime(g.save.weaponThrows, (u32)maxT(0, s.p.throws));
+  addLifetime(g.save.playTimeSeconds, (u32)maxT(0.0f, s.runT));
   for (int i = 0; i < NUM_ENEMIES; ++i) {
     if (s.seenEnemy[i]) g.save.enemySeen[i] = 1;
     int k = (int)g.save.enemyKills[i] + s.runKills[i]; g.save.enemyKills[i] = (u16)minT(k, 65535);
@@ -77,11 +101,11 @@ void header(const char* t, u32 col = C_GOLD) { gfx::rect(0, 0, BOT_W, 20, C_PANE
 
 // ---------------------------------------------------------------------------------------------- menu
 void updMenu(const Input& in) {
-  const int n = 5;
+  const int n = 6;
   if (pressed(in, plat::BTN_DOWN)) g.menuSel = (g.menuSel + 1) % n;
   if (pressed(in, plat::BTN_UP)) g.menuSel = (g.menuSel + n - 1) % n;
   int act = -1;
-  for (int i = 0; i < n; ++i) if (inR(in, 40, 30 + i * 40, 240, 34)) { g.menuSel = i; act = i; }
+  for (int i = 0; i < n; ++i) if (inR(in, 40, 18 + i * 32, 240, 28)) { g.menuSel = i; act = i; }
   if (pressed(in, plat::BTN_A)) act = g.menuSel;
   if (act < 0) return;
   audio::sfx(audio::SFX_UI);
@@ -89,8 +113,9 @@ void updMenu(const Input& in) {
     case 0: g.endless = false; g.allSeasons = false; g.level = 0; g.back = SC_MENU; go(SC_CAMPAIGN); break;
     case 1: g.endless = true; g.allSeasons = false; g.back = SC_MENU; go(SC_CAMPAIGN); break;
     case 2: g.catSel = 0; g.catScroll = 0; go(SC_CATALOG); break;
-    case 3: g.custRow = 0; go(SC_CUSTOM); break;
-    case 4: g.optSel = 0; go(SC_OPTIONS); break;
+    case 3: g.achSel = 0; g.achScroll = 0; go(SC_ACHIEVEMENTS); break;
+    case 4: g.custRow = 0; go(SC_CUSTOM); break;
+    case 5: g.optSel = 0; go(SC_OPTIONS); break;
   }
 }
 void drawMenuTop() {
@@ -104,8 +129,8 @@ void drawMenuTop() {
 }
 void drawMenuBot() {
   gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
-  const StrId names[5] = {S_nav_campaign, S_nav_endless, S_nav_catalog, S_nav_custom, S_nav_options};
-  for (int i = 0; i < 5; ++i) button(40, 30 + i * 40, 240, 34, T(names[i]), g.menuSel == i);
+  const StrId names[6] = {S_nav_campaign, S_nav_endless, S_nav_catalog, S_nav_achievements, S_nav_custom, S_nav_options};
+  for (int i = 0; i < 6; ++i) button(40, 18 + i * 32, 240, 28, T(names[i]), g.menuSel == i);
   gfx::textC(T(S_hint_dpad), 160, 222, C_DIM);
 }
 
@@ -225,9 +250,12 @@ void updCustom(const Input& in) {
   }
   if (d) {
     u8* v[3] = {&g.save.hat, &g.save.face, &g.save.color};
-    const int mod[3] = {5, 5, 6};
-    *v[g.custRow] = (u8)((*v[g.custRow] + mod[g.custRow] + d) % mod[g.custRow]);
-    gfx::setKnight(cosm()); audio::sfx(audio::SFX_UI);
+    const int mod[3] = {10, 6, 6};
+    for (int n = 0; n < mod[g.custRow]; ++n) {
+      *v[g.custRow] = (u8)((*v[g.custRow] + mod[g.custRow] + d) % mod[g.custRow]);
+      bool ok = g.custRow == 0 ? clothUnlocked(*v[g.custRow]) : (g.custRow == 1 ? faceUnlocked(*v[g.custRow]) : colorUnlocked(*v[g.custRow]));
+      if (ok) { gfx::setKnight(cosm()); audio::sfx(audio::SFX_UI); break; }
+    }
   }
   if (pressed(in, plat::BTN_B) || inR(in, 100, 214, 120, 24)) { persist(); go(SC_MENU); }
 }
@@ -240,7 +268,7 @@ void drawCustomTop() {
 void drawCustomBot() {
   gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
   const StrId lab[3] = {S_hat, S_face, S_color};
-  const StrId val[3] = {HAT_NAME[g.save.hat], FACE_NAME[g.save.face], COLOR_NAME[g.save.color]};
+  const StrId val[3] = {CLOTH_NAME[g.save.hat], FACE_NAME[g.save.face], COLOR_NAME[g.save.color]};
   for (int i = 0; i < 3; ++i) {
     bool sel = g.custRow == i;
     gfx::panel(8, 30 + i * 60, 304, 50, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : (u32)C_BORDER);
@@ -253,7 +281,7 @@ void drawCustomBot() {
 
 // ---------------------------------------------------------------------------------------------- catalog
 enum { CAT_COLS = 12, CAT_ROWS = 6, CAT_CELL = 24 };
-int catCount() { return g.catTab == 0 ? NUM_SPELLS : NUM_ENEMIES; }
+  int catCount() { return g.catTab == 0 ? NUM_SPELLS : (g.catTab == 1 ? NUM_ENEMIES : (g.catTab == 2 ? 10 : 5)); }
 void updCatalog(const Input& in) {
   const int n = catCount();
   int old = g.catSel;
@@ -261,13 +289,16 @@ void updCatalog(const Input& in) {
   if (pressed(in, plat::BTN_LEFT)) g.catSel = maxT(0, g.catSel - 1);
   if (pressed(in, plat::BTN_DOWN)) g.catSel = minT(n - 1, g.catSel + CAT_COLS);
   if (pressed(in, plat::BTN_UP)) g.catSel = maxT(0, g.catSel - CAT_COLS);
-  if (pressed(in, plat::BTN_L) || pressed(in, plat::BTN_R) || inR(in, 0, 0, 320, 20)) { g.catTab ^= 1; g.catSel = 0; g.catScroll = 0; audio::sfx(audio::SFX_UI); }
+  if (pressed(in, plat::BTN_L) || pressed(in, plat::BTN_R) || inR(in, 0, 0, 320, 20)) { g.catTab = (g.catTab + 1) % 4; g.catSel = 0; g.catScroll = 0; audio::sfx(audio::SFX_UI); }
   for (int i = 0; i < n; ++i) {
     int r = i / CAT_COLS - g.catScroll;
     if (r >= 0 && r < CAT_ROWS && inR(in, 16 + (i % CAT_COLS) * CAT_CELL, 24 + r * CAT_CELL, CAT_CELL, CAT_CELL)) g.catSel = i;
   }
   if (pressed(in, plat::BTN_X)) g.loreScroll++;
   if (pressed(in, plat::BTN_Y)) g.loreScroll = maxT(0, g.loreScroll - 1);
+  if (g.catTab == 3 && (pressed(in, plat::BTN_A) || inR(in, 16 + g.catSel * CAT_CELL, 24, CAT_CELL, CAT_CELL)) && musicUnlocked(g.catSel)) {
+    audio::musicPreview(g.catSel); audio::sfx(audio::SFX_UI);
+  }
   if (g.catSel != old) g.loreScroll = 0;
   int row = g.catSel / CAT_COLS;
   if (row < g.catScroll) g.catScroll = row;
@@ -291,7 +322,7 @@ void drawCatalogTop() {
     snprintf(b, sizeof b, "%s %d", T(S_found), g.save.spellFound[i]); gfx::text(b, 20, 214, C_DIM);
     gfx::text(T(S_lore), 20, 128, C_EPIC);
     gfx::textWrap(spellLore(i), 20, 140, 360, C_DIM, 1, 7, g.loreScroll);
-  } else {
+  } else if (g.catTab == 1) {
     const EnemyDef& d = ENEMIES[i];
     if (!enemyFound(i)) { gfx::sprC(gfx::icon(IC_LOCK), 200, 90, 4.0f); gfx::textC(T(S_not_found), 200, 140, C_DIM, 2); return; }
     gfx::panel(8, 8, 384, 224, C_PANEL, SEASON_COLOR[d.season]);
@@ -304,12 +335,25 @@ void drawCatalogTop() {
     gfx::text(T(S_lore), 20, 128, C_EPIC);
     gfx::textWrap(enemyLore(i), 20, 140, 360, C_DIM, 1, 7, g.loreScroll);
     snprintf(b, sizeof b, "%s %d", T(S_kills_s), g.save.enemyKills[i]); gfx::text(b, 20, 214, C_DIM);
+  } else if (g.catTab == 2) {
+    gfx::panel(8, 8, 384, 224, C_PANEL, C_GOLD);
+    gfx::sprC(gfx::icon(IC_CHEST), 70, 74, 5.0f);
+    gfx::text(T(CLOTH_NAME[i]), 120, 28, C_GOLD, 2);
+    if (!clothUnlocked(i)) { gfx::sprC(gfx::icon(IC_LOCK), 200, 96, 3.0f); gfx::textC(T(S_not_found), 200, 144, C_DIM, 2); }
+    else { gfx::sprC(gfx::clothingPreview(i), 200, 100, 8.0f); gfx::textC(T(S_ach_unlocked), 200, 164, C_GREEN); }
+  } else {
+    gfx::panel(8, 8, 384, 224, C_PANEL, SEASON_COLOR[i]);
+    gfx::sprC(gfx::icon(seasonIcon(i)), 60, 70, 4.0f);
+    gfx::text(T(MUSIC_NAME[i]), 100, 28, SEASON_COLOR[i], 2);
+    if (!musicUnlocked(i)) { gfx::sprC(gfx::icon(IC_LOCK), 200, 92, 3.0f); gfx::textWrap(T(S_music_locked), 100, 140, 260, C_DIM, 1, 3); }
+    else { gfx::textC(T(S_music_play), 200, 156, C_GREEN); gfx::textC(T(S_music_stop), 200, 180, C_DIM); }
   }
 }
 void drawCatalogBot() {
   gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
   gfx::rect(0, 0, BOT_W, 20, C_PANEL);
-  gfx::textC(T(g.catTab == 0 ? S_sub_spells : S_sub_bestiary), 160, 6, C_GOLD);
+  const StrId tabName[4] = {S_sub_spells, S_sub_bestiary, S_cat_clothes, S_cat_music};
+  gfx::textC(T(tabName[g.catTab]), 160, 6, C_GOLD);
   const int n = catCount();
   for (int i = g.catScroll * CAT_COLS; i < n && i < (g.catScroll + CAT_ROWS) * CAT_COLS; ++i) {
     int r = i / CAT_COLS - g.catScroll, c = i % CAT_COLS;
@@ -318,16 +362,91 @@ void drawCatalogBot() {
     if (g.catTab == 0) {
       if (spellFound(i)) gfx::spr(gfx::spellIcon(SPELLS[i].ty, SPELLS[i].el, SPELLS[i].act), x + 2, y + 2, 1.0f);
       else gfx::spr(gfx::icon(IC_LOCK), x + 2, y + 2, 1.0f, HEX(C_BORDER), plat::BLIT_TINT);
-    } else {
+    } else if (g.catTab == 1) {
       if (enemyFound(i)) gfx::spr(gfx::enemy(i), x + 2, y + 2, 1.0f);
+      else gfx::spr(gfx::icon(IC_LOCK), x + 2, y + 2, 1.0f, HEX(C_BORDER), plat::BLIT_TINT);
+    } else if (g.catTab == 2) {
+      if (clothUnlocked(i)) gfx::spr(gfx::icon(IC_CHEST), x + 2, y + 2, 1.0f);
+      else gfx::spr(gfx::icon(IC_LOCK), x + 2, y + 2, 1.0f, HEX(C_BORDER), plat::BLIT_TINT);
+    } else {
+      if (musicUnlocked(i)) gfx::spr(gfx::icon(seasonIcon(i)), x + 2, y + 2, 1.0f);
       else gfx::spr(gfx::icon(IC_LOCK), x + 2, y + 2, 1.0f, HEX(C_BORDER), plat::BLIT_TINT);
     }
   }
   int found = 0;
-  for (int i = 0; i < n; ++i) found += (g.catTab == 0 ? spellFound(i) : enemyFound(i)) ? 1 : 0;
+  for (int i = 0; i < n; ++i) found += (g.catTab == 0 ? spellFound(i) : (g.catTab == 1 ? enemyFound(i) : (g.catTab == 2 ? clothUnlocked(i) : musicUnlocked(i)))) ? 1 : 0;
   char b[48]; snprintf(b, sizeof b, "%d/%d", found, n);
   gfx::textC(b, 160, 176, C_DIM);
-  gfx::textC("L/R: TAB   X/Y: LORE   B: BACK", 160, 222, C_DIM);
+  gfx::textC(g.catTab == 3 ? T(S_music_play) : "L/R: TAB   X/Y: LORE   B: BACK", 160, 222, C_DIM);
+}
+
+// ---------------------------------------------------------------------------------------------- achievements / lifetime stats
+static const StrId ACH_NAME[ACH_COUNT] = {
+  S_ach_season_forest, S_ach_season_desert, S_ach_season_snow, S_ach_season_mountain, S_ach_season_eclipse,
+  S_ach_kills_1000, S_ach_kills_10000, S_ach_kills_100000,
+  S_ach_catalog_forest, S_ach_catalog_desert, S_ach_catalog_snow, S_ach_catalog_mountain, S_ach_catalog_eclipse,
+  S_ach_full_catalog, S_ach_little_dummy, S_ach_abyss_veteran, S_ach_touch_grass,
+  S_ach_batman, S_ach_joker, S_ach_terraria, S_ach_mario, S_ach_iron_man
+};
+static const StrId ACH_DESC[ACH_COUNT] = {
+  S_ach_season_forest_desc, S_ach_season_desert_desc, S_ach_season_snow_desc, S_ach_season_mountain_desc, S_ach_season_eclipse_desc,
+  S_ach_kills_1000_desc, S_ach_kills_10000_desc, S_ach_kills_100000_desc,
+  S_ach_catalog_forest_desc, S_ach_catalog_desert_desc, S_ach_catalog_snow_desc, S_ach_catalog_mountain_desc, S_ach_catalog_eclipse_desc,
+  S_ach_full_catalog_desc, S_ach_little_dummy_desc, S_ach_abyss_veteran_desc, S_ach_touch_grass_desc,
+  S_ach_batman_desc, S_ach_joker_desc, S_ach_terraria_desc, S_ach_mario_desc, S_ach_iron_man_desc
+};
+void updAchievements(const Input& in) {
+  if (pressed(in, plat::BTN_DOWN)) g.achSel = minT(ACH_COUNT - 1, g.achSel + 1);
+  if (pressed(in, plat::BTN_UP)) g.achSel = maxT(0, g.achSel - 1);
+  for (int row = 0; row < 6; ++row)
+    if (inR(in, 8, 24 + row * 28, 304, 26)) g.achSel = minT(ACH_COUNT - 1, g.achScroll + row);
+  if (pressed(in, plat::BTN_B) || inR(in, 0, 210, BOT_W, 30)) { go(SC_MENU); return; }
+  const int row = g.achSel;
+  if (row < g.achScroll) g.achScroll = row;
+  if (row >= g.achScroll + 6) g.achScroll = row - 5;
+  g.achScroll = clampT(g.achScroll, 0, ACH_COUNT - 6);
+}
+void drawAchievementsTop() {
+  gfx::rect(0, 0, TOP_W, TOP_H, C_VOID);
+  gfx::textC(T(S_ach_title), 200, 10, C_GOLD, 2);
+  static const StrId labels[9] = {S_stat_games, S_stat_wins, S_stat_losses, S_stat_kills, S_stat_picks, S_stat_casts, S_stat_upgrades, S_stat_throws, S_stat_time};
+  char val[32];
+  const u32 stats[8] = {g.save.gamesPlayed, g.save.runsWon, g.save.runsLost, g.save.totalKills,
+                        g.save.spellsAcquired, g.save.spellsCasted, g.save.spellUpgrades, g.save.weaponThrows};
+  for (int i = 0; i < 9; ++i) {
+    const int x = 8 + (i & 1) * 196, y = 30 + (i >> 1) * 28;
+    gfx::panel(x, y, 188, 24, C_PANEL, C_BORDER);
+    gfx::text(T(labels[i]), x + 6, y + 4, C_DIM);
+    if (i == 8) snprintf(val, sizeof val, "%lu:%02lu", (unsigned long)(g.save.playTimeSeconds / 3600),
+                         (unsigned long)((g.save.playTimeSeconds / 60) % 60));
+    else snprintf(val, sizeof val, "%lu", (unsigned long)stats[i]);
+    gfx::textR(val, x + 182, y + 4, C_TEXT);
+  }
+  const int id = clampT(g.achSel, 0, ACH_COUNT - 1);
+  u32 current, target; achievementProgress(g.save, id, current, target);
+  gfx::text(T(ACH_NAME[id]), 12, 172, achievementUnlocked(g.save, id) ? (u32)C_GREEN : (u32)C_GOLD, 2);
+  gfx::textWrap(T(ACH_DESC[id]), 12, 190, 376, C_TEXT, 1, 2);
+  snprintf(val, sizeof val, "%s  %lu/%lu", T(achievementUnlocked(g.save, id) ? S_ach_unlocked : S_ach_locked),
+           (unsigned long)current, (unsigned long)target);
+  gfx::text(val, 12, 228, C_DIM);
+}
+void drawAchievementsBot() {
+  gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
+  header(T(S_ach_title));
+  for (int row = 0; row < 6; ++row) {
+    const int id = g.achScroll + row, y = 24 + row * 28;
+    if (id >= ACH_COUNT) break;
+    const bool done = achievementUnlocked(g.save, id), selected = id == g.achSel;
+    gfx::panel(8, y, 304, 25, selected ? (u32)0x3A2F5C : (u32)C_PANEL,
+               selected ? (u32)C_GOLD : (done ? (u32)C_GREEN : (u32)C_BORDER));
+    gfx::spr(gfx::icon(IC_TROPHY), 12, y + 5, 1.0f, done ? (u32)C_GREEN : (u32)C_DIM,
+             done ? plat::BLIT_TINT : plat::BLIT_PLAIN);
+    gfx::text(T(ACH_NAME[id]), 30, y + 7, done ? (u32)C_GREEN : (u32)C_TEXT);
+    u32 current, target; achievementProgress(g.save, id, current, target);
+    char progress[24]; snprintf(progress, sizeof progress, "%lu/%lu", (unsigned long)current, (unsigned long)target);
+    gfx::textR(progress, 306, y + 7, done ? (u32)C_GREEN : (u32)C_GOLD);
+  }
+  gfx::textC(T(S_ach_hint), 160, 222, C_DIM);
 }
 
 // ---------------------------------------------------------------------------------------------- options / credits
@@ -437,7 +556,8 @@ void drawGameBot() {
       if (s.points > 0) { gfx::panel(272, y + 2, 34, 24, C_GREEN, C_BORDER); gfx::textC("+", 289, y + 8, C_VOID, 1); }
     }
     button(60, 184, 200, 32, T(S_continue), g.allocSel == ST_COUNT);
-    gfx::textC(T(S_bank), 160, 222, C_DIM);
+    char bank[64]; snprintf(bank, sizeof bank, "%s   %s", Tn(S_stores_left, s.bankStores), Tn(S_use_stored, s.bankedPoints));
+    gfx::textC(bank, 160, 222, C_DIM);
     return;
   }
   if (s.phase == PH_SPELL) {
@@ -573,6 +693,8 @@ void updGame(const Input& in, float dt) {
       if (pressed(in, plat::BTN_DOWN)) g.allocSel = (g.allocSel + 1) % (ST_COUNT + 1);
       if (pressed(in, plat::BTN_UP)) g.allocSel = (g.allocSel + ST_COUNT) % (ST_COUNT + 1);
       bool cont = pressed(in, plat::BTN_B) || inR(in, 60, 184, 200, 32);
+      if (pressed(in, plat::BTN_X)) simStorePoints(s);
+      if (pressed(in, plat::BTN_Y)) simUseStoredPoints(s);
       if (pressed(in, plat::BTN_A)) { if (g.allocSel == ST_COUNT) cont = true; else simSpend(s, g.allocSel); }
       for (int i = 0; i < ST_COUNT; ++i) if (inR(in, 8, 26 + i * 30, 304, 28)) { g.allocSel = i; if (in.tx > 268) simSpend(s, i); }
       if (cont) { simFinishAlloc(s); g.offerSel = 0; }
@@ -629,6 +751,7 @@ bool gameFrame(const Input& in, float dt) {
     case SC_CUSTOM: updCustom(in); break;
     case SC_GAME: updGame(in, dt); break;
     case SC_CATALOG: updCatalog(in); break;
+    case SC_ACHIEVEMENTS: updAchievements(in); break;
     case SC_OPTIONS: updOptions(in); break;
     case SC_CREDITS: {
       if (inR(in, 128, 150, 64, 60)) {
@@ -659,6 +782,7 @@ void gameDraw() {
     case SC_CUSTOM: drawCustomTop(); break;
     case SC_GAME: drawGameTop(); break;
     case SC_CATALOG: drawCatalogTop(); break;
+    case SC_ACHIEVEMENTS: drawAchievementsTop(); break;
     case SC_OPTIONS: drawOptionsTop(); break;
     case SC_CREDITS: drawCreditsTop(); break;
   }
@@ -671,6 +795,7 @@ void gameDraw() {
     case SC_CUSTOM: drawCustomBot(); break;
     case SC_GAME: drawGameBot(); break;
     case SC_CATALOG: drawCatalogBot(); break;
+    case SC_ACHIEVEMENTS: drawAchievementsBot(); break;
     case SC_OPTIONS: drawOptionsBot(); break;
     case SC_CREDITS:
       gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);

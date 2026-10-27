@@ -33,7 +33,7 @@ static bool validV1(const SaveDataV1& t) {
       t.lang < LANG_COUNT && t.hat < 5 && t.face < 5 && t.color < 6 && t.lastWeapon < 4;
 }
 
-// Previous format: FPS counter option and 138 spell discoveries.
+// Version 2 added the FPS option and a 138th spell discovery.
 struct SaveDataV2 {
   u32 magic; u16 version; u16 size; u32 crc;
   u8 lang, musicVol, sfxVol, fps30;
@@ -53,6 +53,26 @@ static bool validV2(const SaveDataV2& t) {
       t.lang < LANG_COUNT && t.hat < 5 && t.face < 5 && t.color < 6 && t.lastWeapon < 4;
 }
 
+// Version 3 is the current 141-spell record before lifetime counters were added.
+struct SaveDataV3 {
+  u32 magic; u16 version; u16 size; u32 crc;
+  u8 lang, musicVol, sfxVol, fps30;
+  u8 showFps;
+  u8 hat, face, color, lastWeapon;
+  u8 unlockAll, pad0, pad1, pad2;
+  u8 levelCleared[SEA_COUNT]; u8 pad3[3];
+  u16 bestWave[SEA_COUNT]; u16 pad4[3];
+  u16 spellFound[141];
+  u16 enemyKills[NUM_ENEMIES];
+  u8 enemySeen[NUM_ENEMIES + 3];
+};
+static_assert(sizeof(SaveDataV3) == 412, "version-3 save layout changed");
+static u32 calcV3(const SaveDataV3& s) { return crc32((const u8*)&s + 12, sizeof(SaveDataV3) - 12); }
+static bool validV3(const SaveDataV3& t) {
+  return t.magic == SAVE_MAGIC && t.version == 3 && t.size == sizeof(SaveDataV3) && t.crc == calcV3(t) &&
+      t.lang < LANG_COUNT && t.hat < 5 && t.face < 5 && t.color < 6 && t.lastWeapon < 4;
+}
+
 static void migrateV1(SaveData& s, const SaveDataV1& old) {
   saveDefaults(s);
   s.lang = old.lang; s.musicVol = old.musicVol; s.sfxVol = old.sfxVol; s.fps30 = old.fps30;
@@ -69,10 +89,21 @@ static void migrateV2(SaveData& s, const SaveDataV2& old) {
   s.hat = old.hat; s.face = old.face; s.color = old.color; s.lastWeapon = old.lastWeapon; s.unlockAll = old.unlockAll;
   memcpy(s.levelCleared, old.levelCleared, sizeof s.levelCleared);
   memcpy(s.bestWave, old.bestWave, sizeof s.bestWave);
-  memcpy(s.spellFound, old.spellFound, sizeof old.spellFound); // new spell slots remain zero
+  memcpy(s.spellFound, old.spellFound, sizeof old.spellFound); // later spell slots remain zero
   memcpy(s.enemyKills, old.enemyKills, sizeof s.enemyKills);
   memcpy(s.enemySeen, old.enemySeen, sizeof s.enemySeen);
 }
+static void migrateV3(SaveData& s, const SaveDataV3& old) {
+  saveDefaults(s);
+  s.lang = old.lang; s.musicVol = old.musicVol; s.sfxVol = old.sfxVol; s.fps30 = old.fps30; s.showFps = old.showFps;
+  s.hat = old.hat; s.face = old.face; s.color = old.color; s.lastWeapon = old.lastWeapon; s.unlockAll = old.unlockAll;
+  memcpy(s.levelCleared, old.levelCleared, sizeof s.levelCleared);
+  memcpy(s.bestWave, old.bestWave, sizeof s.bestWave);
+  memcpy(s.spellFound, old.spellFound, sizeof old.spellFound);
+  memcpy(s.enemyKills, old.enemyKills, sizeof s.enemyKills);
+  memcpy(s.enemySeen, old.enemySeen, sizeof s.enemySeen);
+}
+
 bool saveLoad(SaveData& s) {
   u8 raw[sizeof(SaveData)] = {}; size_t got = 0;
   if (plat::storageRead("save.bin", raw, sizeof raw, &got)) {
@@ -82,6 +113,10 @@ bool saveLoad(SaveData& s) {
           t.lang < LANG_COUNT && t.hat < 5 && t.face < 5 && t.color < 6 && t.lastWeapon < 4) {
         s = t; return true;
       }
+    }
+    if (got == sizeof(SaveDataV3)) {
+      SaveDataV3 old; memcpy(&old, raw, sizeof old);
+      if (validV3(old)) { migrateV3(s, old); (void)saveStore(s); return true; }
     }
     if (got == sizeof(SaveDataV2)) {
       SaveDataV2 old; memcpy(&old, raw, sizeof old);
@@ -103,4 +138,52 @@ bool seasonUnlocked(const SaveData& s, int sea) { return s.unlockAll || sea == 0
 bool levelUnlocked(const SaveData& s, int sea, int lv) {
   if (!seasonUnlocked(s, sea)) return false;
   return s.unlockAll || lv == 0 || (s.levelCleared[sea] & (1 << (lv - 1)));
+}
+
+static u32 countSeasonCatalog(const SaveData& s, int season, u32& target) {
+  u32 found = 0; target = 0;
+  for (int i = 0; i < NUM_SPELLS; ++i) if (SPELLS[i].sc == SC_SEASON && SPELLS[i].season == season) {
+    ++target; if (s.spellFound[i] > 0) ++found;
+  }
+  for (int i = 0; i < NUM_ENEMIES; ++i) if (ENEMIES[i].season == season) {
+    ++target; if (s.enemySeen[i]) ++found;
+  }
+  return found;
+}
+void achievementProgress(const SaveData& s, int id, u32& current, u32& target) {
+  current = 0; target = 1;
+  if (id >= ACH_SEASON_FOREST && id <= ACH_SEASON_ECLIPSE) {
+    const int sea = id - ACH_SEASON_FOREST;
+    const u8 bits = s.levelCleared[sea] & 7;
+    current = (u32)((bits & 1) != 0) + (u32)((bits & 2) != 0) + (u32)((bits & 4) != 0);
+    target = 3;
+  } else if (id >= ACH_KILLS_1000 && id <= ACH_KILLS_100000) {
+    static const u32 goals[3] = {1000, 10000, 100000};
+    target = goals[id - ACH_KILLS_1000]; current = s.totalKills < target ? s.totalKills : target;
+  } else if (id >= ACH_CATALOG_FOREST && id <= ACH_CATALOG_ECLIPSE) {
+    current = countSeasonCatalog(s, id - ACH_CATALOG_FOREST, target);
+  } else if (id == ACH_FULL_CATALOG) {
+    for (int i = 0; i < NUM_SPELLS; ++i) if (s.spellFound[i]) ++current;
+    for (int i = 0; i < NUM_ENEMIES; ++i) if (s.enemySeen[i]) ++current;
+    target = NUM_SPELLS + NUM_ENEMIES;
+  } else if (id >= ACH_LITTLE_DUMMY && id <= ACH_TOUCH_GRASS) {
+    static const u32 hours[3] = {1, 10, 50};
+    target = hours[id - ACH_LITTLE_DUMMY] * 3600;
+    current = s.playTimeSeconds < target ? s.playTimeSeconds : target;
+  } else if (id >= ACH_CLOTH_BATMAN && id <= ACH_CLOTH_IRONMAN) {
+    switch (id) {
+      case ACH_CLOTH_BATMAN: current = s.playTimeSeconds; target = 3600; break;
+      case ACH_CLOTH_JOKER: current = s.playTimeSeconds; target = 10 * 3600; break;
+      case ACH_CLOTH_TERRARIA: current = s.playTimeSeconds; target = 50 * 3600; break;
+      case ACH_CLOTH_MARIO: current = s.totalKills; target = 1000; break;
+      default:
+        for (int i = 0; i < NUM_SPELLS; ++i) if (s.spellFound[i]) ++current;
+        for (int i = 0; i < NUM_ENEMIES; ++i) if (s.enemySeen[i]) ++current;
+        target = NUM_SPELLS + NUM_ENEMIES; break;
+    }
+    if (current > target) current = target;
+  }
+}
+bool achievementUnlocked(const SaveData& s, int id) {
+  u32 current, target; achievementProgress(s, id, current, target); return current >= target;
 }

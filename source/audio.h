@@ -7,6 +7,7 @@ enum { RATE = 22050 };
 void init();
 void sfx(int id);
 void musicSet(int season, float intensity);   // season 0..4, or -1 for the menu theme; intensity 0..1
+void musicPreview(int season);                 // catalog preview for an unlocked season track
 void setVolumes(int music, int sfx);          // 0..100
 void mix(s16* out, int frames);               // called by the platform backend
 }
