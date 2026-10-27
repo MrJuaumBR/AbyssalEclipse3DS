@@ -1,0 +1,5394 @@
+{
+  "LANGS": {
+    "en": {
+      "nav_menu": "MENU",
+      "nav_campaign": "CAMPAIGN",
+      "nav_endless": "ENDLESS",
+      "nav_custom": "CUSTOMIZE",
+      "nav_weapon": "WEAPON",
+      "nav_game": "IN-GAME",
+      "nav_catalog": "CATALOG",
+      "nav_options": "OPTIONS",
+      "tagline": "SURVIVE THE ABYSS.",
+      "version": "v0.1 BETA",
+      "s_forest": "FOREST",
+      "s_desert": "DESERT",
+      "s_snow": "SNOW",
+      "s_mountain": "MOUNTAIN",
+      "s_eclipse": "ECLIPSE",
+      "camp_title": "CAMPAIGN / SEASON SELECT",
+      "play": "PLAY",
+      "soon": "SOON",
+      "season_locked": "SEASON LOCKED",
+      "choose_weapon_btn": "CHOOSE WEAPON",
+      "camp_note": "DPAD: SEASONS <->. UP/DOWN: LEVELS. A: PLAY.",
+      "waves_n": "{n} WAVES",
+      "locked": "LOCKED",
+      "unlocked": "UNLOCKED",
+      "lvl_1_1": "VERDANT PATH",
+      "lvl_1_2": "DEEP THICKET",
+      "lvl_1_3": "HEARTWOOD",
+      "endless_title": "ENDLESS MODE",
+      "play_endless": "PLAY ENDLESS",
+      "best": "BEST",
+      "elements": "ELEMENTS",
+      "wave": "WAVE",
+      "gim_forest": "THORN BRAMBLES BLOCK SHOTS AND SLOW ALL MOVEMENT.",
+      "hat": "HAT",
+      "face": "FACE",
+      "color": "COLOR",
+      "cosmetic": "COSMETIC ONLY (DOES NOT AFFECT GAMEPLAY)",
+      "hat_helm": "KNIGHT HELM",
+      "hat_wizard": "WIZARD HAT",
+      "hat_leaf": "LEAF HOOD",
+      "hat_crown": "TINY CROWN",
+      "hat_none": "NONE",
+      "hs_helm": "HELM",
+      "hs_wizard": "WIZARD",
+      "hs_leaf": "LEAF",
+      "hs_crown": "CROWN",
+      "hs_none": "NONE",
+      "face_beard": "BEARD",
+      "face_glasses": "GLASSES",
+      "face_scar": "SCAR",
+      "face_freckles": "FRECKLES",
+      "face_none": "NONE",
+      "col_red": "RED",
+      "col_blue": "BLUE",
+      "col_green": "GREEN",
+      "col_gold": "GOLD",
+      "col_gray": "GRAY",
+      "col_white": "WHITE",
+      "weapon_title": "CHOOSE YOUR WEAPON",
+      "start": "START",
+      "first_spell": "THIS BECOMES YOUR FIRST SPELL. DPAD TO BROWSE. A TO START.",
+      "w_dagger": "DAGGER",
+      "w_bow": "BOW",
+      "w_axe": "THROWING AXE",
+      "w_staff": "MAGE STAFF",
+      "dmg": "DMG",
+      "atk_speed": "ATK SPEED",
+      "range": "RANGE",
+      "dmg_line": "{v} DMG",
+      "spd_line": "{v} SPD",
+      "rng_line": "{v} RANGE",
+      "fire_dagger": "RAPID KNIVES AT THE NEAREST FOE.",
+      "fire_bow": "A LONG ARROW IN A STRAIGHT LINE.",
+      "fire_axe": "A HEAVY AXE THAT ARCS OVER ITS TARGET.",
+      "fire_staff": "A SLOW ORB THAT HITS VERY HARD.",
+      "lvm_low": "LOW",
+      "lvm_normal": "NORMAL",
+      "lvm_high": "HIGH",
+      "lvm_very_high": "VERY HIGH",
+      "lvm_touch": "TOUCH",
+      "lvf_very_high": "VERY HIGH",
+      "lvf_normal": "NORMAL",
+      "lvf_low": "LOW",
+      "lvf_very_low": "VERY LOW",
+      "lvf_very_slow": "VERY SLOW",
+      "lvf_slow": "SLOW",
+      "lvf_fast": "FAST",
+      "lvf_very_fast": "VERY FAST",
+      "lvf_stationary": "STATIONARY",
+      "lvf_normal_burst": "NORMAL (BURST)",
+      "tab_spells": "SPELLS",
+      "tab_char": "CHARACTER",
+      "tab_run": "RUN",
+      "st_str": "STRENGTH",
+      "st_str_d": "DAMAGE, PROJECTILE SIZE",
+      "st_str_e": "+8% DMG, +2% SIZE",
+      "st_res": "RESISTANCE",
+      "st_res_d": "LIFE, DAMAGE REDUCTION, DEBUFF RESISTANCE",
+      "st_res_e": "+6 HP, +2% REDUCTION",
+      "st_spd": "SPEED",
+      "st_spd_d": "MOVEMENT SPEED, ATTACK SPEED",
+      "st_spd_e": "+4% MOVE, +4% ATK SPEED",
+      "st_luck": "LUCK",
+      "st_luck_d": "CRITICAL HITS, EXP DROPS, RARE SPELL ODDS",
+      "st_luck_e": "+3% CRIT, +8% EXP, +2% RARE",
+      "st_int": "INTELLIGENCE",
+      "st_int_d": "COOLDOWN REDUCTION, AREA OF EFFECT",
+      "st_int_e": "-4% COOLDOWN, +6% AOE",
+      "spend": "SPEND POINTS",
+      "points_avail": "POINTS AVAILABLE",
+      "bank": "BANK",
+      "continue": "CONTINUE",
+      "wave_cleared": "WAVE CLEARED",
+      "choose_spell": "CHOOSE A SPELL",
+      "choose_one": "CHOOSE ONE",
+      "plevel": "LEVEL",
+      "season": "SEASON",
+      "level": "LEVEL",
+      "enemies_killed": "ENEMIES KILLED",
+      "time": "TIME",
+      "spells_found": "SPELLS FOUND",
+      "best_wave": "BEST WAVE (ENDLESS)",
+      "boss": "BOSS",
+      "no_spells": "NO SPELLS YET",
+      "no_spells_p": "CLEAR A WAVE TO FIND ONE.",
+      "build_full": "BUILD FULL - UPGRADE A SPELL",
+      "game_note": "USE THE DEBUG BUTTONS BELOW TO TRIGGER A WAVE END",
+      "dbg_wave": "SIMULATE WAVE END",
+      "dbg_boss": "BOSS FIGHT",
+      "dbg_force": "FORCE SPELL",
+      "dbg_clear": "CLEAR SPELLS",
+      "dbg_death": "SIMULATE DEATH",
+      "dbg_reset": "RESET",
+      "coming_soon": "COMING SOON",
+      "level_locked": "LEVEL LOCKED",
+      "empty_slot": "EMPTY SLOT",
+      "died": "YOU DIED - RUN RESET",
+      "finish_phase": "FINISH THE CURRENT PHASE",
+      "boss_off": "BOSS DISMISSED",
+      "build_full_t": "BUILD FULL (12 / 12)",
+      "spells_cleared": "SPELLS CLEARED",
+      "added": "ADDED: ",
+      "toast_reset": "RESET",
+      "catalog": "CATALOG",
+      "sub_spells": "SPELLS",
+      "sub_bestiary": "BESTIARY",
+      "n_spells_cat": "{n} SPELLS CATALOGED",
+      "n_enemies_cat": "{n} ENEMIES CATALOGED",
+      "element": "ELEMENT",
+      "type": "TYPE",
+      "activation": "ACTIVATION",
+      "stats": "STATS",
+      "special": "SPECIAL",
+      "hp": "HP",
+      "spd": "SPD",
+      "atkspd_s": "ATK SPD",
+      "lore": "LORE",
+      "found": "FOUND {n} TIMES",
+      "r_common": "COMMON",
+      "r_rare": "RARE",
+      "r_epic": "EPIC",
+      "r_legendary": "LEGENDARY",
+      "el_water": "WATER",
+      "el_fire": "FIRE",
+      "el_earth": "EARTH",
+      "el_air": "AIR",
+      "el_blood": "BLOOD",
+      "el_lightning": "LIGHTNING",
+      "act_aoe": "AREA OF EFFECT",
+      "act_self": "SELF",
+      "act_touch": "TOUCH",
+      "ty_damage": "DAMAGE",
+      "ty_status": "STATUS",
+      "ty_weapon": "WEAPON",
+      "scope": "AVAILABILITY",
+      "sc_global": "GLOBAL",
+      "sc_element": "SEASONS",
+      "sc_only": "ONLY",
+      "lang_label": "LANGUAGE",
+      "lang_en": "ENGLISH",
+      "lang_pt": "PORTUGUÊS (BR)",
+      "volume_sfx": "SFX VOLUME",
+      "volume_music": "MUSIC VOLUME",
+      "credits": "CREDITS",
+      "back_menu": "BACK TO MENU",
+      "back": "BACK",
+      "lang_selected": "LANGUAGE SELECTED",
+      "changes_instant": "CHANGES APPLY INSTANTLY",
+      "cr_1": "MRJUAUMBR",
+      "cr_2": "CLAUDE, DEEPSEEK, MANUS",
+      "cr_3": "IMAGE MOCKUP GENERATION",
+      "cr_4": "INTERACTIVE MOCKUP GENERATION",
+      "thanks": "THANK YOU FOR PLAYING",
+      "spell": {
+        "IRON WILL": {
+          "n": "IRON WILL",
+          "d": "+12 MAX HP.",
+          "s": [
+            "+12 HP"
+          ]
+        },
+        "QUICKSTEP": {
+          "n": "QUICKSTEP",
+          "d": "+8% MOVE SPEED.",
+          "s": [
+            "+8% SPD"
+          ]
+        },
+        "FOCUS STONE": {
+          "n": "FOCUS STONE",
+          "d": "-10% ATTACK COOLDOWN.",
+          "s": [
+            "-10% CD"
+          ]
+        },
+        "LUCKY FANG": {
+          "n": "LUCKY FANG",
+          "d": "+8% CRIT CHANCE.",
+          "s": [
+            "+8% CRIT"
+          ]
+        },
+        "FLINT SHARD": {
+          "n": "FLINT SHARD",
+          "d": "+2 FLAT DAMAGE PER THROW.",
+          "s": [
+            "+2 DMG"
+          ]
+        },
+        "WIND CHIME": {
+          "n": "WIND CHIME",
+          "d": "NEARBY ENEMIES SLOWED 10%.",
+          "s": [
+            "-10% SPD",
+            "48PX"
+          ]
+        },
+        "SAP GLAND": {
+          "n": "SAP GLAND",
+          "d": "KILLS HEAL 1 HP. MAX 1 PER 2S.",
+          "s": [
+            "+1 HP/KILL"
+          ]
+        },
+        "EMBER CORE": {
+          "n": "EMBER CORE",
+          "d": "ON KILL, A SMALL FIRE BURST.",
+          "s": [
+            "8 DMG",
+            "40PX"
+          ]
+        },
+        "SPARK TIP": {
+          "n": "SPARK TIP",
+          "d": "15% CHANCE ON HIT FOR +3 LIGHTNING DMG.",
+          "s": [
+            "15%",
+            "+3 DMG"
+          ]
+        },
+        "TOXIC SPORE": {
+          "n": "TOXIC SPORE",
+          "d": "ON KILL, POISON CLOUD DEALS 5 DMG OVER 3S.",
+          "s": [
+            "5 DMG",
+            "3S"
+          ]
+        },
+        "THORN MAIL": {
+          "n": "THORN MAIL",
+          "d": "REFLECT 40% CONTACT DAMAGE.",
+          "s": [
+            "40% REFLECT"
+          ]
+        },
+        "HUNTER'S EYE": {
+          "n": "HUNTER'S EYE",
+          "d": "+15% CRIT CHANCE, +25% CRIT DMG.",
+          "s": [
+            "+15% CRIT",
+            "+25% CD"
+          ]
+        },
+        "STATIC FIELD": {
+          "n": "STATIC FIELD",
+          "d": "AURA DEALS 1 DMG EVERY 0.5S.",
+          "s": [
+            "1/0.5S",
+            "48PX"
+          ]
+        },
+        "ECHO CHAMBER": {
+          "n": "ECHO CHAMBER",
+          "d": "EVERY 5TH THROW FIRES A FULL RING.",
+          "s": [
+            "5TH",
+            "360°"
+          ]
+        },
+        "FROST LENS": {
+          "n": "FROST LENS",
+          "d": "20% CHANCE ON HIT TO FREEZE 1S.",
+          "s": [
+            "20%",
+            "1S"
+          ]
+        },
+        "RICOCHET": {
+          "n": "RICOCHET",
+          "d": "THROWS BOUNCE TO A NEARBY ENEMY.",
+          "s": [
+            "1 BOUNCE",
+            "50% DMG"
+          ]
+        },
+        "TIDAL FORCE": {
+          "n": "TIDAL FORCE",
+          "d": "THROWS PIERCE UP TO 3 ENEMIES.",
+          "s": [
+            "PIERCE 3"
+          ]
+        },
+        "PACT OF IRON": {
+          "n": "PACT OF IRON",
+          "d": "+3 RES, +25 HP, -15% MOVE SPD.",
+          "s": [
+            "+3 RES",
+            "+25 HP",
+            "-15% SPD"
+          ]
+        },
+        "ELEMENTAL CORE": {
+          "n": "ELEMENTAL CORE",
+          "d": "WEAPON CYCLES ELEMENT EVERY 8S, +15% DMG.",
+          "s": [
+            "+15% DMG",
+            "8S"
+          ]
+        },
+        "GRAVITY WELL": {
+          "n": "GRAVITY WELL",
+          "d": "NEARBY ENEMIES ARE PULLED TOWARD YOU.",
+          "s": [
+            "PULL",
+            "64PX"
+          ]
+        },
+        "ECLIPSE CROWN": {
+          "n": "ECLIPSE CROWN",
+          "d": "ALL NUMERIC SPELL EFFECTS +30%.",
+          "s": [
+            "+30% ALL"
+          ]
+        },
+        "WORLD ENDER": {
+          "n": "WORLD ENDER",
+          "d": "KILLS HAVE 10% CHANCE TO CHAIN-KILL A NEARBY ENEMY.",
+          "s": [
+            "10% CHAIN"
+          ]
+        },
+        "AQUA VEIL": {
+          "n": "AQUA VEIL",
+          "d": "+2 RES.",
+          "s": [
+            "+2 RES"
+          ]
+        },
+        "BRINE TOUCH": {
+          "n": "BRINE TOUCH",
+          "d": "+10% DMG VS SLOWED ENEMIES.",
+          "s": [
+            "+10% DMG"
+          ]
+        },
+        "BUBBLE BURST": {
+          "n": "BUBBLE BURST",
+          "d": "ON HIT, A SMALL WATER BURST.",
+          "s": [
+            "6 DMG",
+            "32PX"
+          ]
+        },
+        "SPLASH GUARD": {
+          "n": "SPLASH GUARD",
+          "d": "-10% DAMAGE TAKEN.",
+          "s": [
+            "-10% TAKEN"
+          ]
+        },
+        "TIDE RING": {
+          "n": "TIDE RING",
+          "d": "NEARBY ENEMIES SLOWED 25%.",
+          "s": [
+            "-25% SPD",
+            "64PX"
+          ]
+        },
+        "RIPTIDE": {
+          "n": "RIPTIDE",
+          "d": "THROWS KNOCK ENEMIES BACK.",
+          "s": [
+            "KNOCKBACK"
+          ]
+        },
+        "FROSTBITE": {
+          "n": "FROSTBITE",
+          "d": "HITS SLOW 20% FOR 2S.",
+          "s": [
+            "-20% SPD",
+            "2S"
+          ]
+        },
+        "TIDAL SHIELD": {
+          "n": "TIDAL SHIELD",
+          "d": "A SHIELD ABSORBS 20 DAMAGE EACH WAVE.",
+          "s": [
+            "20 SHIELD"
+          ]
+        },
+        "UNDERTOW": {
+          "n": "UNDERTOW",
+          "d": "DEFEATED ENEMIES SLOW NEARBY FOES.",
+          "s": [
+            "-30% SPD",
+            "2S"
+          ]
+        },
+        "DEEP CURRENT": {
+          "n": "DEEP CURRENT",
+          "d": "AURA DEALS 2 DMG/S AND SLOWS 15%.",
+          "s": [
+            "2 DPS",
+            "-15% SPD"
+          ]
+        },
+        "MIRROR POOL": {
+          "n": "MIRROR POOL",
+          "d": "20% CHANCE TO REFLECT A PROJECTILE.",
+          "s": [
+            "20% REFLECT"
+          ]
+        },
+        "WHIRLPOOL": {
+          "n": "WHIRLPOOL",
+          "d": "THROWS LEAVE A SPINNING VORTEX.",
+          "s": [
+            "3S",
+            "2 DPS"
+          ]
+        },
+        "RAIN DANCE": {
+          "n": "RAIN DANCE",
+          "d": "KILLS GRANT +2% MOVE SPEED. MAX +20%.",
+          "s": [
+            "+2%/KILL",
+            "MAX 20%"
+          ]
+        },
+        "PRESSURE POINT": {
+          "n": "PRESSURE POINT",
+          "d": "CRITS DEAL +40% DAMAGE.",
+          "s": [
+            "+40% CRIT"
+          ]
+        },
+        "ABYSSAL PACT": {
+          "n": "ABYSSAL PACT",
+          "d": "EVERY 10TH THROW IS A TIDAL WAVE.",
+          "s": [
+            "10TH",
+            "60 DMG"
+          ]
+        },
+        "EMBER TRAIL": {
+          "n": "EMBER TRAIL",
+          "d": "YOU LEAVE BURNING FOOTPRINTS.",
+          "s": [
+            "4 DPS",
+            "1S"
+          ]
+        },
+        "BLAZING FANG": {
+          "n": "BLAZING FANG",
+          "d": "+12% DMG VS BURNING ENEMIES.",
+          "s": [
+            "+12% DMG"
+          ]
+        },
+        "ASHEN WAKE": {
+          "n": "ASHEN WAKE",
+          "d": "KILLS LEAVE A BURNING CLOUD.",
+          "s": [
+            "3 DPS",
+            "2S"
+          ]
+        },
+        "SCORCH": {
+          "n": "SCORCH",
+          "d": "THROWS BURN FOR 2S.",
+          "s": [
+            "2 DPS",
+            "2S"
+          ]
+        },
+        "PYRE": {
+          "n": "PYRE",
+          "d": "DEFEATED BURNING ENEMIES EXPLODE.",
+          "s": [
+            "8 DMG",
+            "40PX"
+          ]
+        },
+        "CINDER CLOAK": {
+          "n": "CINDER CLOAK",
+          "d": "ENEMIES THAT TOUCH YOU BURN 3S.",
+          "s": [
+            "3 DPS",
+            "3S"
+          ]
+        },
+        "FLAME WHEEL": {
+          "n": "FLAME WHEEL",
+          "d": "THROWS ORBIT AROUND YOU.",
+          "s": [
+            "ORBIT",
+            "5 DPS"
+          ]
+        },
+        "HEAT SHOCK": {
+          "n": "HEAT SHOCK",
+          "d": "ON KILL, NEARBY ENEMIES TAKE 6 DMG.",
+          "s": [
+            "6 DMG",
+            "48PX"
+          ]
+        },
+        "SUNSPOT": {
+          "n": "SUNSPOT",
+          "d": "AURA DEALS 1 DMG/S.",
+          "s": [
+            "1 DPS",
+            "40PX"
+          ]
+        },
+        "WARMTH": {
+          "n": "WARMTH",
+          "d": "TAKE 15% LESS DAMAGE WHILE BURNING.",
+          "s": [
+            "-15% TAKEN"
+          ]
+        },
+        "MOLTEN CORE": {
+          "n": "MOLTEN CORE",
+          "d": "THROWS EXPLODE ON IMPACT.",
+          "s": [
+            "10 DMG",
+            "40PX"
+          ]
+        },
+        "INFERNO BRAND": {
+          "n": "INFERNO BRAND",
+          "d": "CRITS SET THE TARGET ABLAZE.",
+          "s": [
+            "4 DPS",
+            "3S"
+          ]
+        },
+        "FIRESTORM": {
+          "n": "FIRESTORM",
+          "d": "EVERY 6TH THROW CALLS A FIRE STORM.",
+          "s": [
+            "8 DMG",
+            "64PX"
+          ]
+        },
+        "SOLAR FLARE": {
+          "n": "SOLAR FLARE",
+          "d": "EVERY 8S, A FLARE BURNS THE WHOLE SCREEN.",
+          "s": [
+            "10 DMG",
+            "8S"
+          ]
+        },
+        "PHOENIX DOWN": {
+          "n": "PHOENIX DOWN",
+          "d": "ONCE PER RUN, REVIVE WITH 30% HP.",
+          "s": [
+            "1 REVIVE",
+            "30% HP"
+          ]
+        },
+        "STONE SKIN": {
+          "n": "STONE SKIN",
+          "d": "+2 RES, -5% MOVE SPEED.",
+          "s": [
+            "+2 RES",
+            "-5% SPD"
+          ]
+        },
+        "ROOT SNARE": {
+          "n": "ROOT SNARE",
+          "d": "HITS ROOT ENEMIES FOR 1S.",
+          "s": [
+            "ROOT 1S"
+          ]
+        },
+        "DUST CLOUD": {
+          "n": "DUST CLOUD",
+          "d": "ON KILL, DUST SLOWS NEARBY FOES.",
+          "s": [
+            "-20% ATK",
+            "48PX"
+          ]
+        },
+        "MOSS CLOAK": {
+          "n": "MOSS CLOAK",
+          "d": "REGEN 1 HP EVERY 8S.",
+          "s": [
+            "+1/8S"
+          ]
+        },
+        "BOULDER TOSS": {
+          "n": "BOULDER TOSS",
+          "d": "+25% DMG, -15% ATTACK SPEED.",
+          "s": [
+            "+25% DMG",
+            "-15% ATK"
+          ]
+        },
+        "ECHO STONE": {
+          "n": "ECHO STONE",
+          "d": "THROWS BOUNCE OFF WALLS.",
+          "s": [
+            "2 BOUNCES"
+          ]
+        },
+        "TREMBLE": {
+          "n": "TREMBLE",
+          "d": "EVERY 5TH THROW SHAKES THE GROUND.",
+          "s": [
+            "STUN .5S",
+            "48PX"
+          ]
+        },
+        "STURDY FRAME": {
+          "n": "STURDY FRAME",
+          "d": "SLOWS AND KNOCKBACK LAST 30% LESS.",
+          "s": [
+            "-30% DEBUFF"
+          ]
+        },
+        "CLAY GUARD": {
+          "n": "CLAY GUARD",
+          "d": "A CLAY FAMILIAR BLOCKS 1 HIT PER WAVE.",
+          "s": [
+            "1 BLOCK"
+          ]
+        },
+        "GAIA'S GIFT": {
+          "n": "GAIA'S GIFT",
+          "d": "+40 MAX HP, -10% MOVE SPEED.",
+          "s": [
+            "+40 HP",
+            "-10% SPD"
+          ]
+        },
+        "SPLIT STONE": {
+          "n": "SPLIT STONE",
+          "d": "THROWS SPLIT INTO 3 SHARDS.",
+          "s": [
+            "3 SHARDS",
+            "50% DMG"
+          ]
+        },
+        "AVALANCHE": {
+          "n": "AVALANCHE",
+          "d": "EVERY 8TH THROW DROPS BOULDERS.",
+          "s": [
+            "12 DMG",
+            "56PX"
+          ]
+        },
+        "MOUNTAIN'S WILL": {
+          "n": "MOUNTAIN'S WILL",
+          "d": "+3 RES, +20 HP.",
+          "s": [
+            "+3 RES",
+            "+20 HP"
+          ]
+        },
+        "PETRIFY": {
+          "n": "PETRIFY",
+          "d": "5% CHANCE TO STUN A FOE FOR 2S.",
+          "s": [
+            "5%",
+            "2S STUN"
+          ]
+        },
+        "TECTONIC": {
+          "n": "TECTONIC",
+          "d": "EVERY 12TH THROW SPLITS THE GROUND.",
+          "s": [
+            "20 DMG",
+            "80PX"
+          ]
+        },
+        "GALE STEP": {
+          "n": "GALE STEP",
+          "d": "+12% MOVE SPEED.",
+          "s": [
+            "+12% SPD"
+          ]
+        },
+        "FEATHER FALL": {
+          "n": "FEATHER FALL",
+          "d": "-20% DAMAGE FROM RANGED ATTACKS.",
+          "s": [
+            "-20% RANGED"
+          ]
+        },
+        "ZEPHYR BLADE": {
+          "n": "ZEPHYR BLADE",
+          "d": "+10% THROW SPEED.",
+          "s": [
+            "+10% SPD"
+          ]
+        },
+        "WHISPER": {
+          "n": "WHISPER",
+          "d": "+5% CRIT, +5% MOVE SPEED.",
+          "s": [
+            "+5% CRIT",
+            "+5% SPD"
+          ]
+        },
+        "CYCLONE": {
+          "n": "CYCLONE",
+          "d": "THROWS CURVE TOWARD THE NEAREST FOE.",
+          "s": [
+            "HOMING"
+          ]
+        },
+        "SONIC CRACK": {
+          "n": "SONIC CRACK",
+          "d": "HITS HAVE 10% CHANCE TO STUN.",
+          "s": [
+            "10%",
+            "0.5S"
+          ]
+        },
+        "TAILWIND": {
+          "n": "TAILWIND",
+          "d": "+15% ATTACK SPEED.",
+          "s": [
+            "+15% ATK"
+          ]
+        },
+        "VACUUM": {
+          "n": "VACUUM",
+          "d": "NEARBY ENEMIES DEAL 15% LESS DAMAGE.",
+          "s": [
+            "-15% DMG",
+            "56PX"
+          ]
+        },
+        "MIRAGE": {
+          "n": "MIRAGE",
+          "d": "15% CHANCE TO DODGE A HIT.",
+          "s": [
+            "15% DODGE"
+          ]
+        },
+        "UPDRAFT": {
+          "n": "UPDRAFT",
+          "d": "THROWS PIERCE 2 ENEMIES AND SPEED UP.",
+          "s": [
+            "PIERCE 2",
+            "+20% SPD"
+          ]
+        },
+        "SHATTER WIND": {
+          "n": "SHATTER WIND",
+          "d": "+20% DMG VS FROZEN OR STUNNED.",
+          "s": [
+            "+20% DMG"
+          ]
+        },
+        "STORMBREAK": {
+          "n": "STORMBREAK",
+          "d": "EVERY 7TH THROW RELEASES A GUST RING.",
+          "s": [
+            "10 DMG",
+            "64PX"
+          ]
+        },
+        "SKY DANCE": {
+          "n": "SKY DANCE",
+          "d": "EVERY 3RD THROW FIRES TWICE.",
+          "s": [
+            "3RD",
+            "2X"
+          ]
+        },
+        "TEMPEST": {
+          "n": "TEMPEST",
+          "d": "THROWS SUMMON LIGHTNING ON HIT.",
+          "s": [
+            "+8 DMG",
+            "CHAIN 2"
+          ]
+        },
+        "EYE OF THE STORM": {
+          "n": "EYE OF THE STORM",
+          "d": "+25% ATTACK SPEED, +10% MOVE SPEED.",
+          "s": [
+            "+25% ATK",
+            "+10% MOVE"
+          ]
+        },
+        "BLOOD PEBBLE": {
+          "n": "BLOOD PEBBLE",
+          "d": "1% LIFESTEAL ON ALL DAMAGE. CAP 1 HP/S.",
+          "s": [
+            "1% STEAL"
+          ]
+        },
+        "THIRST": {
+          "n": "THIRST",
+          "d": "+15% DMG VS WOUNDED ENEMIES.",
+          "s": [
+            "+15% DMG"
+          ]
+        },
+        "BLOOD SIGIL": {
+          "n": "BLOOD SIGIL",
+          "d": "+30% DMG, -25% MAX HP.",
+          "s": [
+            "+30% DMG",
+            "-25% HP"
+          ]
+        },
+        "CRIMSON PACT": {
+          "n": "CRIMSON PACT",
+          "d": "+40% DMG, ALL HEALING -50%.",
+          "s": [
+            "+40% DMG",
+            "-50% HEAL"
+          ]
+        },
+        "VAMPIRE TOUCH": {
+          "n": "VAMPIRE TOUCH",
+          "d": "3% LIFESTEAL. CAP 1 HP/S.",
+          "s": [
+            "3% STEAL"
+          ]
+        },
+        "RUPTURE": {
+          "n": "RUPTURE",
+          "d": "HITS CAUSE BLEED: 3 DPS FOR 3S.",
+          "s": [
+            "3 DPS",
+            "3S"
+          ]
+        },
+        "VEIN BURST": {
+          "n": "VEIN BURST",
+          "d": "ON KILL, BLOOD BURSTS FOR 8 DMG.",
+          "s": [
+            "8 DMG",
+            "48PX"
+          ]
+        },
+        "MARTYR": {
+          "n": "MARTYR",
+          "d": "TAKE 15% LESS DMG, DEAL 10% LESS DMG.",
+          "s": [
+            "-15% TAKEN",
+            "-10% DEALT"
+          ]
+        },
+        "LAST BREATH": {
+          "n": "LAST BREATH",
+          "d": "+50% DMG BELOW 30% HP.",
+          "s": [
+            "+50% DMG"
+          ]
+        },
+        "BLOOD MOON": {
+          "n": "BLOOD MOON",
+          "d": "AURA DEALS 3 DPS. KILLS IN IT HEAL 1 HP.",
+          "s": [
+            "3 DPS",
+            "+1 HP/KILL"
+          ]
+        },
+        "SANGUINE RITE": {
+          "n": "SANGUINE RITE",
+          "d": "EVERY 10 KILLS, GAIN +1 MAX HP.",
+          "s": [
+            "+1 HP/10K"
+          ]
+        },
+        "CRIMSON CHAIN": {
+          "n": "CRIMSON CHAIN",
+          "d": "CRITS HEAL 1 HP. CAP 1 PER SECOND.",
+          "s": [
+            "+1 HP/CRIT"
+          ]
+        },
+        "RED TIDE": {
+          "n": "RED TIDE",
+          "d": "AURA DEALS 2 DPS, HEALS 1 HP PER 4 KILLS.",
+          "s": [
+            "2 DPS",
+            "1HP/4K"
+          ]
+        },
+        "HEART OF GLASS": {
+          "n": "HEART OF GLASS",
+          "d": "-40% MAX HP, +60% DAMAGE.",
+          "s": [
+            "-40% HP",
+            "+60% DMG"
+          ]
+        },
+        "EXSANGUINATE": {
+          "n": "EXSANGUINATE",
+          "d": "8% CHANCE TO DEAL DOUBLE DMG AND HEAL 1 HP.",
+          "s": [
+            "8%",
+            "2X +1HP"
+          ]
+        },
+        "JOLT": {
+          "n": "JOLT",
+          "d": "+8% ATTACK SPEED.",
+          "s": [
+            "+8% ATK"
+          ]
+        },
+        "STATIC CLING": {
+          "n": "STATIC CLING",
+          "d": "HITS CHAIN 2 DMG TO A NEARBY FOE.",
+          "s": [
+            "+2 CHAIN"
+          ]
+        },
+        "STATIC BLOOM": {
+          "n": "STATIC BLOOM",
+          "d": "ON KILL, A STATIC BURST FOR 5 DMG.",
+          "s": [
+            "5 DMG",
+            "40PX"
+          ]
+        },
+        "SHOCK THERAPY": {
+          "n": "SHOCK THERAPY",
+          "d": "STUNNED ENEMIES TAKE +25% DAMAGE.",
+          "s": [
+            "+25% DMG"
+          ]
+        },
+        "OVERCHARGE": {
+          "n": "OVERCHARGE",
+          "d": "+20% DMG, -10% MAX HP.",
+          "s": [
+            "+20% DMG",
+            "-10% HP"
+          ]
+        },
+        "THUNDER STEP": {
+          "n": "THUNDER STEP",
+          "d": "+10% MOVE SPEED, LEAVE SPARKS.",
+          "s": [
+            "+10% SPD",
+            "2 DPS"
+          ]
+        },
+        "VOLT SHIELD": {
+          "n": "VOLT SHIELD",
+          "d": "ATTACKERS TAKE 4 DAMAGE.",
+          "s": [
+            "4 DMG"
+          ]
+        },
+        "ARC FLASH": {
+          "n": "ARC FLASH",
+          "d": "EVERY 6TH THROW STUNS NEARBY FOES.",
+          "s": [
+            "0.5S",
+            "56PX"
+          ]
+        },
+        "CHAIN LIGHTNING": {
+          "n": "CHAIN LIGHTNING",
+          "d": "CRITS CHAIN TO 2 ENEMIES.",
+          "s": [
+            "CHAIN 2",
+            "50% DMG"
+          ]
+        },
+        "CONDUCTOR": {
+          "n": "CONDUCTOR",
+          "d": "AURA DEALS 1 DMG EVERY 0.4S.",
+          "s": [
+            "1/0.4S",
+            "40PX"
+          ]
+        },
+        "STORMCALLER": {
+          "n": "STORMCALLER",
+          "d": "EVERY THROW LANDS A LIGHTNING BOLT.",
+          "s": [
+            "+6 DMG",
+            "30PX"
+          ]
+        },
+        "BALL LIGHTNING": {
+          "n": "BALL LIGHTNING",
+          "d": "THROWS ORBIT AND ZAP.",
+          "s": [
+            "ORBIT",
+            "3 DPS"
+          ]
+        },
+        "THUNDERHEAD": {
+          "n": "THUNDERHEAD",
+          "d": "+1 CHAIN ON ALL LIGHTNING EFFECTS.",
+          "s": [
+            "+1 CHAIN"
+          ]
+        },
+        "TEMPEST CROWN": {
+          "n": "TEMPEST CROWN",
+          "d": "EVERY 5TH THROW STRIKES 3 FOES.",
+          "s": [
+            "5TH",
+            "3 TARGETS"
+          ]
+        },
+        "THUNDER GOD": {
+          "n": "THUNDER GOD",
+          "d": "+30% LIGHTNING DMG, +15% ATK SPEED.",
+          "s": [
+            "+30% DMG",
+            "+15% ATK"
+          ]
+        },
+        "THORNBACK": {
+          "n": "THORNBACK",
+          "d": "REFLECT 60% CONTACT DAMAGE.",
+          "s": [
+            "60% REFLECT"
+          ]
+        },
+        "VERDANT GROWTH": {
+          "n": "VERDANT GROWTH",
+          "d": "+2 MAX HP PER WAVE CLEARED.",
+          "s": [
+            "+2 HP/WAVE"
+          ]
+        },
+        "CANOPY": {
+          "n": "CANOPY",
+          "d": "-25% DAMAGE FROM RANGED ATTACKS.",
+          "s": [
+            "-25% RANGED"
+          ]
+        },
+        "BRIAR TRAP": {
+          "n": "BRIAR TRAP",
+          "d": "HITS ROOT ENEMIES FOR 2S.",
+          "s": [
+            "ROOT 2S"
+          ]
+        },
+        "WILD HEART": {
+          "n": "WILD HEART",
+          "d": "+20% DMG AND +10% MOVE SPD THIS SEASON.",
+          "s": [
+            "+20% DMG",
+            "+10% SPD"
+          ]
+        },
+        "SUNBAKED": {
+          "n": "SUNBAKED",
+          "d": "+10% DAMAGE THIS SEASON.",
+          "s": [
+            "+10% DMG"
+          ]
+        },
+        "SCORCHING SANDS": {
+          "n": "SCORCHING SANDS",
+          "d": "AURA DEALS 2 DMG/S.",
+          "s": [
+            "2 DPS",
+            "48PX"
+          ]
+        },
+        "SANDSTORM": {
+          "n": "SANDSTORM",
+          "d": "EVERY 7TH THROW BLINDS NEARBY FOES.",
+          "s": [
+            "6 DMG",
+            "64PX"
+          ]
+        },
+        "PHARAOH'S CURSE": {
+          "n": "PHARAOH'S CURSE",
+          "d": "KILLED FOES LEAVE A CURSED MARK THAT EXPLODES.",
+          "s": [
+            "10 DMG",
+            "48PX"
+          ]
+        },
+        "ICE ARMOR": {
+          "n": "ICE ARMOR",
+          "d": "+3 RES, -5% MOVE SPEED.",
+          "s": [
+            "+3 RES",
+            "-5% SPD"
+          ]
+        },
+        "WHITEOUT": {
+          "n": "WHITEOUT",
+          "d": "NEARBY ENEMIES MISS 20% OF ATTACKS.",
+          "s": [
+            "20% MISS",
+            "56PX"
+          ]
+        },
+        "BLIZZARD": {
+          "n": "BLIZZARD",
+          "d": "AURA SLOWS 30% AND DEALS 1 DPS.",
+          "s": [
+            "-30% SPD",
+            "1 DPS"
+          ]
+        },
+        "PERMAFROST": {
+          "n": "PERMAFROST",
+          "d": "THROWS FREEZE FOR 1.5S.",
+          "s": [
+            "FREEZE 1.5S"
+          ]
+        },
+        "FROZEN HEART": {
+          "n": "FROZEN HEART",
+          "d": "IMMUNE TO SLOWS, +20% DAMAGE.",
+          "s": [
+            "IMMUNE SLOW",
+            "+20% DMG"
+          ]
+        },
+        "HIGH ALTITUDE": {
+          "n": "HIGH ALTITUDE",
+          "d": "+15% ATTACK RANGE.",
+          "s": [
+            "+15% RANGE"
+          ]
+        },
+        "ECHO PEAK": {
+          "n": "ECHO PEAK",
+          "d": "EVERY 4TH THROW FIRES TWICE.",
+          "s": [
+            "4TH",
+            "2X"
+          ]
+        },
+        "STONEHEART": {
+          "n": "STONEHEART",
+          "d": "+5 RES, -15% MOVE SPEED.",
+          "s": [
+            "+5 RES",
+            "-15% SPD"
+          ]
+        },
+        "LANDSLIDE": {
+          "n": "LANDSLIDE",
+          "d": "EVERY 8TH THROW DROPS BOULDERS.",
+          "s": [
+            "14 DMG",
+            "56PX"
+          ]
+        },
+        "SUMMIT'S EDGE": {
+          "n": "SUMMIT'S EDGE",
+          "d": "+35% DAMAGE, -20% MAX HP.",
+          "s": [
+            "+35% DMG",
+            "-20% HP"
+          ]
+        },
+        "ECLIPSE BRAND": {
+          "n": "ECLIPSE BRAND",
+          "d": "MARKED FOES TAKE +20% DAMAGE FOR 3S.",
+          "s": [
+            "+20% DMG",
+            "3S"
+          ]
+        },
+        "UMBRAL VEIL": {
+          "n": "UMBRAL VEIL",
+          "d": "15% CHANCE TO DODGE A HIT.",
+          "s": [
+            "15% DODGE"
+          ]
+        },
+        "DARK RITE": {
+          "n": "DARK RITE",
+          "d": "KILLS HEAL 1 HP. CAP 1 PER SECOND.",
+          "s": [
+            "+1 HP/KILL"
+          ]
+        },
+        "VOID TOUCH": {
+          "n": "VOID TOUCH",
+          "d": "THROWS IGNORE ENEMY ARMOR.",
+          "s": [
+            "IGNORE ARMOR"
+          ]
+        },
+        "TOTAL ECLIPSE": {
+          "n": "TOTAL ECLIPSE",
+          "d": "EVERY 15TH THROW DARKENS THE SKY.",
+          "s": [
+            "40 DMG",
+            "FULL SCREEN"
+          ]
+        },
+        "SENTINEL DRONE": {
+          "n": "SENTINEL DRONE",
+          "d": "A DRONE ORBITS YOU AND FIRES AT THE NEAREST FOE.",
+          "s": [
+            "5 SHOTS/S",
+            "FAST"
+          ]
+        },
+        "KNIFE CIRCLE": {
+          "n": "KNIFE CIRCLE",
+          "d": "SHARP KNIVES SPIN AROUND YOU, DEALING DAMAGE.",
+          "s": [
+            "4 DPS",
+            "1 KNIFE"
+          ]
+        },
+        "OCCASIONAL BOMB": {
+          "n": "OCCASIONAL BOMB",
+          "d": "A BOMB APPEARS NEAR YOU AND EXPLODES AFTER 1 SECOND.",
+          "s": [
+            "12S INTERVAL",
+            "40 DMG",
+            "60PX"
+          ]
+        },
+        "SENTINEL": {
+          "n": "SENTINEL",
+          "d": "A STONE SENTINEL GUARDS YOU AND FIRES AT NEARBY FOES.",
+          "s": [
+            "50 HP",
+            "0.8S SHOTS"
+          ]
+        }
+      },
+      "enemy": {
+        "grub": {
+          "n": "GRUB",
+          "d": "A FAT LARVA THAT CRAWLS STRAIGHT AT YOU.",
+          "sp": "NONE"
+        },
+        "wasp": {
+          "n": "STINGER WASP",
+          "d": "FAST AND BRITTLE, DIVES AT YOUR HEAD.",
+          "sp": "DASHES AFTER A SHORT WINDUP"
+        },
+        "beetle": {
+          "n": "BARK BEETLE",
+          "d": "AN ARMORED WALL OF BARK AND LEGS.",
+          "sp": "ARMORED -1 DMG"
+        },
+        "spider": {
+          "n": "WEB SPITTER",
+          "d": "LURKS IN CORNERS AND SPITS STICKY WEBS.",
+          "sp": "WEBS SLOW YOU"
+        },
+        "brood": {
+          "n": "BROOD MOTHER (BOSS)",
+          "d": "THE FOREST'S HEART, BIRTHING ENDLESS WASPS.",
+          "sp": "SUMMONS WASPS, ENRAGES AT 50%"
+        },
+        "scarab": {
+          "n": "SCARAB",
+          "d": "A SCUTTLING DUNE BEETLE.",
+          "sp": "NONE"
+        },
+        "thrall": {
+          "n": "BANDAGED THRALL",
+          "d": "A WRAPPED CORPSE THAT RISES AGAIN.",
+          "sp": "REVIVES ONCE AT 50% HP"
+        },
+        "hound": {
+          "n": "ANUBIS HOUND",
+          "d": "A JACKAL-FACED HUNTER THAT LUNGES IN A LINE.",
+          "sp": "STRAIGHT-LINE LUNGE"
+        },
+        "guard": {
+          "n": "TOMB GUARDIAN",
+          "d": "A SHIELDED STATUE THAT MUST BE FLANKED.",
+          "sp": "SHIELD: HIT FROM BEHIND"
+        },
+        "pharaoh": {
+          "n": "SUN PHARAOH (BOSS)",
+          "d": "THE SUN-CROWNED RULER OF THE DUNES.",
+          "sp": "SUMMONS REVIVING THRALLS, SOLAR BEAM SWEEP, ENRAGES AT 30%"
+        },
+        "bat": {
+          "n": "FROST BAT",
+          "d": "A SHRIEKING FLIER, ERRATIC AND FAST.",
+          "sp": "ERRATIC FLIGHT"
+        },
+        "ice": {
+          "n": "ICE ELEMENTAL",
+          "d": "A FROZEN CORE THAT SPLITS WHEN BROKEN.",
+          "sp": "SPLITS INTO 2 ON DEATH"
+        },
+        "archer": {
+          "n": "FROST ARCHER",
+          "d": "A PATIENT SHOOTER IN A FROSTED HOOD.",
+          "sp": "HITS SLOW YOU 25%"
+        },
+        "stalker": {
+          "n": "SNOW STALKER",
+          "d": "A WHITE AMBUSHER THAT HIDES IN THE DRIFTS.",
+          "sp": "INVISIBLE UNTIL CLOSE"
+        },
+        "frozen": {
+          "n": "THE FROZEN PEAK (BOSS)",
+          "d": "A LIVING MOUNTAIN OF ICE.",
+          "sp": "GROUND SLAM, ICE SHARD VOLLEY, SUMMONS ICE ELEMENTALS"
+        },
+        "golem": {
+          "n": "ROCK GOLEM",
+          "d": "A WALKING BOULDER, HEAVY AND ARMORED.",
+          "sp": "SPLITS AT 50% HP"
+        },
+        "brute": {
+          "n": "AVALANCHE BRUTE",
+          "d": "A CHARGING WALL OF STONE AND FURY.",
+          "sp": "CHARGES IN A LINE, TELEGRAPHED"
+        },
+        "sentry": {
+          "n": "STONE SENTRY",
+          "d": "A STONE TURRET THAT NEVER BLINKS.",
+          "sp": "FIRES ROCK SHARDS IN A FAN"
+        },
+        "crawler": {
+          "n": "CRYSTAL CRAWLER",
+          "d": "A GLASS CANNON COVERED IN CRYSTALS.",
+          "sp": "SPITS A SHARD THAT BOUNCES OFF WALLS"
+        },
+        "king": {
+          "n": "THE MOUNTAIN KING (BOSS)",
+          "d": "THE CROWNED RULER OF THE PEAKS.",
+          "sp": "GROUND SLAM, SUMMONS GOLEMS, ENRAGES AT 40%"
+        },
+        "acolyte": {
+          "n": "BLOOD ACOLYTE",
+          "d": "A ROBED CASTER THAT DRAINS YOUR STATS.",
+          "sp": "ON HIT DRAINS 1 RANDOM STAT"
+        },
+        "flesh": {
+          "n": "FLESH HOUND",
+          "d": "A WRITHING THING THAT HEALS FROM YOUR PAIN.",
+          "sp": "HEALS ITSELF FOR DAMAGE DEALT"
+        },
+        "eye": {
+          "n": "EYE OF THE ECLIPSE",
+          "d": "A WATCHING EYE THAT BORROWS YOUR POWER.",
+          "sp": "COPIES ONE OF YOUR SPELLS AS AN ATTACK"
+        },
+        "husk": {
+          "n": "WAILING HUSK",
+          "d": "A HOLLOW SCREAMER THAT CALLS FOR HELP.",
+          "sp": "SCREAMS, SPAWNS 2 ENEMIES PER SCREAM"
+        },
+        "choir": {
+          "n": "THE UMBRAL CHOIR (BOSS)",
+          "d": "A CHORUS OF MOUTHS SINGING THE END.",
+          "sp": "3 PHASES: DRAIN, MIRROR, SUMMON"
+        }
+      }
+    },
+    "pt-br": {
+      "nav_menu": "MENU",
+      "nav_campaign": "CAMPANHA",
+      "nav_endless": "INFINITO",
+      "nav_custom": "PERSONALIZAR",
+      "nav_weapon": "ARMA",
+      "nav_game": "EM JOGO",
+      "nav_catalog": "CATÁLOGO",
+      "nav_options": "OPÇÕES",
+      "tagline": "SOBREVIVA AO ABISMO.",
+      "version": "v0.1 BETA",
+      "s_forest": "FLORESTA",
+      "s_desert": "DESERTO",
+      "s_snow": "NEVE",
+      "s_mountain": "MONTANHA",
+      "s_eclipse": "ECLIPSE",
+      "camp_title": "CAMPANHA / ESCOLHA DE TEMPORADA",
+      "play": "JOGAR",
+      "soon": "EM BREVE",
+      "season_locked": "TEMPORADA BLOQUEADA",
+      "choose_weapon_btn": "ESCOLHER ARMA",
+      "camp_note": "DPAD: TEMPORADAS <->. CIMA/BAIXO: FASES. A: JOGAR.",
+      "waves_n": "{n} ONDAS",
+      "locked": "BLOQUEADA",
+      "unlocked": "DESBLOQUEADA",
+      "lvl_1_1": "CAMINHO VERDEJANTE",
+      "lvl_1_2": "MATA FECHADA",
+      "lvl_1_3": "CERNE DA FLORESTA",
+      "endless_title": "MODO INFINITO",
+      "play_endless": "JOGAR INFINITO",
+      "best": "MELHOR",
+      "elements": "ELEMENTOS",
+      "wave": "ONDA",
+      "gim_forest": "SARÇAS DE ESPINHOS BLOQUEIAM OS TIROS E REDUZEM TODO O MOVIMENTO.",
+      "hat": "CHAPÉU",
+      "face": "ROSTO",
+      "color": "COR",
+      "cosmetic": "APENAS ESTÉTICO (NÃO AFETA A JOGABILIDADE)",
+      "hat_helm": "ELMO DE CAVALEIRO",
+      "hat_wizard": "CHAPÉU DE MAGO",
+      "hat_leaf": "CAPUZ DE FOLHA",
+      "hat_crown": "COROA MINÚSCULA",
+      "hat_none": "NENHUM",
+      "hs_helm": "ELMO",
+      "hs_wizard": "MAGO",
+      "hs_leaf": "FOLHA",
+      "hs_crown": "COROA",
+      "hs_none": "NENHUM",
+      "face_beard": "BARBA",
+      "face_glasses": "ÓCULOS",
+      "face_scar": "CICATRIZ",
+      "face_freckles": "SARDAS",
+      "face_none": "NENHUM",
+      "col_red": "VERMELHO",
+      "col_blue": "AZUL",
+      "col_green": "VERDE",
+      "col_gold": "DOURADO",
+      "col_gray": "CINZA",
+      "col_white": "BRANCO",
+      "weapon_title": "ESCOLHA SUA ARMA",
+      "start": "COMEÇAR",
+      "first_spell": "ESTA SERÁ SUA PRIMEIRA MAGIA. DPAD PARA NAVEGAR. A PARA INICIAR.",
+      "w_dagger": "ADAGA",
+      "w_bow": "ARCO",
+      "w_axe": "MACHADO DE ARREMESSO",
+      "w_staff": "CAJADO DE MAGO",
+      "dmg": "DANO",
+      "atk_speed": "VEL. DE ATAQUE",
+      "range": "ALCANCE",
+      "dmg_line": "DANO {v}",
+      "spd_line": "VEL. {v}",
+      "rng_line": "ALCANCE {v}",
+      "fire_dagger": "FACAS RÁPIDAS NO INIMIGO MAIS PRÓXIMO.",
+      "fire_bow": "UMA FLECHA LONGA EM LINHA RETA.",
+      "fire_axe": "UM MACHADO PESADO QUE FAZ ARCO SOBRE O ALVO.",
+      "fire_staff": "UMA ESFERA LENTA QUE BATE MUITO FORTE.",
+      "lvm_low": "BAIXO",
+      "lvm_normal": "NORMAL",
+      "lvm_high": "ALTO",
+      "lvm_very_high": "MUITO ALTO",
+      "lvm_touch": "TOQUE",
+      "lvf_very_high": "MUITO ALTA",
+      "lvf_normal": "NORMAL",
+      "lvf_low": "BAIXA",
+      "lvf_very_low": "MUITO BAIXA",
+      "lvf_very_slow": "MUITO LENTA",
+      "lvf_slow": "LENTA",
+      "lvf_fast": "RÁPIDA",
+      "lvf_very_fast": "MUITO RÁPIDA",
+      "lvf_stationary": "ESTÁTICA",
+      "lvf_normal_burst": "NORMAL (SURTO)",
+      "tab_spells": "MAGIAS",
+      "tab_char": "PERSONAGEM",
+      "tab_run": "PARTIDA",
+      "st_str": "FORÇA",
+      "st_str_d": "DANO, TAMANHO DO PROJÉTIL",
+      "st_str_e": "+8% DANO, +2% TAMANHO",
+      "st_res": "RESISTÊNCIA",
+      "st_res_d": "VIDA, REDUÇÃO DE DANO, RESISTÊNCIA A DEBUFFS",
+      "st_res_e": "+6 VIDA, +2% REDUÇÃO",
+      "st_spd": "VELOCIDADE",
+      "st_spd_d": "VELOCIDADE DE MOVIMENTO E DE ATAQUE",
+      "st_spd_e": "+4% MOVIMENTO, +4% VEL. DE ATAQUE",
+      "st_luck": "SORTE",
+      "st_luck_d": "CRÍTICOS, DROPS DE EXP, MAGIAS RARAS",
+      "st_luck_e": "+3% CRÍTICO, +8% EXP, +2% RARA",
+      "st_int": "INTELIGÊNCIA",
+      "st_int_d": "REDUÇÃO DE RECARGA, ÁREA DE EFEITO",
+      "st_int_e": "-4% RECARGA, +6% ÁREA",
+      "spend": "GASTAR PONTOS",
+      "points_avail": "PONTOS DISPONÍVEIS",
+      "bank": "GUARDAR",
+      "continue": "CONTINUAR",
+      "wave_cleared": "ONDA CONCLUÍDA",
+      "choose_spell": "ESCOLHA UMA MAGIA",
+      "choose_one": "ESCOLHA UMA",
+      "plevel": "NÍVEL",
+      "season": "TEMPORADA",
+      "level": "FASE",
+      "enemies_killed": "INIMIGOS MORTOS",
+      "time": "TEMPO",
+      "spells_found": "MAGIAS ENCONTRADAS",
+      "best_wave": "MELHOR ONDA (INFINITO)",
+      "boss": "CHEFE",
+      "no_spells": "NENHUMA MAGIA AINDA",
+      "no_spells_p": "CONCLUA UMA ONDA PARA ENCONTRAR UMA.",
+      "build_full": "BUILD CHEIA - MELHORE UMA MAGIA",
+      "game_note": "USE OS BOTÕES DE DEPURAÇÃO ABAIXO PARA ENCERRAR UMA ONDA",
+      "dbg_wave": "SIMULAR FIM DE ONDA",
+      "dbg_boss": "LUTA DE CHEFE",
+      "dbg_force": "FORÇAR MAGIA",
+      "dbg_clear": "LIMPAR MAGIAS",
+      "dbg_death": "SIMULAR MORTE",
+      "dbg_reset": "REINICIAR",
+      "coming_soon": "EM BREVE",
+      "level_locked": "FASE BLOQUEADA",
+      "empty_slot": "ESPAÇO VAZIO",
+      "died": "VOCÊ MORREU - PARTIDA REINICIADA",
+      "finish_phase": "TERMINE A ETAPA ATUAL",
+      "boss_off": "CHEFE DISPENSADO",
+      "build_full_t": "BUILD CHEIA (12 / 12)",
+      "spells_cleared": "MAGIAS LIMPAS",
+      "added": "ADICIONADO: ",
+      "toast_reset": "REINICIADO",
+      "catalog": "CATÁLOGO",
+      "sub_spells": "MAGIAS",
+      "sub_bestiary": "BESTIÁRIO",
+      "n_spells_cat": "{n} MAGIAS CATALOGADAS",
+      "n_enemies_cat": "{n} INIMIGOS CATALOGADOS",
+      "element": "ELEMENTO",
+      "type": "TIPO",
+      "activation": "ATIVAÇÃO",
+      "stats": "ATRIBUTOS",
+      "special": "ESPECIAL",
+      "hp": "VIDA",
+      "spd": "VEL.",
+      "atkspd_s": "VEL. ATQ.",
+      "lore": "LORE",
+      "found": "ENCONTRADA {n} VEZES",
+      "r_common": "COMUM",
+      "r_rare": "RARO",
+      "r_epic": "ÉPICO",
+      "r_legendary": "LENDÁRIO",
+      "el_water": "ÁGUA",
+      "el_fire": "FOGO",
+      "el_earth": "TERRA",
+      "el_air": "AR",
+      "el_blood": "SANGUE",
+      "el_lightning": "RAIO",
+      "act_aoe": "ÁREA DE EFEITO",
+      "act_self": "PRÓPRIO",
+      "act_touch": "TOQUE",
+      "ty_damage": "DANO",
+      "ty_status": "STATUS",
+      "ty_weapon": "ARMA",
+      "scope": "DISPONÍVEL EM",
+      "sc_global": "QUALQUER TEMPORADA",
+      "sc_element": "TEMPORADAS",
+      "sc_only": "APENAS",
+      "lang_label": "IDIOMA",
+      "lang_en": "ENGLISH",
+      "lang_pt": "PORTUGUÊS (BR)",
+      "volume_sfx": "VOLUME DE EFEITOS",
+      "volume_music": "VOLUME DA MÚSICA",
+      "credits": "CRÉDITOS",
+      "back_menu": "VOLTAR AO MENU",
+      "back": "VOLTAR",
+      "lang_selected": "IDIOMA SELECIONADO",
+      "changes_instant": "AS MUDANÇAS SÃO APLICADAS NA HORA",
+      "cr_1": "MRJUAUMBR",
+      "cr_2": "CLAUDE, DEEPSEEK, MANUS",
+      "cr_3": "GERAÇÃO DE MAQUETE VISUAL",
+      "cr_4": "GERAÇÃO DA MAQUETE INTERATIVA",
+      "thanks": "OBRIGADO POR JOGAR",
+      "spell": {
+        "IRON WILL": {
+          "n": "VONTADE DE FERRO",
+          "d": "+12 DE VIDA MÁXIMA.",
+          "s": [
+            "+12 VIDA"
+          ]
+        },
+        "QUICKSTEP": {
+          "n": "PASSO LIGEIRO",
+          "d": "+8% DE VELOCIDADE DE MOVIMENTO.",
+          "s": [
+            "+8% VEL."
+          ]
+        },
+        "FOCUS STONE": {
+          "n": "PEDRA DE FOCO",
+          "d": "-10% DE RECARGA DO ATAQUE.",
+          "s": [
+            "-10% REC."
+          ]
+        },
+        "LUCKY FANG": {
+          "n": "PRESA DA SORTE",
+          "d": "+8% DE CHANCE DE CRÍTICO.",
+          "s": [
+            "+8% CRÍT."
+          ]
+        },
+        "FLINT SHARD": {
+          "n": "LASCA DE SÍLEX",
+          "d": "+2 DE DANO FIXO POR ARREMESSO.",
+          "s": [
+            "+2 DANO"
+          ]
+        },
+        "WIND CHIME": {
+          "n": "SINO DE VENTO",
+          "d": "INIMIGOS PRÓXIMOS FICAM 10% MAIS LENTOS.",
+          "s": [
+            "-10% VEL.",
+            "48PX"
+          ]
+        },
+        "SAP GLAND": {
+          "n": "GLÂNDULA DE SEIVA",
+          "d": "MATAR CURA 1 DE VIDA. MÁX. 1 A CADA 2S.",
+          "s": [
+            "+1 VIDA/MORTE"
+          ]
+        },
+        "EMBER CORE": {
+          "n": "NÚCLEO DE BRASA",
+          "d": "AO MATAR, UMA PEQUENA EXPLOSÃO DE FOGO.",
+          "s": [
+            "8 DANO",
+            "40PX"
+          ]
+        },
+        "SPARK TIP": {
+          "n": "PONTA FAÍSCA",
+          "d": "15% DE CHANCE AO ACERTAR DE +3 DE DANO DE RAIO.",
+          "s": [
+            "15%",
+            "+3 DANO"
+          ]
+        },
+        "TOXIC SPORE": {
+          "n": "ESPORO TÓXICO",
+          "d": "AO MATAR, NUVEM DE VENENO CAUSA 5 DE DANO EM 3S.",
+          "s": [
+            "5 DANO",
+            "3S"
+          ]
+        },
+        "THORN MAIL": {
+          "n": "COTA DE ESPINHOS",
+          "d": "REFLETE 40% DO DANO DE CONTATO.",
+          "s": [
+            "40% REFLEXO"
+          ]
+        },
+        "HUNTER'S EYE": {
+          "n": "OLHO DO CAÇADOR",
+          "d": "+15% DE CRÍTICO, +25% DE DANO CRÍTICO.",
+          "s": [
+            "+15% CRÍT.",
+            "+25% D.CRÍT."
+          ]
+        },
+        "STATIC FIELD": {
+          "n": "CAMPO ESTÁTICO",
+          "d": "AURA CAUSA 1 DE DANO A CADA 0,5S.",
+          "s": [
+            "1/0,5S",
+            "48PX"
+          ]
+        },
+        "ECHO CHAMBER": {
+          "n": "CÂMARA DE ECO",
+          "d": "A CADA 5º ARREMESSO, DISPARA UM ANEL COMPLETO.",
+          "s": [
+            "5º",
+            "360°"
+          ]
+        },
+        "FROST LENS": {
+          "n": "LENTE GÉLIDA",
+          "d": "20% DE CHANCE DE CONGELAR POR 1S AO ACERTAR.",
+          "s": [
+            "20%",
+            "1S"
+          ]
+        },
+        "RICOCHET": {
+          "n": "RICOCHE",
+          "d": "ARREMESSOS QUICAM PARA UM INIMIGO PRÓXIMO.",
+          "s": [
+            "1 QUIQUE",
+            "50% DANO"
+          ]
+        },
+        "TIDAL FORCE": {
+          "n": "FORÇA DA MARÉ",
+          "d": "ARREMESSOS ATRAVESSAM ATÉ 3 INIMIGOS.",
+          "s": [
+            "PERFURA 3"
+          ]
+        },
+        "PACT OF IRON": {
+          "n": "PACTO DE FERRO",
+          "d": "+3 RES, +25 VIDA, -15% DE VELOCIDADE.",
+          "s": [
+            "+3 RES",
+            "+25 VIDA",
+            "-15% VEL."
+          ]
+        },
+        "ELEMENTAL CORE": {
+          "n": "NÚCLEO ELEMENTAL",
+          "d": "A ARMA TROCA DE ELEMENTO A CADA 8S, +15% DE DANO.",
+          "s": [
+            "+15% DANO",
+            "8S"
+          ]
+        },
+        "GRAVITY WELL": {
+          "n": "POÇO DE GRAVIDADE",
+          "d": "INIMIGOS PRÓXIMOS SÃO PUXADOS ATÉ VOCÊ.",
+          "s": [
+            "PUXA",
+            "64PX"
+          ]
+        },
+        "ECLIPSE CROWN": {
+          "n": "COROA DO ECLIPSE",
+          "d": "TODOS OS EFEITOS NUMÉRICOS +30%.",
+          "s": [
+            "+30% TUDO"
+          ]
+        },
+        "WORLD ENDER": {
+          "n": "ACABA-MUNDOS",
+          "d": "MORTES TÊM 10% DE CHANCE DE MATAR EM CADEIA.",
+          "s": [
+            "10% CADEIA"
+          ]
+        },
+        "AQUA VEIL": {
+          "n": "VÉU AQUÁTICO",
+          "d": "+2 DE RESISTÊNCIA.",
+          "s": [
+            "+2 RES"
+          ]
+        },
+        "BRINE TOUCH": {
+          "n": "TOQUE DE SALMOURA",
+          "d": "+10% DE DANO CONTRA INIMIGOS LENTOS.",
+          "s": [
+            "+10% DANO"
+          ]
+        },
+        "BUBBLE BURST": {
+          "n": "EXPLOSÃO DE BOLHAS",
+          "d": "AO ACERTAR, UMA PEQUENA EXPLOSÃO DE ÁGUA.",
+          "s": [
+            "6 DANO",
+            "32PX"
+          ]
+        },
+        "SPLASH GUARD": {
+          "n": "GUARDA DE RESPINGO",
+          "d": "-10% DE DANO RECEBIDO.",
+          "s": [
+            "-10% RECEBIDO"
+          ]
+        },
+        "TIDE RING": {
+          "n": "ANEL DA MARÉ",
+          "d": "INIMIGOS PRÓXIMOS FICAM 25% MAIS LENTOS.",
+          "s": [
+            "-25% VEL.",
+            "64PX"
+          ]
+        },
+        "RIPTIDE": {
+          "n": "CORRENTEZA",
+          "d": "ARREMESSOS EMPURRAM OS INIMIGOS PARA TRÁS.",
+          "s": [
+            "EMPURRÃO"
+          ]
+        },
+        "FROSTBITE": {
+          "n": "CONGELAMENTO",
+          "d": "ACERTOS DEIXAM 20% MAIS LENTO POR 2S.",
+          "s": [
+            "-20% VEL.",
+            "2S"
+          ]
+        },
+        "TIDAL SHIELD": {
+          "n": "ESCUDO DE MARÉ",
+          "d": "UM ESCUDO ABSORVE 20 DE DANO A CADA ONDA.",
+          "s": [
+            "20 ESCUDO"
+          ]
+        },
+        "UNDERTOW": {
+          "n": "RESSACA",
+          "d": "INIMIGOS DERROTADOS DEIXAM OS PRÓXIMOS LENTOS.",
+          "s": [
+            "-30% VEL.",
+            "2S"
+          ]
+        },
+        "DEEP CURRENT": {
+          "n": "CORRENTE PROFUNDA",
+          "d": "AURA CAUSA 2 DE DANO/S E DEIXA 15% MAIS LENTO.",
+          "s": [
+            "2 DPS",
+            "-15% VEL."
+          ]
+        },
+        "MIRROR POOL": {
+          "n": "POÇO ESPELHADO",
+          "d": "20% DE CHANCE DE REFLETIR UM PROJÉTIL.",
+          "s": [
+            "20% REFLEXO"
+          ]
+        },
+        "WHIRLPOOL": {
+          "n": "REDEMOINHO",
+          "d": "ARREMESSOS DEIXAM UM VÓRTICE GIRATÓRIO.",
+          "s": [
+            "3S",
+            "2 DPS"
+          ]
+        },
+        "RAIN DANCE": {
+          "n": "DANÇA DA CHUVA",
+          "d": "MORTES DÃO +2% DE VELOCIDADE. MÁX. +20%.",
+          "s": [
+            "+2%/MORTE",
+            "MÁX 20%"
+          ]
+        },
+        "PRESSURE POINT": {
+          "n": "PONTO DE PRESSÃO",
+          "d": "CRÍTICOS CAUSAM +40% DE DANO.",
+          "s": [
+            "+40% CRÍT."
+          ]
+        },
+        "ABYSSAL PACT": {
+          "n": "PACTO ABISSAL",
+          "d": "A CADA 10º ARREMESSO, UMA ONDA GIGANTE.",
+          "s": [
+            "10º",
+            "60 DANO"
+          ]
+        },
+        "EMBER TRAIL": {
+          "n": "RASTRO DE BRASA",
+          "d": "VOCÊ DEIXA PEGADAS EM CHAMAS.",
+          "s": [
+            "4 DPS",
+            "1S"
+          ]
+        },
+        "BLAZING FANG": {
+          "n": "PRESA FLAMEJANTE",
+          "d": "+12% DE DANO CONTRA INIMIGOS EM CHAMAS.",
+          "s": [
+            "+12% DANO"
+          ]
+        },
+        "ASHEN WAKE": {
+          "n": "ESTEIRA DE CINZAS",
+          "d": "MORTES DEIXAM UMA NUVEM EM CHAMAS.",
+          "s": [
+            "3 DPS",
+            "2S"
+          ]
+        },
+        "SCORCH": {
+          "n": "CHAMUSCAR",
+          "d": "ARREMESSOS QUEIMAM POR 2S.",
+          "s": [
+            "2 DPS",
+            "2S"
+          ]
+        },
+        "PYRE": {
+          "n": "PIRE",
+          "d": "INIMIGOS EM CHAMAS DERROTADOS EXPLODEM.",
+          "s": [
+            "8 DANO",
+            "40PX"
+          ]
+        },
+        "CINDER CLOAK": {
+          "n": "MANTO DE CINZAS",
+          "d": "QUEM TE TOCA QUEIMA POR 3S.",
+          "s": [
+            "3 DPS",
+            "3S"
+          ]
+        },
+        "FLAME WHEEL": {
+          "n": "RODA DE FOGO",
+          "d": "ARREMESSOS ORBITAM AO SEU REDOR.",
+          "s": [
+            "ÓRBITA",
+            "5 DPS"
+          ]
+        },
+        "HEAT SHOCK": {
+          "n": "ONDA DE CALOR",
+          "d": "AO MATAR, INIMIGOS PRÓXIMOS TOMAM 6 DE DANO.",
+          "s": [
+            "6 DANO",
+            "48PX"
+          ]
+        },
+        "SUNSPOT": {
+          "n": "MANCHA SOLAR",
+          "d": "AURA CAUSA 1 DE DANO/S.",
+          "s": [
+            "1 DPS",
+            "40PX"
+          ]
+        },
+        "WARMTH": {
+          "n": "CALOR",
+          "d": "TOME 15% MENOS DANO ENQUANTO QUEIMA.",
+          "s": [
+            "-15% RECEBIDO"
+          ]
+        },
+        "MOLTEN CORE": {
+          "n": "NÚCLEO FUNDIDO",
+          "d": "ARREMESSOS EXPLODEM NO IMPACTO.",
+          "s": [
+            "10 DANO",
+            "40PX"
+          ]
+        },
+        "INFERNO BRAND": {
+          "n": "MARCA INFERNAL",
+          "d": "CRÍTICOS INCENDEIAM O ALVO.",
+          "s": [
+            "4 DPS",
+            "3S"
+          ]
+        },
+        "FIRESTORM": {
+          "n": "TEMPESTADE DE FOGO",
+          "d": "A CADA 6º ARREMESSO, UMA TEMPESTADE.",
+          "s": [
+            "8 DANO",
+            "64PX"
+          ]
+        },
+        "SOLAR FLARE": {
+          "n": "ERUPÇÃO SOLAR",
+          "d": "A CADA 8S, UMA EXPLOSÃO QUEIMA A TELA TODA.",
+          "s": [
+            "10 DANO",
+            "8S"
+          ]
+        },
+        "PHOENIX DOWN": {
+          "n": "RENASCER DA FÊNIX",
+          "d": "UMA VEZ POR PARTIDA, RESSUSCITE COM 30% DE VIDA.",
+          "s": [
+            "1 RENASCER",
+            "30% VIDA"
+          ]
+        },
+        "STONE SKIN": {
+          "n": "PELE DE PEDRA",
+          "d": "+2 RES, -5% DE VELOCIDADE.",
+          "s": [
+            "+2 RES",
+            "-5% VEL."
+          ]
+        },
+        "ROOT SNARE": {
+          "n": "RAÍZES PRENSORAS",
+          "d": "ACERTOS PRENDEM O INIMIGO POR 1S.",
+          "s": [
+            "PRENDE 1S"
+          ]
+        },
+        "DUST CLOUD": {
+          "n": "NUVEM DE POEIRA",
+          "d": "AO MATAR, POEIRA DEIXA INIMIGOS MAIS LENTOS.",
+          "s": [
+            "-20% ATQ",
+            "48PX"
+          ]
+        },
+        "MOSS CLOAK": {
+          "n": "MANTO DE MUSGO",
+          "d": "REGENERA 1 DE VIDA A CADA 8S.",
+          "s": [
+            "+1/8S"
+          ]
+        },
+        "BOULDER TOSS": {
+          "n": "ARREMESSO DE ROCHA",
+          "d": "+25% DE DANO, -15% DE VELOCIDADE DE ATAQUE.",
+          "s": [
+            "+25% DANO",
+            "-15% ATQ"
+          ]
+        },
+        "ECHO STONE": {
+          "n": "PEDRA DO ECO",
+          "d": "ARREMESSOS QUICAM NAS PAREDES.",
+          "s": [
+            "2 QUIQUES"
+          ]
+        },
+        "TREMBLE": {
+          "n": "TREMOR",
+          "d": "A CADA 5º ARREMESSO, O CHÃO TREME.",
+          "s": [
+            "ATORDOA 0,5S",
+            "48PX"
+          ]
+        },
+        "STURDY FRAME": {
+          "n": "ESTRUTURA ROBUSTA",
+          "d": "LENTIDÃO E EMPURRÃO DURAM 30% MENOS.",
+          "s": [
+            "-30% EFEITOS"
+          ]
+        },
+        "CLAY GUARD": {
+          "n": "GUARDA DE ARGILA",
+          "d": "UM FAMILIAR BLOQUEIA 1 GOLPE POR ONDA.",
+          "s": [
+            "1 BLOQUEIO"
+          ]
+        },
+        "GAIA'S GIFT": {
+          "n": "PRESENTE DE GAIA",
+          "d": "+40 DE VIDA MÁXIMA, -10% DE VELOCIDADE.",
+          "s": [
+            "+40 VIDA",
+            "-10% VEL."
+          ]
+        },
+        "SPLIT STONE": {
+          "n": "PEDRA DIVIDIDA",
+          "d": "ARREMESSOS SE DIVIDEM EM 3 ESTILHAÇOS.",
+          "s": [
+            "3 ESTILHAÇOS",
+            "50% DANO"
+          ]
+        },
+        "AVALANCHE": {
+          "n": "AVALANCHE",
+          "d": "A CADA 8º ARREMESSO, PEDRAS CAEM DO CÉU.",
+          "s": [
+            "12 DANO",
+            "56PX"
+          ]
+        },
+        "MOUNTAIN'S WILL": {
+          "n": "VONTADE DA MONTANHA",
+          "d": "+3 RES, +20 DE VIDA.",
+          "s": [
+            "+3 RES",
+            "+20 VIDA"
+          ]
+        },
+        "PETRIFY": {
+          "n": "PETRIFICAR",
+          "d": "5% DE CHANCE DE ATORDOAR POR 2S.",
+          "s": [
+            "5%",
+            "2S"
+          ]
+        },
+        "TECTONIC": {
+          "n": "TECTÔNICO",
+          "d": "A CADA 12º ARREMESSO, O CHÃO SE ABRE.",
+          "s": [
+            "20 DANO",
+            "80PX"
+          ]
+        },
+        "GALE STEP": {
+          "n": "PASSO VENTOSO",
+          "d": "+12% DE VELOCIDADE DE MOVIMENTO.",
+          "s": [
+            "+12% VEL."
+          ]
+        },
+        "FEATHER FALL": {
+          "n": "QUEDA DE PLUMA",
+          "d": "-20% DE DANO DE ATAQUES À DISTÂNCIA.",
+          "s": [
+            "-20% DISTÂNCIA"
+          ]
+        },
+        "ZEPHYR BLADE": {
+          "n": "LÂMINA ZÉFIR",
+          "d": "+10% DE VELOCIDADE DE ARREMESSO.",
+          "s": [
+            "+10% VEL."
+          ]
+        },
+        "WHISPER": {
+          "n": "SUSSURRO",
+          "d": "+5% DE CRÍTICO, +5% DE VELOCIDADE.",
+          "s": [
+            "+5% CRÍT.",
+            "+5% VEL."
+          ]
+        },
+        "CYCLONE": {
+          "n": "CICLONE",
+          "d": "ARREMESSOS CURVAM ATÉ O INIMIGO MAIS PRÓXIMO.",
+          "s": [
+            "GUIADO"
+          ]
+        },
+        "SONIC CRACK": {
+          "n": "ESTOURO SÔNICO",
+          "d": "ACERTOS TÊM 10% DE CHANCE DE ATORDOAR.",
+          "s": [
+            "10%",
+            "0,5S"
+          ]
+        },
+        "TAILWIND": {
+          "n": "VENTO A FAVOR",
+          "d": "+15% DE VELOCIDADE DE ATAQUE.",
+          "s": [
+            "+15% ATQ"
+          ]
+        },
+        "VACUUM": {
+          "n": "VÁCUO",
+          "d": "INIMIGOS PRÓXIMOS CAUSAM 15% MENOS DANO.",
+          "s": [
+            "-15% DANO",
+            "56PX"
+          ]
+        },
+        "MIRAGE": {
+          "n": "MIRAGEM",
+          "d": "10% DE CHANCE DE ESQUIVAR.",
+          "s": [
+            "10% ESQUIVA"
+          ]
+        },
+        "UPDRAFT": {
+          "n": "CORRENTE ASCENDENTE",
+          "d": "ARREMESSOS PERFURAM 2 INIMIGOS E ACELERAM.",
+          "s": [
+            "PERFURA 2",
+            "+20% VEL."
+          ]
+        },
+        "SHATTER WIND": {
+          "n": "VENTO QUEBRANTE",
+          "d": "+20% DE DANO CONTRA CONGELADOS OU ATORDOADOS.",
+          "s": [
+            "+20% DANO"
+          ]
+        },
+        "STORMBREAK": {
+          "n": "QUEBRA-TEMPESTADE",
+          "d": "A CADA 7º ARREMESSO, UM ANEL DE VENTO.",
+          "s": [
+            "10 DANO",
+            "64PX"
+          ]
+        },
+        "SKY DANCE": {
+          "n": "DANÇA DO CÉU",
+          "d": "A CADA 3º ARREMESSO, DISPARA DUAS VEZES.",
+          "s": [
+            "3º",
+            "2X"
+          ]
+        },
+        "TEMPEST": {
+          "n": "TEMPESTADE",
+          "d": "ARREMESSOS INVOCAM RAIO AO ACERTAR.",
+          "s": [
+            "+8 DANO",
+            "CADEIA 2"
+          ]
+        },
+        "EYE OF THE STORM": {
+          "n": "OLHO DA TEMPESTADE",
+          "d": "+25% DE VELOCIDADE DE ATAQUE, +10% DE MOVIMENTO.",
+          "s": [
+            "+25% ATQ",
+            "+10% MOV."
+          ]
+        },
+        "BLOOD PEBBLE": {
+          "n": "SEIXO DE SANGUE",
+          "d": "1% DE ROUBO DE VIDA. LIMITE 1 DE VIDA/S.",
+          "s": [
+            "1% ROUBO"
+          ]
+        },
+        "THIRST": {
+          "n": "SEDE",
+          "d": "+15% DE DANO CONTRA INIMIGOS FERIDOS.",
+          "s": [
+            "+15% DANO"
+          ]
+        },
+        "BLOOD SIGIL": {
+          "n": "SELO DE SANGUE",
+          "d": "+30% DE DANO, -25% DE VIDA MÁXIMA.",
+          "s": [
+            "+30% DANO",
+            "-25% VIDA"
+          ]
+        },
+        "CRIMSON PACT": {
+          "n": "PACTO CARMESIM",
+          "d": "+40% DE DANO, TODA CURA -50%.",
+          "s": [
+            "+40% DANO",
+            "-50% CURA"
+          ]
+        },
+        "VAMPIRE TOUCH": {
+          "n": "TOQUE VAMPÍRICO",
+          "d": "3% DE ROUBO DE VIDA. LIMITE 1 DE VIDA/S.",
+          "s": [
+            "3% ROUBO"
+          ]
+        },
+        "RUPTURE": {
+          "n": "RUPTURA",
+          "d": "ACERTOS CAUSAM SANGRAMENTO: 3 DE DANO/S POR 3S.",
+          "s": [
+            "3 DPS",
+            "3S"
+          ]
+        },
+        "VEIN BURST": {
+          "n": "EXPLOSÃO DE VEIA",
+          "d": "AO MATAR, SANGUE EXPLODE CAUSANDO 8 DE DANO.",
+          "s": [
+            "8 DANO",
+            "48PX"
+          ]
+        },
+        "MARTYR": {
+          "n": "MÁRTIR",
+          "d": "TOME 15% MENOS DANO, CAUSE 10% MENOS DANO.",
+          "s": [
+            "-15% RECEBIDO",
+            "-10% CAUSADO"
+          ]
+        },
+        "LAST BREATH": {
+          "n": "ÚLTIMO SUSPIRO",
+          "d": "+50% DE DANO ABAIXO DE 30% DE VIDA.",
+          "s": [
+            "+50% DANO"
+          ]
+        },
+        "BLOOD MOON": {
+          "n": "LUA DE SANGUE",
+          "d": "AURA CAUSA 3 DE DANO/S. MORTES NELA CURAM 1 DE VIDA.",
+          "s": [
+            "3 DPS",
+            "+1 VIDA/MORTE"
+          ]
+        },
+        "SANGUINE RITE": {
+          "n": "RITO SANGUÍNEO",
+          "d": "A CADA 10 MORTES, GANHE +1 DE VIDA MÁXIMA.",
+          "s": [
+            "+1 VIDA/10"
+          ]
+        },
+        "CRIMSON CHAIN": {
+          "n": "CORRENTE CARMESIM",
+          "d": "CRÍTICOS CURAM 1 DE VIDA. LIMITE 1 POR SEGUNDO.",
+          "s": [
+            "+1 VIDA/CRÍT."
+          ]
+        },
+        "RED TIDE": {
+          "n": "MARÉ VERMELHA",
+          "d": "AURA CAUSA 2 DE DANO/S, CURA 1 DE VIDA A CADA 4 MORTES.",
+          "s": [
+            "2 DPS",
+            "1 VIDA/4"
+          ]
+        },
+        "HEART OF GLASS": {
+          "n": "CORAÇÃO DE VIDRO",
+          "d": "-40% DE VIDA MÁXIMA, +60% DE DANO.",
+          "s": [
+            "-40% VIDA",
+            "+60% DANO"
+          ]
+        },
+        "EXSANGUINATE": {
+          "n": "EXSANGUINAR",
+          "d": "8% DE CHANCE DE DANO DOBRADO E CURA 1 DE VIDA.",
+          "s": [
+            "8%",
+            "2X +1 VIDA"
+          ]
+        },
+        "JOLT": {
+          "n": "PULSO",
+          "d": "+8% DE VELOCIDADE DE ATAQUE.",
+          "s": [
+            "+8% ATQ"
+          ]
+        },
+        "STATIC CLING": {
+          "n": "CARGA ESTÁTICA",
+          "d": "ACERTOS PASSAM 2 DE DANO A UM INIMIGO PRÓXIMO.",
+          "s": [
+            "+2 CADEIA"
+          ]
+        },
+        "STATIC BLOOM": {
+          "n": "FLORAÇÃO ESTÁTICA",
+          "d": "AO MATAR, UMA EXPLOSÃO ESTÁTICA DE 5 DE DANO.",
+          "s": [
+            "5 DANO",
+            "40PX"
+          ]
+        },
+        "SHOCK THERAPY": {
+          "n": "ELETROTERAPIA",
+          "d": "INIMIGOS ATORDOADOS TOMAM +25% DE DANO.",
+          "s": [
+            "+25% DANO"
+          ]
+        },
+        "OVERCHARGE": {
+          "n": "SOBRECARGA",
+          "d": "+20% DE DANO, -10% DE VIDA MÁXIMA.",
+          "s": [
+            "+20% DANO",
+            "-10% VIDA"
+          ]
+        },
+        "THUNDER STEP": {
+          "n": "PASSO TROVÃO",
+          "d": "+10% DE VELOCIDADE E DEIXA FAÍSCAS.",
+          "s": [
+            "+10% VEL.",
+            "2 DPS"
+          ]
+        },
+        "VOLT SHIELD": {
+          "n": "ESCUDO VOLTAICO",
+          "d": "QUEM TE ATACA TOMA 4 DE DANO.",
+          "s": [
+            "4 DANO"
+          ]
+        },
+        "ARC FLASH": {
+          "n": "ARCO VOLTAICO",
+          "d": "A CADA 6º ARREMESSO, ATORDOA INIMIGOS PRÓXIMOS.",
+          "s": [
+            "0,5S",
+            "56PX"
+          ]
+        },
+        "CHAIN LIGHTNING": {
+          "n": "RAIO EM CADEIA",
+          "d": "CRÍTICOS SALTAM PARA 2 INIMIGOS.",
+          "s": [
+            "CADEIA 2",
+            "50% DANO"
+          ]
+        },
+        "CONDUCTOR": {
+          "n": "CONDUTOR",
+          "d": "AURA CAUSA 1 DE DANO A CADA 0,4S.",
+          "s": [
+            "1/0,4S",
+            "40PX"
+          ]
+        },
+        "STORMCALLER": {
+          "n": "CHAMA-TEMPESTADE",
+          "d": "TODO ARREMESSO ATRAI UM RAIO.",
+          "s": [
+            "+6 DANO",
+            "30PX"
+          ]
+        },
+        "BALL LIGHTNING": {
+          "n": "RAIO ESFÉRICO",
+          "d": "ARREMESSOS ORBITAM E CHOQUEIAM.",
+          "s": [
+            "ÓRBITA",
+            "3 DPS"
+          ]
+        },
+        "THUNDERHEAD": {
+          "n": "MENTE DO TROVÃO",
+          "d": "+1 CADEIA EM TODOS OS EFEITOS DE RAIO.",
+          "s": [
+            "+1 CADEIA"
+          ]
+        },
+        "TEMPEST CROWN": {
+          "n": "COROA DA TEMPESTADE",
+          "d": "A CADA 5º ARREMESSO, ATINGE 3 INIMIGOS.",
+          "s": [
+            "5º",
+            "3 ALVOS"
+          ]
+        },
+        "THUNDER GOD": {
+          "n": "DEUS DO TROVÃO",
+          "d": "+30% DE DANO DE RAIO, +15% DE VELOCIDADE DE ATAQUE.",
+          "s": [
+            "+30% DANO",
+            "+15% ATQ"
+          ]
+        },
+        "THORNBACK": {
+          "n": "DORSO DE ESPINHOS",
+          "d": "REFLETE 60% DO DANO DE CONTATO.",
+          "s": [
+            "60% REFLEXO"
+          ]
+        },
+        "VERDANT GROWTH": {
+          "n": "CRESCIMENTO VERDEJANTE",
+          "d": "+2 DE VIDA MÁXIMA POR ONDA CONCLUÍDA.",
+          "s": [
+            "+2 VIDA/ONDA"
+          ]
+        },
+        "CANOPY": {
+          "n": "DOSSEL",
+          "d": "-25% DE DANO DE ATAQUES À DISTÂNCIA.",
+          "s": [
+            "-25% DISTÂNCIA"
+          ]
+        },
+        "BRIAR TRAP": {
+          "n": "ARMADILHA DE ESPINHOS",
+          "d": "ACERTOS PRENDEM POR 2S.",
+          "s": [
+            "PRENDE 2S"
+          ]
+        },
+        "WILD HEART": {
+          "n": "CORAÇÃO SELVAGEM",
+          "d": "+20% DE DANO E +10% DE VELOCIDADE NESTA TEMPORADA.",
+          "s": [
+            "+20% DANO",
+            "+10% VEL."
+          ]
+        },
+        "SUNBAKED": {
+          "n": "TORRADO PELO SOL",
+          "d": "+10% DE DANO NESTA TEMPORADA.",
+          "s": [
+            "+10% DANO"
+          ]
+        },
+        "SCORCHING SANDS": {
+          "n": "AREIAS ESCALDANTES",
+          "d": "AURA CAUSA 2 DE DANO/S.",
+          "s": [
+            "2 DPS",
+            "48PX"
+          ]
+        },
+        "SANDSTORM": {
+          "n": "TEMPESTADE DE AREIA",
+          "d": "A CADA 7º ARREMESSO, CEGA INIMIGOS PRÓXIMOS.",
+          "s": [
+            "6 DANO",
+            "64PX"
+          ]
+        },
+        "PHARAOH'S CURSE": {
+          "n": "MALDIÇÃO DO FARAÓ",
+          "d": "INIMIGOS MORTOS DEIXAM UMA MARCA QUE EXPLODE.",
+          "s": [
+            "10 DANO",
+            "48PX"
+          ]
+        },
+        "ICE ARMOR": {
+          "n": "ARMADURA DE GELO",
+          "d": "+3 RES, -5% DE VELOCIDADE.",
+          "s": [
+            "+3 RES",
+            "-5% VEL."
+          ]
+        },
+        "WHITEOUT": {
+          "n": "NEVASCA",
+          "d": "INIMIGOS PRÓXIMOS ERRAM 20% DOS ATAQUES.",
+          "s": [
+            "20% ERRO",
+            "56PX"
+          ]
+        },
+        "BLIZZARD": {
+          "n": "NEVASCA FORTE",
+          "d": "AURA DEIXA 30% MAIS LENTO E CAUSA 1 DE DANO/S.",
+          "s": [
+            "-30% VEL.",
+            "1 DPS"
+          ]
+        },
+        "PERMAFROST": {
+          "n": "PERMAFROST",
+          "d": "ARREMESSOS CONGELAM POR 1,5S.",
+          "s": [
+            "CONGELA 1,5S"
+          ]
+        },
+        "FROZEN HEART": {
+          "n": "CORAÇÃO CONGELADO",
+          "d": "IMUNE A LENTIDÃO, +20% DE DANO.",
+          "s": [
+            "IMUNE LENTO",
+            "+20% DANO"
+          ]
+        },
+        "HIGH ALTITUDE": {
+          "n": "ALTA ALTITUDE",
+          "d": "+15% DE ALCANCE DE ATAQUE.",
+          "s": [
+            "+15% ALCANCE"
+          ]
+        },
+        "ECHO PEAK": {
+          "n": "PICO DO ECO",
+          "d": "A CADA 4º ARREMESSO, DISPARA DUAS VEZES.",
+          "s": [
+            "4º",
+            "2X"
+          ]
+        },
+        "STONEHEART": {
+          "n": "CORAÇÃO DE PEDRA",
+          "d": "+5 RES, -15% DE VELOCIDADE.",
+          "s": [
+            "+5 RES",
+            "-15% VEL."
+          ]
+        },
+        "LANDSLIDE": {
+          "n": "DESLIZAMENTO",
+          "d": "A CADA 8º ARREMESSO, PEDRAS CAEM.",
+          "s": [
+            "14 DANO",
+            "56PX"
+          ]
+        },
+        "SUMMIT'S EDGE": {
+          "n": "FIO DO CUME",
+          "d": "+35% DE DANO, -20% DE VIDA MÁXIMA.",
+          "s": [
+            "+35% DANO",
+            "-20% VIDA"
+          ]
+        },
+        "ECLIPSE BRAND": {
+          "n": "MARCA DO ECLIPSE",
+          "d": "ALVOS MARCADOS TOMAM +20% DE DANO POR 3S.",
+          "s": [
+            "+20% DANO",
+            "3S"
+          ]
+        },
+        "UMBRAL VEIL": {
+          "n": "VÉU UMBRAL",
+          "d": "15% DE CHANCE DE ESQUIVAR.",
+          "s": [
+            "15% ESQUIVA"
+          ]
+        },
+        "DARK RITE": {
+          "n": "RITO SOMBRIO",
+          "d": "MORTES CURAM 1 DE VIDA. LIMITE 1 POR SEGUNDO.",
+          "s": [
+            "+1 VIDA/MORTE"
+          ]
+        },
+        "VOID TOUCH": {
+          "n": "TOQUE DO VAZIO",
+          "d": "ARREMESSOS IGNORAM A ARMADURA INIMIGA.",
+          "s": [
+            "IGNORA ARMADURA"
+          ]
+        },
+        "TOTAL ECLIPSE": {
+          "n": "ECLIPSE TOTAL",
+          "d": "A CADA 15º ARREMESSO, O CÉU ESCURECE.",
+          "s": [
+            "40 DANO",
+            "TELA TODA"
+          ]
+        },
+        "SENTINEL DRONE": {
+          "n": "DRONE SENTINELA",
+          "d": "UM DRONE ORBITA E DISPARA NO INIMIGO MAIS PROXIMO.",
+          "s": [
+            "5 DISPAROS/S",
+            "RAPIDO"
+          ]
+        },
+        "KNIFE CIRCLE": {
+          "n": "CIRCULO DE FACAS",
+          "d": "FACAS AFIADAS GIRAM AO SEU REDOR E CAUSAM DANO.",
+          "s": [
+            "4 DPS",
+            "1 FACA"
+          ]
+        },
+        "OCCASIONAL BOMB": {
+          "n": "BOMBA OCASIONAL",
+          "d": "UMA BOMBA SURGE PERTO E EXPLODE APOS 1 SEGUNDO.",
+          "s": [
+            "INTERVALO 12S",
+            "40 DANO",
+            "60PX"
+          ]
+        },
+        "SENTINEL": {
+          "n": "SENTINELA",
+          "d": "UMA SENTINELA DE PEDRA PROTEGE E ATIRA EM INIMIGOS.",
+          "s": [
+            "50 VIDA",
+            "DISPARO 0,8S"
+          ]
+        }
+      },
+      "enemy": {
+        "grub": {
+          "n": "LARVA",
+          "d": "UMA LARVA GORDA QUE RASTEJA DIRETO ATÉ VOCÊ.",
+          "sp": "NENHUM"
+        },
+        "wasp": {
+          "n": "VESPA FERROADORA",
+          "d": "RÁPIDA E FRÁGIL, MERGULHA NA SUA CABEÇA.",
+          "sp": "INVESTE APÓS UM CURTO PREPARO"
+        },
+        "beetle": {
+          "n": "BESOURO-CASCA",
+          "d": "UMA MURALHA BLINDADA DE CASCA E PATAS.",
+          "sp": "BLINDADO: -1 DE DANO"
+        },
+        "spider": {
+          "n": "COSPE-TEIAS",
+          "d": "ESPREITA NOS CANTOS E COSPE TEIAS PEGAJOSAS.",
+          "sp": "AS TEIAS DEIXAM VOCÊ LENTO"
+        },
+        "brood": {
+          "n": "MÃE DA NINHADA (CHEFE)",
+          "d": "O CORAÇÃO DA FLORESTA, GERANDO VESPAS SEM FIM.",
+          "sp": "INVOCA VESPAS, ENFURECE COM 50%"
+        },
+        "scarab": {
+          "n": "ESCARAVELHO",
+          "d": "UM BESOURO DAS DUNAS QUE ANDA DE LADO.",
+          "sp": "NENHUM"
+        },
+        "thrall": {
+          "n": "ESCRAVO ENFAIXADO",
+          "d": "UM CADÁVER ENFAIXADO QUE LEVANTA DE NOVO.",
+          "sp": "REVIVE UMA VEZ COM 50% DE VIDA"
+        },
+        "hound": {
+          "n": "CÃO DE ANÚBIS",
+          "d": "UM CAÇADOR COM CARA DE CHACAL QUE DÁ BOTES EM LINHA.",
+          "sp": "BOTE EM LINHA RETA"
+        },
+        "guard": {
+          "n": "GUARDIÃO DA TUMBA",
+          "d": "UMA ESTÁTUA COM ESCUDO QUE PRECISA SER FLANQUEADA.",
+          "sp": "ESCUDO: ATAQUE PELAS COSTAS"
+        },
+        "pharaoh": {
+          "n": "FARAÓ SOLAR (CHEFE)",
+          "d": "O GOVERNANTE DAS DUNAS COROADO PELO SOL.",
+          "sp": "INVOCA ESCRAVOS QUE REVIVEM, VARREDURA DE RAIO SOLAR, ENFURECE COM 30%"
+        },
+        "bat": {
+          "n": "MORCEGO GÉLIDO",
+          "d": "UM VOADOR ESTRIDENTE, ERRÁTICO E RÁPIDO.",
+          "sp": "VOO ERRÁTICO"
+        },
+        "ice": {
+          "n": "ELEMENTAL DE GELO",
+          "d": "UM NÚCLEO CONGELADO QUE SE DIVIDE AO QUEBRAR.",
+          "sp": "DIVIDE-SE EM 2 AO MORRER"
+        },
+        "archer": {
+          "n": "ARQUEIRO GÉLIDO",
+          "d": "UM ATIRADOR PACIENTE COM CAPUZ COBERTO DE GELO.",
+          "sp": "ACERTOS DEIXAM VOCÊ 25% MAIS LENTO"
+        },
+        "stalker": {
+          "n": "ESPREITADOR DA NEVE",
+          "d": "UM EMBOSCADOR BRANCO QUE SE ESCONDE NOS MONTES DE NEVE.",
+          "sp": "INVISÍVEL ATÉ CHEGAR PERTO"
+        },
+        "frozen": {
+          "n": "O PICO CONGELADO (CHEFE)",
+          "d": "UMA MONTANHA VIVA DE GELO.",
+          "sp": "PANCADA NO CHÃO, CHUVA DE ESTILHAÇOS DE GELO, INVOCA ELEMENTAIS DE GELO"
+        },
+        "golem": {
+          "n": "GOLEM DE PEDRA",
+          "d": "UM ROCHEDO ANDANTE, PESADO E BLINDADO.",
+          "sp": "SE DIVIDE COM 50% DE VIDA"
+        },
+        "brute": {
+          "n": "BRUTO DA AVALANCHE",
+          "d": "UMA MURALHA DE PEDRA E FÚRIA QUE INVESTE.",
+          "sp": "INVESTE EM LINHA, ANUNCIADO ANTES"
+        },
+        "sentry": {
+          "n": "SENTINELA DE PEDRA",
+          "d": "UMA TORRE DE PEDRA QUE NUNCA PISCA.",
+          "sp": "DISPARA LASCAS DE PEDRA EM LEQUE"
+        },
+        "crawler": {
+          "n": "RASTEJANTE DE CRISTAL",
+          "d": "UM CANHÃO DE VIDRO COBERTO DE CRISTAIS.",
+          "sp": "COSPE UM ESTILHAÇO QUE QUICA NAS PAREDES"
+        },
+        "king": {
+          "n": "O REI DA MONTANHA (CHEFE)",
+          "d": "O GOVERNANTE COROADO DOS PICOS.",
+          "sp": "PANCADA NO CHÃO, INVOCA GOLEMS, ENFURECE COM 40%"
+        },
+        "acolyte": {
+          "n": "ACÓLITO DE SANGUE",
+          "d": "UM CONJURADOR ENCAPUZADO QUE DRENA SEUS ATRIBUTOS.",
+          "sp": "AO ACERTAR, DRENA 1 ATRIBUTO ALEATÓRIO"
+        },
+        "flesh": {
+          "n": "CÃO DE CARNE",
+          "d": "UMA COISA CONTORCIDA QUE SE CURA COM A SUA DOR.",
+          "sp": "CURA-SE PELO DANO CAUSADO"
+        },
+        "eye": {
+          "n": "OLHO DO ECLIPSE",
+          "d": "UM OLHO VIGILANTE QUE TOMA SEU PODER EMPRESTADO.",
+          "sp": "COPIA UMA DAS SUAS MAGIAS COMO ATAQUE"
+        },
+        "husk": {
+          "n": "CASCA LAMURIOSA",
+          "d": "UMA CASCA OCA QUE GRITA POR AJUDA.",
+          "sp": "GRITA E INVOCA 2 INIMIGOS POR GRITO"
+        },
+        "choir": {
+          "n": "CORO UMBRAL (CHEFE)",
+          "d": "UM CORO DE BOCAS CANTANDO O FIM.",
+          "sp": "3 FASES: DRENAR, ESPELHAR, INVOCAR"
+        }
+      }
+    }
+  },
+  "EN": [
+    {
+      "biome": "FOREST",
+      "name": "GRUB",
+      "key": "grub",
+      "desc": "A FAT LARVA THAT CRAWLS STRAIGHT AT YOU.",
+      "hp": 6,
+      "dmg": 1,
+      "spd": "SLOW",
+      "atk": "NORMAL",
+      "range": "TOUCH",
+      "sp": "NONE"
+    },
+    {
+      "biome": "FOREST",
+      "name": "STINGER WASP",
+      "key": "wasp",
+      "desc": "FAST AND BRITTLE, DIVES AT YOUR HEAD.",
+      "hp": 4,
+      "dmg": 2,
+      "spd": "FAST",
+      "atk": "NORMAL",
+      "range": "TOUCH",
+      "sp": "DASHES AFTER A SHORT WINDUP"
+    },
+    {
+      "biome": "FOREST",
+      "name": "BARK BEETLE",
+      "key": "beetle",
+      "desc": "AN ARMORED WALL OF BARK AND LEGS.",
+      "hp": 18,
+      "dmg": 2,
+      "spd": "VERY SLOW",
+      "atk": "SLOW",
+      "range": "TOUCH",
+      "sp": "ARMORED -1 DMG"
+    },
+    {
+      "biome": "FOREST",
+      "name": "WEB SPITTER",
+      "key": "spider",
+      "desc": "LURKS IN CORNERS AND SPITS STICKY WEBS.",
+      "hp": 8,
+      "dmg": 1,
+      "spd": "NORMAL",
+      "atk": "SLOW",
+      "range": "HIGH",
+      "sp": "WEBS SLOW YOU"
+    },
+    {
+      "biome": "FOREST",
+      "name": "BROOD MOTHER (BOSS)",
+      "key": "brood",
+      "desc": "THE FOREST'S HEART, BIRTHING ENDLESS WASPS.",
+      "hp": 240,
+      "dmg": 6,
+      "spd": "NORMAL",
+      "atk": "NORMAL",
+      "range": "HIGH",
+      "sp": "SUMMONS WASPS, ENRAGES AT 50%"
+    },
+    {
+      "biome": "DESERT",
+      "name": "SCARAB",
+      "key": "scarab",
+      "desc": "A SCUTTLING DUNE BEETLE.",
+      "hp": 8,
+      "dmg": 1,
+      "spd": "NORMAL",
+      "atk": "NORMAL",
+      "range": "TOUCH",
+      "sp": "NONE"
+    },
+    {
+      "biome": "DESERT",
+      "name": "BANDAGED THRALL",
+      "key": "thrall",
+      "desc": "A WRAPPED CORPSE THAT RISES AGAIN.",
+      "hp": 14,
+      "dmg": 3,
+      "spd": "VERY SLOW",
+      "atk": "SLOW",
+      "range": "TOUCH",
+      "sp": "REVIVES ONCE AT 50% HP"
+    },
+    {
+      "biome": "DESERT",
+      "name": "ANUBIS HOUND",
+      "key": "hound",
+      "desc": "A JACKAL-FACED HUNTER THAT LUNGES IN A LINE.",
+      "hp": 12,
+      "dmg": 3,
+      "spd": "VERY FAST",
+      "atk": "NORMAL",
+      "range": "TOUCH",
+      "sp": "STRAIGHT-LINE LUNGE"
+    },
+    {
+      "biome": "DESERT",
+      "name": "TOMB GUARDIAN",
+      "key": "guard",
+      "desc": "A SHIELDED STATUE THAT MUST BE FLANKED.",
+      "hp": 24,
+      "dmg": 4,
+      "spd": "VERY SLOW",
+      "atk": "SLOW",
+      "range": "TOUCH",
+      "sp": "SHIELD: HIT FROM BEHIND"
+    },
+    {
+      "biome": "DESERT",
+      "name": "SUN PHARAOH (BOSS)",
+      "key": "pharaoh",
+      "desc": "THE SUN-CROWNED RULER OF THE DUNES.",
+      "hp": 260,
+      "dmg": 7,
+      "spd": "LOW",
+      "atk": "NORMAL",
+      "range": "HIGH",
+      "sp": "SUMMONS REVIVING THRALLS, SOLAR BEAM SWEEP, ENRAGES AT 30%"
+    },
+    {
+      "biome": "SNOW",
+      "name": "FROST BAT",
+      "key": "bat",
+      "desc": "A SHRIEKING FLIER, ERRATIC AND FAST.",
+      "hp": 6,
+      "dmg": 2,
+      "spd": "VERY FAST",
+      "atk": "FAST",
+      "range": "TOUCH",
+      "sp": "ERRATIC FLIGHT"
+    },
+    {
+      "biome": "SNOW",
+      "name": "ICE ELEMENTAL",
+      "key": "ice",
+      "desc": "A FROZEN CORE THAT SPLITS WHEN BROKEN.",
+      "hp": 16,
+      "dmg": 3,
+      "spd": "SLOW",
+      "atk": "NORMAL",
+      "range": "TOUCH",
+      "sp": "SPLITS INTO 2 ON DEATH"
+    },
+    {
+      "biome": "SNOW",
+      "name": "FROST ARCHER",
+      "key": "archer",
+      "desc": "A PATIENT SHOOTER IN A FROSTED HOOD.",
+      "hp": 10,
+      "dmg": 3,
+      "spd": "LOW",
+      "atk": "SLOW",
+      "range": "VERY HIGH",
+      "sp": "HITS SLOW YOU 25%"
+    },
+    {
+      "biome": "SNOW",
+      "name": "SNOW STALKER",
+      "key": "stalker",
+      "desc": "A WHITE AMBUSHER THAT HIDES IN THE DRIFTS.",
+      "hp": 14,
+      "dmg": 5,
+      "spd": "FAST",
+      "atk": "NORMAL",
+      "range": "TOUCH",
+      "sp": "INVISIBLE UNTIL CLOSE"
+    },
+    {
+      "biome": "SNOW",
+      "name": "THE FROZEN PEAK (BOSS)",
+      "key": "frozen",
+      "desc": "A LIVING MOUNTAIN OF ICE.",
+      "hp": 300,
+      "dmg": 8,
+      "spd": "VERY SLOW",
+      "atk": "LOW",
+      "range": "HIGH",
+      "sp": "GROUND SLAM, ICE SHARD VOLLEY, SUMMONS ICE ELEMENTALS"
+    },
+    {
+      "biome": "MOUNTAIN",
+      "name": "ROCK GOLEM",
+      "key": "golem",
+      "desc": "A WALKING BOULDER, HEAVY AND ARMORED.",
+      "hp": 40,
+      "dmg": 5,
+      "spd": "VERY SLOW",
+      "atk": "VERY SLOW",
+      "range": "TOUCH",
+      "sp": "SPLITS AT 50% HP"
+    },
+    {
+      "biome": "MOUNTAIN",
+      "name": "AVALANCHE BRUTE",
+      "key": "brute",
+      "desc": "A CHARGING WALL OF STONE AND FURY.",
+      "hp": 26,
+      "dmg": 6,
+      "spd": "NORMAL (BURST)",
+      "atk": "VERY SLOW",
+      "range": "TOUCH",
+      "sp": "CHARGES IN A LINE, TELEGRAPHED"
+    },
+    {
+      "biome": "MOUNTAIN",
+      "name": "STONE SENTRY",
+      "key": "sentry",
+      "desc": "A STONE TURRET THAT NEVER BLINKS.",
+      "hp": 18,
+      "dmg": 3,
+      "spd": "STATIONARY",
+      "atk": "NORMAL",
+      "range": "VERY HIGH",
+      "sp": "FIRES ROCK SHARDS IN A FAN"
+    },
+    {
+      "biome": "MOUNTAIN",
+      "name": "CRYSTAL CRAWLER",
+      "key": "crawler",
+      "desc": "A GLASS CANNON COVERED IN CRYSTALS.",
+      "hp": 10,
+      "dmg": 4,
+      "spd": "FAST",
+      "atk": "NORMAL",
+      "range": "TOUCH",
+      "sp": "SPITS A SHARD THAT BOUNCES OFF WALLS"
+    },
+    {
+      "biome": "MOUNTAIN",
+      "name": "THE MOUNTAIN KING (BOSS)",
+      "key": "king",
+      "desc": "THE CROWNED RULER OF THE PEAKS.",
+      "hp": 320,
+      "dmg": 8,
+      "spd": "VERY SLOW",
+      "atk": "LOW",
+      "range": "HIGH",
+      "sp": "GROUND SLAM, SUMMONS GOLEMS, ENRAGES AT 40%"
+    },
+    {
+      "biome": "ECLIPSE",
+      "name": "BLOOD ACOLYTE",
+      "key": "acolyte",
+      "desc": "A ROBED CASTER THAT DRAINS YOUR STATS.",
+      "hp": 10,
+      "dmg": 2,
+      "spd": "NORMAL",
+      "atk": "NORMAL",
+      "range": "HIGH",
+      "sp": "ON HIT DRAINS 1 RANDOM STAT"
+    },
+    {
+      "biome": "ECLIPSE",
+      "name": "FLESH HOUND",
+      "key": "flesh",
+      "desc": "A WRITHING THING THAT HEALS FROM YOUR PAIN.",
+      "hp": 18,
+      "dmg": 4,
+      "spd": "FAST",
+      "atk": "FAST",
+      "range": "TOUCH",
+      "sp": "HEALS ITSELF FOR DAMAGE DEALT"
+    },
+    {
+      "biome": "ECLIPSE",
+      "name": "EYE OF THE ECLIPSE",
+      "key": "eye",
+      "desc": "A WATCHING EYE THAT BORROWS YOUR POWER.",
+      "hp": 22,
+      "dmg": 3,
+      "spd": "VERY SLOW",
+      "atk": "NORMAL",
+      "range": "VERY HIGH",
+      "sp": "COPIES ONE OF YOUR SPELLS AS AN ATTACK"
+    },
+    {
+      "biome": "ECLIPSE",
+      "name": "WAILING HUSK",
+      "key": "husk",
+      "desc": "A HOLLOW SCREAMER THAT CALLS FOR HELP.",
+      "hp": 26,
+      "dmg": 2,
+      "spd": "VERY SLOW",
+      "atk": "VERY SLOW",
+      "range": "HIGH",
+      "sp": "SCREAMS, SPAWNS 2 ENEMIES PER SCREAM"
+    },
+    {
+      "biome": "ECLIPSE",
+      "name": "THE UMBRAL CHOIR (BOSS)",
+      "key": "choir",
+      "desc": "A CHORUS OF MOUTHS SINGING THE END.",
+      "hp": 340,
+      "dmg": 8,
+      "spd": "LOW",
+      "atk": "NORMAL",
+      "range": "VERY HIGH",
+      "sp": "3 PHASES: DRAIN, MIRROR, SUMMON"
+    }
+  ],
+  "SPELLS": [
+    {
+      "name": "IRON WILL",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "+12 MAX HP.",
+      "stats": [
+        "+12 HP"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "QUICKSTEP",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "+8% MOVE SPEED.",
+      "stats": [
+        "+8% SPD"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "FOCUS STONE",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "-10% ATTACK COOLDOWN.",
+      "stats": [
+        "-10% CD"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "LUCKY FANG",
+      "element": "air",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "+8% CRIT CHANCE.",
+      "stats": [
+        "+8% CRIT"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "FLINT SHARD",
+      "element": "fire",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "+2 FLAT DAMAGE PER THROW.",
+      "stats": [
+        "+2 DMG"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "WIND CHIME",
+      "element": "air",
+      "type": "status",
+      "activation": "aoe",
+      "rarity": "common",
+      "desc": "NEARBY ENEMIES SLOWED 10%.",
+      "stats": [
+        "-10% SPD",
+        "48PX"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "SAP GLAND",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "KILLS HEAL 1 HP. MAX 1 PER 2S.",
+      "stats": [
+        "+1 HP/KILL"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "EMBER CORE",
+      "element": "fire",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "common",
+      "desc": "ON KILL, A SMALL FIRE BURST.",
+      "stats": [
+        "8 DMG",
+        "40PX"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "SPARK TIP",
+      "element": "lightning",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "15% CHANCE ON HIT FOR +3 LIGHTNING DMG.",
+      "stats": [
+        "15%",
+        "+3 DMG"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "TOXIC SPORE",
+      "element": "water",
+      "type": "status",
+      "activation": "aoe",
+      "rarity": "common",
+      "desc": "ON KILL, POISON CLOUD DEALS 5 DMG OVER 3S.",
+      "stats": [
+        "5 DMG",
+        "3S"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "THORN MAIL",
+      "element": "earth",
+      "type": "damage",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "REFLECT 40% CONTACT DAMAGE.",
+      "stats": [
+        "40% REFLECT"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "HUNTER'S EYE",
+      "element": "air",
+      "type": "damage",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "+15% CRIT CHANCE, +25% CRIT DMG.",
+      "stats": [
+        "+15% CRIT",
+        "+25% CD"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "STATIC FIELD",
+      "element": "lightning",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "AURA DEALS 1 DMG EVERY 0.5S.",
+      "stats": [
+        "1/0.5S",
+        "48PX"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "ECHO CHAMBER",
+      "element": "air",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "EVERY 5TH THROW FIRES A FULL RING.",
+      "stats": [
+        "5TH",
+        "360°"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "FROST LENS",
+      "element": "water",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "20% CHANCE ON HIT TO FREEZE 1S.",
+      "stats": [
+        "20%",
+        "1S"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "RICOCHET",
+      "element": "air",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "THROWS BOUNCE TO A NEARBY ENEMY.",
+      "stats": [
+        "1 BOUNCE",
+        "50% DMG"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "TIDAL FORCE",
+      "element": "water",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "THROWS PIERCE UP TO 3 ENEMIES.",
+      "stats": [
+        "PIERCE 3"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "PACT OF IRON",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "+3 RES, +25 HP, -15% MOVE SPD.",
+      "stats": [
+        "+3 RES",
+        "+25 HP",
+        "-15% SPD"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "ELEMENTAL CORE",
+      "element": "air",
+      "type": "weapon",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "WEAPON CYCLES ELEMENT EVERY 8S, +15% DMG.",
+      "stats": [
+        "+15% DMG",
+        "8S"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "GRAVITY WELL",
+      "element": "earth",
+      "type": "status",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "NEARBY ENEMIES ARE PULLED TOWARD YOU.",
+      "stats": [
+        "PULL",
+        "64PX"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "ECLIPSE CROWN",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "ALL NUMERIC SPELL EFFECTS +30%.",
+      "stats": [
+        "+30% ALL"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "WORLD ENDER",
+      "element": "blood",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "legendary",
+      "desc": "KILLS HAVE 10% CHANCE TO CHAIN-KILL A NEARBY ENEMY.",
+      "stats": [
+        "10% CHAIN"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "AQUA VEIL",
+      "element": "water",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "+2 RES.",
+      "stats": [
+        "+2 RES"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "BRINE TOUCH",
+      "element": "water",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "+10% DMG VS SLOWED ENEMIES.",
+      "stats": [
+        "+10% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "BUBBLE BURST",
+      "element": "water",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "common",
+      "desc": "ON HIT, A SMALL WATER BURST.",
+      "stats": [
+        "6 DMG",
+        "32PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SPLASH GUARD",
+      "element": "water",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "-10% DAMAGE TAKEN.",
+      "stats": [
+        "-10% TAKEN"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "TIDE RING",
+      "element": "water",
+      "type": "status",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "NEARBY ENEMIES SLOWED 25%.",
+      "stats": [
+        "-25% SPD",
+        "64PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "RIPTIDE",
+      "element": "water",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "THROWS KNOCK ENEMIES BACK.",
+      "stats": [
+        "KNOCKBACK"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "FROSTBITE",
+      "element": "water",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "HITS SLOW 20% FOR 2S.",
+      "stats": [
+        "-20% SPD",
+        "2S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "TIDAL SHIELD",
+      "element": "water",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "A SHIELD ABSORBS 20 DAMAGE EACH WAVE.",
+      "stats": [
+        "20 SHIELD"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "UNDERTOW",
+      "element": "water",
+      "type": "status",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "DEFEATED ENEMIES SLOW NEARBY FOES.",
+      "stats": [
+        "-30% SPD",
+        "2S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "DEEP CURRENT",
+      "element": "water",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "AURA DEALS 2 DMG/S AND SLOWS 15%.",
+      "stats": [
+        "2 DPS",
+        "-15% SPD"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "MIRROR POOL",
+      "element": "water",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "20% CHANCE TO REFLECT A PROJECTILE.",
+      "stats": [
+        "20% REFLECT"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "WHIRLPOOL",
+      "element": "water",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "THROWS LEAVE A SPINNING VORTEX.",
+      "stats": [
+        "3S",
+        "2 DPS"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "RAIN DANCE",
+      "element": "water",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "KILLS GRANT +2% MOVE SPEED. MAX +20%.",
+      "stats": [
+        "+2%/KILL",
+        "MAX 20%"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "PRESSURE POINT",
+      "element": "water",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "CRITS DEAL +40% DAMAGE.",
+      "stats": [
+        "+40% CRIT"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "ABYSSAL PACT",
+      "element": "water",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "EVERY 10TH THROW IS A TIDAL WAVE.",
+      "stats": [
+        "10TH",
+        "60 DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "EMBER TRAIL",
+      "element": "fire",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "common",
+      "desc": "YOU LEAVE BURNING FOOTPRINTS.",
+      "stats": [
+        "4 DPS",
+        "1S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "BLAZING FANG",
+      "element": "fire",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "+12% DMG VS BURNING ENEMIES.",
+      "stats": [
+        "+12% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "ASHEN WAKE",
+      "element": "fire",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "KILLS LEAVE A BURNING CLOUD.",
+      "stats": [
+        "3 DPS",
+        "2S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SCORCH",
+      "element": "fire",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "THROWS BURN FOR 2S.",
+      "stats": [
+        "2 DPS",
+        "2S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "PYRE",
+      "element": "fire",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "common",
+      "desc": "DEFEATED BURNING ENEMIES EXPLODE.",
+      "stats": [
+        "8 DMG",
+        "40PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "CINDER CLOAK",
+      "element": "fire",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "ENEMIES THAT TOUCH YOU BURN 3S.",
+      "stats": [
+        "3 DPS",
+        "3S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "FLAME WHEEL",
+      "element": "fire",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "THROWS ORBIT AROUND YOU.",
+      "stats": [
+        "ORBIT",
+        "5 DPS"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "HEAT SHOCK",
+      "element": "fire",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "ON KILL, NEARBY ENEMIES TAKE 6 DMG.",
+      "stats": [
+        "6 DMG",
+        "48PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SUNSPOT",
+      "element": "fire",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "AURA DEALS 1 DMG/S.",
+      "stats": [
+        "1 DPS",
+        "40PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "WARMTH",
+      "element": "fire",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "TAKE 15% LESS DAMAGE WHILE BURNING.",
+      "stats": [
+        "-15% TAKEN"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "MOLTEN CORE",
+      "element": "fire",
+      "type": "weapon",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "THROWS EXPLODE ON IMPACT.",
+      "stats": [
+        "10 DMG",
+        "40PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "INFERNO BRAND",
+      "element": "fire",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "CRITS SET THE TARGET ABLAZE.",
+      "stats": [
+        "4 DPS",
+        "3S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "FIRESTORM",
+      "element": "fire",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "EVERY 6TH THROW CALLS A FIRE STORM.",
+      "stats": [
+        "8 DMG",
+        "64PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SOLAR FLARE",
+      "element": "fire",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "EVERY 8S, A FLARE BURNS THE WHOLE SCREEN.",
+      "stats": [
+        "10 DMG",
+        "8S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "PHOENIX DOWN",
+      "element": "fire",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "ONCE PER RUN, REVIVE WITH 30% HP.",
+      "stats": [
+        "1 REVIVE",
+        "30% HP"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "STONE SKIN",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "+2 RES, -5% MOVE SPEED.",
+      "stats": [
+        "+2 RES",
+        "-5% SPD"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "ROOT SNARE",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "HITS ROOT ENEMIES FOR 1S.",
+      "stats": [
+        "ROOT 1S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "DUST CLOUD",
+      "element": "earth",
+      "type": "status",
+      "activation": "aoe",
+      "rarity": "common",
+      "desc": "ON KILL, DUST SLOWS NEARBY FOES.",
+      "stats": [
+        "-20% ATK",
+        "48PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "MOSS CLOAK",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "REGEN 1 HP EVERY 8S.",
+      "stats": [
+        "+1/8S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "BOULDER TOSS",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "+25% DMG, -15% ATTACK SPEED.",
+      "stats": [
+        "+25% DMG",
+        "-15% ATK"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "ECHO STONE",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "THROWS BOUNCE OFF WALLS.",
+      "stats": [
+        "2 BOUNCES"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "TREMBLE",
+      "element": "earth",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "EVERY 5TH THROW SHAKES THE GROUND.",
+      "stats": [
+        "STUN .5S",
+        "48PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "STURDY FRAME",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "SLOWS AND KNOCKBACK LAST 30% LESS.",
+      "stats": [
+        "-30% DEBUFF"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "CLAY GUARD",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "A CLAY FAMILIAR BLOCKS 1 HIT PER WAVE.",
+      "stats": [
+        "1 BLOCK"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "GAIA'S GIFT",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "+40 MAX HP, -10% MOVE SPEED.",
+      "stats": [
+        "+40 HP",
+        "-10% SPD"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SPLIT STONE",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "THROWS SPLIT INTO 3 SHARDS.",
+      "stats": [
+        "3 SHARDS",
+        "50% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "AVALANCHE",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "EVERY 8TH THROW DROPS BOULDERS.",
+      "stats": [
+        "12 DMG",
+        "56PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "MOUNTAIN'S WILL",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "+3 RES, +20 HP.",
+      "stats": [
+        "+3 RES",
+        "+20 HP"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "PETRIFY",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "legendary",
+      "desc": "5% CHANCE TO STUN A FOE FOR 2S.",
+      "stats": [
+        "5%",
+        "2S STUN"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "TECTONIC",
+      "element": "earth",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "legendary",
+      "desc": "EVERY 12TH THROW SPLITS THE GROUND.",
+      "stats": [
+        "20 DMG",
+        "80PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "GALE STEP",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "+12% MOVE SPEED.",
+      "stats": [
+        "+12% SPD"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "FEATHER FALL",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "-20% DAMAGE FROM RANGED ATTACKS.",
+      "stats": [
+        "-20% RANGED"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "ZEPHYR BLADE",
+      "element": "air",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "+10% THROW SPEED.",
+      "stats": [
+        "+10% SPD"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "WHISPER",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "+5% CRIT, +5% MOVE SPEED.",
+      "stats": [
+        "+5% CRIT",
+        "+5% SPD"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "CYCLONE",
+      "element": "air",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "THROWS CURVE TOWARD THE NEAREST FOE.",
+      "stats": [
+        "HOMING"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SONIC CRACK",
+      "element": "air",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "HITS HAVE 10% CHANCE TO STUN.",
+      "stats": [
+        "10%",
+        "0.5S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "TAILWIND",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "+15% ATTACK SPEED.",
+      "stats": [
+        "+15% ATK"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "VACUUM",
+      "element": "air",
+      "type": "status",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "NEARBY ENEMIES DEAL 15% LESS DAMAGE.",
+      "stats": [
+        "-15% DMG",
+        "56PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "MIRAGE",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "10% CHANCE TO DODGE A HIT.",
+      "stats": [
+        "10% DODGE"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "UPDRAFT",
+      "element": "air",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "THROWS PIERCE 2 ENEMIES AND SPEED UP.",
+      "stats": [
+        "PIERCE 2",
+        "+20% SPD"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SHATTER WIND",
+      "element": "air",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "+20% DMG VS FROZEN OR STUNNED.",
+      "stats": [
+        "+20% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "STORMBREAK",
+      "element": "air",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "EVERY 7TH THROW RELEASES A GUST RING.",
+      "stats": [
+        "10 DMG",
+        "64PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SKY DANCE",
+      "element": "air",
+      "type": "weapon",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "EVERY 3RD THROW FIRES TWICE.",
+      "stats": [
+        "3RD",
+        "2X"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "TEMPEST",
+      "element": "air",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "legendary",
+      "desc": "THROWS SUMMON LIGHTNING ON HIT.",
+      "stats": [
+        "+8 DMG",
+        "CHAIN 2"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "EYE OF THE STORM",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "+25% ATTACK SPEED, +10% MOVE SPEED.",
+      "stats": [
+        "+25% ATK",
+        "+10% MOVE"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "BLOOD PEBBLE",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "1% LIFESTEAL ON ALL DAMAGE. CAP 1 HP/S.",
+      "stats": [
+        "1% STEAL"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "THIRST",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "+15% DMG VS WOUNDED ENEMIES.",
+      "stats": [
+        "+15% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "BLOOD SIGIL",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "+30% DMG, -25% MAX HP.",
+      "stats": [
+        "+30% DMG",
+        "-25% HP"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "CRIMSON PACT",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "+40% DMG, ALL HEALING -50%.",
+      "stats": [
+        "+40% DMG",
+        "-50% HEAL"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "VAMPIRE TOUCH",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "3% LIFESTEAL. CAP 1 HP/S.",
+      "stats": [
+        "3% STEAL"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "RUPTURE",
+      "element": "blood",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "HITS CAUSE BLEED: 3 DPS FOR 3S.",
+      "stats": [
+        "3 DPS",
+        "3S"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "VEIN BURST",
+      "element": "blood",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "ON KILL, BLOOD BURSTS FOR 8 DMG.",
+      "stats": [
+        "8 DMG",
+        "48PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "MARTYR",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "TAKE 15% LESS DMG, DEAL 10% LESS DMG.",
+      "stats": [
+        "-15% TAKEN",
+        "-10% DEALT"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "LAST BREATH",
+      "element": "blood",
+      "type": "weapon",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "+50% DMG BELOW 30% HP.",
+      "stats": [
+        "+50% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "BLOOD MOON",
+      "element": "blood",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "AURA DEALS 3 DPS. KILLS IN IT HEAL 1 HP.",
+      "stats": [
+        "3 DPS",
+        "+1 HP/KILL"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SANGUINE RITE",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "EVERY 10 KILLS, GAIN +1 MAX HP.",
+      "stats": [
+        "+1 HP/10K"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "CRIMSON CHAIN",
+      "element": "blood",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "CRITS HEAL 1 HP. CAP 1 PER SECOND.",
+      "stats": [
+        "+1 HP/CRIT"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "RED TIDE",
+      "element": "blood",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "AURA DEALS 2 DPS, HEALS 1 HP PER 4 KILLS.",
+      "stats": [
+        "2 DPS",
+        "1HP/4K"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "HEART OF GLASS",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "-40% MAX HP, +60% DAMAGE.",
+      "stats": [
+        "-40% HP",
+        "+60% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "EXSANGUINATE",
+      "element": "blood",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "legendary",
+      "desc": "8% CHANCE TO DEAL DOUBLE DMG AND HEAL 1 HP.",
+      "stats": [
+        "8%",
+        "2X +1HP"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "JOLT",
+      "element": "lightning",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "+8% ATTACK SPEED.",
+      "stats": [
+        "+8% ATK"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "STATIC CLING",
+      "element": "lightning",
+      "type": "status",
+      "activation": "touch",
+      "rarity": "common",
+      "desc": "HITS CHAIN 2 DMG TO A NEARBY FOE.",
+      "stats": [
+        "+2 CHAIN"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "STATIC BLOOM",
+      "element": "lightning",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "common",
+      "desc": "ON KILL, A STATIC BURST FOR 5 DMG.",
+      "stats": [
+        "5 DMG",
+        "40PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SHOCK THERAPY",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "STUNNED ENEMIES TAKE +25% DAMAGE.",
+      "stats": [
+        "+25% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "OVERCHARGE",
+      "element": "lightning",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "+20% DMG, -10% MAX HP.",
+      "stats": [
+        "+20% DMG",
+        "-10% HP"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "THUNDER STEP",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "+10% MOVE SPEED, LEAVE SPARKS.",
+      "stats": [
+        "+10% SPD",
+        "2 DPS"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "VOLT SHIELD",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "ATTACKERS TAKE 4 DAMAGE.",
+      "stats": [
+        "4 DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "ARC FLASH",
+      "element": "lightning",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "EVERY 6TH THROW STUNS NEARBY FOES.",
+      "stats": [
+        "0.5S",
+        "56PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "CHAIN LIGHTNING",
+      "element": "lightning",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "CRITS CHAIN TO 2 ENEMIES.",
+      "stats": [
+        "CHAIN 2",
+        "50% DMG"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "CONDUCTOR",
+      "element": "lightning",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "AURA DEALS 1 DMG EVERY 0.4S.",
+      "stats": [
+        "1/0.4S",
+        "40PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "STORMCALLER",
+      "element": "lightning",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "EVERY THROW LANDS A LIGHTNING BOLT.",
+      "stats": [
+        "+6 DMG",
+        "30PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "BALL LIGHTNING",
+      "element": "lightning",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "THROWS ORBIT AND ZAP.",
+      "stats": [
+        "ORBIT",
+        "3 DPS"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "THUNDERHEAD",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "+1 CHAIN ON ALL LIGHTNING EFFECTS.",
+      "stats": [
+        "+1 CHAIN"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "TEMPEST CROWN",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "EVERY 5TH THROW STRIKES 3 FOES.",
+      "stats": [
+        "5TH",
+        "3 TARGETS"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "THUNDER GOD",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "+30% LIGHTNING DMG, +15% ATK SPEED.",
+      "stats": [
+        "+30% DMG",
+        "+15% ATK"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "THORNBACK",
+      "element": "earth",
+      "type": "damage",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "REFLECT 60% CONTACT DAMAGE.",
+      "stats": [
+        "60% REFLECT"
+      ],
+      "scope": "season",
+      "season": "FOREST"
+    },
+    {
+      "name": "VERDANT GROWTH",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "+2 MAX HP PER WAVE CLEARED.",
+      "stats": [
+        "+2 HP/WAVE"
+      ],
+      "scope": "season",
+      "season": "FOREST"
+    },
+    {
+      "name": "CANOPY",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "-25% DAMAGE FROM RANGED ATTACKS.",
+      "stats": [
+        "-25% RANGED"
+      ],
+      "scope": "season",
+      "season": "FOREST"
+    },
+    {
+      "name": "BRIAR TRAP",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "HITS ROOT ENEMIES FOR 2S.",
+      "stats": [
+        "ROOT 2S"
+      ],
+      "scope": "season",
+      "season": "FOREST"
+    },
+    {
+      "name": "WILD HEART",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "+20% DMG AND +10% MOVE SPD THIS SEASON.",
+      "stats": [
+        "+20% DMG",
+        "+10% SPD"
+      ],
+      "scope": "season",
+      "season": "FOREST"
+    },
+    {
+      "name": "SUNBAKED",
+      "element": "fire",
+      "type": "status",
+      "activation": "self",
+      "rarity": "common",
+      "desc": "+10% DAMAGE THIS SEASON.",
+      "stats": [
+        "+10% DMG"
+      ],
+      "scope": "season",
+      "season": "DESERT"
+    },
+    {
+      "name": "SCORCHING SANDS",
+      "element": "fire",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "AURA DEALS 2 DMG/S.",
+      "stats": [
+        "2 DPS",
+        "48PX"
+      ],
+      "scope": "season",
+      "season": "DESERT"
+    },
+    {
+      "name": "MIRAGE",
+      "element": "fire",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "15% CHANCE TO DODGE A HIT.",
+      "stats": [
+        "15% DODGE"
+      ],
+      "scope": "season",
+      "season": "DESERT"
+    },
+    {
+      "name": "SANDSTORM",
+      "element": "earth",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "EVERY 7TH THROW BLINDS NEARBY FOES.",
+      "stats": [
+        "6 DMG",
+        "64PX"
+      ],
+      "scope": "season",
+      "season": "DESERT"
+    },
+    {
+      "name": "PHARAOH'S CURSE",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "legendary",
+      "desc": "KILLED FOES LEAVE A CURSED MARK THAT EXPLODES.",
+      "stats": [
+        "10 DMG",
+        "48PX"
+      ],
+      "scope": "season",
+      "season": "DESERT"
+    },
+    {
+      "name": "ICE ARMOR",
+      "element": "water",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "+3 RES, -5% MOVE SPEED.",
+      "stats": [
+        "+3 RES",
+        "-5% SPD"
+      ],
+      "scope": "season",
+      "season": "SNOW"
+    },
+    {
+      "name": "WHITEOUT",
+      "element": "air",
+      "type": "status",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "NEARBY ENEMIES MISS 20% OF ATTACKS.",
+      "stats": [
+        "20% MISS",
+        "56PX"
+      ],
+      "scope": "season",
+      "season": "SNOW"
+    },
+    {
+      "name": "BLIZZARD",
+      "element": "water",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "AURA SLOWS 30% AND DEALS 1 DPS.",
+      "stats": [
+        "-30% SPD",
+        "1 DPS"
+      ],
+      "scope": "season",
+      "season": "SNOW"
+    },
+    {
+      "name": "PERMAFROST",
+      "element": "water",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "THROWS FREEZE FOR 1.5S.",
+      "stats": [
+        "FREEZE 1.5S"
+      ],
+      "scope": "season",
+      "season": "SNOW"
+    },
+    {
+      "name": "FROZEN HEART",
+      "element": "water",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "IMMUNE TO SLOWS, +20% DAMAGE.",
+      "stats": [
+        "IMMUNE SLOW",
+        "+20% DMG"
+      ],
+      "scope": "season",
+      "season": "SNOW"
+    },
+    {
+      "name": "HIGH ALTITUDE",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "+15% ATTACK RANGE.",
+      "stats": [
+        "+15% RANGE"
+      ],
+      "scope": "season",
+      "season": "MOUNTAIN"
+    },
+    {
+      "name": "ECHO PEAK",
+      "element": "air",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "EVERY 4TH THROW FIRES TWICE.",
+      "stats": [
+        "4TH",
+        "2X"
+      ],
+      "scope": "season",
+      "season": "MOUNTAIN"
+    },
+    {
+      "name": "STONEHEART",
+      "element": "earth",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "+5 RES, -15% MOVE SPEED.",
+      "stats": [
+        "+5 RES",
+        "-15% SPD"
+      ],
+      "scope": "season",
+      "season": "MOUNTAIN"
+    },
+    {
+      "name": "LANDSLIDE",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "EVERY 8TH THROW DROPS BOULDERS.",
+      "stats": [
+        "14 DMG",
+        "56PX"
+      ],
+      "scope": "season",
+      "season": "MOUNTAIN"
+    },
+    {
+      "name": "SUMMIT'S EDGE",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "legendary",
+      "desc": "+35% DAMAGE, -20% MAX HP.",
+      "stats": [
+        "+35% DMG",
+        "-20% HP"
+      ],
+      "scope": "season",
+      "season": "MOUNTAIN"
+    },
+    {
+      "name": "ECLIPSE BRAND",
+      "element": "lightning",
+      "type": "damage",
+      "activation": "touch",
+      "rarity": "rare",
+      "desc": "MARKED FOES TAKE +20% DAMAGE FOR 3S.",
+      "stats": [
+        "+20% DMG",
+        "3S"
+      ],
+      "scope": "season",
+      "season": "ECLIPSE"
+    },
+    {
+      "name": "UMBRAL VEIL",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "15% CHANCE TO DODGE A HIT.",
+      "stats": [
+        "15% DODGE"
+      ],
+      "scope": "season",
+      "season": "ECLIPSE"
+    },
+    {
+      "name": "DARK RITE",
+      "element": "blood",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "KILLS HEAL 1 HP. CAP 1 PER SECOND.",
+      "stats": [
+        "+1 HP/KILL"
+      ],
+      "scope": "season",
+      "season": "ECLIPSE"
+    },
+    {
+      "name": "VOID TOUCH",
+      "element": "blood",
+      "type": "weapon",
+      "activation": "touch",
+      "rarity": "epic",
+      "desc": "THROWS IGNORE ENEMY ARMOR.",
+      "stats": [
+        "IGNORE ARMOR"
+      ],
+      "scope": "season",
+      "season": "ECLIPSE"
+    },
+    {
+      "name": "TOTAL ECLIPSE",
+      "element": "lightning",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "legendary",
+      "desc": "EVERY 15TH THROW DARKENS THE SKY.",
+      "stats": [
+        "40 DMG",
+        "FULL SCREEN"
+      ],
+      "scope": "season",
+      "season": "ECLIPSE"
+    },
+    {
+      "name": "SENTINEL DRONE",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "self",
+      "rarity": "rare",
+      "desc": "A DRONE ORBITS YOU AND FIRES AT THE NEAREST FOE.",
+      "stats": [
+        "5 SHOTS/S",
+        "FAST"
+      ],
+      "scope": "season",
+      "season": "ECLIPSE"
+    },
+    {
+      "name": "KNIFE CIRCLE",
+      "element": "air",
+      "type": "weapon",
+      "activation": "aoe",
+      "rarity": "rare",
+      "desc": "SHARP KNIVES SPIN AROUND YOU, DEALING DAMAGE.",
+      "stats": [
+        "4 DPS",
+        "1 KNIFE"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "OCCASIONAL BOMB",
+      "element": "fire",
+      "type": "damage",
+      "activation": "aoe",
+      "rarity": "epic",
+      "desc": "A BOMB APPEARS NEAR YOU AND EXPLODES AFTER 1 SECOND.",
+      "stats": [
+        "12S INTERVAL",
+        "40 DMG",
+        "60PX"
+      ],
+      "scope": "element",
+      "season": null
+    },
+    {
+      "name": "SENTINEL",
+      "element": "earth",
+      "type": "weapon",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "A STONE SENTINEL GUARDS YOU AND FIRES AT NEARBY FOES.",
+      "stats": [
+        "50 HP",
+        "0.8S SHOTS"
+      ],
+      "scope": "element",
+      "season": null
+    }
+  ],
+  "LORE": {
+    "en": {
+      "spells": {
+        "EMBER CORE": "A cinder still warm from the heart of a fallen fire elemental.",
+        "SAP GLAND": "Cut from a tree that was never quite sure it was a tree.",
+        "LUCKY FANG": "Pulled from a wolf that outlived three hunters and one very confident bard.",
+        "SPARK TIP": "Struck by lightning exactly once, and has held a grudge ever since.",
+        "IRON WILL": "A horseshoe nailed above the door of a house that never fell.",
+        "WIND CHIME": "Hung in a doorway that opens onto nowhere in particular.",
+        "MOSS CLOAK": "Damp, soft, and quietly proud of its own patience.",
+        "FLINT SHARD": "The first tool any hand ever learned to throw angrily.",
+        "TOXIC SPORE": "It blooms politely, right up until it doesn't.",
+        "QUICKSTEP": "A note sewn into the sole: not responsible for where these take you.",
+        "FOCUS STONE": "Smooth as a held breath, and just as patient.",
+        "BLOOD PEBBLE": "A river stone that spent one very long night in a very red river.",
+        "BLOOD SIGIL": "Signed in something redder than ink.",
+        "TIDE RING": "Salt still gathers on it, a hundred miles from any sea.",
+        "THORN MAIL": "Each barb was a rose once, before it learned what roses are for.",
+        "VAMPIRE TOUCH": "A glove left on the doorstep of a manor with no mirrors.",
+        "FROST LENS": "Whatever you look at through it forgets to blink.",
+        "ECHO CHAMBER": "A bell with no clapper, answering things nobody rang.",
+        "HUNTER'S EYE": "Glass from the eye of a hunter who never missed and never smiled.",
+        "STATIC FIELD": "The air around it crackles like a wool blanket's long-nursed revenge.",
+        "CRIMSON PACT": "Two signatures, one pen, and a paragraph nobody read.",
+        "LAST BREATH": "Kept in a jar by something that wanted to remember how it felt.",
+        "STORMCALLER": "A tuning fork the sky keeps trying to borrow.",
+        "ELEMENTAL CORE": "Six elements share this one stone and take turns being the loudest.",
+        "BLOOD MOON": "It rose red once, and has been collecting ever since.",
+        "TIDAL FORCE": "A wave that forgot to come back down.",
+        "PACT OF IRON": "Signed with a gauntlet, so the handshake would last.",
+        "ECLIPSE CROWN": "Worn by something that ruled before the sky was sorted into days.",
+        "WORLD ENDER": "Forged on the last day of an earlier world, and never put back.",
+        "ABYSSAL PACT": "The sea offered a hand. Something in the dark shook it.",
+        "PHOENIX DOWN": "A single feather that refuses to accept the ending.",
+        "PETRIFY": "Medusa's lesser-known cousin, sold by the ounce.",
+        "TECTONIC": "A fragment of a fault line that still remembers the argument.",
+        "TEMPEST": "Bottled wind from a storm that never finished its sentence.",
+        "EYE OF THE STORM": "The calm at the centre, kept in a jar against better advice.",
+        "TEMPEST CROWN": "Three thrones, three kings, one very short argument.",
+        "THUNDER GOD": "A shard of a god's tooth. It still bites.",
+        "HEART OF GLASS": "It beats. You can hear it. That is the problem.",
+        "EXSANGUINATE": "The last drop of a very persistent nobleman.",
+        "WILD HEART": "A seed that grew around the axe instead of away from it.",
+        "PHARAOH'S CURSE": "A grudge written in hieroglyphs, and it is a long one.",
+        "FROZEN HEART": "Somebody kept waiting. The waiting froze over.",
+        "SUMMIT'S EDGE": "The piece of the mountain that argued with the sky.",
+        "KNIFE CIRCLE": "A wheel of sharpened steel, forever seeking a target.",
+        "OCCASIONAL BOMB": "The fuse burns slowly. Its maker never came back for it.",
+        "SENTINEL": "An ancient guardian that still recognizes the living."
+      },
+      "enemies": {
+        "grub": "It has no eyes, but it always finds you.",
+        "wasp": "It apologizes after the sting, but only out of habit.",
+        "beetle": "Wears the forest floor like a coat of old doors.",
+        "spider": "Every web is a letter, and most of them are about you.",
+        "brood": "She does not fight. She only makes more.",
+        "scarab": "Pushes a small sun across the sand and resents every witness.",
+        "thrall": "Still wearing the linen it was promised would be temporary.",
+        "hound": "Its smile is the only part of it that holds still.",
+        "guard": "Sworn to a door that fell down three kingdoms ago.",
+        "pharaoh": "His crown is a sunrise he refuses to let finish.",
+        "bat": "Screams in a key the snow has never learned to ignore.",
+        "ice": "Somewhere inside, a very small summer is still trying to get out.",
+        "archer": "Frost on the string, and nothing in the quiver but winters.",
+        "stalker": "The drift behind you is a little too neat.",
+        "frozen": "It was a mountain before it was a mood.",
+        "golem": "Lichen has been using it as a bench for three hundred years.",
+        "brute": "Arrives like a bad decision made by an entire hillside.",
+        "sentry": "Carved to watch one road, and still watching since the road moved.",
+        "crawler": "Every facet shows you a slightly worse version of yourself.",
+        "king": "His crown is a ring of summits, and he has never once taken it off.",
+        "acolyte": "The robe is soaked red, and the prayer is mostly arithmetic.",
+        "flesh": "Sniffs out pain the way other hounds sniff out supper.",
+        "eye": "It watches you, and takes notes in your handwriting.",
+        "husk": "Hollow as a bell and twice as loud.",
+        "choir": "Every mouth is singing your name, and none of them agree on the tune."
+      },
+      "SENTINEL DRONE": "A watchful machine that never blinks."
+    },
+    "pt-br": {
+      "spells": {
+        "EMBER CORE": "Uma brasa ainda quente do coração de um elemental do fogo caído.",
+        "SAP GLAND": "Cortada de uma árvore que nunca teve certeza de ser uma árvore.",
+        "LUCKY FANG": "Tirada de um lobo que sobreviveu a três caçadores e a um bardo muito confiante.",
+        "SPARK TIP": "Levou um raio exatamente uma vez e guarda rancor desde então.",
+        "IRON WILL": "Uma ferradura pregada sobre a porta de uma casa que nunca caiu.",
+        "WIND CHIME": "Pendurado numa porta que abre para lugar nenhum em particular.",
+        "MOSS CLOAK": "Úmido, macio e discretamente orgulhoso da própria paciência.",
+        "FLINT SHARD": "A primeira ferramenta que uma mão aprendeu a arremessar com raiva.",
+        "TOXIC SPORE": "Floresce com educação, até o momento em que deixa de florescer.",
+        "QUICKSTEP": "Um bilhete costurado na sola: não nos responsabilizamos por aonde estas botas levam você.",
+        "FOCUS STONE": "Lisa como um fôlego contido, e igualmente paciente.",
+        "BLOOD PEBBLE": "Uma pedra de rio que passou uma noite muito longa num rio muito vermelho.",
+        "BLOOD SIGIL": "Assinado com algo mais vermelho que tinta.",
+        "TIDE RING": "O sal ainda se acumula nele, a cem milhas de qualquer mar.",
+        "THORN MAIL": "Cada espinho já foi uma rosa, antes de aprender para que servem as rosas.",
+        "VAMPIRE TOUCH": "Uma luva deixada na porta de uma mansão sem espelhos.",
+        "FROST LENS": "Tudo que se vê através dela esquece de piscar.",
+        "ECHO CHAMBER": "Um sino sem badalo, respondendo a coisas que ninguém tocou.",
+        "HUNTER'S EYE": "Vidro do olho de um caçador que nunca errou e nunca sorriu.",
+        "STATIC FIELD": "O ar ao redor estala como a vingança antiga de um cobertor de lã.",
+        "CRIMSON PACT": "Duas assinaturas, uma caneta e um parágrafo que ninguém leu.",
+        "LAST BREATH": "Guardado num frasco por algo que queria lembrar como era.",
+        "STORMCALLER": "Um diapasão que o céu vive tentando pedir emprestado.",
+        "ELEMENTAL CORE": "Seis elementos dividem esta pedra e se revezam para ser o mais barulhento.",
+        "BLOOD MOON": "Subiu vermelha uma vez e vem cobrando desde então.",
+        "TIDAL FORCE": "Uma onda que esqueceu de voltar para baixo.",
+        "PACT OF IRON": "Assinado com uma manopla, para o aperto de mão durar.",
+        "ECLIPSE CROWN": "Usada por algo que governava antes do céu ser dividido em dias.",
+        "WORLD ENDER": "Forjado no último dia de um mundo anterior e nunca guardado de volta.",
+        "KNIFE CIRCLE": "Uma roda de aco afiado, sempre a procura de um alvo.",
+        "OCCASIONAL BOMB": "O pavio queima devagar. Quem a criou nunca voltou.",
+        "SENTINEL": "Uma guardia antiga que ainda reconhece os vivos."
+      },
+      "enemies": {
+        "grub": "Não tem olhos, mas sempre encontra você.",
+        "wasp": "Pede desculpas depois da ferroada, mas só por hábito.",
+        "beetle": "Veste o chão da floresta como um casaco de portas velhas.",
+        "spider": "Cada teia é uma carta, e a maioria é sobre você.",
+        "brood": "Ela não luta. Ela só faz mais.",
+        "scarab": "Empurra um solzinho pela areia e se ressente de cada testemunha.",
+        "thrall": "Ainda usa o linho que lhe prometeram ser temporário.",
+        "hound": "O sorriso é a única parte dele que fica parada.",
+        "guard": "Jurou proteger uma porta que caiu três reinos atrás.",
+        "pharaoh": "A coroa dele é um nascer do sol que ele se recusa a deixar terminar.",
+        "bat": "Grita numa nota que a neve nunca aprendeu a ignorar.",
+        "ice": "Lá dentro, um verão minúsculo ainda tenta escapar.",
+        "archer": "Geada na corda e nada na aljava além de invernos.",
+        "stalker": "O monte de neve atrás de você está arrumado demais.",
+        "frozen": "Era uma montanha antes de virar um humor.",
+        "golem": "Há trezentos anos o líquen o usa como banco.",
+        "brute": "Chega como uma má decisão tomada por uma colina inteira.",
+        "sentry": "Esculpido para vigiar uma estrada, e segue vigiando desde que a estrada mudou de lugar.",
+        "crawler": "Cada faceta mostra uma versão um pouco pior de você.",
+        "king": "A coroa é um anel de picos, e ele nunca a tirou.",
+        "acolyte": "O manto está encharcado de vermelho, e a oração é basicamente aritmética.",
+        "flesh": "Fareja dor como outros cães farejam o jantar.",
+        "eye": "Observa você e anota tudo com a sua letra.",
+        "husk": "Oco como um sino e duas vezes mais barulhento.",
+        "choir": "Cada boca canta seu nome, e nenhuma concorda com a melodia."
+      },
+      "SENTINEL DRONE": "Uma maquina vigilante que nunca pisca."
+    }
+  },
+  "ENVS": [
+    {
+      "n": "FOREST",
+      "c": "--forest",
+      "el": [
+        "earth",
+        "air"
+      ],
+      "gim": "gim_forest"
+    },
+    {
+      "n": "DESERT",
+      "c": "--desert",
+      "el": [
+        "fire",
+        "earth"
+      ]
+    },
+    {
+      "n": "SNOW",
+      "c": "--snow",
+      "el": [
+        "water",
+        "air"
+      ]
+    },
+    {
+      "n": "MOUNTAIN",
+      "c": "--mountain",
+      "el": [
+        "earth",
+        "air"
+      ]
+    },
+    {
+      "n": "ECLIPSE",
+      "c": "--eclipse",
+      "el": [
+        "blood",
+        "lightning"
+      ]
+    }
+  ],
+  "WEAPONS": [
+    {
+      "id": "dagger",
+      "dmg": "LOW",
+      "spd": "VERY HIGH",
+      "rng": "LOW"
+    },
+    {
+      "id": "bow",
+      "dmg": "NORMAL",
+      "spd": "NORMAL",
+      "rng": "VERY HIGH"
+    },
+    {
+      "id": "axe",
+      "dmg": "HIGH",
+      "spd": "LOW",
+      "rng": "NORMAL"
+    },
+    {
+      "id": "staff",
+      "dmg": "VERY HIGH",
+      "spd": "VERY LOW",
+      "rng": "HIGH"
+    }
+  ],
+  "LEVELS": [
+    {
+      "id": "1-1",
+      "waves": 10,
+      "lock": false
+    },
+    {
+      "id": "1-2",
+      "waves": 15,
+      "lock": true
+    },
+    {
+      "id": "1-3",
+      "waves": 20,
+      "lock": true
+    }
+  ],
+  "BASE": {
+    "str": 8,
+    "res": 5,
+    "spd": 4,
+    "luck": 3,
+    "int": 5
+  },
+  "PT_SPELLS_RAW": {
+    "IRON WILL": "VONTADE DE FERRO|+12 DE VIDA MÁXIMA.|+12 VIDA",
+    "QUICKSTEP": "PASSO LIGEIRO|+8% DE VELOCIDADE DE MOVIMENTO.|+8% VEL.",
+    "FOCUS STONE": "PEDRA DE FOCO|-10% DE RECARGA DO ATAQUE.|-10% REC.",
+    "LUCKY FANG": "PRESA DA SORTE|+8% DE CHANCE DE CRÍTICO.|+8% CRÍT.",
+    "FLINT SHARD": "LASCA DE SÍLEX|+2 DE DANO FIXO POR ARREMESSO.|+2 DANO",
+    "WIND CHIME": "SINO DE VENTO|INIMIGOS PRÓXIMOS FICAM 10% MAIS LENTOS.|-10% VEL.;48PX",
+    "SAP GLAND": "GLÂNDULA DE SEIVA|MATAR CURA 1 DE VIDA. MÁX. 1 A CADA 2S.|+1 VIDA/MORTE",
+    "EMBER CORE": "NÚCLEO DE BRASA|AO MATAR, UMA PEQUENA EXPLOSÃO DE FOGO.|8 DANO;40PX",
+    "SPARK TIP": "PONTA FAÍSCA|15% DE CHANCE AO ACERTAR DE +3 DE DANO DE RAIO.|15%;+3 DANO",
+    "TOXIC SPORE": "ESPORO TÓXICO|AO MATAR, NUVEM DE VENENO CAUSA 5 DE DANO EM 3S.|5 DANO;3S",
+    "THORN MAIL": "COTA DE ESPINHOS|REFLETE 40% DO DANO DE CONTATO.|40% REFLEXO",
+    "HUNTER'S EYE": "OLHO DO CAÇADOR|+15% DE CRÍTICO, +25% DE DANO CRÍTICO.|+15% CRÍT.;+25% D.CRÍT.",
+    "STATIC FIELD": "CAMPO ESTÁTICO|AURA CAUSA 1 DE DANO A CADA 0,5S.|1/0,5S;48PX",
+    "ECHO CHAMBER": "CÂMARA DE ECO|A CADA 5º ARREMESSO, DISPARA UM ANEL COMPLETO.|5º;360°",
+    "FROST LENS": "LENTE GÉLIDA|20% DE CHANCE DE CONGELAR POR 1S AO ACERTAR.|20%;1S",
+    "RICOCHET": "RICOCHE|ARREMESSOS QUICAM PARA UM INIMIGO PRÓXIMO.|1 QUIQUE;50% DANO",
+    "TIDAL FORCE": "FORÇA DA MARÉ|ARREMESSOS ATRAVESSAM ATÉ 3 INIMIGOS.|PERFURA 3",
+    "PACT OF IRON": "PACTO DE FERRO|+3 RES, +25 VIDA, -15% DE VELOCIDADE.|+3 RES;+25 VIDA;-15% VEL.",
+    "ELEMENTAL CORE": "NÚCLEO ELEMENTAL|A ARMA TROCA DE ELEMENTO A CADA 8S, +15% DE DANO.|+15% DANO;8S",
+    "GRAVITY WELL": "POÇO DE GRAVIDADE|INIMIGOS PRÓXIMOS SÃO PUXADOS ATÉ VOCÊ.|PUXA;64PX",
+    "ECLIPSE CROWN": "COROA DO ECLIPSE|TODOS OS EFEITOS NUMÉRICOS +30%.|+30% TUDO",
+    "WORLD ENDER": "ACABA-MUNDOS|MORTES TÊM 10% DE CHANCE DE MATAR EM CADEIA.|10% CADEIA",
+    "AQUA VEIL": "VÉU AQUÁTICO|+2 DE RESISTÊNCIA.|+2 RES",
+    "BRINE TOUCH": "TOQUE DE SALMOURA|+10% DE DANO CONTRA INIMIGOS LENTOS.|+10% DANO",
+    "BUBBLE BURST": "EXPLOSÃO DE BOLHAS|AO ACERTAR, UMA PEQUENA EXPLOSÃO DE ÁGUA.|6 DANO;32PX",
+    "SPLASH GUARD": "GUARDA DE RESPINGO|-10% DE DANO RECEBIDO.|-10% RECEBIDO",
+    "TIDE RING": "ANEL DA MARÉ|INIMIGOS PRÓXIMOS FICAM 25% MAIS LENTOS.|-25% VEL.;64PX",
+    "RIPTIDE": "CORRENTEZA|ARREMESSOS EMPURRAM OS INIMIGOS PARA TRÁS.|EMPURRÃO",
+    "FROSTBITE": "CONGELAMENTO|ACERTOS DEIXAM 20% MAIS LENTO POR 2S.|-20% VEL.;2S",
+    "TIDAL SHIELD": "ESCUDO DE MARÉ|UM ESCUDO ABSORVE 20 DE DANO A CADA ONDA.|20 ESCUDO",
+    "UNDERTOW": "RESSACA|INIMIGOS DERROTADOS DEIXAM OS PRÓXIMOS LENTOS.|-30% VEL.;2S",
+    "DEEP CURRENT": "CORRENTE PROFUNDA|AURA CAUSA 2 DE DANO/S E DEIXA 15% MAIS LENTO.|2 DPS;-15% VEL.",
+    "MIRROR POOL": "POÇO ESPELHADO|20% DE CHANCE DE REFLETIR UM PROJÉTIL.|20% REFLEXO",
+    "WHIRLPOOL": "REDEMOINHO|ARREMESSOS DEIXAM UM VÓRTICE GIRATÓRIO.|3S;2 DPS",
+    "RAIN DANCE": "DANÇA DA CHUVA|MORTES DÃO +2% DE VELOCIDADE. MÁX. +20%.|+2%/MORTE;MÁX 20%",
+    "PRESSURE POINT": "PONTO DE PRESSÃO|CRÍTICOS CAUSAM +40% DE DANO.|+40% CRÍT.",
+    "ABYSSAL PACT": "PACTO ABISSAL|A CADA 10º ARREMESSO, UMA ONDA GIGANTE.|10º;60 DANO",
+    "EMBER TRAIL": "RASTRO DE BRASA|VOCÊ DEIXA PEGADAS EM CHAMAS.|4 DPS;1S",
+    "BLAZING FANG": "PRESA FLAMEJANTE|+12% DE DANO CONTRA INIMIGOS EM CHAMAS.|+12% DANO",
+    "ASHEN WAKE": "ESTEIRA DE CINZAS|MORTES DEIXAM UMA NUVEM EM CHAMAS.|3 DPS;2S",
+    "SCORCH": "CHAMUSCAR|ARREMESSOS QUEIMAM POR 2S.|2 DPS;2S",
+    "PYRE": "PIRE|INIMIGOS EM CHAMAS DERROTADOS EXPLODEM.|8 DANO;40PX",
+    "CINDER CLOAK": "MANTO DE CINZAS|QUEM TE TOCA QUEIMA POR 3S.|3 DPS;3S",
+    "FLAME WHEEL": "RODA DE FOGO|ARREMESSOS ORBITAM AO SEU REDOR.|ÓRBITA;5 DPS",
+    "HEAT SHOCK": "ONDA DE CALOR|AO MATAR, INIMIGOS PRÓXIMOS TOMAM 6 DE DANO.|6 DANO;48PX",
+    "SUNSPOT": "MANCHA SOLAR|AURA CAUSA 1 DE DANO/S.|1 DPS;40PX",
+    "WARMTH": "CALOR|TOME 15% MENOS DANO ENQUANTO QUEIMA.|-15% RECEBIDO",
+    "MOLTEN CORE": "NÚCLEO FUNDIDO|ARREMESSOS EXPLODEM NO IMPACTO.|10 DANO;40PX",
+    "INFERNO BRAND": "MARCA INFERNAL|CRÍTICOS INCENDEIAM O ALVO.|4 DPS;3S",
+    "FIRESTORM": "TEMPESTADE DE FOGO|A CADA 6º ARREMESSO, UMA TEMPESTADE.|8 DANO;64PX",
+    "SOLAR FLARE": "ERUPÇÃO SOLAR|A CADA 8S, UMA EXPLOSÃO QUEIMA A TELA TODA.|10 DANO;8S",
+    "PHOENIX DOWN": "RENASCER DA FÊNIX|UMA VEZ POR PARTIDA, RESSUSCITE COM 30% DE VIDA.|1 RENASCER;30% VIDA",
+    "STONE SKIN": "PELE DE PEDRA|+2 RES, -5% DE VELOCIDADE.|+2 RES;-5% VEL.",
+    "ROOT SNARE": "RAÍZES PRENSORAS|ACERTOS PRENDEM O INIMIGO POR 1S.|PRENDE 1S",
+    "DUST CLOUD": "NUVEM DE POEIRA|AO MATAR, POEIRA DEIXA INIMIGOS MAIS LENTOS.|-20% ATQ;48PX",
+    "MOSS CLOAK": "MANTO DE MUSGO|REGENERA 1 DE VIDA A CADA 8S.|+1/8S",
+    "BOULDER TOSS": "ARREMESSO DE ROCHA|+25% DE DANO, -15% DE VELOCIDADE DE ATAQUE.|+25% DANO;-15% ATQ",
+    "ECHO STONE": "PEDRA DO ECO|ARREMESSOS QUICAM NAS PAREDES.|2 QUIQUES",
+    "TREMBLE": "TREMOR|A CADA 5º ARREMESSO, O CHÃO TREME.|ATORDOA 0,5S;48PX",
+    "STURDY FRAME": "ESTRUTURA ROBUSTA|LENTIDÃO E EMPURRÃO DURAM 30% MENOS.|-30% EFEITOS",
+    "CLAY GUARD": "GUARDA DE ARGILA|UM FAMILIAR BLOQUEIA 1 GOLPE POR ONDA.|1 BLOQUEIO",
+    "GAIA'S GIFT": "PRESENTE DE GAIA|+40 DE VIDA MÁXIMA, -10% DE VELOCIDADE.|+40 VIDA;-10% VEL.",
+    "SPLIT STONE": "PEDRA DIVIDIDA|ARREMESSOS SE DIVIDEM EM 3 ESTILHAÇOS.|3 ESTILHAÇOS;50% DANO",
+    "AVALANCHE": "AVALANCHE|A CADA 8º ARREMESSO, PEDRAS CAEM DO CÉU.|12 DANO;56PX",
+    "MOUNTAIN'S WILL": "VONTADE DA MONTANHA|+3 RES, +20 DE VIDA.|+3 RES;+20 VIDA",
+    "PETRIFY": "PETRIFICAR|5% DE CHANCE DE ATORDOAR POR 2S.|5%;2S",
+    "TECTONIC": "TECTÔNICO|A CADA 12º ARREMESSO, O CHÃO SE ABRE.|20 DANO;80PX",
+    "GALE STEP": "PASSO VENTOSO|+12% DE VELOCIDADE DE MOVIMENTO.|+12% VEL.",
+    "FEATHER FALL": "QUEDA DE PLUMA|-20% DE DANO DE ATAQUES À DISTÂNCIA.|-20% DISTÂNCIA",
+    "ZEPHYR BLADE": "LÂMINA ZÉFIR|+10% DE VELOCIDADE DE ARREMESSO.|+10% VEL.",
+    "WHISPER": "SUSSURRO|+5% DE CRÍTICO, +5% DE VELOCIDADE.|+5% CRÍT.;+5% VEL.",
+    "CYCLONE": "CICLONE|ARREMESSOS CURVAM ATÉ O INIMIGO MAIS PRÓXIMO.|GUIADO",
+    "SONIC CRACK": "ESTOURO SÔNICO|ACERTOS TÊM 10% DE CHANCE DE ATORDOAR.|10%;0,5S",
+    "TAILWIND": "VENTO A FAVOR|+15% DE VELOCIDADE DE ATAQUE.|+15% ATQ",
+    "VACUUM": "VÁCUO|INIMIGOS PRÓXIMOS CAUSAM 15% MENOS DANO.|-15% DANO;56PX",
+    "MIRAGE": "MIRAGEM|10% DE CHANCE DE ESQUIVAR.|10% ESQUIVA",
+    "UPDRAFT": "CORRENTE ASCENDENTE|ARREMESSOS PERFURAM 2 INIMIGOS E ACELERAM.|PERFURA 2;+20% VEL.",
+    "SHATTER WIND": "VENTO QUEBRANTE|+20% DE DANO CONTRA CONGELADOS OU ATORDOADOS.|+20% DANO",
+    "STORMBREAK": "QUEBRA-TEMPESTADE|A CADA 7º ARREMESSO, UM ANEL DE VENTO.|10 DANO;64PX",
+    "SKY DANCE": "DANÇA DO CÉU|A CADA 3º ARREMESSO, DISPARA DUAS VEZES.|3º;2X",
+    "TEMPEST": "TEMPESTADE|ARREMESSOS INVOCAM RAIO AO ACERTAR.|+8 DANO;CADEIA 2",
+    "EYE OF THE STORM": "OLHO DA TEMPESTADE|+25% DE VELOCIDADE DE ATAQUE, +10% DE MOVIMENTO.|+25% ATQ;+10% MOV.",
+    "BLOOD PEBBLE": "SEIXO DE SANGUE|1% DE ROUBO DE VIDA. LIMITE 1 DE VIDA/S.|1% ROUBO",
+    "THIRST": "SEDE|+15% DE DANO CONTRA INIMIGOS FERIDOS.|+15% DANO",
+    "BLOOD SIGIL": "SELO DE SANGUE|+30% DE DANO, -25% DE VIDA MÁXIMA.|+30% DANO;-25% VIDA",
+    "CRIMSON PACT": "PACTO CARMESIM|+40% DE DANO, TODA CURA -50%.|+40% DANO;-50% CURA",
+    "VAMPIRE TOUCH": "TOQUE VAMPÍRICO|3% DE ROUBO DE VIDA. LIMITE 1 DE VIDA/S.|3% ROUBO",
+    "RUPTURE": "RUPTURA|ACERTOS CAUSAM SANGRAMENTO: 3 DE DANO/S POR 3S.|3 DPS;3S",
+    "VEIN BURST": "EXPLOSÃO DE VEIA|AO MATAR, SANGUE EXPLODE CAUSANDO 8 DE DANO.|8 DANO;48PX",
+    "MARTYR": "MÁRTIR|TOME 15% MENOS DANO, CAUSE 10% MENOS DANO.|-15% RECEBIDO;-10% CAUSADO",
+    "LAST BREATH": "ÚLTIMO SUSPIRO|+50% DE DANO ABAIXO DE 30% DE VIDA.|+50% DANO",
+    "BLOOD MOON": "LUA DE SANGUE|AURA CAUSA 3 DE DANO/S. MORTES NELA CURAM 1 DE VIDA.|3 DPS;+1 VIDA/MORTE",
+    "SANGUINE RITE": "RITO SANGUÍNEO|A CADA 10 MORTES, GANHE +1 DE VIDA MÁXIMA.|+1 VIDA/10",
+    "CRIMSON CHAIN": "CORRENTE CARMESIM|CRÍTICOS CURAM 1 DE VIDA. LIMITE 1 POR SEGUNDO.|+1 VIDA/CRÍT.",
+    "RED TIDE": "MARÉ VERMELHA|AURA CAUSA 2 DE DANO/S, CURA 1 DE VIDA A CADA 4 MORTES.|2 DPS;1 VIDA/4",
+    "HEART OF GLASS": "CORAÇÃO DE VIDRO|-40% DE VIDA MÁXIMA, +60% DE DANO.|-40% VIDA;+60% DANO",
+    "EXSANGUINATE": "EXSANGUINAR|8% DE CHANCE DE DANO DOBRADO E CURA 1 DE VIDA.|8%;2X +1 VIDA",
+    "JOLT": "PULSO|+8% DE VELOCIDADE DE ATAQUE.|+8% ATQ",
+    "STATIC CLING": "CARGA ESTÁTICA|ACERTOS PASSAM 2 DE DANO A UM INIMIGO PRÓXIMO.|+2 CADEIA",
+    "STATIC BLOOM": "FLORAÇÃO ESTÁTICA|AO MATAR, UMA EXPLOSÃO ESTÁTICA DE 5 DE DANO.|5 DANO;40PX",
+    "SHOCK THERAPY": "ELETROTERAPIA|INIMIGOS ATORDOADOS TOMAM +25% DE DANO.|+25% DANO",
+    "OVERCHARGE": "SOBRECARGA|+20% DE DANO, -10% DE VIDA MÁXIMA.|+20% DANO;-10% VIDA",
+    "THUNDER STEP": "PASSO TROVÃO|+10% DE VELOCIDADE E DEIXA FAÍSCAS.|+10% VEL.;2 DPS",
+    "VOLT SHIELD": "ESCUDO VOLTAICO|QUEM TE ATACA TOMA 4 DE DANO.|4 DANO",
+    "ARC FLASH": "ARCO VOLTAICO|A CADA 6º ARREMESSO, ATORDOA INIMIGOS PRÓXIMOS.|0,5S;56PX",
+    "CHAIN LIGHTNING": "RAIO EM CADEIA|CRÍTICOS SALTAM PARA 2 INIMIGOS.|CADEIA 2;50% DANO",
+    "CONDUCTOR": "CONDUTOR|AURA CAUSA 1 DE DANO A CADA 0,4S.|1/0,4S;40PX",
+    "STORMCALLER": "CHAMA-TEMPESTADE|TODO ARREMESSO ATRAI UM RAIO.|+6 DANO;30PX",
+    "BALL LIGHTNING": "RAIO ESFÉRICO|ARREMESSOS ORBITAM E CHOQUEIAM.|ÓRBITA;3 DPS",
+    "THUNDERHEAD": "MENTE DO TROVÃO|+1 CADEIA EM TODOS OS EFEITOS DE RAIO.|+1 CADEIA",
+    "TEMPEST CROWN": "COROA DA TEMPESTADE|A CADA 5º ARREMESSO, ATINGE 3 INIMIGOS.|5º;3 ALVOS",
+    "THUNDER GOD": "DEUS DO TROVÃO|+30% DE DANO DE RAIO, +15% DE VELOCIDADE DE ATAQUE.|+30% DANO;+15% ATQ",
+    "THORNBACK": "DORSO DE ESPINHOS|REFLETE 60% DO DANO DE CONTATO.|60% REFLEXO",
+    "VERDANT GROWTH": "CRESCIMENTO VERDEJANTE|+2 DE VIDA MÁXIMA POR ONDA CONCLUÍDA.|+2 VIDA/ONDA",
+    "CANOPY": "DOSSEL|-25% DE DANO DE ATAQUES À DISTÂNCIA.|-25% DISTÂNCIA",
+    "BRIAR TRAP": "ARMADILHA DE ESPINHOS|ACERTOS PRENDEM POR 2S.|PRENDE 2S",
+    "WILD HEART": "CORAÇÃO SELVAGEM|+20% DE DANO E +10% DE VELOCIDADE NESTA TEMPORADA.|+20% DANO;+10% VEL.",
+    "SUNBAKED": "TORRADO PELO SOL|+10% DE DANO NESTA TEMPORADA.|+10% DANO",
+    "SCORCHING SANDS": "AREIAS ESCALDANTES|AURA CAUSA 2 DE DANO/S.|2 DPS;48PX",
+    "SANDSTORM": "TEMPESTADE DE AREIA|A CADA 7º ARREMESSO, CEGA INIMIGOS PRÓXIMOS.|6 DANO;64PX",
+    "PHARAOH'S CURSE": "MALDIÇÃO DO FARAÓ|INIMIGOS MORTOS DEIXAM UMA MARCA QUE EXPLODE.|10 DANO;48PX",
+    "ICE ARMOR": "ARMADURA DE GELO|+3 RES, -5% DE VELOCIDADE.|+3 RES;-5% VEL.",
+    "WHITEOUT": "NEVASCA|INIMIGOS PRÓXIMOS ERRAM 20% DOS ATAQUES.|20% ERRO;56PX",
+    "BLIZZARD": "NEVASCA FORTE|AURA DEIXA 30% MAIS LENTO E CAUSA 1 DE DANO/S.|-30% VEL.;1 DPS",
+    "PERMAFROST": "PERMAFROST|ARREMESSOS CONGELAM POR 1,5S.|CONGELA 1,5S",
+    "FROZEN HEART": "CORAÇÃO CONGELADO|IMUNE A LENTIDÃO, +20% DE DANO.|IMUNE LENTO;+20% DANO",
+    "HIGH ALTITUDE": "ALTA ALTITUDE|+15% DE ALCANCE DE ATAQUE.|+15% ALCANCE",
+    "ECHO PEAK": "PICO DO ECO|A CADA 4º ARREMESSO, DISPARA DUAS VEZES.|4º;2X",
+    "STONEHEART": "CORAÇÃO DE PEDRA|+5 RES, -15% DE VELOCIDADE.|+5 RES;-15% VEL.",
+    "LANDSLIDE": "DESLIZAMENTO|A CADA 8º ARREMESSO, PEDRAS CAEM.|14 DANO;56PX",
+    "SUMMIT'S EDGE": "FIO DO CUME|+35% DE DANO, -20% DE VIDA MÁXIMA.|+35% DANO;-20% VIDA",
+    "ECLIPSE BRAND": "MARCA DO ECLIPSE|ALVOS MARCADOS TOMAM +20% DE DANO POR 3S.|+20% DANO;3S",
+    "UMBRAL VEIL": "VÉU UMBRAL|15% DE CHANCE DE ESQUIVAR.|15% ESQUIVA",
+    "DARK RITE": "RITO SOMBRIO|MORTES CURAM 1 DE VIDA. LIMITE 1 POR SEGUNDO.|+1 VIDA/MORTE",
+    "VOID TOUCH": "TOQUE DO VAZIO|ARREMESSOS IGNORAM A ARMADURA INIMIGA.|IGNORA ARMADURA",
+    "TOTAL ECLIPSE": "ECLIPSE TOTAL|A CADA 15º ARREMESSO, O CÉU ESCURECE.|40 DANO;TELA TODA"
+  }
+}

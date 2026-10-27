@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Abyssal Eclipse - Art Preview</title>
+    <style>
+        body { background: #1E1A2E; color: white; font-family: monospace; display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; }
+        .sprite { display: flex; flex-direction: column; align-items: center; background: #0B0A12; border: 1px solid #3A3352; padding: 10px; width: 80px; }
+        .sprite svg { width: 64px; height: 64px; } /* 4x scale for visibility */
+        .name { font-size: 10px; margin-top: 5px; color: #9B92B0; text-align: center; word-break: break-all; }
+        #drop-zone { width: 100%; padding: 50px; text-align: center; border: 2px dashed #4A7FC1; border-radius: 10px; margin-bottom: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="drop-zone">
+        <h2>Click here to select tools/data/art.json</h2>
+    </div>
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+    <div id="container" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('drop-zone');
+    const container = document.getElementById('container');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    // Drag and drop support
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.background = '#3A3352'; });
+    dropZone.addEventListener('dragleave', () => { dropZone.style.background = 'transparent'; });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.background = 'transparent';
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) handleFile(e.target.files[0]);
+    });
+
+    function handleFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const art = JSON.parse(e.target.result);
+                renderArt(art);
+            } catch (err) {
+                alert("Invalid JSON file!");
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function renderArt(art) {
+        container.innerHTML = ''; // Clear existing
+        dropZone.style.display = 'none'; // Hide dropzone
+        for (const [cat, sprites] of Object.entries(art)) {
+            if (['R', 'SV', 'K', 'SIL', 'GOLD', 'BRN', 'knightInner', 'ICOKEYS', 'SKIN', 'COLORS', 'SKINS'].includes(cat)) continue;
+            
+            for (const [name, svg] of Object.entries(sprites)) {
+                if (typeof svg !== 'string' || !svg) continue;
+                const div = document.createElement('div');
+                div.className = 'sprite';
+                div.innerHTML = `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">${svg}</svg><span class="name">${cat}:${name}</span>`;
+                container.appendChild(div);
+            }
+        }
+    }
+</script>
+</body>
+</html>

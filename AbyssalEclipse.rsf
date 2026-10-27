@@ -1,0 +1,110 @@
+BasicInfo:
+  Title                   : "Abyssal Eclipse"
+  CompanyCode             : "00"
+  ProductCode             : "CTR-H-ABYS"
+  ContentType             : Application
+  Logo                    : Homebrew
+
+RomFs:
+  RootPath                : .
+
+TitleInfo:
+  UniqueId                : 0x00BAB3
+  Category                : Application
+
+Option:
+  UseOnSD                 : true
+  FreeProductCode         : true
+  MediaFootPadding        : false
+  EnableCrypt             : false
+  EnableCompress          : true
+
+AccessControlInfo:
+  CoreVersion             : 2
+  DescVersion             : 2
+  ReleaseKernelMajor      : "02"
+  ReleaseKernelMinor      : "33"
+
+  UseExtSaveData          : false
+
+  MemoryType              : Application
+  SystemMode              : 64MB
+  SystemModeExt           : Legacy
+  CpuSpeed                : 268MHz
+  EnableL2Cache           : true
+  CanAccessCore2          : true
+
+  IdealProcessor          : 0
+  AffinityMask            : 1
+  Priority                : 16
+  MaxCpu                  : 0
+  HandleTableSize         : 0x200
+
+  DisableDebug            : false
+  EnableForceDebug        : false
+  CanWriteSharedPage      : true
+  CanUsePrivilegedPriority: false
+  CanUseNonAlphabetAndNumber : true
+  PermitMainFunctionArgument : true
+  CanShareDeviceMemory    : true
+  RunnableOnSleep         : false
+  SpecialMemoryArrange    : true
+
+  IORegisterMapping:
+    - 1ff50000-1ff57fff
+    - 1ff70000-1ff77fff
+
+  MemoryMapping:
+    - 1f000000-1f5fffff:r
+
+  SystemCallAccess:
+    ArbitrateAddress: 34
+    Break: 60
+    CancelTimer: 28
+    ClearEvent: 25
+    ClearTimer: 29
+    CloseHandle: 35
+    ConnectToPort: 45
+    ControlMemory: 1
+    CreateAddressArbiter: 33
+    CreateEvent: 23
+    CreateMemoryBlock: 30
+    CreateMutex: 19
+    CreateSemaphore: 21
+    CreateThread: 8
+    CreateTimer: 26
+    DuplicateHandle: 39
+    ExitProcess: 3
+    ExitThread: 9
+    GetCurrentProcessorNumber: 17
+    GetHandleInfo: 41
+    GetProcessAffinityMask: 4
+    GetProcessIdealProcessor: 7
+    GetSystemInfo: 42
+    GetSystemTick: 40
+    GetThreadAffinityMask: 13
+    GetThreadIdealProcessor: 15
+    GetThreadPriority: 11
+    MapMemoryBlock: 31
+    OutputDebugString: 61
+    QueryMemory: 2
+    ReleaseMutex: 20
+    ReleaseSemaphore: 22
+    SendSyncRequest: 46
+    SetProcessAffinityMask: 5
+    SetProcessIdealProcessor: 6
+    SetThreadAffinityMask: 14
+    SetThreadIdealProcessor: 16
+    SetThreadPriority: 12
+    SleepThread: 10
+    UnmapMemoryBlock: 32
+    WaitSynchronization: 24
+
+  ServiceAccessControl:
+    - "fs:USER"
+    - "ndsp:"
+
+  FileSystemAccess:
+    - CategoryFileSystemTool
+    - DirectSdmc
+    - DirectSdmcWrite

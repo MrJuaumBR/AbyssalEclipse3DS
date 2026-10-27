@@ -1,0 +1,16 @@
+build/
+*.3dsx
+*.elf
+*.smdh
+*.o
+*.d
+*.map
+*.ppm
+*.bmp
+*.tmp
+host_test/soak
+host_test/soak_asan
+host_test/save.bin*
+.DS_Store
+Thumbs.db
+*.exe
