@@ -45,6 +45,109 @@ static void drawZones(const Sim& s) {
   }
 }
 
+static float auraRadius(const Sim& s, const SpellSlot& slot, const Eff& e) {
+  const float mult = (1.0f + LV_BONUS * (slot.lv - 1)) * (1.0f + s.m.allNumPct / 100.0f);
+  switch (e.kind) {
+    case E_AURA: return e.b * mult * s.m.aoeMul;
+    case E_AURA_PULL: return e.a * mult * s.m.aoeMul;
+    case E_AURA_WEAKEN: case E_AURA_MISS: return e.b * mult * s.m.aoeMul;
+    case E_AURA_HEALKILL: return 56.0f * s.m.aoeMul;
+    default: return 0.0f;
+  }
+}
+
+static int auraColor(const SpellDef& d, u8 kind) {
+  switch (kind) {
+    case E_AURA_PULL: return 5;
+    case E_AURA_WEAKEN: return 0; // Vacuum is a white outward-pressure field.
+    case E_AURA_MISS: return 3;
+    case E_AURA_HEALKILL: return 1;
+    default:
+      switch (d.el) {
+        case EL_FIRE: return 2;
+        case EL_EARTH: return 4;
+        case EL_AIR: return 0;
+        case EL_BLOOD: return 1;
+        case EL_LIGHTNING: return 6;
+        default: return 3;
+      }
+  }
+}
+
+static void drawAuras(const Sim& s) {
+  int shown = 0;
+  for (int i = 0; i < s.nSlots && shown < 12; ++i) {
+    const SpellSlot& slot = s.slots[i];
+    if (slot.id < 0) continue;
+    const SpellDef& d = SPELLS[slot.id];
+    for (int k = 0; k < 3 && shown < 12; ++k) {
+      const Eff& e = d.eff[k];
+      if (e.kind != E_AURA && e.kind != E_AURA_PULL && e.kind != E_AURA_WEAKEN && e.kind != E_AURA_MISS && e.kind != E_AURA_HEALKILL) continue;
+      const float radius = auraRadius(s, slot, e);
+      if (radius < 8.0f) continue;
+      const int color = auraColor(d, e.kind);
+      const float pulse = 0.5f + 0.5f * sinf((float)s.frame * 0.14f + i * 1.13f + k * 2.1f);
+      const float outer = radius * (0.97f + 0.035f * pulse);
+      const u32 alpha = (u32)(150.0f + 90.0f * pulse);
+      gfx::discC(color, s.p.x, s.p.y, outer, e.kind == E_AURA_WEAKEN ? 22 : 16);
+      gfx::ringC(color, s.p.x, s.p.y, outer, alpha);
+      gfx::ringC(color, s.p.x, s.p.y, radius * (0.63f + 0.04f * pulse), (u32)(alpha * 0.25f));
+      ++shown;
+    }
+  }
+}
+
+static void drawLightningArc(const Sim& s, float x0, float y0, float x1, float y1, int style) {
+  const float dx = x1 - x0, dy = y1 - y0, len = sqrtf(dx * dx + dy * dy);
+  if (len < 5.0f) return;
+  const float px = -dy / len, py = dx / len;
+  for (int j = 0; j <= 8; ++j) {
+    const float t = j / 8.0f;
+    const float zig = (j == 0 || j == 8) ? 0.0f : ((j & 1) ? 3.8f : -3.8f) + 0.8f * sinf((float)s.frame * 0.9f + j * 1.7f + style);
+    const float x = x0 + dx * t + px * zig, y = y0 + dy * t + py * zig;
+    gfx::discC(6, x, y, 2.8f, 230);
+    gfx::discC(0, x, y, 1.0f, 245);
+  }
+}
+
+static void drawAuraAccents(const Sim& s) {
+  bool vacuumDrawn = false;
+  int boltCount = 0;
+  for (int i = 0; i < s.nSlots; ++i) {
+    const SpellSlot& slot = s.slots[i];
+    if (slot.id < 0) continue;
+    const SpellDef& d = SPELLS[slot.id];
+    for (int k = 0; k < 3; ++k) {
+      const Eff& e = d.eff[k];
+      const float radius = auraRadius(s, slot, e);
+      if (e.kind == E_AURA_WEAKEN && !vacuumDrawn && radius > 12.0f) {
+        const int count = 10;
+        for (int p = 0; p < count; ++p) {
+          float phase = fmodf((float)s.frame * 0.035f + p / (float)count, 1.0f);
+          float angle = 6.2831853f * p / count + (float)s.frame * 0.012f;
+          float distance = 9.0f + phase * (radius - 9.0f);
+          float rx = cosf(angle), ry = sinf(angle);
+          float x = s.p.x + rx * distance, y = s.p.y + ry * distance;
+          u32 alpha = (u32)(225.0f - phase * 95.0f);
+          gfx::discC(0, x, y, 1.35f, alpha);
+          gfx::discC(0, x - rx * 3.0f, y - ry * 3.0f, 0.7f, alpha / 2);
+        }
+        vacuumDrawn = true;
+      }
+      if (e.kind != E_AURA || d.el != EL_LIGHTNING || boltCount >= 2 || ((s.frame + i * 7) % 18) >= 10) continue;
+      int target = -1; float best = radius * radius;
+      for (int n = 0; n < MAX_ENEMIES; ++n) if (s.en[n].alive) {
+        const float ex = s.en[n].x - s.p.x, ey = s.en[n].y - s.p.y, d2 = ex * ex + ey * ey;
+        if (d2 < best) { best = d2; target = n; }
+      }
+      if (target >= 0) {
+        drawLightningArc(s, s.p.x, s.p.y, s.en[target].x, s.en[target].y, boltCount);
+        ++boltCount;
+      }
+    }
+  }
+}
+
 static void bar(float x, float y, float w, float h, float frac, u32 col) {
   gfx::rect(x, y, w, h, C_VOID);
   gfx::rect(x + 1, y + 1, (w - 2) * clampT(frac, 0.0f, 1.0f), h - 2, col);
@@ -57,6 +160,8 @@ void simDraw(Sim& s, bool showFps, int fps) {
   gfx::setOffset(-s.camX, -s.camY);
   drawBackground(s);
   drawZones(s);
+  drawAuras(s);
+  if (s.fairy.active) { gfx::discC(4, s.fairy.x, s.fairy.y, 5, 220); gfx::ringC(7, s.fairy.x, s.fairy.y, 8, 180); }
   for (int i = 0; i < 2; ++i) if (s.sentinels[i].active) {
     const Sentinel& sent = s.sentinels[i];
     gfx::sprC(gfx::sentinel(), sent.x, sent.y, 1.0f);
@@ -90,6 +195,7 @@ void simDraw(Sim& s, bool showFps, int fps) {
       else gfx::sprC(gfx::knight(), p.x, p.y);
     }
   }
+  drawAuraAccents(s);
   for (int i = 0; i < MAX_FX; ++i) {
     const Fx& f = s.fx[i];
     if (f.kind == FX_NONE) continue;
@@ -100,6 +206,30 @@ void simDraw(Sim& s, bool showFps, int fps) {
       case FX_RING: gfx::ringC(f.col, f.x, f.y, f.r * (0.4f + 0.6f * k), a); break;
       case FX_DISC: gfx::discC(f.col, f.x, f.y, f.r * (0.5f + 0.5f * k), a); break;
       case FX_BOLT: gfx::sprC(gfx::proj(gfx::PS_BOLT), f.x, f.y - 10, 3.0f); break;
+      case FX_SLASH: {
+        const float progress = clampT(f.t / f.life, 0.0f, 1.0f);
+        const float fade = 1.0f - progress;
+        const float center = f.ang + (progress - 0.5f) * 0.85f;
+        const float span = 1.90f, start = center - span * 0.5f;
+        const float pi = 3.14159265f;
+        for (int j = 0; j <= 12; ++j) {
+          const float u = j / 12.0f;
+          const float ang = start + span * u;
+          const float taper = 0.68f + 0.32f * sinf(pi * u);
+          const float x = f.x + cosf(ang) * f.r, y = f.y + sinf(ang) * f.r;
+          gfx::discC(8, x, y, 4.4f * taper, (u32)(fade * 105.0f));
+          gfx::discC(9, x, y, 2.9f * taper, (u32)(fade * 240.0f));
+          if ((j & 1) == 0) gfx::discC(0, x, y, 1.15f * taper, (u32)(fade * 230.0f));
+        }
+        for (int j = 0; j < 5; ++j) {
+          const float u = (j + 1.0f) / 6.0f;
+          const float ang = start + span * u;
+          const float rr = f.r + 6.0f + (j & 1) * 3.0f;
+          gfx::discC((j & 1) ? 0 : 9, f.x + cosf(ang) * rr, f.y + sinf(ang) * rr,
+                     0.9f + (j % 3) * 0.25f, (u32)(fade * 190.0f));
+        }
+        break;
+      }
     }
   }
   gfx::setOffset(0.0f, 0.0f);
@@ -125,6 +255,8 @@ void simDraw(Sim& s, bool showFps, int fps) {
   snprintf(b, sizeof b, "%d:%02d", secs / 60, secs % 60);
   gfx::textR(b, 396, 4, C_DIM);
   if (showFps) { snprintf(b, sizeof b, "%d FPS", fps); gfx::textR(b, 396, 24, C_GREEN); }
+  if (s.weapon == W_TRIDENT && p.tridentOut) gfx::textC(T(S_trident_out), 200, 24, C_GOLD);
+  if (p.timeStopT > 0.0f) gfx::textC("TIME STOP", 200, 38, C_EPIC, 1);
   for (int i = 0; i < MAX_ENEMIES; ++i) {
     const Enemy& e = s.en[i];
     if (e.alive && (ENEMIES[e.type].beh & B_BOSS)) {

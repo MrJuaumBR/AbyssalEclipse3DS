@@ -8,7 +8,8 @@ struct SfxDef { float f0, f1, dur, vol; u8 noise; };
 const SfxDef SD[SFX_COUNT] = {
     {900, 500, 0.06f, 0.10f, 0}, {300, 200, 0.05f, 0.16f, 1}, {320, 110, 0.12f, 0.18f, 0}, {220, 70, 0.18f, 0.26f, 1},
     {1200, 1900, 0.05f, 0.10f, 0}, {500, 1100, 0.30f, 0.16f, 0}, {800, 800, 0.04f, 0.10f, 0}, {400, 700, 0.20f, 0.14f, 0},
-    {140, 60, 0.50f, 0.26f, 1}, {400, 45, 0.80f, 0.26f, 0}, {260, 60, 0.25f, 0.24f, 1}};
+    {140, 60, 0.50f, 0.26f, 1}, {400, 45, 0.80f, 0.26f, 0}, {260, 60, 0.25f, 0.24f, 1},
+    {1500, 240, 0.12f, 0.14f, 2}};
 struct Voice { bool on; float t, dur, f0, f1, vol, ph; u8 noise; };
 Voice V[6];
 int musicVol = 50, sfxVol = 70;
@@ -59,7 +60,10 @@ void mix(s16* out, int frames) {
       if (!x.on) continue;
       float k = x.t / x.dur, f = x.f0 + (x.f1 - x.f0) * k, env = 1.0f - k;
       x.ph += f / RATE; x.ph -= (int)x.ph;
-      float w = x.noise ? noise() : (x.ph < 0.5f ? 1.0f : -1.0f);
+      const float tone = x.ph < 0.5f ? 1.0f : -1.0f;
+      float w = tone;
+      if (x.noise == 1) w = noise();
+      else if (x.noise == 2) w = 0.68f * noise() + 0.32f * tone;
       s += w * x.vol * env * sv;
       x.t += 1.0f / RATE;
       if (x.t >= x.dur) x.on = false;

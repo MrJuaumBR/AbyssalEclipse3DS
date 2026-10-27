@@ -9,6 +9,9 @@ D = json.load(open(os.path.join(HERE, 'data', 'mock_data.json'), encoding='utf-8
 A = json.load(open(os.path.join(HERE, 'data', 'art.json'), encoding='utf-8'))
 
 SEAS = ['FOREST','DESERT','SNOW','MOUNTAIN','ECLIPSE']
+ABSOLUTE_MAX_SPELL_LEVEL = 10
+LEVEL_FIVE_EFFECTS = {'ORBIT', 'SENTINEL', 'DRONE_MINIGUN', 'FAIRY'}
+LEVEL_CAP_OVERRIDES = {'TIME-STOP': 9}  # all tuned parameters reach their limits by Rank 9
 
 def fl(x): return repr(float(x)) + 'f'
 
@@ -97,6 +100,9 @@ S('TEMPEST CROWN',('NTH_STRIKE3',5,10,3))
 S('GLACIAL BLOOM',('HIT_FREEZE',18,1.2),('KILL_BURST',6,32))
 S('STARLANCE',('NTH_BOLT',7,14,44))
 S('SOUL HARVEST',('KILL_HEALEVERY',1.5,5),('LIFESTEAL',1))
+S('AVATAR CYCLE',('AVATAR',8,18,42))
+S('FAIRY COMPANION',('FAIRY',1.0,4.0,0.0))
+S('TIME-STOP',('TIME_STOP',12,1.2,14))
 
 KINDS = sorted({e[0] for v in M.values() for e in v})
 
@@ -178,6 +184,7 @@ EXTRA = {  # key: (en, pt)
  'ach_terraria':('DIG DEEP','CAVE FUNDO'), 'ach_terraria_desc':('Play for at least 50 hours to unlock the Terraria parody outfit.','Jogue por pelo menos 50 horas para liberar a roupa parodia de Terraria.'),
  'ach_mario':("IT'S-A ME",'AQUI E O MARIO'), 'ach_mario_desc':('Defeat 1,000 enemies to unlock the Mario parody outfit.','Derrote 1.000 inimigos para liberar a roupa parodia do Mario.'),
  'ach_iron_man':('HEART OF IRON','CORACAO DE FERRO'), 'ach_iron_man_desc':('Complete the full catalog to unlock the Iron Man parody outfit.','Complete o catalogo para liberar a roupa parodia do Homem de Ferro.'),
+ 'ach_avatar':('AVATAR','AVATAR'), 'ach_avatar_desc':('Use at least two distinct spells from each spell type to unlock the Avatar outfit.','Use pelo menos duas magias diferentes de cada tipo para liberar a roupa do Avatar.'),
  'stat_games':('RUNS','PARTIDAS'), 'stat_wins':('WINS','VITORIAS'), 'stat_losses':('LOSSES','DERROTAS'),
  'stat_kills':('LIFETIME KILLS','ABATES TOTAIS'), 'stat_picks':('SPELLS ACQUIRED','MAGIAS OBTIDAS'),
  'stat_casts':('SPELL ACTIVATIONS','ATIVACOES DE MAGIA'),
@@ -199,7 +206,10 @@ EXTRA = {  # key: (en, pt)
  'music_eclipse':('ECLIPSE - THE LAST LIGHT','ECLIPSE - A ULTIMA LUZ'),
  'store_points':('X: STORE POINTS','X: GUARDAR PONTOS'), 'use_stored':('Y: USE STORED ({n})','Y: USAR GUARDADOS ({n})'),
  'stores_left':('BANK USES LEFT: {n}/3','USOS DO BANCO: {n}/3'), 'points_stored':('POINTS STORED','PONTOS GUARDADOS'),
- 'release_status':('RELEASE','LANCAMENTO')
+ 'release_status':('RELEASE','LANCAMENTO'),
+ 'cloth_avatar':('AIR NOMAD AVATAR','AVATAR NOMADE DO AR'),
+ 'trident_ready':('TRIDENT RECLAIMED','TRIDENTE RECUPERADO'),
+ 'trident_out':('TRIDENT OUT - MOVE CLOSE TO RECOVER','TRIDENTE FORA - CHEGUE PERTO PARA RECUPERAR')
 }
 
 def main():
@@ -223,7 +233,7 @@ def main():
     o.append('const char* const* const UI_TABLE[LANG_COUNT] = { UI_EN, UI_PT };\n')
 
     spells = D['SPELLS']
-    assert len(spells) == 144, 'expected 144 spells; update source/data.h and tests with canonical data'
+    assert len(spells) == 147, 'expected 144 spells; update source/data.h and tests with canonical data'
     o.append('const int SPELL_COUNT = %d;' % len(spells))
     o.append('const SpellDef SPELLS[%d] = {' % len(spells))
     for s in spells:
@@ -235,10 +245,11 @@ def main():
         for e in effs:
             e = list(e)+[0]*(4-len(e))
             es.append('{E_%s,%s,%s,%s}' % (e[0],fl(e[1]),fl(e[2]),fl(e[3])))
+        max_level = 5 if any(e[0] in LEVEL_FIVE_EFFECTS for e in effs) else LEVEL_CAP_OVERRIDES.get(s['name'], ABSOLUTE_MAX_SPELL_LEVEL)
         sc = {'global':'SC_GLOBAL','element':'SC_ELEMENT','season':'SC_SEASON'}[s['scope']]
         se = ('SEA_'+s['season']) if s['season'] else 'SEA_NONE'
-        o.append('  {EL_%s,TY_%s,ACT_%s,R_%s,%s,%s,{%s}}, // %s' % (s['element'].upper(),s['type'].upper(),s['activation'].upper(),
-                 s['rarity'].upper(),sc,se,','.join(es),s['name'].replace('\\','')))
+        o.append('  {EL_%s,TY_%s,ACT_%s,R_%s,%s,%s,%d,{%s}}, // %s' % (s['element'].upper(),s['type'].upper(),s['activation'].upper(),
+                 s['rarity'].upper(),sc,se,max_level,','.join(es),s['name'].replace('\\','')))
     o.append('};')
     ptsp = pt['spell']
     def spstats(x): return ', '.join(x) if isinstance(x,list) else (x or '')
@@ -296,10 +307,10 @@ def main():
         n = emit('ART_E_'+e['key'], A['ENEMY'][e['key']]); arts.append(('ART_E_'+e['key'],n))
     o.append('const PixArt ART_ENEMY[%d] = {%s};' % (len(EN), ','.join('{%s,%d}'%a for a in arts)))
     
-    hats = ['helm','wizard','leaf','crown','none','batman','joker','terraria','mario','ironman']; faces=['beard','glasses','scar','freckles','none','dwarf_beard']
+    hats = ['helm','wizard','leaf','crown','none','batman','joker','terraria','mario','ironman','avatar']; faces=['beard','glasses','scar','freckles','none','dwarf_beard']
     ha=[]
     for h in hats: n=emit('ART_H_'+h,A['HAT'][h]); ha.append(('ART_H_'+h,n))
-    o.append('const PixArt ART_HAT[10] = {%s};' % ','.join('{%s,%d}'%a for a in ha))
+    o.append('const PixArt ART_HAT[11] = {%s};' % ','.join('{%s,%d}'%a for a in ha))
     fa=[]
     for f in faces:
         svg=A['FACE'][f]
@@ -307,7 +318,7 @@ def main():
         n=emit('ART_F_'+f,svg); fa.append(('ART_F_'+f,n))
     o.append('const PixArt ART_FACE[6] = {%s};' % ','.join('{%s,%d}'%a for a in fa))
     
-    icons = ['leaf','pyr','snow','peak','ecl','lock','book','heart','gem','shield','bolt','clover','star','skull','clock','trophy','dagger','bow','axe','staff','chest','bug','sprout']
+    icons = ['leaf','pyr','snow','peak','ecl','lock','book','heart','gem','shield','bolt','clover','star','skull','clock','trophy','dagger','bow','axe','staff','shotgun','pistol','trident','chest','bug','sprout','katana','machine_gun']
     ia=[]
     for ic in icons:
         n=emit('ART_I_'+ic,A['ICO'][ic]); ia.append(('ART_I_'+ic,n))

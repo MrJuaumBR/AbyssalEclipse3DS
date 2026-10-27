@@ -26,6 +26,10 @@ void fxDisc(Sim& s, float x, float y, float r, int col, float life) {
   Fx* f = newFx(s); if (!f) return;
   memset(f, 0, sizeof *f); f->kind = FX_DISC; f->col = (u8)col; f->x = x; f->y = y; f->r = r; f->life = life;
 }
+static void fxSlash(Sim& s, float x, float y, float ang, float r) {
+  Fx* f = newFx(s); if (!f) return;
+  memset(f, 0, sizeof *f); f->kind = FX_SLASH; f->x = x; f->y = y; f->ang = ang; f->r = r; f->life = 0.18f;
+}
 void fxBolt(Sim& s, float x, float y) {
   Fx* f = newFx(s); if (!f) return;
   memset(f, 0, sizeof *f); f->kind = FX_BOLT; f->col = 6; f->x = x; f->y = y; f->life = 0.18f;
@@ -83,6 +87,9 @@ static Eff scaleEff(Eff e, float m, int level) {
     case E_MIRROR: case E_ATTACKER_DMG: case E_EXSANG: case E_TRAIL_SPARK:
       e.a *= m; break;
     case E_AURA: e.a *= m; e.b *= m; e.c *= m; break;
+    case E_AVATAR: e.a = maxT(2.0f, e.a - rank); e.b *= m; e.c *= m; break;
+    case E_FAIRY: e.a *= m; e.b = maxT(2.0f, e.b / m); break;
+    case E_TIME_STOP: e.a = maxT(8.0f, e.a - rank); e.b = minT(1.6f, e.b + rank * 0.08f); e.c = maxT(8.0f, e.c - rank * 0.75f); break;
     case E_KILLHEAL: case E_REGEN: e.a *= m; e.b = maxT(0.5f, e.b / m); break;
     case E_KILL_MAXHP: case E_KILL_HEALEVERY: e.a *= m; e.b = maxT(1.0f, e.b - rank); break;
     case E_HIT_SLOW: case E_HIT_FREEZE: case E_HIT_STUN: case E_HIT_BURN: case E_HIT_BLEED:
@@ -181,6 +188,9 @@ void recompute(Sim& s) {
         case E_ARMOR_IGNORE: m.armorIgnore = true; m.armorBonus += maxT(0.0f, e.a - 1.0f) * 25.0f; break;
         case E_DRONE_MINIGUN: m.hasDrone = true; m.dronePower += e.a; break;
         case E_SENTINEL: m.hasSentinel = true; m.sentinelPower += e.a; break;
+        case E_AVATAR: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
+        case E_FAIRY: m.hasFairy = true; m.fairyPower += e.a; break;
+        case E_TIME_STOP: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
         case E_PIERCE: m.pierce += maxT(0, (int)e.a - 1) + lv - 1; break;
         case E_BOUNCE_ENEMY: m.bounceE += maxT(1, (int)e.a) + lv - 1; m.bounceDmg = e.b; break;
         case E_BOUNCE_WALL: m.bounceW += maxT(1, (int)e.a) + lv - 1; break;
@@ -453,15 +463,18 @@ static void fireWeapon(Sim& s, int ti, float angOff, float dmgMul) {
   float ang = atan2f(t.y - s.p.y, t.x - s.p.x) + angOff;
   Proj* q = newProj(s);
   if (!q) return;
-  static const u8 sprs[4] = {gfx::PS_DAGGER, gfx::PS_ARROW, gfx::PS_AXE, gfx::PS_ORB};
+  static const u8 sprs[W_COUNT] = {gfx::PS_DAGGER, gfx::PS_ARROW, gfx::PS_AXE, gfx::PS_ORB,
+                                     gfx::PS_PELLET, gfx::PS_PISTOL, gfx::PS_TRIDENT,
+                                     gfx::PS_KNIFE, gfx::PS_PISTOL};
   const float speed = w.speed * m.projSpd;
-  q->spr = sprs[s.weapon & 3];
+  q->spr = sprs[s.weapon];
   q->x = s.p.x; q->y = s.p.y;
   q->vx = cosf(ang) * speed; q->vy = sinf(ang) * speed;
   q->dmg = (w.dmg + m.flat) * m.dmgMul * m.dealt * dmgMul;
   q->r = (s.weapon == W_AXE ? 4.0f : w.radius) * m.sizeMul;
   q->life = (w.range * m.rangeMul) / speed * 1.1f;
   q->pierce = w.pierce + m.pierce; q->bounceE = (u8)m.bounceE; q->bounceW = (u8)m.bounceW; q->homing = m.homing;
+  if (s.weapon == W_TRIDENT) { q->retrievable = true; s.p.tridentOut = true; }
   q->homingRate = 7.0f * (1.0f + 0.20f * maxT(0, m.homingLevel - 1));
   if (s.weapon == W_AXE) {
     q->lob = true; q->tx = t.x; q->ty = t.y;
@@ -483,6 +496,7 @@ static void radialShots(Sim& s, int n, float dmg, bool child) {
 static void doThrow(Sim& s) {
   Player& p = s.p; Mods& m = s.m;
   const WeaponStat& w = WEAPON[s.weapon];
+  if (s.weapon == W_TRIDENT && p.tridentOut) { p.atkT = 0.20f; return; }
   int t = nearestEnemy(s, p.x, p.y, w.range * m.rangeMul, -1);
   if (t < 0) return;
   p.throws++;
@@ -490,13 +504,37 @@ static void doThrow(Sim& s) {
   for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_NTH_DOUBLE && p.throws % maxT(1, (int)m.ev[i].a) == 0) {
     extraShots = maxT(extraShots, m.ev[i].b); if (m.ev[i].b > 0) spellCast(s);
   }
-  fireWeapon(s, t, 0, 1.0f);
-  int bonusShots = (int)extraShots;
+  if (s.weapon == W_KATANA) {
+    const float dx = s.en[t].x - p.x, dy = s.en[t].y - p.y;
+    const float len = sqrtf(dx * dx + dy * dy) + 0.001f;
+    for (int k = 0; k < MAX_ENEMIES; ++k) {
+      Enemy& e = s.en[k]; if (!e.alive) continue;
+      const float ex = e.x - p.x, ey = e.y - p.y, d = sqrtf(ex * ex + ey * ey) + 0.001f;
+      if (d <= KATANA_RANGE + enemyTouchR(e) && (ex * dx + ey * dy) / (d * len) >= KATANA_ARC_COS) {
+        hitEnemy(s, k, (w.dmg + m.flat) * m.dmgMul * m.dealt, ex, ey, true, false);
+        if (s.en[k].alive && s.rng.chance(KATANA_BLEED_CHANCE)) { s.en[k].bleedDps = maxT(s.en[k].bleedDps, KATANA_BLEED_DPS); s.en[k].bleedT = maxT(s.en[k].bleedT, KATANA_BLEED_TIME); }
+      }
+    }
+    fxSlash(s, p.x, p.y, atan2f(dy, dx), KATANA_RANGE * 0.72f);
+  } else if (s.weapon == W_SHOTGUN) {
+    static const float spread[5] = {-0.28f, -0.14f, 0.0f, 0.14f, 0.28f};
+    for (int i = 0; i < 5; ++i) fireWeapon(s, t, spread[i], 0.58f);
+  } else {
+    fireWeapon(s, t, 0, 1.0f);
+  }
+  int bonusShots = s.weapon == W_TRIDENT ? 0 : (int)extraShots;
   for (int j = 0; j < bonusShots; ++j) fireWeapon(s, t, (j & 1) ? -0.16f : 0.12f, 1.0f);
-  if (extraShots > bonusShots && s.rng.chance((extraShots - bonusShots) * 100.0f)) fireWeapon(s, t, 0.20f, 1.0f);
-  audio::sfx(audio::SFX_SHOOT);
+  if (s.weapon != W_TRIDENT && extraShots > bonusShots && s.rng.chance((extraShots - bonusShots) * 100.0f)) fireWeapon(s, t, 0.20f, 1.0f);
+  audio::sfx(s.weapon == W_KATANA ? audio::SFX_SWING : audio::SFX_SHOOT);
   const float baseDmg = (w.dmg + m.flat) * m.dmgMul * m.dealt;
   const float lm = 1 + m.lightning / 100.0f;
+  for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_AVATAR && p.throws % maxT(1, (int)m.ev[i].a) == 0) {
+    spellCast(s); const int element = s.rng.i(4); const float r = m.ev[i].c * m.aoeMul;
+    if (element == 0) { aoeDamage(s, s.en[t].x, s.en[t].y, r, m.ev[i].b * m.dmgMul); fxRing(s, s.en[t].x, s.en[t].y, r, 2, 0.3f); }
+    else if (element == 1) { for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(s.en[t].x, s.en[t].y, s.en[k].x, s.en[k].y) < sq(r)) hitEnemy(s, k, m.ev[i].b * m.dmgMul, 0, 0, false, false); fxRing(s, s.en[t].x, s.en[t].y, r, 3, 0.25f); }
+    else if (element == 2) { for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(p.x, p.y, s.en[k].x, s.en[k].y) < sq(r)) { statusOn(s, s.en[k], 35, 1.2f, 0, 0, 0); s.en[k].kx += (s.en[k].x-p.x) * 0.5f; s.en[k].ky += (s.en[k].y-p.y) * 0.5f; } fxRing(s, p.x, p.y, r, 4, 0.3f); }
+    else { aoeDamage(s, s.en[t].x, s.en[t].y, r * 0.75f, m.ev[i].b * 1.15f * m.dmgMul); fxDisc(s, s.en[t].x, s.en[t].y, r * 0.75f, 1, 0.25f); }
+  }
   for (int i = 0; i < m.nEv; ++i) {
     const Ev& v = m.ev[i];
     switch (v.kind) {
@@ -518,6 +556,10 @@ static void doThrow(Sim& s) {
       case E_NTH_STRIKE3: if (p.throws % (int)v.a == 0) {
         spellCast(s);
         for (int k = 0, n = 0; k < MAX_ENEMIES && n < (int)v.c; ++k) if (s.en[k].alive) { fxBolt(s, s.en[k].x, s.en[k].y - 6); dotEnemy(s, k, v.b * lm); ++n; } } break;
+      case E_TIME_STOP: if (p.throws % maxT(1, (int)v.a) == 0 && p.timeStopCd <= 0.0f) {
+        spellCast(s); p.timeStopT = maxT(p.timeStopT, v.b); p.timeStopCd = v.c;
+        fxRing(s, p.x, p.y, 72, 5, 0.45f); fxText(s, p.x, p.y - 18, "TIME STOP", 5);
+      } break;
       default: break;
     }
   }
@@ -531,6 +573,14 @@ static void updateProjectiles(Sim& s, float dt) {
   for (int i = 0; i < MAX_PROJ; ++i) {
     Proj& q = s.pr[i];
     if (!q.alive) continue;
+    if (q.retrievable && q.stuck) {
+      if (dist2(q.x, q.y, p.x, p.y) < sq(TRIDENT_PICKUP_RANGE)) {
+        q.alive = false; p.tridentOut = false;
+        fxRing(s, p.x, p.y, 12, 6, 0.25f); fxText(s, p.x, p.y - 12, T(S_trident_ready), 6); audio::sfx(audio::SFX_PICKUP);
+      }
+      continue;
+    }
+    if (s.p.timeStopT > 0.0f && q.hostile) continue;
     q.life -= dt;
     if (q.homing && !q.hostile && !q.lob) {
       int t = nearestEnemy(s, q.x, q.y, 110, -1);
@@ -550,17 +600,32 @@ static void updateProjectiles(Sim& s, float dt) {
       }
       continue;
     }
+    if (q.retrievable && q.life <= 0) {
+      q.stuck = true; q.vx = q.vy = 0; q.life = 9999.0f;
+      q.x = clampT(q.x, arenaMinX(s) + 4, arenaMaxX(s) - 4); q.y = clampT(q.y, arenaMinY(s) + 4, arenaMaxY(s) - 4);
+      continue;
+    }
     bool dead = q.life <= 0;
     for (int z = 0; z < MAX_ZONES && !dead; ++z)
       if (s.zn[z].type == Z_BRAMBLE && dist2(q.x, q.y, s.zn[z].x, s.zn[z].y) < sq(s.zn[z].r)) dead = true;
     const float minX = arenaMinX(s) - 4, maxX = arenaMaxX(s) + 4;
     const float minY = arenaMinY(s) - 4, maxY = arenaMaxY(s) + 4;
     if (!dead && (q.x < minX || q.x > maxX || q.y < minY || q.y > maxY)) {
+      if (q.retrievable) {
+        q.stuck = true; q.vx = q.vy = 0; q.life = 9999.0f;
+        q.x = clampT(q.x, arenaMinX(s) + 4, arenaMaxX(s) - 4); q.y = clampT(q.y, arenaMinY(s) + 4, arenaMaxY(s) - 4);
+        continue;
+      }
       if (q.bounceW > 0) {
         if (q.x < minX || q.x > maxX) q.vx = -q.vx; else q.vy = -q.vy;
         q.x = clampT(q.x, minX, maxX); q.y = clampT(q.y, minY, maxY);
         q.bounceW--;
       } else dead = true;
+    }
+    if (dead && q.retrievable) {
+      q.stuck = true; q.vx = q.vy = 0; q.life = 9999.0f;
+      q.x = clampT(q.x, arenaMinX(s) + 4, arenaMaxX(s) - 4); q.y = clampT(q.y, arenaMinY(s) + 4, arenaMaxY(s) - 4);
+      continue;
     }
     if (dead) { q.alive = false; continue; }
     if (q.hostile) {
@@ -596,6 +661,7 @@ static void updateProjectiles(Sim& s, float dt) {
       if ((ENEMIES[e.type].beh & B_INVIS) && dist2(e.x, e.y, p.x, p.y) > sq(70)) continue;
       hitEnemy(s, j, q.dmg, q.vx, q.vy, true, true);
       q.hit[q.nhit & 3] = (s16)j; q.nhit++;
+      if (q.retrievable) { q.stuck = true; q.vx = q.vy = 0; q.life = 9999.0f; break; }
       if (m.explodeDmg > 0 && q.kind != 5) { aoeDamage(s, q.x, q.y, m.explodeR * m.aoeMul, m.explodeDmg); fxRing(s, q.x, q.y, m.explodeR * m.aoeMul, 2, 0.2f); }
       if (m.split > 0 && q.kind != 5) {
         float base = atan2f(q.vy, q.vx);
@@ -730,6 +796,7 @@ static void startWave(Sim& s) {
   s.p.shield = s.m.shieldWave; s.p.blocks = s.m.blockWave;
   s.phase = PH_PLAY;
   for (int i = 0; i < MAX_PROJ; ++i) s.pr[i].alive = false;
+  s.p.tridentOut = false;
   char b[32]; snprintf(b, sizeof b, "%s", Tn(S_wave_n, s.wave)); setToast(s, b);
   audio::sfx(audio::SFX_WAVE);
   audio::musicSet(s.season, s.bossWave ? 1.0f : 0.4f);
@@ -756,7 +823,7 @@ static void rollOffers(Sim& s) {
   s.nOffers = 0; s.offersAreUpgrades = false;
   if (s.nSlots >= MAX_SLOTS) {
     int cand[MAX_SLOTS], n = 0;
-    for (int i = 1; i < s.nSlots; ++i) if (s.slots[i].id >= 0 && s.slots[i].lv < MAX_SPELL_LV) cand[n++] = i;
+    for (int i = 1; i < s.nSlots; ++i) if (s.slots[i].id >= 0 && s.slots[i].lv < SPELLS[s.slots[i].id].maxLevel) cand[n++] = i;
     s.offersAreUpgrades = true;
     while (n > 0 && s.nOffers < 3) { int k = s.rng.i(n); s.offers[s.nOffers++] = cand[k]; cand[k] = cand[--n]; }
     return;
@@ -808,11 +875,12 @@ void simFinishAlloc(Sim& s) { goSpellPhase(s); }
 void simPickOffer(Sim& s, int i) {
   if (s.phase != PH_SPELL) return;
   if (i >= 0 && i < s.nOffers) {
-    if (s.offersAreUpgrades) { int sl = s.offers[i]; if (s.slots[sl].lv < MAX_SPELL_LV) { s.slots[sl].lv++; ++s.runSpellUpgrades; } }
+    if (s.offersAreUpgrades) { int sl = s.offers[i]; if (s.slots[sl].id >= 0 && s.slots[sl].lv < SPELLS[s.slots[sl].id].maxLevel) { s.slots[sl].lv++; ++s.runSpellUpgrades; } }
     else if (s.nSlots < MAX_SLOTS) {
       int id = s.offers[i];
       s.slots[s.nSlots++] = SpellSlot{(s16)id, 1};
       if (s.seenSpell[id] < 255) s.seenSpell[id]++;
+      s.usedSpell[id] = 1;
       ++s.runSpellsAcquired;
     }
     recompute(s); audio::sfx(audio::SFX_LEVEL);
@@ -888,6 +956,14 @@ static void updateGems(Sim& s, float dt, bool all) {
   }
 }
 
+static void updateFairy(Sim& s, float dt) {
+  if (!s.m.hasFairy) { s.fairy.active = false; return; }
+  if (!s.fairy.active) { s.fairy.active = true; s.fairy.x = s.p.x; s.fairy.y = s.p.y; s.fairy.healT = 4.0f; s.fairy.phase = 0; fxRing(s, s.p.x, s.p.y, 12, 4, 0.3f); }
+  s.fairy.phase += dt * 3.0f; s.fairy.x += (s.p.x + cosf(s.fairy.phase) * 16.0f - s.fairy.x) * minT(1.0f, dt * 5.0f);
+  s.fairy.y += (s.p.y - 18.0f + sinf(s.fairy.phase * 1.7f) * 5.0f - s.fairy.y) * minT(1.0f, dt * 5.0f);
+  s.fairy.healT -= dt; if (s.fairy.healT <= 0) { s.fairy.healT += 4.0f; spellCast(s); heal(s, 2.0f * maxT(0.5f, s.m.fairyPower)); fxRing(s, s.p.x, s.p.y, 18, 4, 0.3f); }
+}
+
 static void updateSentinels(Sim& s, float dt) {
   if (!s.m.hasSentinel) return;
   bool any = false;
@@ -936,6 +1012,7 @@ static void playUpdate(Sim& s, const SimInput& in, float dt) {
   float mx = in.mx, my = in.my, l = sqrtf(mx * mx + my * my);
   if (l > 1) { mx /= l; my /= l; }
   float sp = m.move * (1 + p.moveBonus / 100.0f);
+  if (s.weapon == W_MACHINE_GUN) sp *= MACHINE_GUN_MOVE_MUL;
   if (p.slowT > 0 && !m.immuneSlow) sp *= 1 - p.slowPct / 100.0f;
   for (int i = 0; i < MAX_ZONES; ++i) {
     const Zone& z = s.zn[i];
@@ -966,6 +1043,7 @@ static void playUpdate(Sim& s, const SimInput& in, float dt) {
       }
     }
   }
+  updateFairy(s, dt);
   updateSentinels(s, dt);
   const bool moving = l > 0.1f;
   if (moving) {

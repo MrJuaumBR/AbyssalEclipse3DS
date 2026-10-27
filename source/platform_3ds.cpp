@@ -173,6 +173,9 @@ static bool ensureAtlasTexture() {
 
 static void uploadWholeAtlas() {
   makePicaRgba8(g_atlasCpu, g_texUpload);
+  // Old 3DS can retain CPU cache lines for linearAlloc buffers. Flush the
+  // complete staging buffer so partial cosmetic atlas changes are visible.
+  GSPGPU_FlushDataCache(g_texUpload, (size_t)AW * AH * 4);
   C3D_TexLoadImage(&g_tex, g_texUpload, GPU_TEXFACE_2D, 0);
   C3D_TexFlush(&g_tex);
 }

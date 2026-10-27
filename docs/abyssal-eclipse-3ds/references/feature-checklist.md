@@ -13,7 +13,7 @@ Legend: OK = implemented and exercised by the host soak test | APPROX = implemen
 - F09 OK   Campaign 10/15/20 waves, unlock chain; Endless with best wave and tier scaling
 
 ## Data
-- D01 OK 137 spells (22/90/25 verified by test)  D02 OK 25 enemies  D03 OK 4 weapons  D04 OK en + pt-BR + fallback  D05 OK index-based (MIRAGE x2)
+- D01 OK 137 spells (22/90/25 verified by test)  D02 OK 25 enemies  D03 OK 9 weapons  D04 OK en + pt-BR + fallback  D05 OK index-based (MIRAGE x2)
 
 ## Spell engine
 - S01-S08 OK (see APPROX list in README for 9 simplified spells)
@@ -27,7 +27,7 @@ Legend: OK = implemented and exercised by the host soak test | APPROX = implemen
 - Z04 APPROX Mountain rockfall  Z05 APPROX Eclipse darkness (design-doc gimmicks for 2-5 were not specified; these are mine)
 
 ## Screens
-- U01-U12 OK (pause, debug, run summary included). Level names for seasons 2-5 are PLACEHOLDERS (marked on screen)
+- U01-U12 OK (pause, debug, run summary included). U13 OK distinct level names for all five seasons
 
 ## Systems
 - Y01 OK procedural atlas, 256x256 (fits; test asserts)  Y02 OK save/load/CRC/corruption fallback
@@ -37,8 +37,21 @@ Legend: OK = implemented and exercised by the host soak test | APPROX = implemen
 
 ## 0.1 release additions
 - R01 OK   Ordinary cosmetics are always usable; only Batman, Joker, Terraria, Mario, and Iron Man parody outfits are achievement-gated and skipped until unlocked
-- R02 OK   Four catalog tabs: spells, bestiary, clothes, and music
+- R02 OK   Five visible, directly selectable catalog tabs: spells, bestiary, clothes, music, and weapons
 - R03 OK   Completed-season music tracks unlock in the Music catalog and can be previewed with A
 - R04 OK   Active gameplay timer counts wave time only; menu, pause, allocation, and spell-choice time are excluded
 - R05 OK   Stat points can be deferred with a maximum of three store actions per run and can be reclaimed during allocation
 - R06 OK   Global XP gain increased by 5% before Luck's existing modifier
+- R07 OK   Flush the 3DS atlas staging cache before cosmetic partial uploads to prevent stale Old 3DS sprites
+
+## Follow-up UI and combat fixes
+- F10 OK   Selected spell detail shows description, current rank, cumulative numeric scaling, and Rank-1 stat values in a readable block; attack counters and cooldown indicators remain on the slot card
+- F11 OK   Equipped damage, pull, weakening, miss, and aura-heal effects show a persistent player-centered range ring
+- F12 OK   All nine weapon IDs have nonzero combat stats; Katana melee damage and Machine Gun projectile mapping have host regression coverage
+- A01 OK   Katana icon is a simplified horizontal 16×16 sword silhouette to avoid noisy diagonal strips
+- F13 OK   Katana hits create a short-sweeping violet/magenta crescent slash with spark accents and a dedicated procedural swish cue
+- F14 OK   Catalog exposes all five categories in a visible tab strip; Weapons lists all nine weapons with stats and lock state
+- F15 OK   Resistance point-up text explicitly says +6 HP and -2% damage taken; allocation UI is drawn in English and Portuguese tests
+- F16 APPROX   Aura rings pulse; lightning arcs to nearby enemies and Vacuum sends white particles outward (visual intensity needs emulator/3DS review)
+- F17 OK   Katana target range is reduced to 56 px and cleave radius to 46 px; host regression checks both balance values
+- F18 OK   Orbit/summon spells cap at Rank 5, Time-Stop at Rank 9, and other spells at Rank 10; host tests check every adjacent effective rank, offer eligibility, cap enforcement, and bilingual rank/scaling summaries

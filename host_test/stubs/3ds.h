@@ -22,6 +22,7 @@ void aptHook(aptHookCookie*, aptHookFn_t, void*); void aptUnhook(aptHookCookie*)
 Result romfsInit();
 u64 osGetTime();
 void* linearAlloc(size_t); void linearFree(void*);
+void GSPGPU_FlushDataCache(const void*, u32);
 Result DSP_FlushDataCache(const void*, u32);
 typedef enum { NDSP_WBUF_FREE, NDSP_WBUF_QUEUED, NDSP_WBUF_PLAYING, NDSP_WBUF_CANCELLED, NDSP_WBUF_DONE } ndspWaveBufStatus;
 struct ndspWaveBuf { const void* data_vaddr; u32 nsamples; void* adpcm_data; u32 offset; bool looping; u16 sequence_id; ndspWaveBufStatus status; void* next; };

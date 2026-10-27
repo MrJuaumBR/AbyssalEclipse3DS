@@ -127,6 +127,7 @@ void enemiesUpdate(Sim& s, float dt) {
   for (int i = 0; i < MAX_ENEMIES; ++i) {
     Enemy& e = s.en[i];
     if (!e.alive) continue;
+    if (s.p.timeStopT > 0.0f) continue;
     const EnemyDef& def = ENEMIES[e.type];
     const bool boss = (def.beh & B_BOSS) != 0;
     e.flash -= dt; e.atkT -= dt;

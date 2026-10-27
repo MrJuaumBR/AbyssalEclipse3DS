@@ -73,6 +73,28 @@ static bool validV3(const SaveDataV3& t) {
       t.lang < LANG_COUNT && t.hat < 5 && t.face < 5 && t.color < 6 && t.lastWeapon < 4;
 }
 
+// Version 4 is the previous current record: lifetime totals, but no distinct spell-use history.
+struct SaveDataV4 {
+  u32 magic; u16 version; u16 size; u32 crc;
+  u8 lang, musicVol, sfxVol, fps30;
+  u8 showFps;
+  u8 hat, face, color, lastWeapon;
+  u8 unlockAll, pad0, pad1, pad2;
+  u8 levelCleared[SEA_COUNT]; u8 pad3[3];
+  u16 bestWave[SEA_COUNT]; u16 pad4[3];
+  u16 spellFound[144];
+  u16 enemyKills[NUM_ENEMIES];
+  u8 enemySeen[NUM_ENEMIES + 3];
+  u32 gamesPlayed, runsWon, runsLost, totalKills;
+  u32 spellsAcquired, spellsCasted, spellUpgrades, weaponThrows, playTimeSeconds;
+};
+static_assert(sizeof(SaveDataV4) == 452, "version-4 save layout changed");
+static u32 calcV4(const SaveDataV4& s) { return crc32((const u8*)&s + 12, sizeof(SaveDataV4) - 12); }
+static bool validV4(const SaveDataV4& t) {
+  return t.magic == SAVE_MAGIC && t.version == 4 && t.size == sizeof(SaveDataV4) && t.crc == calcV4(t) &&
+      t.lang < LANG_COUNT && t.hat < 10 && t.face < 6 && t.color < 6 && t.lastWeapon < 4;
+}
+
 static void migrateV1(SaveData& s, const SaveDataV1& old) {
   saveDefaults(s);
   s.lang = old.lang; s.musicVol = old.musicVol; s.sfxVol = old.sfxVol; s.fps30 = old.fps30;
@@ -103,6 +125,19 @@ static void migrateV3(SaveData& s, const SaveDataV3& old) {
   memcpy(s.enemyKills, old.enemyKills, sizeof s.enemyKills);
   memcpy(s.enemySeen, old.enemySeen, sizeof s.enemySeen);
 }
+static void migrateV4(SaveData& s, const SaveDataV4& old) {
+  saveDefaults(s);
+  s.lang = old.lang; s.musicVol = old.musicVol; s.sfxVol = old.sfxVol; s.fps30 = old.fps30; s.showFps = old.showFps;
+  s.hat = old.hat; s.face = old.face; s.color = old.color; s.lastWeapon = old.lastWeapon; s.unlockAll = old.unlockAll;
+  memcpy(s.levelCleared, old.levelCleared, sizeof s.levelCleared);
+  memcpy(s.bestWave, old.bestWave, sizeof s.bestWave);
+  memcpy(s.spellFound, old.spellFound, sizeof old.spellFound);
+  memcpy(s.enemyKills, old.enemyKills, sizeof s.enemyKills);
+  memcpy(s.enemySeen, old.enemySeen, sizeof s.enemySeen);
+  s.gamesPlayed = old.gamesPlayed; s.runsWon = old.runsWon; s.runsLost = old.runsLost; s.totalKills = old.totalKills;
+  s.spellsAcquired = old.spellsAcquired; s.spellsCasted = old.spellsCasted; s.spellUpgrades = old.spellUpgrades;
+  s.weaponThrows = old.weaponThrows; s.playTimeSeconds = old.playTimeSeconds;
+}
 
 bool saveLoad(SaveData& s) {
   u8 raw[sizeof(SaveData)] = {}; size_t got = 0;
@@ -110,9 +145,13 @@ bool saveLoad(SaveData& s) {
     if (got == sizeof(SaveData)) {
       SaveData t; memcpy(&t, raw, sizeof t);
       if (t.magic == SAVE_MAGIC && t.version == SAVE_VERSION && t.size == sizeof(SaveData) && t.crc == calc(t) &&
-          t.lang < LANG_COUNT && t.hat < 5 && t.face < 5 && t.color < 6 && t.lastWeapon < 4) {
+          t.lang < LANG_COUNT && t.hat < 11 && t.face < 6 && t.color < 6 && t.lastWeapon < W_COUNT) {
         s = t; return true;
       }
+    }
+    if (got == sizeof(SaveDataV4)) {
+      SaveDataV4 old; memcpy(&old, raw, sizeof old);
+      if (validV4(old)) { migrateV4(s, old); (void)saveStore(s); return true; }
     }
     if (got == sizeof(SaveDataV3)) {
       SaveDataV3 old; memcpy(&old, raw, sizeof old);
@@ -182,6 +221,11 @@ void achievementProgress(const SaveData& s, int id, u32& current, u32& target) {
         target = NUM_SPELLS + NUM_ENEMIES; break;
     }
     if (current > target) current = target;
+  } else if (id == ACH_AVATAR) {
+    int byType[TY_COUNT] = {0, 0, 0};
+    for (int i = 0; i < NUM_SPELLS; ++i) if (s.spellUsed[i]) ++byType[SPELLS[i].ty];
+    for (int t = 0; t < TY_COUNT; ++t) current += minT(byType[t], 2);
+    target = TY_COUNT * 2;
   }
 }
 bool achievementUnlocked(const SaveData& s, int id) {

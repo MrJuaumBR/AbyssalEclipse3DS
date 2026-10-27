@@ -10,7 +10,7 @@ enum Act { ACT_AOE, ACT_SELF, ACT_TOUCH, ACT_COUNT };
 enum Rarity { R_COMMON, R_RARE, R_EPIC, R_LEGENDARY, R_COUNT };
 enum Scope { SC_GLOBAL, SC_ELEMENT, SC_SEASON };
 enum Season { SEA_FOREST, SEA_DESERT, SEA_SNOW, SEA_MOUNTAIN, SEA_ECLIPSE, SEA_COUNT, SEA_NONE = 255 };
-enum { NUM_SPELLS = 144, NUM_ENEMIES = 25 };
+enum { NUM_SPELLS = 147, NUM_ENEMIES = 25 };
 
 // Effect kinds interpreted by spells.cpp. Fields a,b,c are documented per kind there.
 enum EffKind : u8 {
@@ -20,7 +20,7 @@ enum EffKind : u8 {
   E_TAKEN_PCT, E_RANGED_TAKEN_PCT, E_DEBUFF_PCT, E_LIFESTEAL, E_KILLHEAL, E_REGEN, E_REFLECT, E_DODGE, E_THROWSPD_PCT,
   E_RANGE_PCT, E_HEAL_PCT, E_DEALT_PCT, E_LOWHP_DMG, E_VS_SLOWED, E_VS_BURNING, E_VS_WOUNDED, E_VS_FROZEN, E_CRITBONUS,
   E_IMMUNE_SLOW, E_HP_PER_WAVE, E_LIGHTNING_PCT, E_ALLNUM_PCT, E_CHAINPLUS, E_SHIELD_WAVE, E_BLOCK_WAVE, E_REVIVE,
-  E_MIRROR, E_ATTACKER_DMG, E_BURN_TOUCH, E_WARMTH, E_ARMOR_IGNORE, E_DRONE_MINIGUN, E_SENTINEL,
+  E_MIRROR, E_ATTACKER_DMG, E_BURN_TOUCH, E_WARMTH, E_ARMOR_IGNORE, E_DRONE_MINIGUN, E_SENTINEL, E_AVATAR, E_FAIRY, E_TIME_STOP,
   // projectile mods
   E_PIERCE, E_BOUNCE_ENEMY, E_BOUNCE_WALL, E_HOMING, E_SPLIT, E_EXPLODE, E_KNOCKBACK, E_ORBIT, E_WHIRL,
   // on hit
@@ -36,7 +36,7 @@ enum EffKind : u8 {
   E_COUNT
 };
 struct Eff { u8 kind; float a, b, c; };
-struct SpellDef { u8 el, ty, act, rar, sc, season; Eff eff[3]; };
+struct SpellDef { u8 el, ty, act, rar, sc, season, maxLevel; Eff eff[3]; };
 struct SpellText { const char* name; const char* desc; const char* stats; };
 extern const int SPELL_COUNT;
 extern const SpellDef SPELLS[NUM_SPELLS];
@@ -70,29 +70,30 @@ extern const char* const* const UI_TABLE[LANG_COUNT];
 struct PixRect { u8 x, y, w, h; u32 rgb; };
 struct PixArt { const PixRect* r; u8 n; };
 extern const PixArt ART_ENEMY[NUM_ENEMIES];
-extern const PixArt ART_HAT[10];
+extern const PixArt ART_HAT[11];
 extern const PixArt ART_FACE[6];
 enum IconId { IC_LEAF, IC_PYR, IC_SNOW, IC_PEAK, IC_ECL, IC_LOCK, IC_BOOK, IC_HEART, IC_GEM, IC_SHIELD, IC_BOLT, IC_CLOVER,
-              IC_STAR, IC_SKULL, IC_CLOCK, IC_TROPHY, IC_DAGGER, IC_BOW, IC_AXE, IC_STAFF, IC_CHEST, IC_BUG, IC_SPROUT, IC_COUNT };
+              IC_STAR, IC_SKULL, IC_CLOCK, IC_TROPHY, IC_DAGGER, IC_BOW, IC_AXE, IC_STAFF, IC_SHOTGUN, IC_PISTOL, IC_TRIDENT,
+              IC_CHEST, IC_BUG, IC_SPROUT, IC_KATANA, IC_MACHINE_GUN, IC_COUNT };
 extern const PixArt ART_ICON[IC_COUNT];
 
 // Hand-written level / weapon / cosmetic tables (data_static.cpp)
 struct LevelDef { const char* id; u8 waves; };
 extern const LevelDef LEVELS[3];
-enum WeaponId { W_DAGGER, W_BOW, W_AXE, W_STAFF, W_COUNT };
+enum WeaponId { W_DAGGER, W_BOW, W_AXE, W_STAFF, W_SHOTGUN, W_PISTOL, W_TRIDENT, W_KATANA, W_MACHINE_GUN, W_COUNT };
 extern const u32 SEASON_COLOR[SEA_COUNT];
 extern const u8 SEASON_ELEM[SEA_COUNT][2];
 extern const u32 ELEM_COLOR[EL_COUNT];
 extern const u32 RARITY_COLOR[R_COUNT];
 extern const u32 HAT_COLORS[6];
 extern const StrId SEASON_NAME[SEA_COUNT];
-extern const StrId LEVEL_NAME[3];
+extern const StrId LEVEL_NAME[SEA_COUNT][3];
 extern const StrId ELEM_NAME[EL_COUNT];
 extern const StrId RARITY_NAME[R_COUNT];
 extern const StrId TYPE_NAME[TY_COUNT];
 extern const StrId ACT_NAME[ACT_COUNT];
 extern const StrId WEAPON_NAME[W_COUNT];
 extern const StrId WEAPON_FIRE[W_COUNT];
-extern const StrId HAT_NAME[10];
+extern const StrId HAT_NAME[11];
 extern const StrId FACE_NAME[6];
 extern const StrId COLOR_NAME[6];

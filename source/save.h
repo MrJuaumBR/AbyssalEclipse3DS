@@ -13,13 +13,14 @@ struct SaveData {
   u8 pad3[3];
   u16 bestWave[SEA_COUNT]; u16 pad4[3];
   u16 spellFound[NUM_SPELLS];
+  u8 spellUsed[NUM_SPELLS];
   u16 enemyKills[NUM_ENEMIES];
   u8 enemySeen[NUM_ENEMIES + 3];
   // Lifetime totals; saturate instead of wrapping. Older saves migrate these as zero.
   u32 gamesPlayed, runsWon, runsLost, totalKills;
   u32 spellsAcquired, spellsCasted, spellUpgrades, weaponThrows, playTimeSeconds;
 };
-enum { SAVE_MAGIC = 0x41453344u /* 'AE3D' */, SAVE_VERSION = 4 };
+enum { SAVE_MAGIC = 0x41453344u /* 'AE3D' */, SAVE_VERSION = 5 };
 
 enum AchievementId {
   ACH_SEASON_FOREST, ACH_SEASON_DESERT, ACH_SEASON_SNOW, ACH_SEASON_MOUNTAIN, ACH_SEASON_ECLIPSE,
@@ -28,6 +29,7 @@ enum AchievementId {
   ACH_FULL_CATALOG,
   ACH_LITTLE_DUMMY, ACH_ABYSS_VETERAN, ACH_TOUCH_GRASS,
   ACH_CLOTH_BATMAN, ACH_CLOTH_JOKER, ACH_CLOTH_TERRARIA, ACH_CLOTH_MARIO, ACH_CLOTH_IRONMAN,
+  ACH_AVATAR,
   ACH_COUNT
 };
 

@@ -44,12 +44,13 @@ void go(Screen s) {
 gfx::Cosmetics cosm() { gfx::Cosmetics c; c.hat = g.save.hat; c.face = g.save.face; c.color = g.save.color; return c; }
 bool spellFound(int i) { return g.save.unlockAll || g.secretCatalog || g.save.spellFound[i] > 0; }
 bool enemyFound(int i) { return g.save.unlockAll || g.secretCatalog || g.save.enemySeen[i]; }
-static const StrId CLOTH_NAME[10] = {S_cloth_default, S_cloth_wizard, S_cloth_leaf, S_cloth_crown, S_cloth_none, S_cloth_batman, S_cloth_joker, S_cloth_terraria, S_cloth_mario, S_cloth_ironman};
+static const StrId CLOTH_NAME[11] = {S_cloth_default, S_cloth_wizard, S_cloth_leaf, S_cloth_crown, S_cloth_none, S_cloth_batman, S_cloth_joker, S_cloth_terraria, S_cloth_mario, S_cloth_ironman, S_cloth_avatar};
 static const StrId MUSIC_NAME[5] = {S_music_forest, S_music_desert, S_music_snow, S_music_mountain, S_music_eclipse};
 bool clothUnlocked(int id) {
   if (g.save.unlockAll || g.secretCatalog || id < 5) return true;
   static const int ach[5] = {ACH_CLOTH_BATMAN, ACH_CLOTH_JOKER, ACH_CLOTH_TERRARIA, ACH_CLOTH_MARIO, ACH_CLOTH_IRONMAN};
-  return id >= 5 && id < 10 && achievementUnlocked(g.save, ach[id - 5]);
+  if (id >= 5 && id < 10) return achievementUnlocked(g.save, ach[id - 5]);
+  return id == 10 && achievementUnlocked(g.save, ACH_AVATAR);
 }
 bool faceUnlocked(int id) {
   return id >= 0 && id < 6;
@@ -58,6 +59,8 @@ bool colorUnlocked(int id) {
   return id >= 0 && id < 6;
 }
 bool musicUnlocked(int id) { return g.save.unlockAll || g.secretCatalog || (id >= 0 && id < 5 && achievementUnlocked(g.save, ACH_SEASON_FOREST + id)); }
+bool allSeasonsComplete() { for (int i = 0; i < SEA_COUNT; ++i) if ((g.save.levelCleared[i] & 7) != 7) return false; return true; }
+bool weaponUnlocked(int id) { return id != W_MACHINE_GUN || g.save.unlockAll || g.secretCatalog || allSeasonsComplete(); }
 
 void startRun() {
   g.save.lastWeapon = (u8)g.weaponSel;
@@ -80,7 +83,10 @@ void finishRun(bool victory) {
     if (s.seenEnemy[i]) g.save.enemySeen[i] = 1;
     int k = (int)g.save.enemyKills[i] + s.runKills[i]; g.save.enemyKills[i] = (u16)minT(k, 65535);
   }
-  for (int i = 0; i < NUM_SPELLS; ++i) if (s.seenSpell[i]) g.save.spellFound[i] = (u16)minT((int)g.save.spellFound[i] + s.seenSpell[i], 65535);
+  for (int i = 0; i < NUM_SPELLS; ++i) {
+    if (s.seenSpell[i]) g.save.spellFound[i] = (u16)minT((int)g.save.spellFound[i] + s.seenSpell[i], 65535);
+    if (s.usedSpell[i]) g.save.spellUsed[i] = 1;
+  }
   if (s.endless) g.save.bestWave[s.season] = (u16)maxT((int)g.save.bestWave[s.season], minT(s.wave, 65535));
   if (victory && !s.endless) g.save.levelCleared[s.season] |= (u8)(1 << s.levelIdx);
   persist();
@@ -92,12 +98,18 @@ int seasonIcon(int s) { static const int ic[5] = {IC_LEAF, IC_PYR, IC_SNOW, IC_P
 StrId gimmick(int s) { static const StrId g_[5] = {S_gim_forest, S_gim_desert, S_gim_snow, S_gim_mountain, S_gim_eclipse}; return g_[s]; }
 StrId speedWord(int w) { static const StrId t[7] = {S_lvf_stationary, S_lvf_very_slow, S_lvf_slow, S_lvf_low, S_lvf_normal, S_lvf_fast, S_lvf_very_fast}; return t[w % 7]; }
 StrId rangeWord(int w) { static const StrId t[3] = {S_lvm_touch, S_lvm_high, S_lvm_very_high}; return t[w % 3]; }
+int weaponIcon(int w) { static const int t[W_COUNT] = {IC_DAGGER, IC_BOW, IC_AXE, IC_STAFF, IC_SHOTGUN, IC_PISTOL, IC_TRIDENT, IC_KATANA, IC_MACHINE_GUN}; return t[clampT(w, 0, W_COUNT - 1)]; }
 
 void button(float x, float y, float w, float h, const char* label, bool sel, u32 col = C_TEXT) {
   gfx::panel(x, y, w, h, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : (u32)C_BORDER);
-  gfx::textC(label, x + w * 0.5f, y + h * 0.5f - 4, sel ? (u32)C_GOLD : col);
+  // Buttons stay at the compact bitmap scale; scale 2 is reserved for headings and titles.
+  const int scale = 1;
+  gfx::textC(label, x + w * 0.5f, y + (h - 10.0f) * 0.5f, sel ? (u32)C_GOLD : col, scale);
 }
-void header(const char* t, u32 col = C_GOLD) { gfx::rect(0, 0, BOT_W, 20, C_PANEL); gfx::textC(t, BOT_W / 2, 6, col); }
+static int fitScale(const char* t, int maxW, int preferred = 2) { return preferred >= 2 && gfx::textWidth(t, preferred) <= maxW ? preferred : 1; }
+static void textFitC(const char* t, float cx, float y, int maxW, u32 col, int preferred = 2) { gfx::textC(t, cx, y, col, fitScale(t, maxW, preferred)); }
+static void textFit(const char* t, float x, float y, int maxW, u32 col, int preferred = 1) { gfx::text(t, x, y, col, gfx::textWidth(t, preferred) <= maxW ? preferred : 1); }
+void header(const char* t, u32 col = C_GOLD) { gfx::rect(0, 0, BOT_W, 20, C_PANEL); textFitC(t, BOT_W / 2, 6, BOT_W - 8, col, 1); }
 
 // ---------------------------------------------------------------------------------------------- menu
 void updMenu(const Input& in) {
@@ -162,7 +174,7 @@ void drawCampaignTop() {
   gfx::rect(0, 0, TOP_W, TOP_H, C_VOID);
   gfx::panel(20, 14, 360, 212, C_PANEL, c);
   gfx::spr(gfx::icon(seasonIcon(g.season)), 40, 34, 5.0f);
-  gfx::text(T(SEASON_NAME[g.season]), 140, 40, c, 3);
+  textFit(T(SEASON_NAME[g.season]), 140, 40, 230, c, 3);
   gfx::text(T(S_elements), 140, 76, C_DIM);
   for (int k = 0; k < 2; ++k) {
     int e = SEASON_ELEM[g.season][k];
@@ -190,9 +202,8 @@ void drawCampaignBot() {
       gfx::panel(20, 50 + i * 56, 280, 50, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : (u32)C_BORDER);
       snprintf(b, sizeof b, "%d-%d", g.season + 1, i + 1);
       gfx::text(b, 30, 58 + i * 56, un ? (u32)C_GOLD : (u32)C_DIM, 2);
-      gfx::text(T(LEVEL_NAME[i]), 76, 58 + i * 56, un ? (u32)C_TEXT : (u32)C_DIM);
+      gfx::text(T(LEVEL_NAME[g.season][i]), 76, 58 + i * 56, un ? (u32)C_TEXT : (u32)C_DIM);
       snprintf(b, sizeof b, "%s", Tn(S_waves_n, LEVELS[i].waves)); gfx::text(b, 76, 72 + i * 56, C_DIM);
-      if (g.season != 0) gfx::text(T(S_ph_placeholder), 76, 84 + i * 56, C_BORDER);
       if (!un) gfx::sprC(gfx::icon(IC_LOCK), 280, 75 + i * 56, 1.5f);
       else if (done) gfx::sprC(gfx::icon(IC_TROPHY), 280, 75 + i * 56, 1.5f);
     }
@@ -203,36 +214,41 @@ void drawCampaignBot() {
 
 // ---------------------------------------------------------------------------------------------- weapon select
 void updWeapon(const Input& in) {
-  if (pressed(in, plat::BTN_LEFT) || pressed(in, plat::BTN_L)) g.weaponSel = (g.weaponSel + 3) % 4;
-  if (pressed(in, plat::BTN_RIGHT) || pressed(in, plat::BTN_R)) g.weaponSel = (g.weaponSel + 1) % 4;
-  for (int i = 0; i < 4; ++i) if (inR(in, 8 + i * 77, 8, 72, 70)) { g.weaponSel = i; audio::sfx(audio::SFX_UI); }
+  static const int pageSize = 4;
+  if (pressed(in, plat::BTN_LEFT) || pressed(in, plat::BTN_L)) g.weaponSel = (g.weaponSel + W_COUNT - 1) % W_COUNT;
+  if (pressed(in, plat::BTN_RIGHT) || pressed(in, plat::BTN_R)) g.weaponSel = (g.weaponSel + 1) % W_COUNT;
+  const int pageStart = (g.weaponSel / pageSize) * pageSize;
+  for (int i = 0; i < pageSize; ++i) if (pageStart + i < W_COUNT && inR(in, 8 + i * 77, 10, 72, 70)) { g.weaponSel = pageStart + i; audio::sfx(audio::SFX_UI); }
   if (pressed(in, plat::BTN_B)) { go(SC_CAMPAIGN); return; }
-  if (pressed(in, plat::BTN_A) || inR(in, 60, 192, 200, 36)) { audio::sfx(audio::SFX_WAVE); startRun(); }
+  if (pressed(in, plat::BTN_A) || inR(in, 60, 192, 200, 36)) { if (!weaponUnlocked(g.weaponSel)) { toast(T(S_locked)); audio::sfx(audio::SFX_HURT); } else { audio::sfx(audio::SFX_WAVE); startRun(); } }
 }
 void drawWeaponTop() {
   gfx::rect(0, 0, TOP_W, TOP_H, C_VOID);
-  gfx::textC(T(S_weapon_title), 200, 14, C_GOLD, 2);
+  textFitC(T(S_weapon_title), 200, 14, 380, C_GOLD, 2);
   gfx::sprC(gfx::knight(), 130, 110, 6.0f);
-  gfx::sprC(gfx::icon(IC_DAGGER + g.weaponSel), 250, 110, 6.0f);
-  gfx::textC(T(WEAPON_NAME[g.weaponSel]), 250, 168, C_TEXT, 2);
+  gfx::sprC(gfx::icon(weaponIcon(g.weaponSel)), 250, 110, 6.0f);
+  textFitC(T(WEAPON_NAME[g.weaponSel]), 250, 168, 190, weaponUnlocked(g.weaponSel) ? (u32)C_TEXT : (u32)C_RED, 2);
   gfx::textC(T(S_first_spell), 200, 210, C_DIM);
 }
 void drawWeaponBot() {
   gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
-  for (int i = 0; i < 4; ++i) {
-    bool sel = i == g.weaponSel;
-    gfx::panel(8 + i * 77, 8, 72, 70, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : (u32)C_BORDER);
-    gfx::sprC(gfx::icon(IC_DAGGER + i), 44 + i * 77, 32, 2.0f);
-    gfx::textC(T(WEAPON_NAME[i]), 44 + i * 77, 60, sel ? (u32)C_GOLD : (u32)C_TEXT);
+  const int pageSize = 4, pageStart = (g.weaponSel / pageSize) * pageSize;
+  char page[32]; snprintf(page, sizeof page, "%d-%d / %d", pageStart + 1, minT<int>(pageStart + pageSize, W_COUNT), W_COUNT);
+  gfx::textC(page, 160, 0, C_DIM);
+  for (int i = 0; i < pageSize; ++i) {
+    const int w = pageStart + i; const bool has = w < W_COUNT;
+    bool sel = has && w == g.weaponSel;
+    gfx::panel(8 + i * 77, 10, 72, 70, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : (u32)C_BORDER);
+    if (has) { gfx::sprC(gfx::icon(weaponIcon(w)), 44 + i * 77, 34, 2.0f); gfx::textC(T(WEAPON_NAME[w]), 44 + i * 77, 62, weaponUnlocked(w) ? (sel ? (u32)C_GOLD : (u32)C_TEXT) : (u32)C_DIM); if (!weaponUnlocked(w)) gfx::textC(T(S_locked), 44 + i * 77, 73, C_RED); }
   }
-  static const StrId dmgW[4] = {S_lvm_low, S_lvm_normal, S_lvm_high, S_lvm_very_high};
-  static const StrId atkW[4] = {S_lvf_very_high, S_lvf_normal, S_lvf_low, S_lvf_very_low};
-  static const StrId rngW[4] = {S_lvm_low, S_lvm_very_high, S_lvm_normal, S_lvm_high};
+  static const StrId dmgW[W_COUNT] = {S_lvm_low, S_lvm_normal, S_lvm_high, S_lvm_very_high, S_lvm_normal, S_lvm_high, S_lvm_high, S_lvm_normal, S_lvm_normal};
+  static const StrId atkW[W_COUNT] = {S_lvf_very_high, S_lvf_normal, S_lvf_low, S_lvf_very_low, S_lvf_low, S_lvf_fast, S_lvf_low, S_lvf_fast, S_lvf_very_fast};
+  static const StrId rngW[W_COUNT] = {S_lvm_low, S_lvm_very_high, S_lvm_normal, S_lvm_high, S_lvm_normal, S_lvm_high, S_lvm_very_high, S_lvm_low, S_lvm_high};
   const int w = g.weaponSel;
-  gfx::panel(8, 88, 304, 96, C_PANEL, C_BORDER);
-  gfx::text(T(S_dmg), 18, 98, C_DIM); gfx::textR(T(dmgW[w]), 300, 98, C_TEXT);
-  gfx::text(T(S_atk_speed), 18, 112, C_DIM); gfx::textR(T(atkW[w]), 300, 112, C_TEXT);
-  gfx::text(T(S_range), 18, 126, C_DIM); gfx::textR(T(rngW[w]), 300, 126, C_TEXT);
+  gfx::panel(8, 90, 304, 94, C_PANEL, C_BORDER);
+  gfx::text(T(S_dmg), 18, 100, C_DIM); gfx::textR(T(dmgW[w]), 300, 100, C_TEXT);
+  gfx::text(T(S_atk_speed), 18, 114, C_DIM); gfx::textR(T(atkW[w]), 300, 114, C_TEXT);
+  gfx::text(T(S_range), 18, 128, C_DIM); gfx::textR(T(rngW[w]), 300, 128, C_TEXT);
   gfx::textWrap(T(WEAPON_FIRE[w]), 18, 146, 280, C_GOLD, 1, 4);
   button(60, 192, 200, 36, T(S_start), true);
 }
@@ -250,7 +266,7 @@ void updCustom(const Input& in) {
   }
   if (d) {
     u8* v[3] = {&g.save.hat, &g.save.face, &g.save.color};
-    const int mod[3] = {10, 6, 6};
+    const int mod[3] = {11, 6, 6};
     for (int n = 0; n < mod[g.custRow]; ++n) {
       *v[g.custRow] = (u8)((*v[g.custRow] + mod[g.custRow] + d) % mod[g.custRow]);
       bool ok = g.custRow == 0 ? clothUnlocked(*v[g.custRow]) : (g.custRow == 1 ? faceUnlocked(*v[g.custRow]) : colorUnlocked(*v[g.custRow]));
@@ -268,7 +284,7 @@ void drawCustomTop() {
 void drawCustomBot() {
   gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
   const StrId lab[3] = {S_hat, S_face, S_color};
-  const StrId val[3] = {CLOTH_NAME[g.save.hat], FACE_NAME[g.save.face], COLOR_NAME[g.save.color]};
+  const StrId val[3] = {CLOTH_NAME[clampT((int)g.save.hat, 0, 10)], FACE_NAME[g.save.face], COLOR_NAME[g.save.color]};
   for (int i = 0; i < 3; ++i) {
     bool sel = g.custRow == i;
     gfx::panel(8, 30 + i * 60, 304, 50, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : (u32)C_BORDER);
@@ -280,16 +296,42 @@ void drawCustomBot() {
 }
 
 // ---------------------------------------------------------------------------------------------- catalog
-enum { CAT_COLS = 12, CAT_ROWS = 6, CAT_CELL = 24 };
-  int catCount() { return g.catTab == 0 ? NUM_SPELLS : (g.catTab == 1 ? NUM_ENEMIES : (g.catTab == 2 ? 10 : 5)); }
+enum { CAT_COLS = 12, CAT_ROWS = 6, CAT_CELL = 24, CAT_TAB_COUNT = 5, CAT_TAB_W = 64 };
+static int catCount() {
+  switch (g.catTab) {
+    case 0: return NUM_SPELLS;
+    case 1: return NUM_ENEMIES;
+    case 2: return 11;
+    case 3: return 5;
+    default: return W_COUNT;
+  }
+}
+static bool catItemUnlocked(int i) {
+  switch (g.catTab) {
+    case 0: return spellFound(i);
+    case 1: return enemyFound(i);
+    case 2: return clothUnlocked(i);
+    case 3: return musicUnlocked(i);
+    default: return weaponUnlocked(i);
+  }
+}
 void updCatalog(const Input& in) {
-  const int n = catCount();
   int old = g.catSel;
+  int touchTab = -1;
+  for (int i = 0; i < CAT_TAB_COUNT; ++i) if (inR(in, i * CAT_TAB_W, 0, CAT_TAB_W, 20)) { touchTab = i; break; }
+  int nextTab = g.catTab;
+  if (touchTab >= 0) nextTab = touchTab;
+  else if (pressed(in, plat::BTN_L)) nextTab = (g.catTab + CAT_TAB_COUNT - 1) % CAT_TAB_COUNT;
+  else if (pressed(in, plat::BTN_R)) nextTab = (g.catTab + 1) % CAT_TAB_COUNT;
+  if (nextTab != g.catTab) {
+    g.catTab = nextTab; g.catSel = 0; g.catScroll = 0; g.loreScroll = 0;
+    audio::sfx(audio::SFX_UI);
+  }
+  const int n = catCount();
   if (pressed(in, plat::BTN_RIGHT)) g.catSel = minT(n - 1, g.catSel + 1);
   if (pressed(in, plat::BTN_LEFT)) g.catSel = maxT(0, g.catSel - 1);
-  if (pressed(in, plat::BTN_DOWN)) g.catSel = minT(n - 1, g.catSel + CAT_COLS);
-  if (pressed(in, plat::BTN_UP)) g.catSel = maxT(0, g.catSel - CAT_COLS);
-  if (pressed(in, plat::BTN_L) || pressed(in, plat::BTN_R) || inR(in, 0, 0, 320, 20)) { g.catTab = (g.catTab + 1) % 4; g.catSel = 0; g.catScroll = 0; audio::sfx(audio::SFX_UI); }
+  if (pressed(in, plat::BTN_DOWN) && g.catSel + CAT_COLS < n) g.catSel += CAT_COLS;
+  if (pressed(in, plat::BTN_UP) && g.catSel >= CAT_COLS) g.catSel -= CAT_COLS;
   for (int i = 0; i < n; ++i) {
     int r = i / CAT_COLS - g.catScroll;
     if (r >= 0 && r < CAT_ROWS && inR(in, 16 + (i % CAT_COLS) * CAT_CELL, 24 + r * CAT_CELL, CAT_CELL, CAT_CELL)) g.catSel = i;
@@ -314,7 +356,7 @@ void drawCatalogTop() {
     if (!spellFound(i)) { gfx::sprC(gfx::icon(IC_LOCK), 200, 90, 4.0f); gfx::textC(T(S_not_found), 200, 140, C_DIM, 2); return; }
     gfx::panel(8, 8, 384, 224, C_PANEL, RARITY_COLOR[d.rar]);
     gfx::spr(gfx::spellIcon(d.ty, d.el, d.act), 20, 20, 3.0f);
-    gfx::text(spellName(i), 76, 20, RARITY_COLOR[d.rar], 2);
+    textFit(spellName(i), 76, 20, 316, RARITY_COLOR[d.rar], 2);
     snprintf(b, sizeof b, "%s / %s / %s / %s", T(RARITY_NAME[d.rar]), T(ELEM_NAME[d.el]), T(TYPE_NAME[d.ty]), T(ACT_NAME[d.act]));
     gfx::text(b, 76, 42, C_DIM);
     gfx::textWrap(spellDesc(i), 20, 76, 360, C_TEXT, 1, 3);
@@ -327,7 +369,7 @@ void drawCatalogTop() {
     if (!enemyFound(i)) { gfx::sprC(gfx::icon(IC_LOCK), 200, 90, 4.0f); gfx::textC(T(S_not_found), 200, 140, C_DIM, 2); return; }
     gfx::panel(8, 8, 384, 224, C_PANEL, SEASON_COLOR[d.season]);
     gfx::spr(gfx::enemy(i), 20, 20, 3.0f);
-    gfx::text(enemyName(i), 76, 20, SEASON_COLOR[d.season], 2);
+    textFit(enemyName(i), 76, 20, 316, SEASON_COLOR[d.season], 2);
     snprintf(b, sizeof b, "%s %d  %s %s  %s %s", T(S_hp), d.hp, T(S_spd), T(speedWord(d.spd)), T(S_range), T(rangeWord(d.range)));
     gfx::text(b, 76, 42, C_DIM);
     gfx::textWrap(enemyDesc(i), 20, 76, 360, C_TEXT, 1, 3);
@@ -341,19 +383,35 @@ void drawCatalogTop() {
     gfx::text(T(CLOTH_NAME[i]), 120, 28, C_GOLD, 2);
     if (!clothUnlocked(i)) { gfx::sprC(gfx::icon(IC_LOCK), 200, 96, 3.0f); gfx::textC(T(S_not_found), 200, 144, C_DIM, 2); }
     else { gfx::sprC(gfx::clothingPreview(i), 200, 100, 8.0f); gfx::textC(T(S_ach_unlocked), 200, 164, C_GREEN); }
-  } else {
+  } else if (g.catTab == 3) {
     gfx::panel(8, 8, 384, 224, C_PANEL, SEASON_COLOR[i]);
     gfx::sprC(gfx::icon(seasonIcon(i)), 60, 70, 4.0f);
     gfx::text(T(MUSIC_NAME[i]), 100, 28, SEASON_COLOR[i], 2);
     if (!musicUnlocked(i)) { gfx::sprC(gfx::icon(IC_LOCK), 200, 92, 3.0f); gfx::textWrap(T(S_music_locked), 100, 140, 260, C_DIM, 1, 3); }
     else { gfx::textC(T(S_music_play), 200, 156, C_GREEN); gfx::textC(T(S_music_stop), 200, 180, C_DIM); }
+  } else {
+    const bal::WeaponStat& w = bal::WEAPON[i];
+    const bool unlocked = weaponUnlocked(i);
+    const float range = i == W_KATANA ? bal::KATANA_RANGE : w.range;
+    gfx::panel(8, 8, 384, 224, C_PANEL, unlocked ? C_GOLD : C_BORDER);
+    gfx::sprC(gfx::icon(weaponIcon(i)), 58, 78, 4.0f, unlocked ? 0xFFFFFFFFu : HEX(C_BORDER), unlocked ? plat::BLIT_PLAIN : plat::BLIT_TINT);
+    textFitC(T(WEAPON_NAME[i]), 112, 22, 270, unlocked ? (u32)C_GOLD : (u32)C_DIM, 2);
+    gfx::textWrap(T(WEAPON_FIRE[i]), 108, 52, 270, C_TEXT, 1, 4);
+    snprintf(b, sizeof b, "%s: %.1f", T(S_dmg), w.dmg); gfx::text(b, 108, 112, C_GOLD);
+    snprintf(b, sizeof b, "%s: %.2f s", T(S_atk_speed), w.interval); gfx::text(b, 108, 130, C_TEXT);
+    snprintf(b, sizeof b, "%s: %.0f px", T(S_range), range); gfx::text(b, 108, 148, C_TEXT);
+    if (!unlocked) { gfx::sprC(gfx::icon(IC_LOCK), 58, 166, 1.5f); gfx::text(T(S_locked), 108, 176, C_RED); }
   }
 }
 void drawCatalogBot() {
   gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
-  gfx::rect(0, 0, BOT_W, 20, C_PANEL);
-  const StrId tabName[4] = {S_sub_spells, S_sub_bestiary, S_cat_clothes, S_cat_music};
-  gfx::textC(T(tabName[g.catTab]), 160, 6, C_GOLD);
+  const StrId tabName[CAT_TAB_COUNT] = {S_sub_spells, S_sub_bestiary, S_cat_clothes, S_cat_music, S_cat_weapons};
+  for (int i = 0; i < CAT_TAB_COUNT; ++i) {
+    const float x = (float)(i * CAT_TAB_W);
+    const bool active = i == g.catTab;
+    gfx::panel(x + 1, 1, CAT_TAB_W - 2, 19, active ? (u32)0x3A2F5C : (u32)C_PANEL, active ? (u32)C_GOLD : (u32)C_BORDER);
+    textFitC(T(tabName[i]), x + CAT_TAB_W * 0.5f, 6, CAT_TAB_W - 6, active ? (u32)C_GOLD : (u32)C_DIM, 1);
+  }
   const int n = catCount();
   for (int i = g.catScroll * CAT_COLS; i < n && i < (g.catScroll + CAT_ROWS) * CAT_COLS; ++i) {
     int r = i / CAT_COLS - g.catScroll, c = i % CAT_COLS;
@@ -368,16 +426,19 @@ void drawCatalogBot() {
     } else if (g.catTab == 2) {
       if (clothUnlocked(i)) gfx::spr(gfx::icon(IC_CHEST), x + 2, y + 2, 1.0f);
       else gfx::spr(gfx::icon(IC_LOCK), x + 2, y + 2, 1.0f, HEX(C_BORDER), plat::BLIT_TINT);
-    } else {
+    } else if (g.catTab == 3) {
       if (musicUnlocked(i)) gfx::spr(gfx::icon(seasonIcon(i)), x + 2, y + 2, 1.0f);
+      else gfx::spr(gfx::icon(IC_LOCK), x + 2, y + 2, 1.0f, HEX(C_BORDER), plat::BLIT_TINT);
+    } else {
+      if (weaponUnlocked(i)) gfx::spr(gfx::icon(weaponIcon(i)), x + 2, y + 2, 1.0f);
       else gfx::spr(gfx::icon(IC_LOCK), x + 2, y + 2, 1.0f, HEX(C_BORDER), plat::BLIT_TINT);
     }
   }
   int found = 0;
-  for (int i = 0; i < n; ++i) found += (g.catTab == 0 ? spellFound(i) : (g.catTab == 1 ? enemyFound(i) : (g.catTab == 2 ? clothUnlocked(i) : musicUnlocked(i)))) ? 1 : 0;
+  for (int i = 0; i < n; ++i) found += catItemUnlocked(i) ? 1 : 0;
   char b[48]; snprintf(b, sizeof b, "%d/%d", found, n);
   gfx::textC(b, 160, 176, C_DIM);
-  gfx::textC(g.catTab == 3 ? T(S_music_play) : "L/R: TAB   X/Y: LORE   B: BACK", 160, 222, C_DIM);
+  gfx::textC(g.catTab == 3 ? T(S_music_play) : "L/R OR TAP A TAB   X/Y: LORE   B: BACK", 160, 222, C_DIM);
 }
 
 // ---------------------------------------------------------------------------------------------- achievements / lifetime stats
@@ -386,14 +447,14 @@ static const StrId ACH_NAME[ACH_COUNT] = {
   S_ach_kills_1000, S_ach_kills_10000, S_ach_kills_100000,
   S_ach_catalog_forest, S_ach_catalog_desert, S_ach_catalog_snow, S_ach_catalog_mountain, S_ach_catalog_eclipse,
   S_ach_full_catalog, S_ach_little_dummy, S_ach_abyss_veteran, S_ach_touch_grass,
-  S_ach_batman, S_ach_joker, S_ach_terraria, S_ach_mario, S_ach_iron_man
+  S_ach_batman, S_ach_joker, S_ach_terraria, S_ach_mario, S_ach_iron_man, S_ach_avatar
 };
 static const StrId ACH_DESC[ACH_COUNT] = {
   S_ach_season_forest_desc, S_ach_season_desert_desc, S_ach_season_snow_desc, S_ach_season_mountain_desc, S_ach_season_eclipse_desc,
   S_ach_kills_1000_desc, S_ach_kills_10000_desc, S_ach_kills_100000_desc,
   S_ach_catalog_forest_desc, S_ach_catalog_desert_desc, S_ach_catalog_snow_desc, S_ach_catalog_mountain_desc, S_ach_catalog_eclipse_desc,
   S_ach_full_catalog_desc, S_ach_little_dummy_desc, S_ach_abyss_veteran_desc, S_ach_touch_grass_desc,
-  S_ach_batman_desc, S_ach_joker_desc, S_ach_terraria_desc, S_ach_mario_desc, S_ach_iron_man_desc
+  S_ach_batman_desc, S_ach_joker_desc, S_ach_terraria_desc, S_ach_mario_desc, S_ach_iron_man_desc, S_ach_avatar_desc
 };
 void updAchievements(const Input& in) {
   if (pressed(in, plat::BTN_DOWN)) g.achSel = minT(ACH_COUNT - 1, g.achSel + 1);
@@ -424,7 +485,7 @@ void drawAchievementsTop() {
   }
   const int id = clampT(g.achSel, 0, ACH_COUNT - 1);
   u32 current, target; achievementProgress(g.save, id, current, target);
-  gfx::text(T(ACH_NAME[id]), 12, 172, achievementUnlocked(g.save, id) ? (u32)C_GREEN : (u32)C_GOLD, 2);
+  textFit(T(ACH_NAME[id]), 12, 172, 376, achievementUnlocked(g.save, id) ? (u32)C_GREEN : (u32)C_GOLD, 2);
   gfx::textWrap(T(ACH_DESC[id]), 12, 190, 376, C_TEXT, 1, 2);
   snprintf(val, sizeof val, "%s  %lu/%lu", T(achievementUnlocked(g.save, id) ? S_ach_unlocked : S_ach_locked),
            (unsigned long)current, (unsigned long)target);
@@ -506,9 +567,27 @@ static const StrId STAT_DESC[5] = {S_st_str_e, S_st_res_e, S_st_spd_e, S_st_luck
 void slotText(const Sim& s, int i, const char** name, const char** desc, const char** stats, u32* col, const gfx::Spr** icon) {
   const SpellSlot& sl = s.slots[i];
   static gfx::Spr dummy;
-  if (sl.id < 0) { *name = T(WEAPON_NAME[-1 - sl.id]); *desc = T(WEAPON_FIRE[-1 - sl.id]); *stats = T(S_first_spell); *col = C_GOLD; *icon = &gfx::icon(IC_DAGGER + (-1 - sl.id)); }
+  if (sl.id < 0) { *name = T(WEAPON_NAME[-1 - sl.id]); *desc = T(WEAPON_FIRE[-1 - sl.id]); *stats = T(S_first_spell); *col = C_GOLD; *icon = &gfx::icon(weaponIcon(-1 - sl.id)); }
   else { *name = spellName(sl.id); *desc = spellDesc(sl.id); *stats = spellStats(sl.id); *col = RARITY_COLOR[SPELLS[sl.id].rar]; *icon = &gfx::spellIcon(SPELLS[sl.id].ty, SPELLS[sl.id].el, SPELLS[sl.id].act); }
   (void)dummy;
+}
+static void compactSlotLabel(const char* src, char* out, size_t cap) {
+  size_t used = 0; int glyphs = 0;
+  while (*src && glyphs < 11) {
+    const unsigned char c = (unsigned char)*src;
+    const size_t bytes = c < 0x80 ? 1 : (c < 0xE0 ? 2 : (c < 0xF0 ? 3 : 4));
+    if (used + bytes >= cap) break;
+    memcpy(out + used, src, bytes); used += bytes; src += bytes; ++glyphs;
+  }
+  out[used] = 0;
+  if (*src) {
+    while (used && gfx::textWidth(out, 1) + gfx::textWidth("...", 1) > 66) {
+      size_t cut = used - 1;
+      while (cut && (((unsigned char)out[cut] & 0xC0) == 0x80)) --cut;
+      used = cut; out[used] = 0;
+    }
+    if (used + 4 <= cap) { memcpy(out + used, "...", 4); }
+  }
 }
 
 void drawOfferCard(const Sim& s, int i, float y, bool sel) {
@@ -519,11 +598,41 @@ void drawOfferCard(const Sim& s, int i, float y, bool sel) {
   else { name = spellName(id); desc = spellDesc(id); stats = spellStats(id); col = RARITY_COLOR[SPELLS[id].rar]; ic = &gfx::spellIcon(SPELLS[id].ty, SPELLS[id].el, SPELLS[id].act); }
   gfx::panel(8, y, 304, 56, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : col);
   gfx::spr(*ic, 14, y + 12, 2.0f);
-  gfx::text(name, 54, y + 5, col);
-  if (!up && simSpellLevelOf(s, id) == 0 && g.save.spellFound[id] == 0) gfx::textR("NEW!", 304, y + 5, C_GREEN);
-  if (up) { char b[24]; snprintf(b, sizeof b, "%s", Tn(S_lvl_n, s.slots[id].lv + 1)); gfx::textR(b, 304, y + 5, C_GOLD); }
-  gfx::textWrap(desc, 54, y + 17, 250, C_TEXT, 1, 2);
-  gfx::textWrap(stats, 54, y + 41, 250, C_GOLD, 1, 1);
+  const float textCx = 179.0f; // center of the 54..304 region beside the icon
+  if (!up && simSpellLevelOf(s, id) == 0 && g.save.spellFound[id] == 0) gfx::textC("NEW!", textCx, y + 3, C_GREEN);
+  if (up) { char b[24]; const int spellId = s.slots[id].id; snprintf(b, sizeof b, "%s %d/%d", T(S_plevel), s.slots[id].lv + 1, SPELLS[spellId].maxLevel); gfx::textC(b, textCx, y + 3, C_GOLD); }
+  textFitC(name, textCx, y + 12, 242, col, 1);
+  gfx::textWrap(desc, 54, y + 25, 250, C_TEXT, 1, 1);
+  gfx::textWrap(stats, 54, y + 42, 250, C_GOLD, 1, 1);
+}
+
+static bool spellHasEffect(const SpellDef& d, EffKind kind, float* a = nullptr, int* index = nullptr) { for (int k = 0; k < 3; ++k) if (d.eff[k].kind == kind) { if (a) *a = d.eff[k].a; if (index) *index = k; return true; } return false; }
+static bool spellHasGenericRankScale(const SpellDef& d) {
+  for (int k = 0; k < 3; ++k) {
+    switch ((EffKind)d.eff[k].kind) {
+      case E_NONE: case E_TIME_STOP: case E_CHAINPLUS: case E_BLOCK_WAVE: case E_PIERCE: case E_BOUNCE_WALL: case E_HOMING: break;
+      default: return true;
+    }
+  }
+  return false;
+}
+static void spellOverlay(const Sim& s, int slot, float x, float y) {
+  if (slot >= s.nSlots || s.slots[slot].id < 0) return;
+  const SpellDef& d = SPELLS[s.slots[slot].id]; float v = 0; char b[24];
+  for (int k = 0; k < 3; ++k) { const Eff& e = d.eff[k]; if (e.kind == E_NTH_RING || e.kind == E_NTH_BLAST || e.kind == E_NTH_STUN || e.kind == E_NTH_DOUBLE || e.kind == E_NTH_STRIKE3 || e.kind == E_NTH_BOLT || e.kind == E_AVATAR) { int n = maxT(1, (int)e.a); snprintf(b, sizeof b, "%d/%d", (int)(s.p.throws % n), n); gfx::textC(b, x + 36, y + 3, C_GOLD); return; } }
+  int effectIndex = -1; EffKind cooldownKind = E_NONE;
+  if (spellHasEffect(d, E_PERIODIC_FLARE, &v, &effectIndex)) cooldownKind = E_PERIODIC_FLARE;
+  else if (spellHasEffect(d, E_PERIODIC_BOMB, &v, &effectIndex)) cooldownKind = E_PERIODIC_BOMB;
+  else if (spellHasEffect(d, E_REGEN, &v, &effectIndex)) cooldownKind = E_REGEN;
+  else if (spellHasEffect(d, E_KILLHEAL, &v, &effectIndex)) cooldownKind = E_KILLHEAL;
+  else if (spellHasEffect(d, E_CRIT_HEAL, &v, &effectIndex)) cooldownKind = E_CRIT_HEAL;
+  else if (spellHasEffect(d, E_TIME_STOP, &v, &effectIndex)) cooldownKind = E_TIME_STOP;
+  if (cooldownKind != E_NONE) {
+    float cur = cooldownKind == E_PERIODIC_FLARE ? s.p.flareT : cooldownKind == E_PERIODIC_BOMB ? s.p.bombT : cooldownKind == E_REGEN ? s.p.regenT : cooldownKind == E_KILLHEAL ? s.p.killHealT : cooldownKind == E_CRIT_HEAL ? s.p.critHealT : maxT(0.0f, d.eff[effectIndex].c - s.p.timeStopCd);
+    float interval = (effectIndex >= 0 && d.eff[effectIndex].b > 0) ? d.eff[effectIndex].b : maxT(v, 1.0f);
+    if (cooldownKind == E_TIME_STOP) interval = d.eff[effectIndex].c;
+    gfx::rect(x + 2, y + 2, 68, 3, C_VOID); gfx::rect(x + 2, y + 2, 68 * clampT(cur / interval, 0.0f, 1.0f), 3, C_EPIC);
+  }
 }
 
 void drawGameBot() {
@@ -588,21 +697,35 @@ void drawGameBot() {
       float x = 8.0f + (i % 4) * 76, y = 26.0f + (i / 4) * 44;
       bool sel = g.slotSel == i, has = i < s.nSlots;
       gfx::panel(x, y, 72, 40, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : (u32)C_BORDER);
+      if (has && s.slots[i].id >= 0) spellOverlay(s, i, x, y);
       if (has) {
         const char *nm, *ds, *st; u32 col; const gfx::Spr* ic;
         slotText(s, i, &nm, &ds, &st, &col, &ic);
-        gfx::spr(*ic, x + 4, y + 8, 1.5f);
-        if (s.slots[i].id >= 0) { snprintf(b, sizeof b, "%s%d", T(S_plevel), s.slots[i].lv); gfx::text(b, x + 34, y + 26, C_GOLD); }
+        char label[32]; compactSlotLabel(nm, label, sizeof label);
+        gfx::textC(label, x + 36, y + 15, col, 1);
+        gfx::spr(*ic, x + 4, y + 24, 1.0f);
+        if (s.slots[i].id >= 0) { snprintf(b, sizeof b, "%s%d", T(S_plevel), s.slots[i].lv); gfx::textC(b, x + 49, y + 28, C_GOLD, 1); }
       } else gfx::textC("-", x + 36, y + 16, C_BORDER);
     }
     if (g.slotSel < s.nSlots) {
       const char *nm, *ds, *st; u32 col; const gfx::Spr* ic;
       slotText(s, g.slotSel, &nm, &ds, &st, &col, &ic);
-      gfx::text(nm, 8, 160, col);
+      textFit(nm, 8, 160, 238, col, 1);
+      snprintf(b, sizeof b, "%s", Tn(S_slots, s.nSlots)); gfx::textR(b, 312, 160, C_DIM);
+      if (s.slots[g.slotSel].id >= 0) {
+        const SpellDef& selected = SPELLS[s.slots[g.slotSel].id];
+        const int lv = clampT((int)s.slots[g.slotSel].lv, 1, (int)selected.maxLevel);
+        const int bonusPct = (int)(100.0f * bal::LV_BONUS * (lv - 1) + 0.5f);
+        const char* rankEffect = spellHasGenericRankScale(selected) ? Tn(S_spell_rank_gain, bonusPct) : T(S_spell_rank_custom);
+        snprintf(b, sizeof b, "%s %d/%d | %s", T(S_spell_rank), lv, selected.maxLevel, rankEffect);
+        gfx::textWrap(b, 8, 202, 304, C_GOLD, 1, 1);
+        snprintf(b, sizeof b, "%s: %s", T(S_spell_base_stats), st);
+        gfx::textWrap(b, 8, 212, 304, C_DIM, 1, 3);
+      } else {
+        gfx::textWrap(st, 8, 202, 304, C_GOLD, 1, 2);
+      }
       gfx::textWrap(ds, 8, 172, 304, C_TEXT, 1, 3);
-      gfx::textWrap(st, 8, 202, 304, C_GOLD, 1, 2);
     } else gfx::textC(T(S_empty_slot), 160, 180, C_DIM);
-    snprintf(b, sizeof b, "%s", Tn(S_slots, s.nSlots)); gfx::textR(b, 312, 226, C_DIM);
   } else if (g.tab == 1) {
     for (int i = 0; i < ST_COUNT; ++i) {
       float y = 28.0f + i * 32;

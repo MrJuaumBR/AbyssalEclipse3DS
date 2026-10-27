@@ -6,7 +6,7 @@
 
 namespace gfx {
 struct Spr { u16 x = 0, y = 0, w = 0, h = 0; };
-enum { FX_COLORS = 8 };                       // colours baked for discs/rings
+enum { FX_COLORS = 10 };                      // colours baked for discs/rings
 extern const u32 FX_PALETTE[FX_COLORS];
 
 struct Cosmetics { u8 hat = 0, face = 4, color = 0; };
@@ -21,7 +21,7 @@ const Spr& knightPreview(const Cosmetics& c);
 const Spr& clothingPreview(int hat);
 const Spr& drone();
 const Spr& sentinel();
-enum ProjSpr { PS_DAGGER, PS_ARROW, PS_AXE, PS_ORB, PS_SHARD, PS_WEB, PS_BOLT, PS_EMBER, PS_GEM, PS_SPARK, PS_KNIFE, PS_TNT, PS_COUNT };
+enum ProjSpr { PS_DAGGER, PS_ARROW, PS_AXE, PS_ORB, PS_PELLET, PS_PISTOL, PS_TRIDENT, PS_SHARD, PS_WEB, PS_BOLT, PS_EMBER, PS_GEM, PS_SPARK, PS_KNIFE, PS_TNT, PS_COUNT };
 const Spr& proj(int id);
 const Spr& disc(int colorIdx);                // 24x24 filled, translucent
 const Spr& ring(int colorIdx);                // 24x24 outline

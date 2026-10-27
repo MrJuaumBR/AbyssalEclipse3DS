@@ -2,7 +2,7 @@
 #pragma once
 #include "types.h"
 namespace audio {
-enum Sfx { SFX_SHOOT, SFX_HIT, SFX_KILL, SFX_HURT, SFX_PICKUP, SFX_LEVEL, SFX_UI, SFX_WAVE, SFX_BOSS, SFX_DEATH, SFX_BLAST, SFX_COUNT };
+enum Sfx { SFX_SHOOT, SFX_HIT, SFX_KILL, SFX_HURT, SFX_PICKUP, SFX_LEVEL, SFX_UI, SFX_WAVE, SFX_BOSS, SFX_DEATH, SFX_BLAST, SFX_SWING, SFX_COUNT };
 enum { RATE = 22050 };
 void init();
 void sfx(int id);

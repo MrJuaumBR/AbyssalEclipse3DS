@@ -2,7 +2,7 @@
 #include <string.h>
 
 namespace gfx {
-const u32 FX_PALETTE[FX_COLORS] = {0xFFFFFF, 0xC43D3D, 0xF08030, 0x4A9FD9, 0x4FA85A, 0x8B5FBF, 0xF0E050, 0xE8B54B};
+const u32 FX_PALETTE[FX_COLORS] = {0xFFFFFF, 0xC43D3D, 0xF08030, 0x4A9FD9, 0x4FA85A, 0x8B5FBF, 0xF0E050, 0xE8B54B, 0x8C3DFF, 0xFF55D8};
 
 enum { AW = 256, AH = 256 };
 static u32 g_atlas[AW * AH];                 // CPU copy (256 KB). Needed for the knight re-bake.
@@ -184,6 +184,9 @@ static void bakeProjectiles() {
   fillR(g_proj[PS_ARROW], 3, 0, 2, 2, SIL); fillR(g_proj[PS_ARROW], 3, 2, 2, 4, WOOD); fillR(g_proj[PS_ARROW], 2, 6, 4, 2, C_TEXT);
   fillR(g_proj[PS_AXE], 1, 0, 6, 4, SIL); fillR(g_proj[PS_AXE], 0, 1, 2, 2, C_TEXT); fillR(g_proj[PS_AXE], 3, 4, 2, 4, BRN);
   { const Spr& s = g_proj[PS_ORB]; fillR(s, 2, 1, 4, 6, C_EPIC); fillR(s, 1, 2, 6, 4, C_EPIC); fillR(s, 3, 3, 2, 2, C_TEXT); }
+  fillR(g_proj[PS_PELLET], 2, 2, 4, 4, 0xE8B54B); fillR(g_proj[PS_PELLET], 3, 3, 2, 2, C_TEXT);
+  fillR(g_proj[PS_PISTOL], 3, 0, 2, 5, 0xC8D0D8); fillR(g_proj[PS_PISTOL], 2, 5, 4, 1, C_TEXT); fillR(g_proj[PS_PISTOL], 3, 6, 2, 2, 0x6B4A2E);
+  fillR(g_proj[PS_TRIDENT], 3, 0, 2, 6, 0xC8D0D8); fillR(g_proj[PS_TRIDENT], 1, 0, 2, 2, 0xC8D0D8); fillR(g_proj[PS_TRIDENT], 5, 0, 2, 2, 0xC8D0D8); fillR(g_proj[PS_TRIDENT], 2, 6, 4, 1, 0x6B4A2E); fillR(g_proj[PS_TRIDENT], 3, 7, 2, 1, 0x6B4A2E);
   { const Spr& s = g_proj[PS_SHARD]; fillR(s, 3, 0, 2, 8, 0xE04A4A); fillR(s, 1, 2, 6, 4, 0xE04A4A); fillR(s, 3, 3, 2, 2, 0xFFD0D0); }
   { const Spr& s = g_proj[PS_WEB]; fillR(s, 1, 1, 6, 6, 0xD8D8E8); fillR(s, 2, 2, 4, 4, 0x6B6480); fillR(s, 3, 3, 2, 2, 0xD8D8E8); }
   { const Spr& s = g_proj[PS_BOLT]; fillR(s, 4, 0, 2, 3, 0xF0E050); fillR(s, 2, 3, 4, 2, 0xF0E050); fillR(s, 2, 5, 2, 3, 0xF0E050); fillR(s, 3, 3, 1, 2, C_TEXT); }
@@ -198,7 +201,7 @@ static void bakeKnightCell(const Spr& s, const Cosmetics& c) {
   for (int y = 0; y < 16; ++y) for (int x = 0; x < 16; ++x) put(s, x, y, 0);
   const u32 K = 0x0B0A12, BRN = 0x6B4A2E, SKIN = 0xF0C8A0, BOOT = 0x3A3352;
   if (c.hat >= 5) {
-    paintArt(s, ART_HAT[c.hat % 10]);
+    paintArt(s, ART_HAT[c.hat % 11]);
     return;
   }
   fillR(s, 5, 13, 2, 2, BOOT); fillR(s, 9, 13, 2, 2, BOOT);
@@ -206,7 +209,7 @@ static void bakeKnightCell(const Spr& s, const Cosmetics& c) {
   fillR(s, 2, 10, 2, 2, SKIN); fillR(s, 12, 10, 2, 2, SKIN);
   fillR(s, 3, 2, 10, 8, K); fillR(s, 4, 3, 8, 6, SKIN); fillR(s, 5, 6, 1, 1, K); fillR(s, 10, 6, 1, 1, K);
   if (ART_FACE[c.face % 6].r) paintArt(s, ART_FACE[c.face % 6]);
-  paintArt(s, ART_HAT[c.hat % 10]);
+  paintArt(s, ART_HAT[c.hat % 11]);
 }
 
 static void bakeDroneCell() {
@@ -290,7 +293,7 @@ const Spr& knightPreview(const Cosmetics& c) {
 }
 const Spr& clothingPreview(int hat) {
   for (int y = 0; y < 16; ++y) for (int x = 0; x < 16; ++x) put(g_preview, x, y, 0);
-  paintArt(g_preview, ART_HAT[clampT(hat, 0, 9)]);
+  paintArt(g_preview, ART_HAT[clampT(hat, 0, 10)]);
   plat::atlasUpdate(g_preview.x, g_preview.y, 16, 16, g_atlas + g_preview.y * AW + g_preview.x, AW);
   return g_preview;
 }

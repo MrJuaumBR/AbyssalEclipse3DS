@@ -28,6 +28,18 @@
       "lvl_1_1": "VERDANT PATH",
       "lvl_1_2": "DEEP THICKET",
       "lvl_1_3": "HEARTWOOD",
+      "lvl_2_1": "SCORCHED APPROACH",
+      "lvl_2_2": "GLASS DUNES",
+      "lvl_2_3": "SUNKEN TEMPLE",
+      "lvl_3_1": "FROZEN PASS",
+      "lvl_3_2": "WHITEOUT EXPANSE",
+      "lvl_3_3": "GLACIAL HEART",
+      "lvl_4_1": "STONE ASCENT",
+      "lvl_4_2": "THUNDER RIDGE",
+      "lvl_4_3": "SKYFORGE SUMMIT",
+      "lvl_5_1": "TWILIGHT VERGE",
+      "lvl_5_2": "BLACK SUN BASIN",
+      "lvl_5_3": "EVENTIDE THRONE",
       "endless_title": "ENDLESS MODE",
       "play_endless": "PLAY ENDLESS",
       "best": "BEST",
@@ -66,6 +78,9 @@
       "w_bow": "BOW",
       "w_axe": "THROWING AXE",
       "w_staff": "MAGE STAFF",
+      "w_shotgun": "SHOTGUN",
+      "w_pistol": "PISTOL",
+      "w_trident": "TRIDENT",
       "dmg": "DMG",
       "atk_speed": "ATK SPEED",
       "range": "RANGE",
@@ -76,6 +91,9 @@
       "fire_bow": "A LONG ARROW IN A STRAIGHT LINE.",
       "fire_axe": "A HEAVY AXE THAT ARCS OVER ITS TARGET.",
       "fire_staff": "A SLOW ORB THAT HITS VERY HARD.",
+      "fire_shotgun": "A FIVE-PELLET BLAST WITH A TIGHT SPREAD.",
+      "fire_pistol": "A FAST, ACCURATE SHOT WITH MEDIUM RANGE.",
+      "fire_trident": "THROW IT, THEN MOVE CLOSE TO RECLAIM IT.",
       "lvm_low": "LOW",
       "lvm_normal": "NORMAL",
       "lvm_high": "HIGH",
@@ -98,8 +116,8 @@
       "st_str_d": "DAMAGE, PROJECTILE SIZE",
       "st_str_e": "+8% DMG, +2% SIZE",
       "st_res": "RESISTANCE",
-      "st_res_d": "LIFE, DAMAGE REDUCTION, DEBUFF RESISTANCE",
-      "st_res_e": "+6 HP, +2% REDUCTION",
+      "st_res_d": "MAX HP, LESS DAMAGE TAKEN",
+      "st_res_e": "+6 HP, -2% DAMAGE TAKEN",
       "st_spd": "SPEED",
       "st_spd_d": "MOVEMENT SPEED, ATTACK SPEED",
       "st_spd_e": "+4% MOVE, +4% ATK SPEED",
@@ -1264,6 +1282,30 @@
             "50 HP",
             "0.8S SHOTS"
           ]
+        },
+        "AVATAR CYCLE": {
+          "n": "AVATAR CYCLE",
+          "d": "EVERY FEW ATTACKS, RELEASE A RANDOM EARTH, WATER, AIR, OR FIRE STRIKE.",
+          "s": [
+            "EVERY 8TH ATTACK",
+            "RANDOM ELEMENTAL STRIKE"
+          ]
+        },
+        "FAIRY COMPANION": {
+          "n": "FAIRY COMPANION",
+          "d": "A FAIRY FOLLOWS YOU AND PERIODICALLY RESTORES LIFE.",
+          "s": [
+            "SUMMONED COMPANION",
+            "HEALS EVERY 4 SECONDS"
+          ]
+        },
+        "TIME-STOP": {
+          "n": "TIME-STOP",
+          "d": "EVERY 12 ATTACKS, BRIEFLY STOPS ENEMIES AND THEIR PROJECTILES.",
+          "s": [
+            "EVERY 12TH ATTACK",
+            "1.2S STOP / 14S COOLDOWN"
+          ]
         }
       },
       "enemy": {
@@ -1392,7 +1434,16 @@
           "d": "A CHORUS OF MOUTHS SINGING THE END.",
           "sp": "3 PHASES: DRAIN, MIRROR, SUMMON"
         }
-      }
+      },
+      "w_katana": "KATANA",
+      "w_machine_gun": "MACHINE GUN",
+      "fire_katana": "A FAST CLOSE-RANGE SWING THAT HITS IN AN ARC AND MAY BLEED.",
+      "fire_machine_gun": "A RAPID MEDIUM-RANGE STREAM; HEAVY TO CARRY, SO YOU MOVE SLOWER.",
+      "cat_weapons": "WEAPONS",
+      "spell_rank": "LEVEL",
+      "spell_rank_gain": "+{n}% NUMERIC SCALE VS RANK 1",
+      "spell_base_stats": "BASE STATS",
+      "spell_rank_custom": "CUSTOM PER-RANK EFFECT"
     },
     "pt-br": {
       "nav_menu": "MENU",
@@ -1422,6 +1473,18 @@
       "lvl_1_1": "CAMINHO VERDEJANTE",
       "lvl_1_2": "MATA FECHADA",
       "lvl_1_3": "CERNE DA FLORESTA",
+      "lvl_2_1": "CAMINHO ESCALDANTE",
+      "lvl_2_2": "DUNAS DE VIDRO",
+      "lvl_2_3": "TEMPLO SUBMERSO",
+      "lvl_3_1": "PASSAGEM CONGELADA",
+      "lvl_3_2": "BRANDAO TOTAL",
+      "lvl_3_3": "CORACAO GLACIAL",
+      "lvl_4_1": "ASCENSAO DE PEDRA",
+      "lvl_4_2": "PICO DO TROVAO",
+      "lvl_4_3": "CUME DA FORJA CELESTE",
+      "lvl_5_1": "LIMIAR DO CREPUSCULO",
+      "lvl_5_2": "BACIA DO SOL NEGRO",
+      "lvl_5_3": "TRONO DO FIM DO DIA",
       "endless_title": "MODO INFINITO",
       "play_endless": "JOGAR INFINITO",
       "best": "MELHOR",
@@ -1460,6 +1523,9 @@
       "w_bow": "ARCO",
       "w_axe": "MACHADO DE ARREMESSO",
       "w_staff": "CAJADO DE MAGO",
+      "w_shotgun": "ESPINGARDA",
+      "w_pistol": "PISTOLA",
+      "w_trident": "TRIDENTE",
       "dmg": "DANO",
       "atk_speed": "VEL. DE ATAQUE",
       "range": "ALCANCE",
@@ -1470,6 +1536,9 @@
       "fire_bow": "UMA FLECHA LONGA EM LINHA RETA.",
       "fire_axe": "UM MACHADO PESADO QUE FAZ ARCO SOBRE O ALVO.",
       "fire_staff": "UMA ESFERA LENTA QUE BATE MUITO FORTE.",
+      "fire_shotgun": "UMA RAJADA DE CINCO PROJETEIS COM DISPERSAO CURTA.",
+      "fire_pistol": "UM TIRO RAPIDO E PRECISO DE ALCANCE MEDIO.",
+      "fire_trident": "ARREMESSE E CHEGUE PERTO PARA RECUPERAR.",
       "lvm_low": "BAIXO",
       "lvm_normal": "NORMAL",
       "lvm_high": "ALTO",
@@ -1492,8 +1561,8 @@
       "st_str_d": "DANO, TAMANHO DO PROJÉTIL",
       "st_str_e": "+8% DANO, +2% TAMANHO",
       "st_res": "RESISTÊNCIA",
-      "st_res_d": "VIDA, REDUÇÃO DE DANO, RESISTÊNCIA A DEBUFFS",
-      "st_res_e": "+6 VIDA, +2% REDUÇÃO",
+      "st_res_d": "VIDA MÁXIMA, MENOS DANO SOFRIDO",
+      "st_res_e": "+6 VIDA, -2% DANO SOFRIDO",
       "st_spd": "VELOCIDADE",
       "st_spd_d": "VELOCIDADE DE MOVIMENTO E DE ATAQUE",
       "st_spd_e": "+4% MOVIMENTO, +4% VEL. DE ATAQUE",
@@ -2682,6 +2751,30 @@
             "CURA A CADA 5 ABATES",
             "1,5 VIDA / 1 DRENAGEM"
           ]
+        },
+        "AVATAR CYCLE": {
+          "n": "CICLO DO AVATAR",
+          "d": "A CADA POUCOS ATAQUES, LIBERA UM GOLPE ALEATORIO DE TERRA, AGUA, AR OU FOGO.",
+          "s": [
+            "A CADA 8 ATAQUES",
+            "GOLPE ELEMENTAL ALEATORIO"
+          ]
+        },
+        "FAIRY COMPANION": {
+          "n": "COMPANHEIRA FADA",
+          "d": "UMA FADA SEGUE VOCE E RESTAURA VIDA PERIODICAMENTE.",
+          "s": [
+            "COMPANHEIRA INVOCADA",
+            "CURA A CADA 4 SEGUNDOS"
+          ]
+        },
+        "TIME-STOP": {
+          "n": "PARADA TEMPORAL",
+          "d": "A CADA 12 ATAQUES, PARA INIMIGOS E PROJETEIS POR UM INSTANTE.",
+          "s": [
+            "A CADA 12 ATAQUES",
+            "1,2S PARADO / 14S DE RECARGA"
+          ]
         }
       },
       "enemy": {
@@ -2810,7 +2903,16 @@
           "d": "UM CORO DE BOCAS CANTANDO O FIM.",
           "sp": "3 FASES: DRENAR, ESPELHAR, INVOCAR"
         }
-      }
+      },
+      "w_katana": "KATANA",
+      "w_machine_gun": "METRALHADORA",
+      "fire_katana": "UM GOLPE RAPIDO DE CURTO ALCANCE QUE ATINGE EM ARCO E PODE CAUSAR SANGRAMENTO.",
+      "fire_machine_gun": "UMA RAJADA RAPIDA DE ALCANCE MEDIO; PESADA, ENTAO VOCE SE MOVE MAIS DEVAGAR.",
+      "cat_weapons": "ARMAS",
+      "spell_rank": "NÍVEL",
+      "spell_rank_gain": "+{n}% ESCALA NUMÉRICA VS NÍVEL 1",
+      "spell_base_stats": "ATRIBUTOS BASE",
+      "spell_rank_custom": "EFEITO ESPECIAL POR NÍVEL"
     }
   },
   "EN": [
@@ -5080,6 +5182,48 @@
       ],
       "scope": "element",
       "season": null
+    },
+    {
+      "name": "AVATAR CYCLE",
+      "element": "air",
+      "type": "damage",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "EVERY FEW ATTACKS, RANDOMLY RELEASES AN EARTH SPIKE, WATER SLASH, AIR PUSH, OR FIREBALL.",
+      "stats": [
+        "EVERY 8TH ATTACK",
+        "RANDOM ELEMENTAL STRIKE"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "FAIRY COMPANION",
+      "element": "air",
+      "type": "status",
+      "activation": "self",
+      "rarity": "epic",
+      "desc": "A FAIRY FOLLOWS YOU AND PERIODICALLY RESTORES A SMALL AMOUNT OF LIFE.",
+      "stats": [
+        "SUMMONED COMPANION",
+        "HEALS EVERY 4 SECONDS"
+      ],
+      "scope": "global",
+      "season": null
+    },
+    {
+      "name": "TIME-STOP",
+      "element": "lightning",
+      "type": "status",
+      "activation": "self",
+      "rarity": "legendary",
+      "desc": "EVERY 12 ATTACKS, BRIEFLY STOPS ENEMIES AND THEIR PROJECTILES. RARE AND POWERFUL, WITH A LONG COOLDOWN.",
+      "stats": [
+        "EVERY 12TH ATTACK",
+        "1.2S STOP / 14S COOLDOWN"
+      ],
+      "scope": "global",
+      "season": null
     }
   ],
   "LORE": {
@@ -5133,7 +5277,10 @@
         "SENTINEL": "An ancient guardian that still recognizes the living.",
         "GLACIAL BLOOM": "Old ice blooms again wherever a foe falls, turning every defeat into a brittle frostburst.",
         "STARLANCE": "A needle of starlight waits between volleys, then crosses the battlefield in a single bright instant.",
-        "SOUL HARVEST": "The harvest is never wasted: every fallen enemy and every stolen heartbeat returns a little strength."
+        "SOUL HARVEST": "The harvest is never wasted: every fallen enemy and every stolen heartbeat returns a little strength.",
+        "AVATAR CYCLE": "Four elements answer the same call, but never in the same order.",
+        "FAIRY COMPANION": "A tiny light follows the survivor and refuses to let hope die.",
+        "TIME-STOP": "Chronos grants no second chance: one stolen moment, then a long silence before time can be folded again."
       },
       "enemies": {
         "grub": "It has no eyes, but it always finds you.",
@@ -5200,7 +5347,10 @@
         "SENTINEL": "Uma guardia antiga que ainda reconhece os vivos.",
         "GLACIAL BLOOM": "O gelo antigo floresce onde um inimigo cai, transformando cada derrota em uma explosao congelante.",
         "STARLANCE": "Uma agulha de luz estelar aguarda entre disparos e cruza o campo em um unico instante brilhante.",
-        "SOUL HARVEST": "Nada se perde na colheita: cada inimigo abatido e cada batimento roubado devolvem um pouco de vigor."
+        "SOUL HARVEST": "Nada se perde na colheita: cada inimigo abatido e cada batimento roubado devolvem um pouco de vigor.",
+        "AVATAR CYCLE": "Quatro elementos respondem ao mesmo chamado, mas nunca na mesma ordem.",
+        "FAIRY COMPANION": "Uma pequena luz segue o sobrevivente e se recusa a deixar a esperanca morrer.",
+        "TIME-STOP": "Chronos nao concede uma segunda chance: um momento roubado, depois um longo silencio antes que o tempo se dobre outra vez."
       },
       "enemies": {
         "grub": "Não tem olhos, mas sempre encontra você.",
