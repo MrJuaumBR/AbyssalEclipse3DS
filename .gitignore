@@ -2,7 +2,6 @@
 /tools/data/art.json.*.bak
 /tools/preview
 build/
-*.3dsx
 *.elf
 *.smdh
 *.o
@@ -19,3 +18,6 @@ Thumbs.db
 *.exe
 __pycache__/
 *.pyc
+*.zip
+*.bnr
+.vscode
