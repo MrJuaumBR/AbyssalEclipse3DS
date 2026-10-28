@@ -36,7 +36,6 @@ Legend: OK = implemented and exercised by the host soak test | APPROX = implemen
 - Y07 OK   soak test + ASan/UBSan clean  Y08 OK   syntax check vs MY OWN stubs only  Y09 UNVERIFIED Makefile (not run with devkitARM)
 
 ## 0.1 release additions
-- R01 OK   Ordinary cosmetics are always usable; only Batman, Joker, Terraria, Mario, and Iron Man parody outfits are achievement-gated and skipped until unlocked
 - R02 OK   Five visible, directly selectable catalog tabs: spells, bestiary, clothes, music, and weapons
 - R03 OK   Completed-season music tracks unlock in the Music catalog and can be previewed with A
 - R04 OK   Active gameplay timer counts wave time only; menu, pause, allocation, and spell-choice time are excluded
@@ -55,3 +54,5 @@ Legend: OK = implemented and exercised by the host soak test | APPROX = implemen
 - F16 APPROX   Aura rings pulse; lightning arcs to nearby enemies and Vacuum sends white particles outward (visual intensity needs emulator/3DS review)
 - F17 OK   Katana target range is reduced to 56 px and cleave radius to 46 px; host regression checks both balance values
 - F18 OK   Orbit/summon spells cap at Rank 5, Time-Stop at Rank 9, and other spells at Rank 10; host tests check every adjacent effective rank, offer eligibility, cap enforcement, and bilingual rank/scaling summaries
+
+- R08 OK   Debug spell picker exposes all spell IDs with page navigation; direct Rock Golem test spawn supports summon/render checks; Sentinel atlas cell and 32x32 character scale regression fixed

@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """Generates source/data_gen.cpp + source/strings_gen.h from tools/data/*.json
 (exported from the Abyssal Eclipse HTML mockup).  Edit THIS file, never the output."""
+import argparse
 import json, re, os, sys
 from art_raster import rects
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 D = json.load(open(os.path.join(HERE, 'data', 'mock_data.json'), encoding='utf-8'))
+VERSION = json.load(open(os.path.join(HERE, 'data', 'project.json'), encoding='utf-8'))['version']
+D['LANGS']['en']['version'] = VERSION
+D['LANGS']['pt-br']['version'] = VERSION
 A = json.load(open(os.path.join(HERE, 'data', 'art.json'), encoding='utf-8'))
 
 SEAS = ['FOREST','DESERT','SNOW','MOUNTAIN','ECLIPSE']
@@ -100,7 +104,7 @@ S('TEMPEST CROWN',('NTH_STRIKE3',5,10,3))
 S('GLACIAL BLOOM',('HIT_FREEZE',18,1.2),('KILL_BURST',6,32))
 S('STARLANCE',('NTH_BOLT',7,14,44))
 S('SOUL HARVEST',('KILL_HEALEVERY',1.5,5),('LIFESTEAL',1))
-S('AVATAR CYCLE',('AVATAR',8,18,42))
+S('ELEMENTALIST CYCLE',('ELEMENTALIST',8,18,42))
 S('FAIRY COMPANION',('FAIRY',1.0,4.0,0.0))
 S('TIME-STOP',('TIME_STOP',12,1.2,14))
 
@@ -179,12 +183,11 @@ EXTRA = {  # key: (en, pt)
  'ach_little_dummy':('LITTLE DUMMY','PEQUENO BOBO'), 'ach_little_dummy_desc':('Play for at least 1 hour.','Jogue por pelo menos 1 hora.'),
  'ach_abyss_veteran':('ABYSS VETERAN','VETERANO DO ABISMO'), 'ach_abyss_veteran_desc':('Play for at least 10 hours.','Jogue por pelo menos 10 horas.'),
  'ach_touch_grass':('GO TOUCH GRASS','VAI TOCAR GRAMA'), 'ach_touch_grass_desc':('Play for at least 50 hours. Please take a break.','Jogue por pelo menos 50 horas. Faca uma pausa.'),
- 'ach_batman':('NIGHT WATCH','VIGILANTE NOTURNO'), 'ach_batman_desc':('Play for at least 1 hour to unlock the Batman parody outfit.','Jogue por pelo menos 1 hora para liberar a roupa parodia do Batman.'),
- 'ach_joker':('WHY SO SERIOUS?','POR QUE TAO SERIO?'), 'ach_joker_desc':('Play for at least 10 hours to unlock the Joker parody outfit.','Jogue por pelo menos 10 horas para liberar a roupa parodia do Joker.'),
- 'ach_terraria':('DIG DEEP','CAVE FUNDO'), 'ach_terraria_desc':('Play for at least 50 hours to unlock the Terraria parody outfit.','Jogue por pelo menos 50 horas para liberar a roupa parodia de Terraria.'),
- 'ach_mario':("IT'S-A ME",'AQUI E O MARIO'), 'ach_mario_desc':('Defeat 1,000 enemies to unlock the Mario parody outfit.','Derrote 1.000 inimigos para liberar a roupa parodia do Mario.'),
- 'ach_iron_man':('HEART OF IRON','CORACAO DE FERRO'), 'ach_iron_man_desc':('Complete the full catalog to unlock the Iron Man parody outfit.','Complete o catalogo para liberar a roupa parodia do Homem de Ferro.'),
- 'ach_avatar':('AVATAR','AVATAR'), 'ach_avatar_desc':('Use at least two distinct spells from each spell type to unlock the Avatar outfit.','Use pelo menos duas magias diferentes de cada tipo para liberar a roupa do Avatar.'),
+ 'ach_nightwarden':('NIGHT WATCH','VIGILANTE NOTURNO'), 'ach_nightwarden_desc':('Play for at least 1 hour to unlock the Nightwarden parody outfit.','Jogue por pelo menos 1 hora para liberar a roupa parodia do Nightwarden.'),
+ 'ach_grinmask':('WHY SO SERIOUS?','POR QUE TAO SERIO?'), 'ach_grinmask_desc':('Play for at least 10 hours to unlock the Grinmask parody outfit.','Jogue por pelo menos 10 horas para liberar a roupa parodia do Grinmask.'),
+ 'ach_redcap':("IT'S-A ME",'AQUI E O REDCAP'), 'ach_redcap_desc':('Defeat 1,000 enemies to unlock the Redcap parody outfit.','Derrote 1.000 inimigos para liberar a roupa parodia do Redcap.'),
+ 'ach_arcwarden':('HEART OF IRON','CORACAO DE FERRO'), 'ach_arcwarden_desc':('Complete the full catalog to unlock the Arc Warden parody outfit.','Complete o catalogo para liberar a roupa parodia do Homem de Ferro.'),
+ 'ach_elementalist':('ELEMENTALIST','ELEMENTALIST'), 'ach_elementalist_desc':('Use at least two distinct spells from each spell type to unlock the Elementalist outfit.','Use pelo menos duas magias diferentes de cada tipo para liberar a roupa do Elementalist.'),
  'stat_games':('RUNS','PARTIDAS'), 'stat_wins':('WINS','VITORIAS'), 'stat_losses':('LOSSES','DERROTAS'),
  'stat_kills':('LIFETIME KILLS','ABATES TOTAIS'), 'stat_picks':('SPELLS ACQUIRED','MAGIAS OBTIDAS'),
  'stat_casts':('SPELL ACTIVATIONS','ATIVACOES DE MAGIA'),
@@ -194,10 +197,10 @@ EXTRA = {  # key: (en, pt)
  'cat_clothes':('CLOTHES','ROUPAS'), 'cat_music':('MUSIC','MUSICAS'),
  'music_locked':('CLEAR THE SEASON TO UNLOCK THIS TRACK','CONCLUA A ESTACAO PARA DESBLOQUEAR ESTA MUSICA'),
  'music_play':('A: PLAY TRACK','A: TOCAR MUSICA'), 'music_stop':('B: STOP PREVIEW','B: PARAR PREVIA'),
- 'cloth_bat_cowl':('NIGHT COWL','CAPUZ NOTURNO'), 'cloth_joker_grin':('GRINNING MASK','MASCARA SORRIDENTE'),
- 'cloth_terra_hat':('PIXEL MINER HELM','CAPACETE DO MINEIRO PIXEL'), 'cloth_abyss_crown':('ABYSSAL CROWN','COROA ABISSAL'),
+ 'cloth_bat_cowl':('NIGHT COWL','CAPUZ NOTURNO'), 'cloth_grinmask_grin':('GRINNING MASK','MASCARA SORRIDENTE'),
+ 'cloth_nightwarden':('NIGHT COWL','CAPUZ NOTURNO'), 'cloth_grinmask':('GRINNING MASK','MASCARA SORRIDENTE'), 'cloth_redcap':('CRIMSON CAP','BONE CARMESIM'), 'cloth_arcwarden':('ARC HELMET','CAPACETE ARC'),
+ 'cloth_abyss_crown':('ABYSSAL CROWN','COROA ABISSAL'),
  'cloth_default':('KNIGHT HELM','ELMO DO CAVALEIRO'), 'cloth_wizard':('WIZARD HAT','CHAPEU DE MAGO'), 'cloth_leaf':('LEAF HOOD','CAPUZ DE FOLHAS'), 'cloth_crown':('TINY CROWN','COROA PEQUENA'), 'cloth_none':('NONE','NENHUM'),
- 'cloth_batman':('NIGHT COWL','CAPUZ NOTURNO'), 'cloth_joker':('GRINNING MASK','MASCARA SORRIDENTE'), 'cloth_terraria':('PIXEL MINER HELM','CAPACETE DO MINEIRO PIXEL'), 'cloth_mario':('RED PLUMBER CAP','BONE VERMULHO'), 'cloth_ironman':('ARC HELMET','CAPACETE ARC'),
  'face_dwarf_beard':('DWARF BEARD','BARBA DE ANAO'),
  'music_forest':('FOREST - ROOTS OF DUSK','FLORESTA - RAIZES DO CREPUSCULO'),
  'music_desert':('DESERT - SUNKEN HORIZON','DESERTO - HORIZONTE SUBMERSO'),
@@ -207,7 +210,7 @@ EXTRA = {  # key: (en, pt)
  'store_points':('X: STORE POINTS','X: GUARDAR PONTOS'), 'use_stored':('Y: USE STORED ({n})','Y: USAR GUARDADOS ({n})'),
  'stores_left':('BANK USES LEFT: {n}/3','USOS DO BANCO: {n}/3'), 'points_stored':('POINTS STORED','PONTOS GUARDADOS'),
  'release_status':('RELEASE','LANCAMENTO'),
- 'cloth_avatar':('AIR NOMAD AVATAR','AVATAR NOMADE DO AR'),
+ 'cloth_elementalist':('AIR NOMAD ELEMENTALIST','ELEMENTALIST NOMADE DO AR'),
  'trident_ready':('TRIDENT RECLAIMED','TRIDENTE RECUPERADO'),
  'trident_out':('TRIDENT OUT - MOVE CLOSE TO RECOVER','TRIDENTE FORA - CHEGUE PERTO PARA RECUPERAR')
 }
@@ -296,8 +299,8 @@ def main():
         o.append('};')
     o.append('const char* const* const ENEMY_LORE[LANG_COUNT] = { ELORE_EN, ELORE_PT };\n')
 
-    def emit(name, svg):
-        r = rects(svg)
+    def emit(name, svg, size=16):
+        r = rects(svg, size=size)
         if not r: return 0
         o.append('static const PixRect %s[] = {%s};' % (name, ','.join('{%d,%d,%d,%d,0x%06X}'%t for t in r)))
         return len(r)
@@ -307,15 +310,20 @@ def main():
         n = emit('ART_E_'+e['key'], A['ENEMY'][e['key']]); arts.append(('ART_E_'+e['key'],n))
     o.append('const PixArt ART_ENEMY[%d] = {%s};' % (len(EN), ','.join('{%s,%d}'%a for a in arts)))
     
-    hats = ['helm','wizard','leaf','crown','none','batman','joker','terraria','mario','ironman','avatar']; faces=['beard','glasses','scar','freckles','none','dwarf_beard']
+    hats = ['helm','wizard','leaf','crown','none','nightwarden','grinmask','redcap','arcwarden','elementalist']
+    faces=['beard','glasses','scar','freckles','none','dwarf_beard']
     ha=[]
-    for h in hats: n=emit('ART_H_'+h,A['HAT'][h]); ha.append(('ART_H_'+h,n))
-    o.append('const PixArt ART_HAT[11] = {%s};' % ','.join('{%s,%d}'%a for a in ha))
+    for h in hats:
+        svg=A['HAT'][h]
+        if not rects(svg, size=32): ha.append(('nullptr',0))
+        else:
+            n=emit('ART_H_'+h,svg,size=32); ha.append(('ART_H_'+h,n))
+    o.append('const PixArt ART_HAT[10] = {%s};' % ','.join('{%s,%d}'%a for a in ha))
     fa=[]
     for f in faces:
         svg=A['FACE'][f]
         if not rects(svg): fa.append(('nullptr',0)); continue
-        n=emit('ART_F_'+f,svg); fa.append(('ART_F_'+f,n))
+        n=emit('ART_F_'+f,svg, size=32); fa.append(('ART_F_'+f,n))
     o.append('const PixArt ART_FACE[6] = {%s};' % ','.join('{%s,%d}'%a for a in fa))
     
     icons = ['leaf','pyr','snow','peak','ecl','lock','book','heart','gem','shield','bolt','clover','star','skull','clock','trophy','dagger','bow','axe','staff','shotgun','pistol','trident','chest','bug','sprout','katana','machine_gun']
@@ -328,4 +336,11 @@ def main():
     print('kinds used:', ' '.join(KINDS))
     print('enemies:', ' '.join(keys))
 
-if __name__=='__main__': main()
+def _parse_cli():
+    parser = argparse.ArgumentParser(description=__doc__, add_help=False)
+    parser.add_argument('-h', '--h', '-help', '--help', action='help', help='show this help message and exit')
+    parser.parse_args()
+
+if __name__=='__main__':
+    _parse_cli()
+    main()

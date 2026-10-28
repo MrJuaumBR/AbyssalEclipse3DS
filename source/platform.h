@@ -39,4 +39,9 @@ void audioShutdown();
 bool storageRead(const char* name, void* buf, size_t cap, size_t* got);
 bool storageWrite(const char* name, const void* buf, size_t len);  // atomic (tmp + rename)
 u64 nowMs();
+#ifdef __3DS__
+void debugLog(const char* fmt, ...);  // appends to sdmc:/3ds/AbyssalEclipse/boot.log
+#else
+inline void debugLog(const char*, ...) {}  // host-test no-op
+#endif
 }  // namespace plat

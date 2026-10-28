@@ -7,8 +7,14 @@
 #include <stdio.h>
 #include <string.h>
 
+// Luma cheat target: write 0xAE13D3B to this volatile word, then press SELECT
+// during a run. The symbol is exported by the ELF so a cheat can resolve it;
+// no debug menu is exposed until the magic value is present.
+extern "C" volatile u32 g_debugUnlock = 0;
+
 namespace {
 using plat::Input;
+const u32 DEBUG_MAGIC = 0x0AE13D3Bu;
 enum Screen { SC_MENU, SC_CAMPAIGN, SC_WEAPON, SC_CUSTOM, SC_GAME, SC_CATALOG, SC_ACHIEVEMENTS, SC_OPTIONS, SC_CREDITS };
 
 struct G {
@@ -19,7 +25,7 @@ struct G {
   int season = 0, level = 0, weaponSel = 0, menuSel = 0;
   int tab = 0, slotSel = 0, allocSel = 0, offerSel = 0;
   int catTab = 0, catSel = 0, catScroll = 0, achSel = 0, achScroll = 0, optSel = 0, custRow = 0, loreScroll = 0;
-  bool paused = false, debug = false; int pauseSel = 0, dbgSel = 0;
+  bool paused = false, debug = false, dbgSpellPicker = false; int pauseSel = 0, dbgSel = 0, dbgSpellSel = 0;
   char toast[48] = ""; float toastT = 0;
   bool inited = false, silent = false;
   int droneClicks = 0;         
@@ -44,13 +50,13 @@ void go(Screen s) {
 gfx::Cosmetics cosm() { gfx::Cosmetics c; c.hat = g.save.hat; c.face = g.save.face; c.color = g.save.color; return c; }
 bool spellFound(int i) { return g.save.unlockAll || g.secretCatalog || g.save.spellFound[i] > 0; }
 bool enemyFound(int i) { return g.save.unlockAll || g.secretCatalog || g.save.enemySeen[i]; }
-static const StrId CLOTH_NAME[11] = {S_cloth_default, S_cloth_wizard, S_cloth_leaf, S_cloth_crown, S_cloth_none, S_cloth_batman, S_cloth_joker, S_cloth_terraria, S_cloth_mario, S_cloth_ironman, S_cloth_avatar};
 static const StrId MUSIC_NAME[5] = {S_music_forest, S_music_desert, S_music_snow, S_music_mountain, S_music_eclipse};
+static const StrId CLOTH_NAME[10] = {S_cloth_default, S_cloth_wizard, S_cloth_leaf, S_cloth_crown, S_cloth_none, S_cloth_nightwarden, S_cloth_grinmask, S_cloth_redcap, S_cloth_arcwarden, S_cloth_elementalist};
 bool clothUnlocked(int id) {
   if (g.save.unlockAll || g.secretCatalog || id < 5) return true;
-  static const int ach[5] = {ACH_CLOTH_BATMAN, ACH_CLOTH_JOKER, ACH_CLOTH_TERRARIA, ACH_CLOTH_MARIO, ACH_CLOTH_IRONMAN};
-  if (id >= 5 && id < 10) return achievementUnlocked(g.save, ach[id - 5]);
-  return id == 10 && achievementUnlocked(g.save, ACH_AVATAR);
+  static const int ach[4] = {ACH_CLOTH_NIGHTWARDEN, ACH_CLOTH_GRINMASK, ACH_CLOTH_REDCAP, ACH_CLOTH_ARCWARDEN};
+  if (id >= 5 && id < 9) return achievementUnlocked(g.save, ach[id - 5]);
+  return id == 9 && achievementUnlocked(g.save, ACH_ELEMENTALIST);
 }
 bool faceUnlocked(int id) {
   return id >= 0 && id < 6;
@@ -67,7 +73,7 @@ void startRun() {
   addLifetime(g.save.gamesPlayed, 1);
   persist();
   simStart(g_sim, g.season, g.level, g.endless, g.weaponSel, (u32)plat::nowMs() | 1u, g.allSeasons);
-  g.scr = SC_GAME; g.tab = 0; g.slotSel = 0; g.allocSel = 0; g.offerSel = 0; g.paused = false; g.debug = false;
+  g.scr = SC_GAME; g.tab = 0; g.slotSel = 0; g.allocSel = 0; g.offerSel = 0; g.paused = false; g.debug = false; g.dbgSpellPicker = false;
   audio::musicSet(g.season, 0.4f);
 }
 void finishRun(bool victory) {
@@ -136,7 +142,7 @@ void drawMenuTop() {
   gfx::textC("ABYSSAL", 200, 26, C_GOLD, 4);
   gfx::textC("ECLIPSE", 200, 66, C_ECLIPSE, 4);
   gfx::textC(T(S_tagline), 200, 112, C_DIM);
-  gfx::sprC(gfx::knight(), 200, 160, 4.0f);
+  gfx::sprC(gfx::knight(), 200, 160, 1.0f);
   gfx::textC(T(S_version), 200, 224, C_BORDER);
 }
 void drawMenuBot() {
@@ -225,7 +231,7 @@ void updWeapon(const Input& in) {
 void drawWeaponTop() {
   gfx::rect(0, 0, TOP_W, TOP_H, C_VOID);
   textFitC(T(S_weapon_title), 200, 14, 380, C_GOLD, 2);
-  gfx::sprC(gfx::knight(), 130, 110, 6.0f);
+  gfx::sprC(gfx::knight(), 130, 110, 1.5f);
   gfx::sprC(gfx::icon(weaponIcon(g.weaponSel)), 250, 110, 6.0f);
   textFitC(T(WEAPON_NAME[g.weaponSel]), 250, 168, 190, weaponUnlocked(g.weaponSel) ? (u32)C_TEXT : (u32)C_RED, 2);
   gfx::textC(T(S_first_spell), 200, 210, C_DIM);
@@ -279,12 +285,12 @@ void drawCustomTop() {
   gfx::rect(0, 0, TOP_W, TOP_H, C_VOID);
   gfx::textC(T(S_cosmetic), 200, 12, C_GOLD, 2);
   gfx::discC(2, 200, 130, 70, 60);
-  gfx::sprC(gfx::knight(), 200, 126, 8.0f);
+  gfx::sprC(gfx::knight(), 200, 126, 2.0f);
 }
 void drawCustomBot() {
   gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
   const StrId lab[3] = {S_hat, S_face, S_color};
-  const StrId val[3] = {CLOTH_NAME[clampT((int)g.save.hat, 0, 10)], FACE_NAME[g.save.face], COLOR_NAME[g.save.color]};
+  const StrId val[3] = {CLOTH_NAME[clampT((int)g.save.hat, 0, 9)], FACE_NAME[g.save.face], COLOR_NAME[g.save.color]};
   for (int i = 0; i < 3; ++i) {
     bool sel = g.custRow == i;
     gfx::panel(8, 30 + i * 60, 304, 50, sel ? (u32)0x3A2F5C : (u32)C_PANEL, sel ? (u32)C_GOLD : (u32)C_BORDER);
@@ -301,7 +307,7 @@ static int catCount() {
   switch (g.catTab) {
     case 0: return NUM_SPELLS;
     case 1: return NUM_ENEMIES;
-    case 2: return 11;
+    case 2: return 10;
     case 3: return 5;
     default: return W_COUNT;
   }
@@ -382,7 +388,7 @@ void drawCatalogTop() {
     gfx::sprC(gfx::icon(IC_CHEST), 70, 74, 5.0f);
     gfx::text(T(CLOTH_NAME[i]), 120, 28, C_GOLD, 2);
     if (!clothUnlocked(i)) { gfx::sprC(gfx::icon(IC_LOCK), 200, 96, 3.0f); gfx::textC(T(S_not_found), 200, 144, C_DIM, 2); }
-    else { gfx::sprC(gfx::clothingPreview(i), 200, 100, 8.0f); gfx::textC(T(S_ach_unlocked), 200, 164, C_GREEN); }
+    else { gfx::sprC(gfx::clothingPreview(i), 200, 100, 2.0f); gfx::textC(T(S_ach_unlocked), 200, 164, C_GREEN); }
   } else if (g.catTab == 3) {
     gfx::panel(8, 8, 384, 224, C_PANEL, SEASON_COLOR[i]);
     gfx::sprC(gfx::icon(seasonIcon(i)), 60, 70, 4.0f);
@@ -447,14 +453,14 @@ static const StrId ACH_NAME[ACH_COUNT] = {
   S_ach_kills_1000, S_ach_kills_10000, S_ach_kills_100000,
   S_ach_catalog_forest, S_ach_catalog_desert, S_ach_catalog_snow, S_ach_catalog_mountain, S_ach_catalog_eclipse,
   S_ach_full_catalog, S_ach_little_dummy, S_ach_abyss_veteran, S_ach_touch_grass,
-  S_ach_batman, S_ach_joker, S_ach_terraria, S_ach_mario, S_ach_iron_man, S_ach_avatar
+  S_ach_nightwarden, S_ach_grinmask, S_ach_redcap, S_ach_arcwarden, S_ach_elementalist,
 };
 static const StrId ACH_DESC[ACH_COUNT] = {
   S_ach_season_forest_desc, S_ach_season_desert_desc, S_ach_season_snow_desc, S_ach_season_mountain_desc, S_ach_season_eclipse_desc,
   S_ach_kills_1000_desc, S_ach_kills_10000_desc, S_ach_kills_100000_desc,
   S_ach_catalog_forest_desc, S_ach_catalog_desert_desc, S_ach_catalog_snow_desc, S_ach_catalog_mountain_desc, S_ach_catalog_eclipse_desc,
   S_ach_full_catalog_desc, S_ach_little_dummy_desc, S_ach_abyss_veteran_desc, S_ach_touch_grass_desc,
-  S_ach_batman_desc, S_ach_joker_desc, S_ach_terraria_desc, S_ach_mario_desc, S_ach_iron_man_desc, S_ach_avatar_desc
+  S_ach_nightwarden_desc, S_ach_grinmask_desc, S_ach_redcap_desc, S_ach_arcwarden_desc, S_ach_elementalist_desc,
 };
 void updAchievements(const Input& in) {
   if (pressed(in, plat::BTN_DOWN)) g.achSel = minT(ACH_COUNT - 1, g.achSel + 1);
@@ -619,7 +625,7 @@ static bool spellHasGenericRankScale(const SpellDef& d) {
 static void spellOverlay(const Sim& s, int slot, float x, float y) {
   if (slot >= s.nSlots || s.slots[slot].id < 0) return;
   const SpellDef& d = SPELLS[s.slots[slot].id]; float v = 0; char b[24];
-  for (int k = 0; k < 3; ++k) { const Eff& e = d.eff[k]; if (e.kind == E_NTH_RING || e.kind == E_NTH_BLAST || e.kind == E_NTH_STUN || e.kind == E_NTH_DOUBLE || e.kind == E_NTH_STRIKE3 || e.kind == E_NTH_BOLT || e.kind == E_AVATAR) { int n = maxT(1, (int)e.a); snprintf(b, sizeof b, "%d/%d", (int)(s.p.throws % n), n); gfx::textC(b, x + 36, y + 3, C_GOLD); return; } }
+  for (int k = 0; k < 3; ++k) { const Eff& e = d.eff[k]; if (e.kind == E_NTH_RING || e.kind == E_NTH_BLAST || e.kind == E_NTH_STUN || e.kind == E_NTH_DOUBLE || e.kind == E_NTH_STRIKE3 || e.kind == E_NTH_BOLT || e.kind == E_ELEMENTALIST) { int n = maxT(1, (int)e.a); snprintf(b, sizeof b, "%d/%d", (int)(s.p.throws % n), n); gfx::textC(b, x + 36, y + 3, C_GOLD); return; } }
   int effectIndex = -1; EffKind cooldownKind = E_NONE;
   if (spellHasEffect(d, E_PERIODIC_FLARE, &v, &effectIndex)) cooldownKind = E_PERIODIC_FLARE;
   else if (spellHasEffect(d, E_PERIODIC_BOMB, &v, &effectIndex)) cooldownKind = E_PERIODIC_BOMB;
@@ -640,11 +646,37 @@ void drawGameBot() {
   gfx::rect(0, 0, BOT_W, BOT_H, C_VOID);
   char b[96];
   if (g.debug) {
+    if (g.dbgSpellPicker) {
+      const int pageSize = 20, cols = 4;
+      const int page = g.dbgSpellSel / pageSize, start = page * pageSize;
+      const int end = minT((int)NUM_SPELLS, start + pageSize);
+      snprintf(b, sizeof b, "SPELL PICKER  %d/%d", page + 1, (NUM_SPELLS + pageSize - 1) / pageSize);
+      header(b, C_RED);
+      for (int id = start; id < end; ++id) {
+        const int j = id - start, x = 4 + (j % cols) * 78, y = 26 + (j / cols) * 23;
+        const bool selected = id == g.dbgSpellSel;
+        gfx::panel(x, y, 75, 21, selected ? (u32)0x3A2F5C : (u32)C_PANEL,
+                   selected ? (u32)C_GOLD : (u32)C_BORDER);
+        char label[32]; compactSlotLabel(spellName(id), label, sizeof label);
+        textFitC(label, x + 37, y + 3, 70, RARITY_COLOR[SPELLS[id].rar], 1);
+        snprintf(b, sizeof b, "#%03d  R%d", id + 1, SPELLS[id].maxLevel);
+        gfx::textC(b, x + 37, y + 12, C_DIM, 1);
+      }
+      const SpellDef& selected = SPELLS[g.dbgSpellSel];
+      gfx::panel(4, 145, 312, 66, C_PANEL, C_BORDER);
+      snprintf(b, sizeof b, "%s  R1/%d", spellName(g.dbgSpellSel), selected.maxLevel);
+      textFitC(b, 160, 149, 296, RARITY_COLOR[selected.rar], 1);
+      gfx::textWrap(spellDesc(g.dbgSpellSel), 9, 161, 302, C_TEXT, 1, 2);
+      gfx::textWrap(spellStats(g.dbgSpellSel), 9, 185, 302, C_GOLD, 1, 2);
+      gfx::textC("A / TAP FOOTER: GRANT OR UPGRADE   B: BACK   L/R: PAGE", 160, 220, C_DIM, 1);
+      return;
+    }
     header(T(S_dbg_title), C_RED);
     const StrId lab[9] = {S_dbg_wave, S_dbg_boss, S_dbg_force, S_dbg_clear, S_dbg_death, S_dbg_xp, S_dbg_god, S_dbg_unlock, S_dbg_reset};
-    for (int i = 0; i < 9; ++i) {
-      snprintf(b, sizeof b, "%s%s", T(lab[i]), (i == 6 && s.godMode) ? " [X]" : ((i == 7 && g.save.unlockAll) ? " [X]" : ""));
-      button(20, 24 + i * 23, 280, 21, b, g.dbgSel == i);
+    for (int i = 0; i < 11; ++i) {
+      const char* label = i == 9 ? "SPELL PICKER" : (i == 10 ? "SPAWN TEST GOLEM" : T(lab[i]));
+      snprintf(b, sizeof b, "%s%s", label, (i == 6 && s.godMode) ? " [X]" : ((i == 7 && g.save.unlockAll) ? " [X]" : ""));
+      button(16, 23 + i * 19, 288, 18, b, g.dbgSel == i);
     }
     return;
   }
@@ -770,18 +802,45 @@ void runDebug(int i) {
     case 6: s.godMode = !s.godMode; break;
     case 7: g.save.unlockAll = !g.save.unlockAll; break;
     case 8: startRun(); break;
+    case 9: g.dbgSpellPicker = true; g.dbgSpellSel = 0; break;
+    case 10: dbgSpawnGolem(s); break;
   }
 }
 
 void updGame(const Input& in, float dt) {
   Sim& s = g_sim;
-  if (pressed(in, plat::BTN_SELECT)) { g.debug = !g.debug; g.paused = false; }
+  const u32 secretMask = plat::BTN_L | plat::BTN_R | plat::BTN_X | plat::BTN_Y;
+  // Hidden controller unlock: hold L+R+X+Y and press SELECT once. A Luma
+  // cheat can perform the same unlock by writing DEBUG_MAGIC to g_debugUnlock.
+  if (pressed(in, plat::BTN_SELECT) && (in.held & secretMask) == secretMask) {
+    g_debugUnlock = DEBUG_MAGIC;
+    plat::debugLog("debug: controller unlock armed");
+  }
+  if (pressed(in, plat::BTN_SELECT) && g_debugUnlock == DEBUG_MAGIC) { g.debug = !g.debug; g.paused = false; g.dbgSpellPicker = false; }
   if (g.debug) {
-    if (pressed(in, plat::BTN_DOWN)) g.dbgSel = (g.dbgSel + 1) % 9;
-    if (pressed(in, plat::BTN_UP)) g.dbgSel = (g.dbgSel + 8) % 9;
-    for (int i = 0; i < 9; ++i) if (inR(in, 20, 24 + i * 23, 280, 21)) { g.dbgSel = i; runDebug(i); return; }
+    if (g.dbgSpellPicker) {
+      const int pageSize = 20, pageStart = (g.dbgSpellSel / pageSize) * pageSize;
+      const int pageEnd = minT((int)NUM_SPELLS, pageStart + pageSize);
+      const int local = g.dbgSpellSel - pageStart, col = local % 4, row = local / 4;
+      if (pressed(in, plat::BTN_LEFT) && col > 0) --g.dbgSpellSel;
+      if (pressed(in, plat::BTN_RIGHT) && col < 3 && g.dbgSpellSel + 1 < pageEnd) ++g.dbgSpellSel;
+      if (pressed(in, plat::BTN_UP) && row > 0) g.dbgSpellSel -= 4;
+      if (pressed(in, plat::BTN_DOWN) && g.dbgSpellSel + 4 < pageEnd) g.dbgSpellSel += 4;
+      if (pressed(in, plat::BTN_L) && pageStart > 0) g.dbgSpellSel = maxT(0, g.dbgSpellSel - pageSize);
+      if (pressed(in, plat::BTN_R) && pageEnd < NUM_SPELLS) g.dbgSpellSel = minT((int)NUM_SPELLS - 1, g.dbgSpellSel + pageSize);
+      for (int id = pageStart; id < pageEnd; ++id) {
+        const int j = id - pageStart, x = 4 + (j % 4) * 78, y = 26 + (j / 4) * 23;
+        if (inR(in, x, y, 75, 21)) g.dbgSpellSel = id;
+      }
+      if (pressed(in, plat::BTN_A) || inR(in, 4, 211, 312, 29)) dbgGrantSpell(s, g.dbgSpellSel);
+      if (pressed(in, plat::BTN_B)) g.dbgSpellPicker = false;
+      return;
+    }
+    if (pressed(in, plat::BTN_DOWN)) g.dbgSel = (g.dbgSel + 1) % 11;
+    if (pressed(in, plat::BTN_UP)) g.dbgSel = (g.dbgSel + 10) % 11;
+    for (int i = 0; i < 11; ++i) if (inR(in, 16, 23 + i * 19, 288, 18)) { g.dbgSel = i; runDebug(i); return; }
     if (pressed(in, plat::BTN_A)) runDebug(g.dbgSel);
-    if (pressed(in, plat::BTN_B)) g.debug = false;
+    if (pressed(in, plat::BTN_B)) { g.debug = false; g.dbgSpellPicker = false; }
     return;
   }
   if (pressed(in, plat::BTN_START) && s.phase == PH_PLAY) { g.paused = !g.paused; g.pauseSel = 0; }
@@ -839,13 +898,16 @@ void updGame(const Input& in, float dt) {
 
 // ================================================================================ public API
 bool gameInit() {
-  if (!plat::init()) return false;
+  if (!plat::init()) { plat::debugLog("game: platform init FAILED"); return false; }
+  plat::debugLog("game: platform init OK");
   saveLoad(g.save);
   g.inited = true;
   applyOptions();
   audio::init();
   g.silent = !plat::audioInit(audio::mix);
-  if (!gfx::init(cosm())) return false;
+  plat::debugLog("game: audio stage complete silent=%d", g.silent ? 1 : 0);
+  if (!gfx::init(cosm())) { plat::debugLog("game: gfx init FAILED"); return false; }
+  plat::debugLog("game: gfx init OK");
   g.weaponSel = g.save.lastWeapon;
   go(SC_MENU);
   return true;

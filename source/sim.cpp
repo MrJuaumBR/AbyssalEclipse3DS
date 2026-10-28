@@ -87,7 +87,7 @@ static Eff scaleEff(Eff e, float m, int level) {
     case E_MIRROR: case E_ATTACKER_DMG: case E_EXSANG: case E_TRAIL_SPARK:
       e.a *= m; break;
     case E_AURA: e.a *= m; e.b *= m; e.c *= m; break;
-    case E_AVATAR: e.a = maxT(2.0f, e.a - rank); e.b *= m; e.c *= m; break;
+    case E_ELEMENTALIST: e.a = maxT(2.0f, e.a - rank); e.b *= m; e.c *= m; break;
     case E_FAIRY: e.a *= m; e.b = maxT(2.0f, e.b / m); break;
     case E_TIME_STOP: e.a = maxT(8.0f, e.a - rank); e.b = minT(1.6f, e.b + rank * 0.08f); e.c = maxT(8.0f, e.c - rank * 0.75f); break;
     case E_KILLHEAL: case E_REGEN: e.a *= m; e.b = maxT(0.5f, e.b / m); break;
@@ -188,7 +188,7 @@ void recompute(Sim& s) {
         case E_ARMOR_IGNORE: m.armorIgnore = true; m.armorBonus += maxT(0.0f, e.a - 1.0f) * 25.0f; break;
         case E_DRONE_MINIGUN: m.hasDrone = true; m.dronePower += e.a; break;
         case E_SENTINEL: m.hasSentinel = true; m.sentinelPower += e.a; break;
-        case E_AVATAR: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
+        case E_ELEMENTALIST: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
         case E_FAIRY: m.hasFairy = true; m.fairyPower += e.a; break;
         case E_TIME_STOP: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
         case E_PIERCE: m.pierce += maxT(0, (int)e.a - 1) + lv - 1; break;
@@ -528,7 +528,7 @@ static void doThrow(Sim& s) {
   audio::sfx(s.weapon == W_KATANA ? audio::SFX_SWING : audio::SFX_SHOOT);
   const float baseDmg = (w.dmg + m.flat) * m.dmgMul * m.dealt;
   const float lm = 1 + m.lightning / 100.0f;
-  for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_AVATAR && p.throws % maxT(1, (int)m.ev[i].a) == 0) {
+  for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_ELEMENTALIST && p.throws % maxT(1, (int)m.ev[i].a) == 0) {
     spellCast(s); const int element = s.rng.i(4); const float r = m.ev[i].c * m.aoeMul;
     if (element == 0) { aoeDamage(s, s.en[t].x, s.en[t].y, r, m.ev[i].b * m.dmgMul); fxRing(s, s.en[t].x, s.en[t].y, r, 2, 0.3f); }
     else if (element == 1) { for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(s.en[t].x, s.en[t].y, s.en[k].x, s.en[k].y) < sq(r)) hitEnemy(s, k, m.ev[i].b * m.dmgMul, 0, 0, false, false); fxRing(s, s.en[t].x, s.en[t].y, r, 3, 0.25f); }
@@ -1037,7 +1037,7 @@ static void playUpdate(Sim& s, const SimInput& in, float dt) {
         if (q) {
           q->spr = gfx::PS_SPARK; q->x = dx0; q->y = dy0;
           q->vx = dx / len * 420.0f; q->vy = dy / len * 420.0f;
-          q->dmg = 3.5f * maxT(0.5f, m.dronePower) * m.dmgMul * m.dealt; q->r = 3.0f; q->life = 1.8f;
+          q->dmg = DRONE_DAMAGE_MUL * maxT(0.5f, m.dronePower) * m.dmgMul * m.dealt; q->r = 3.0f; q->life = 1.8f;
           q->kind = 0; q->rot = atan2f(q->vy, q->vx) + 1.5707963f; spellCast(s);
         }
       }
@@ -1124,3 +1124,32 @@ void dbgClearSpells(Sim& s) {
 }
 void dbgDeath(Sim& s) { s.p.hp = 0; s.p.usedRevive = true; s.phase = PH_DEAD; s.phaseT = 0; }
 void dbgGiveLevel(Sim& s) { s.p.level++; s.points++; }
+void dbgGrantSpell(Sim& s, int spellId) {
+  if (s.phase != PH_PLAY || spellId < 0 || spellId >= NUM_SPELLS) { setToast(s, T(S_finish_phase)); return; }
+  int slot = -1;
+  for (int i = 0; i < s.nSlots; ++i) if (s.slots[i].id == spellId) { slot = i; break; }
+  if (slot >= 0) {
+    if (s.slots[slot].lv >= SPELLS[spellId].maxLevel) { setToast(s, T(S_upgrade_t)); return; }
+    ++s.slots[slot].lv; ++s.runSpellUpgrades;
+  } else if (s.nSlots < MAX_SLOTS) {
+    slot = s.nSlots++;
+    s.slots[slot] = SpellSlot{(s16)spellId, 1};
+    if (s.seenSpell[spellId] < 255) ++s.seenSpell[spellId];
+    s.usedSpell[spellId] = 1; ++s.runSpellsAcquired;
+  } else {
+    slot = s.nSlots - 1;
+    if (slot <= 0) { setToast(s, T(S_build_full_t)); return; }
+    s.slots[slot] = SpellSlot{(s16)spellId, 1};
+    if (s.seenSpell[spellId] < 255) ++s.seenSpell[spellId];
+    s.usedSpell[spellId] = 1; ++s.runSpellsAcquired;
+  }
+  recompute(s);
+  setToast(s, "TEST SPELL ADDED / UPGRADED");
+}
+void dbgSpawnGolem(Sim& s) {
+  if (s.phase != PH_PLAY) { setToast(s, T(S_finish_phase)); return; }
+  const float x = clampT(s.p.x + 34.0f, arenaMinX(s) + 14.0f, arenaMaxX(s) - 14.0f);
+  const float y = clampT(s.p.y, arenaMinY(s) + 14.0f, arenaMaxY(s) - 14.0f);
+  if (spawnEnemy(s, EN_GOLEM, x, y, false) < 0) setToast(s, "ENEMY POOL FULL");
+  else setToast(s, "TEST GOLEM SPAWNED");
+}

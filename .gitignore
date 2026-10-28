@@ -1,3 +1,6 @@
+/tools/aseprite_work/
+/tools/data/art.json.*.bak
+/tools/preview
 build/
 *.3dsx
 *.elf

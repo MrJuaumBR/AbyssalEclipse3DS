@@ -66,13 +66,34 @@ ifeq ($(strip $(NO_SMDH)),)
 	export _3DSXFLAGS += --smdh=$(CURDIR)/$(TARGET).smdh
 endif
 
-.PHONY: all clean regen cia
+.PHONY: all clean regen cia aseprite-export aseprite-import FORCE
+
+# Prefer Python 3, then python, then the Windows py launcher used by some MSYS2 installs.
+PYTHON ?= $(shell if command -v python3 >/dev/null 2>&1; then echo python3; elif command -v python >/dev/null 2>&1; then echo python; elif command -v py >/dev/null 2>&1; then echo 'py -3'; fi)
+DATA_INPUTS := tools/gen_data.py tools/art_raster.py tools/data/mock_data.json tools/data/art.json tools/data/project.json
 
 all: $(BUILD)
 
-$(BUILD):
+# The generated art/spell tables are a prerequisite of the recursive build.
+$(BUILD): source/data_gen.cpp
 	@mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+
+source/data_gen.cpp: $(DATA_INPUTS)
+	@if [ -z "$(strip $(PYTHON))" ]; then echo "Python 3 not found. Install Python 3 or run make PYTHON='py -3'." >&2; exit 127; fi
+	$(PYTHON) tools/gen_data.py
+
+regen: FORCE
+	@if [ -z "$(strip $(PYTHON))" ]; then echo "Python 3 not found. Install Python 3 or run make PYTHON='py -3'." >&2; exit 127; fi
+	$(PYTHON) tools/gen_data.py
+
+FORCE:
+
+aseprite-export:
+	$(PYTHON) tools/aseprite_sync.py export
+
+aseprite-import:
+	$(PYTHON) tools/aseprite_sync.py import
 
 # --- CIA Build Target ---
 cia: all $(BANNER_BNR) $(SMDH_FILE)
@@ -94,8 +115,6 @@ clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf $(CIA_NAME) $(SMDH_FILE) $(BANNER_BNR)
 
-regen:
-	python3 tools/gen_data.py
 
 else
 DEPENDS := $(OFILES:.o=.d)

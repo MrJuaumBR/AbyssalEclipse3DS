@@ -20,7 +20,7 @@ enum EffKind : u8 {
   E_TAKEN_PCT, E_RANGED_TAKEN_PCT, E_DEBUFF_PCT, E_LIFESTEAL, E_KILLHEAL, E_REGEN, E_REFLECT, E_DODGE, E_THROWSPD_PCT,
   E_RANGE_PCT, E_HEAL_PCT, E_DEALT_PCT, E_LOWHP_DMG, E_VS_SLOWED, E_VS_BURNING, E_VS_WOUNDED, E_VS_FROZEN, E_CRITBONUS,
   E_IMMUNE_SLOW, E_HP_PER_WAVE, E_LIGHTNING_PCT, E_ALLNUM_PCT, E_CHAINPLUS, E_SHIELD_WAVE, E_BLOCK_WAVE, E_REVIVE,
-  E_MIRROR, E_ATTACKER_DMG, E_BURN_TOUCH, E_WARMTH, E_ARMOR_IGNORE, E_DRONE_MINIGUN, E_SENTINEL, E_AVATAR, E_FAIRY, E_TIME_STOP,
+  E_MIRROR, E_ATTACKER_DMG, E_BURN_TOUCH, E_WARMTH, E_ARMOR_IGNORE, E_DRONE_MINIGUN, E_SENTINEL, E_ELEMENTALIST, E_FAIRY, E_TIME_STOP,
   // projectile mods
   E_PIERCE, E_BOUNCE_ENEMY, E_BOUNCE_WALL, E_HOMING, E_SPLIT, E_EXPLODE, E_KNOCKBACK, E_ORBIT, E_WHIRL,
   // on hit
@@ -66,11 +66,11 @@ extern const char* const* const ENEMY_LORE[LANG_COUNT];
 
 extern const char* const* const UI_TABLE[LANG_COUNT];
 
-// Pixel art as rectangle lists (from the HTML mockup); baked into the atlas at boot.
+// Pixel art as rectangle lists; enemies/icons stay 16x16, cosmetics use a 32x32 canvas.
 struct PixRect { u8 x, y, w, h; u32 rgb; };
-struct PixArt { const PixRect* r; u8 n; };
+struct PixArt { const PixRect* r; u16 n; };
 extern const PixArt ART_ENEMY[NUM_ENEMIES];
-extern const PixArt ART_HAT[11];
+extern const PixArt ART_HAT[10];
 extern const PixArt ART_FACE[6];
 enum IconId { IC_LEAF, IC_PYR, IC_SNOW, IC_PEAK, IC_ECL, IC_LOCK, IC_BOOK, IC_HEART, IC_GEM, IC_SHIELD, IC_BOLT, IC_CLOVER,
               IC_STAR, IC_SKULL, IC_CLOCK, IC_TROPHY, IC_DAGGER, IC_BOW, IC_AXE, IC_STAFF, IC_SHOTGUN, IC_PISTOL, IC_TRIDENT,
@@ -94,6 +94,6 @@ extern const StrId TYPE_NAME[TY_COUNT];
 extern const StrId ACT_NAME[ACT_COUNT];
 extern const StrId WEAPON_NAME[W_COUNT];
 extern const StrId WEAPON_FIRE[W_COUNT];
-extern const StrId HAT_NAME[11];
+extern const StrId HAT_NAME[10];
 extern const StrId FACE_NAME[6];
 extern const StrId COLOR_NAME[6];

@@ -7,7 +7,7 @@ This reference covers the current game content and documented mechanics: spells 
 ## At a glance
 
 - **147 spell entries**; six are capped at Rank 5 for orbital/summoned entities, Time-Stop caps at Rank 9, and other spells cap at Rank 10.
-- **25 enemy types**, **9 weapons**, **5 seasons**, **15 campaign levels**, **5 catalog music tracks**, and **23 achievements**.
+- **25 enemy types**, **9 weapons**, **5 seasons**, **15 campaign levels**, **5 catalog music tracks**, and **22 achievements**.
 - Cosmetic selection: 11 headwear/outfit entries, six faces, and six colors.
 
 ## Contents
@@ -29,7 +29,7 @@ There are **147 spell entries**. The table keeps the source-data index because *
 
 Every spell can be upgraded one rank at a time, up to its own cap. The absolute maximum is **10**. Effects using generic numeric scaling gain **+20% per rank above Rank 1**; timing, trigger frequency, entity counts, and other custom parameters follow their spell-specific formulas.
 
-These six orbiting/summoned entity spells deliberately stop at **Rank 5** to prevent runaway entity counts: **FLAME WHEEL**, **BALL LIGHTNING**, **KNIFE CIRCLE**, **SENTINEL**, **SENTINEL DRONE**, and **FAIRY COMPANION**. **TIME-STOP** caps at Rank 9 because its interval, duration, and cooldown reach their tuned limits by then. Other spells are capped at Rank 10. AVATAR CYCLE is a periodic elemental attack, not a persistent summoned entity, so it retains the higher cap.
+These six orbiting/summoned entity spells deliberately stop at **Rank 5** to prevent runaway entity counts: **FLAME WHEEL**, **BALL LIGHTNING**, **KNIFE CIRCLE**, **SENTINEL**, **SENTINEL DRONE**, and **FAIRY COMPANION**. **TIME-STOP** caps at Rank 9 because its interval, duration, and cooldown reach their tuned limits by then. Other spells are capped at Rank 10. ELEMENTALIST CYCLE is a periodic elemental attack, not a persistent summoned entity, so it retains the higher cap.
 
 Owned spells are offered as upgrades only when the 12-slot loadout is full; upgrade offers exclude spells already at their individual cap.
 
@@ -183,7 +183,7 @@ Effect payloads use internal effect names and source parameters, useful for dist
 | 141 | **GLACIAL BLOOM** / FLOR GLACIAL | WATER / ÁGUA | DAMAGE / AREA OF EFFECT | RARE | ELEMENT / WATER | 10 | `HIT_FREEZE(18, 1.2); KILL_BURST(6, 32)` | 18% FREEZE; 6 BURST DMG / 32 RADIUS / 18% CONGELAR; 6 DANO / RAIO 32 | FREEZE FOES ON HIT, THEN SHATTER THEM WITH A BURST WHEN THEY FALL. / CONGELE INIMIGOS AO ACERTAR E OS ESTILHACA EM UMA EXPLOSAO AO CAIR. | Old ice blooms again wherever a foe falls, turning every defeat into a brittle frostburst. / O gelo antigo floresce onde um inimigo cai, transformando cada derrota em uma explosao congelante. |
 | 142 | **STARLANCE** / LANCA ESTELAR | LIGHTNING / RAIO | WEAPON / SELF | EPIC | ELEMENT / LIGHTNING | 10 | `NTH_BOLT(7, 14, 44)` | EVERY 7TH THROW; 14 DMG / 44 RADIUS / A CADA 7 DISPAROS; 14 DANO / RAIO 44 | EVERY FEW ATTACKS, A LIGHTNING LANCE STRIKES NEARBY FOES. / A CADA POUCOS ATAQUES, UMA LANCA ELETRICA ATINGE INIMIGOS PROXIMOS. | A needle of starlight waits between volleys, then crosses the battlefield in a single bright instant. / Uma agulha de luz estelar aguarda entre disparos e cruza o campo em um unico instante brilhante. |
 | 143 | **SOUL HARVEST** / COLHEITA DE ALMAS | BLOOD / SANGUE | STATUS / SELF | RARE | ELEMENT / BLOOD | 10 | `KILL_HEALEVERY(1.5, 5); LIFESTEAL(1)` | HEAL EVERY 5 KILLS; 1.5 HP / 1 LIFESTEAL / CURA A CADA 5 ABATES; 1,5 VIDA / 1 DRENAGEM | KILLS FEED YOUR VITALITY; BLOODLUST RESTORES HEALTH ON EVERY HIT. / ABATES ALIMENTAM SUA VITALIDADE; GOLPES DE SANGUE RESTAURAM VIDA. | The harvest is never wasted: every fallen enemy and every stolen heartbeat returns a little strength. / Nada se perde na colheita: cada inimigo abatido e cada batimento roubado devolvem um pouco de vigor. |
-| 144 | **AVATAR CYCLE** / CICLO DO AVATAR | AIR / AR | DAMAGE / SELF | LEGENDARY | GLOBAL | 10 | `AVATAR(8, 18, 42)` | EVERY 8TH ATTACK; RANDOM ELEMENTAL STRIKE / A CADA 8 ATAQUES; GOLPE ELEMENTAL ALEATORIO | EVERY FEW ATTACKS, RANDOMLY RELEASES AN EARTH SPIKE, WATER SLASH, AIR PUSH, OR FIREBALL. / A CADA POUCOS ATAQUES, LIBERA UM GOLPE ALEATORIO DE TERRA, AGUA, AR OU FOGO. | Four elements answer the same call, but never in the same order. / Quatro elementos respondem ao mesmo chamado, mas nunca na mesma ordem. |
+| 144 | **ELEMENTALIST CYCLE** / CICLO DO ELEMENTALIST | AIR / AR | DAMAGE / SELF | LEGENDARY | GLOBAL | 10 | `ELEMENTALIST(8, 18, 42)` | EVERY 8TH ATTACK; RANDOM ELEMENTAL STRIKE / A CADA 8 ATAQUES; GOLPE ELEMENTAL ALEATORIO | EVERY FEW ATTACKS, RANDOMLY RELEASES AN EARTH SPIKE, WATER SLASH, AIR PUSH, OR FIREBALL. / A CADA POUCOS ATAQUES, LIBERA UM GOLPE ALEATORIO DE TERRA, ÁGUA, AR OU FOGO. | Four elements answer the same call, but never in the same order. / Quatro elementos respondem ao mesmo chamado, mas nunca na mesma ordem. |
 | 145 | **FAIRY COMPANION** / COMPANHEIRA FADA | AIR / AR | STATUS / SELF | EPIC | GLOBAL | 5 | `FAIRY(1, 4, 0)` | SUMMONED COMPANION; HEALS EVERY 4 SECONDS / COMPANHEIRA INVOCADA; CURA A CADA 4 SEGUNDOS | A FAIRY FOLLOWS YOU AND PERIODICALLY RESTORES A SMALL AMOUNT OF LIFE. / UMA FADA SEGUE VOCE E RESTAURA VIDA PERIODICAMENTE. | A tiny light follows the survivor and refuses to let hope die. / Uma pequena luz segue o sobrevivente e se recusa a deixar a esperanca morrer. |
 | 146 | **TIME-STOP** / PARADA TEMPORAL | LIGHTNING / RAIO | STATUS / SELF | LEGENDARY | GLOBAL | 9 | `TIME_STOP(12, 1.2, 14)` | EVERY 12TH ATTACK; 1.2S STOP / 14S COOLDOWN / A CADA 12 ATAQUES; 1,2S PARADO / 14S DE RECARGA | EVERY 12 ATTACKS, BRIEFLY STOPS ENEMIES AND THEIR PROJECTILES. RARE AND POWERFUL, WITH A LONG COOLDOWN. / A CADA 12 ATAQUES, PARA INIMIGOS E PROJETEIS POR UM INSTANTE. | Chronos grants no second chance: one stolen moment, then a long silence before time can be folded again. / Chronos nao concede uma segunda chance: um momento roubado, depois um longo silencio antes que o tempo se dobre outra vez. |
 
@@ -201,7 +201,7 @@ All nine selectable weapons have explicit combat stats. Only Machine Gun is comp
 | 5 | **PISTOL** / PISTOLA | A FAST, ACCURATE SHOT WITH MEDIUM RANGE. / UM TIRO RAPIDO E PRECISO DE ALCANCE MEDIO. | 7.5 | 0.48 s | 185 px | 360 px/s | 0 | 2.5 px | Available from start. |
 | 6 | **TRIDENT** / TRIDENTE | THROW IT, THEN MOVE CLOSE TO RECLAIM IT. / ARREMESSE E CHEGUE PERTO PARA RECUPERAR. | 18 | 1.35 s | 220 px | 170 px/s | 0 | 5 px | Thrown weapon; retrieve it by moving within 32 px. |
 | 7 | **KATANA** / KATANA | A FAST CLOSE-RANGE SWING THAT HITS IN AN ARC AND MAY BLEED. / UM GOLPE RAPIDO DE CURTO ALCANCE QUE ATINGE EM ARCO E PODE CAUSAR SANGRAMENTO. | 9 | 0.48 s | 56 px | 250 px/s | 0 | 3 px | Automatic close-range cleave; 46 px hit range; may cause bleed; distinct swing VFX/SFX. |
-| 8 | **MACHINE GUN** / METRALHADORA | A RAPID MEDIUM-RANGE STREAM; HEAVY TO CARRY, SO YOU MOVE SLOWER. / UMA RAJADA RAPIDA DE ALCANCE MEDIO; PESADA, ENTAO VOCE SE MOVE MAIS DEVAGAR. | 4 | 0.14 s | 240 px | 420 px/s | 0 | 2.5 px | Unlock after clearing all three campaign levels in all five seasons; movement speed multiplier 0.70. |
+| 8 | **MACHINE GUN** / METRALHADORA | A RAPID MEDIUM-RANGE STREAM; HEAVY TO CARRY, SO YOU MOVE SLOWER. / UMA RAJADA RÁPIDA DE ALCANCE MEDIO; PESADA, ENTÃO VOCÊ SE MOVE MAIS DEVAGAR. | 4 | 0.14 s | 240 px | 420 px/s | 0 | 2.5 px | Unlock after clearing all three campaign levels in all five seasons; movement speed multiplier 0.70. |
 
 ## Music and sound effects
 
@@ -280,37 +280,36 @@ Campaign seasons each contain three levels with wave quotas of 10, 15, and 20. C
 
 ## Achievements
 
-There are **23 achievements**. Exact completion criteria are taken from the localized descriptions; rewards are listed where applicable.
+There are **22 achievements**. Exact completion criteria are taken from the localized descriptions; rewards are listed where applicable.
 
 | # | Achievement (EN / PT-BR) | Requirement (EN / PT-BR) | Reward / note |
 |---:|---|---|---|
-| 1 | **FOREST COMPLETE** / FLORESTA COMPLETA | Clear all three Forest campaign levels. / Conclua as tres fases da Floresta. | Unlocks the Forest music track and next season |
-| 2 | **DESERT COMPLETE** / DESERTO COMPLETO | Clear all three Desert campaign levels. / Conclua as tres fases do Deserto. | Unlocks the Desert music track and next season |
-| 3 | **SNOW COMPLETE** / NEVE COMPLETA | Clear all three Snow campaign levels. / Conclua as tres fases da Neve. | Unlocks the Snow music track and next season |
-| 4 | **MOUNTAIN COMPLETE** / MONTANHA COMPLETA | Clear all three Mountain campaign levels. / Conclua as tres fases da Montanha. | Unlocks the Mountain music track and next season |
-| 5 | **ECLIPSE COMPLETE** / ECLIPSE COMPLETO | Clear all three Eclipse campaign levels. / Conclua as tres fases do Eclipse. | Unlocks the Eclipse music track |
-| 6 | **1,000 ENEMIES** / 1.000 INIMIGOS | Defeat 1,000 enemies across all runs. / Derrote 1.000 inimigos em todas as partidas. | Achievement only; no cosmetic reward. |
-| 7 | **10,000 ENEMIES** / 10.000 INIMIGOS | Defeat 10,000 enemies across all runs. / Derrote 10.000 inimigos em todas as partidas. | Achievement only; no cosmetic reward. |
-| 8 | **100,000 ENEMIES** / 100.000 INIMIGOS | Defeat 100,000 enemies across all runs. / Derrote 100.000 inimigos em todas as partidas. | Achievement only; no cosmetic reward. |
-| 9 | **FOREST FIELD GUIDE** / GUIA DA FLORESTA | Discover every Forest-exclusive spell and enemy. / Descubra todas as magias e inimigos exclusivos da Floresta. | Achievement only; no cosmetic reward. |
-| 10 | **DESERT FIELD GUIDE** / GUIA DO DESERTO | Discover every Desert-exclusive spell and enemy. / Descubra todas as magias e inimigos exclusivos do Deserto. | Achievement only; no cosmetic reward. |
-| 11 | **SNOW FIELD GUIDE** / GUIA DA NEVE | Discover every Snow-exclusive spell and enemy. / Descubra todas as magias e inimigos exclusivos da Neve. | Achievement only; no cosmetic reward. |
-| 12 | **MOUNTAIN FIELD GUIDE** / GUIA DA MONTANHA | Discover every Mountain-exclusive spell and enemy. / Descubra todas as magias e inimigos exclusivos da Montanha. | Achievement only; no cosmetic reward. |
-| 13 | **ECLIPSE FIELD GUIDE** / GUIA DO ECLIPSE | Discover every Eclipse-exclusive spell and enemy. / Descubra todas as magias e inimigos exclusivos do Eclipse. | Achievement only; no cosmetic reward. |
-| 14 | **MASTER CATALOG** / CATALOGO COMPLETO | Discover every spell and enemy in the game. / Descubra todas as magias e inimigos do jogo. | Master-catalog achievement; full discovery also satisfies the Iron Man outfit requirement |
-| 15 | **LITTLE DUMMY** / PEQUENO BOBO | Play for at least 1 hour. / Jogue por pelo menos 1 hora. | Achievement only; no cosmetic reward. |
+| 1 | **FOREST CLEAR** / CONCLUSAO DA FLORESTA | Clear the Forest season. / Conclua a temporada da Floresta. | Unlocks the Forest music track and next season |
+| 2 | **DESERT CLEAR** / CONCLUSAO DO DESERTO | Clear the Desert season. / Conclua a temporada do Deserto. | Unlocks the Desert music track and next season |
+| 3 | **SNOW CLEAR** / CONCLUSAO DA NEVE | Clear the Snow season. / Conclua a temporada da Neve. | Unlocks the Snow music track and next season |
+| 4 | **MOUNTAIN CLEAR** / CONCLUSAO DA MONTANHA | Clear the Mountain season. / Conclua a temporada da Montanha. | Unlocks the Mountain music track and next season |
+| 5 | **ECLIPSE CLEAR** / CONCLUSAO DO ECLIPSE | Clear the Eclipse season. / Conclua a temporada do Eclipse. | Unlocks the Eclipse music track |
+| 6 | **FIRST THOUSAND** / PRIMEIRO MILHAR | Defeat 1,000 enemies. / Derrote 1.000 inimigos. | Achievement only; no cosmetic reward. |
+| 7 | **TEN THOUSAND** / DEZ MIL | Defeat 10,000 enemies. / Derrote 10.000 inimigos. | Achievement only; no cosmetic reward. |
+| 8 | **HUNDRED THOUSAND** / CEM MIL | Defeat 100,000 enemies. / Derrote 100.000 inimigos. | Achievement only; no cosmetic reward. |
+| 9 | **FOREST CATALOG** / CATALOGO DA FLORESTA | Discover the Forest catalog. / Descubra o catalogo da Floresta. | Achievement only; no cosmetic reward. |
+| 10 | **DESERT CATALOG** / CATALOGO DO DESERTO | Discover the Desert catalog. / Descubra o catalogo do Deserto. | Achievement only; no cosmetic reward. |
+| 11 | **SNOW CATALOG** / CATALOGO DA NEVE | Discover the Snow catalog. / Descubra o catalogo da Neve. | Achievement only; no cosmetic reward. |
+| 12 | **MOUNTAIN CATALOG** / CATALOGO DA MONTANHA | Discover the Mountain catalog. / Descubra o catalogo da Montanha. | Achievement only; no cosmetic reward. |
+| 13 | **ECLIPSE CATALOG** / CATALOGO DO ECLIPSE | Discover the Eclipse catalog. / Descubra o catalogo do Eclipse. | Achievement only; no cosmetic reward. |
+| 14 | **MASTER CATALOG** / CATALOGO COMPLETO | Discover every spell and enemy in the game. / Descubra todas as magias e inimigos do jogo. | Master-catalog achievement; full discovery also satisfies the Arc Warden outfit requirement |
+| 15 | **LITTLE DUMMY** / BOBINHO | Play for at least 1 hour. / Jogue por pelo menos 1 hora. | Achievement only; no cosmetic reward. |
 | 16 | **ABYSS VETERAN** / VETERANO DO ABISMO | Play for at least 10 hours. / Jogue por pelo menos 10 horas. | Achievement only; no cosmetic reward. |
-| 17 | **GO TOUCH GRASS** / VAI TOCAR GRAMA | Play for at least 50 hours. Please take a break. / Jogue por pelo menos 50 horas. Faca uma pausa. | Achievement only; no cosmetic reward. |
-| 18 | **NIGHT WATCH** / VIGILANTE NOTURNO | Play for at least 1 hour to unlock the Batman parody outfit. / Jogue por pelo menos 1 hora para liberar a roupa parodia do Batman. | NIGHT COWL (parody headwear) |
-| 19 | **WHY SO SERIOUS?** / POR QUE TAO SERIO? | Play for at least 10 hours to unlock the Joker parody outfit. / Jogue por pelo menos 10 horas para liberar a roupa parodia do Joker. | GRINNING MASK (parody headwear) |
-| 20 | **DIG DEEP** / CAVE FUNDO | Play for at least 50 hours to unlock the Terraria parody outfit. / Jogue por pelo menos 50 horas para liberar a roupa parodia de Terraria. | PIXEL MINER HELM (parody headwear) |
-| 21 | **IT'S-A ME** / AQUI E O MARIO | Defeat 1,000 enemies to unlock the Mario parody outfit. / Derrote 1.000 inimigos para liberar a roupa parodia do Mario. | RED PLUMBER CAP (parody headwear) |
-| 22 | **HEART OF IRON** / CORACAO DE FERRO | Complete the full catalog to unlock the Iron Man parody outfit. / Complete o catalogo para liberar a roupa parodia do Homem de Ferro. | ARC HELMET (parody headwear) |
-| 23 | **AVATAR** / AVATAR | Use at least two distinct spells from each spell type to unlock the Avatar outfit. / Use pelo menos duas magias diferentes de cada tipo para liberar a roupa do Avatar. | AIR NOMAD AVATAR outfit |
+| 17 | **GO TOUCH GRASS** / VÁ TOCAR GRAMA! | Play for at least 50 hours. Please take a break. / Jogue por pelo menos 50 horas. Faca uma pausa. | Achievement only; no cosmetic reward. |
+| 18 | **NIGHT WATCH** / VIGILANTE NOTURNO | Play for at least 1 hour to unlock the Nightwarden outfit. / Jogue por pelo menos 1 hora para liberar a roupa Nightwarden. | NIGHT COWL (parody headwear) |
+| 19 | **WHY SO SERIOUS?** / POR QUE ESTÁ TÃO SÉRIO? | Play for at least 10 hours to unlock the Grinmask outfit. / Jogue por pelo menos 10 horas para liberar a roupa Grinmask. | GRINNING MASK (parody headwear) |
+| 20 | **CRIMSON CAP** / BONE CARMESIM | Defeat 1,000 enemies to unlock the Crimson Cap outfit. / Derrote 1.000 inimigos para liberar a roupa Bone Carmesim. | Achievement only; no cosmetic reward. |
+| 21 | **HEART OF IRON** / CORAÇÃO DE FERRO | Complete the full catalog to unlock the Arc Helmet outfit. / Complete o catálogo para liberar a roupa Capacete Arc. | ARC HELMET (parody headwear) |
+| 22 | **ELEMENTALIST** / ELEMENTALISTA | Use at least two distinct spells from each spell type. / Use pelo menos duas magias diferentes de cada tipo. | AIR NOMAD ELEMENTALIST outfit |
 
 ## Customization
 
-Hats/outfits, faces, and colors are cosmetic only. There are 11 headwear/outfit options, six faces, and six colors. Ordinary options are available immediately; special parody outfits and Avatar require achievements.
+Hats/outfits, faces, and colors are cosmetic only. There are 11 headwear/outfit options, six faces, and six colors. Ordinary options are available immediately; special parody outfits and Elementalist require achievements.
 
 ### Headwear and outfits
 
@@ -323,10 +322,9 @@ Hats/outfits, faces, and colors are cosmetic only. There are 11 headwear/outfit 
 | 4 | NONE / NENHUM | Available immediately |
 | 5 | NIGHT COWL / CAPUZ NOTURNO | Achievement reward; see the matching achievement above |
 | 6 | GRINNING MASK / MASCARA SORRIDENTE | Achievement reward; see the matching achievement above |
-| 7 | PIXEL MINER HELM / CAPACETE DO MINEIRO PIXEL | Achievement reward; see the matching achievement above |
-| 8 | RED PLUMBER CAP / BONE VERMULHO | Achievement reward; see the matching achievement above |
-| 9 | ARC HELMET / CAPACETE ARC | Achievement reward; see the matching achievement above |
-| 10 | AIR NOMAD AVATAR / AVATAR NOMADE DO AR | Avatar achievement |
+| 7 | CRIMSON CAP / BONE CARMESIM | Achievement reward; see the matching achievement above |
+| 8 | ARC HELMET / CAPACETE ARC | Achievement reward; see the matching achievement above |
+| 9 | AIR NOMAD ELEMENTALIST / ELEMENTALIST NOMADE DO AR | Achievement reward; see the matching achievement above |
 
 ### Faces
 

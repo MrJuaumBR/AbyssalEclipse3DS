@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate the comprehensive user/developer content reference CATALOG.md."""
 from __future__ import annotations
+import argparse
 import os
 import re
 import sys
@@ -88,7 +89,7 @@ def spell_sections(lines: list[str]) -> None:
     lines += ["## Spells", "", f"There are **{len(spells)} spell entries**. The table keeps the source-data index because **MIRAGE appears twice** (a global air spell and a Desert-exclusive spell); their effect payloads, scopes, and rank limits distinguish them.", "",
               "### Rank limits and progression", "",
               f"Every spell can be upgraded one rank at a time, up to its own cap. The absolute maximum is **{gd.ABSOLUTE_MAX_SPELL_LEVEL}**. Effects using generic numeric scaling gain **+20% per rank above Rank 1**; timing, trigger frequency, entity counts, and other custom parameters follow their spell-specific formulas.", "",
-              "These six orbiting/summoned entity spells deliberately stop at **Rank 5** to prevent runaway entity counts: **FLAME WHEEL**, **BALL LIGHTNING**, **KNIFE CIRCLE**, **SENTINEL**, **SENTINEL DRONE**, and **FAIRY COMPANION**. **TIME-STOP** caps at Rank 9 because its interval, duration, and cooldown reach their tuned limits by then. Other spells are capped at Rank 10. AVATAR CYCLE is a periodic elemental attack, not a persistent summoned entity, so it retains the higher cap.", "",
+              "These six orbiting/summoned entity spells deliberately stop at **Rank 5** to prevent runaway entity counts: **FLAME WHEEL**, **BALL LIGHTNING**, **KNIFE CIRCLE**, **SENTINEL**, **SENTINEL DRONE**, and **FAIRY COMPANION**. **TIME-STOP** caps at Rank 9 because its interval, duration, and cooldown reach their tuned limits by then. Other spells are capped at Rank 10. ELEMENTALIST CYCLE is a periodic elemental attack, not a persistent summoned entity, so it retains the higher cap.", "",
               "Owned spells are offered as upgrades only when the 12-slot loadout is full; upgrade offers exclude spells already at their individual cap.", "",
               "### Full spell reference", "",
               "Effect payloads use internal effect names and source parameters, useful for distinguishing same-named entries and understanding the implementation. Lore is included when present in the source; `—` means no separate lore text is authored. PT-BR text falls back to English for any untranslated field.", "",
@@ -225,15 +226,14 @@ def achievements_and_cosmetics(lines: list[str]) -> None:
     if len(name_keys) != len(desc_keys):
         raise RuntimeError("Achievement name/description arrays do not align")
     rewards = {
-        "ach_batman": "NIGHT COWL (parody headwear)", "ach_joker": "GRINNING MASK (parody headwear)",
-        "ach_terraria": "PIXEL MINER HELM (parody headwear)", "ach_mario": "RED PLUMBER CAP (parody headwear)",
-        "ach_iron_man": "ARC HELMET (parody headwear)", "ach_avatar": "AIR NOMAD AVATAR outfit",
+        "ach_nightwarden": "NIGHT COWL (parody headwear)", "ach_grinmask": "GRINNING MASK (parody headwear)",
+        "ach_arcwarden": "ARC HELMET (parody headwear)", "ach_elementalist": "AIR NOMAD ELEMENTALIST outfit",
         "ach_season_forest": "Unlocks the Forest music track and next season",
         "ach_season_desert": "Unlocks the Desert music track and next season",
         "ach_season_snow": "Unlocks the Snow music track and next season",
         "ach_season_mountain": "Unlocks the Mountain music track and next season",
         "ach_season_eclipse": "Unlocks the Eclipse music track",
-        "ach_full_catalog": "Master-catalog achievement; full discovery also satisfies the Iron Man outfit requirement",
+        "ach_full_catalog": "Master-catalog achievement; full discovery also satisfies the Arc Warden outfit requirement",
     }
     lines += ["## Achievements", "", f"There are **{len(name_keys)} achievements**. Exact completion criteria are taken from the localized descriptions; rewards are listed where applicable.", "",
               "| # | Achievement (EN / PT-BR) | Requirement (EN / PT-BR) | Reward / note |", "|---:|---|---|---|"]
@@ -242,7 +242,7 @@ def achievements_and_cosmetics(lines: list[str]) -> None:
         reward = rewards.get(name, "Achievement only; no cosmetic reward.")
         lines.append(f"| {i+1} | **{cell(tr(name, 'en'))}** / {cell(tr(name, 'pt-br'))} | {cell(en_req)} / {cell(pt_req)} | {cell(reward)} |")
 
-    lines += ["", "## Customization", "", "Hats/outfits, faces, and colors are cosmetic only. There are 11 headwear/outfit options, six faces, and six colors. Ordinary options are available immediately; special parody outfits and Avatar require achievements.", ""]
+    lines += ["", "## Customization", "", "Hats/outfits, faces, and colors are cosmetic only. There are 11 headwear/outfit options, six faces, and six colors. Ordinary options are available immediately; special parody outfits and Elementalist require achievements.", ""]
     for title, array, noun in (("Headwear and outfits", "HAT_NAME", "headwear"), ("Faces", "FACE_NAME", "face"), ("Colors", "COLOR_NAME", "color")):
         keys=[x[2:].lower() for x in get_array(data_static, array)]
         lines += [f"### {title}", "", "| # | Option (EN / PT-BR) | Unlock |", "|---:|---|---|"]
@@ -252,7 +252,7 @@ def achievements_and_cosmetics(lines: list[str]) -> None:
             elif array == "HAT_NAME" and i < 10:
                 unlock="Achievement reward; see the matching achievement above"
             elif array == "HAT_NAME":
-                unlock="Avatar achievement"
+                unlock="Elementalist achievement"
             else:
                 unlock="Available immediately"
             lines.append(f"| {i} | {cell(tr(key,'en'))} / {cell(tr(key,'pt-br'))} | {cell(unlock)} |")
@@ -302,5 +302,12 @@ def main() -> None:
     print(f"wrote {target} ({len(lines)} lines, {len(D['SPELLS'])} spells, {len(D['EN'])} enemies)")
 
 
+def _parse_cli() -> None:
+    parser = argparse.ArgumentParser(description=__doc__, add_help=False)
+    parser.add_argument("-h", "--h", "-help", "--help", action="help", help="show this help message and exit")
+    parser.parse_args()
+
+
 if __name__ == "__main__":
+    _parse_cli()
     main()

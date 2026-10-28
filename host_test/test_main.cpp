@@ -245,10 +245,10 @@ int main() {
 
   printf("[full runs, 60 Hz logic]\n");
   double worst = 0, ms;
-  for (int sea = 0; sea < SEA_COUNT; ++sea) { int w = runOne(sea, 0, false, sea % W_COUNT, 60 * 60 * 14, true, &ms); CHECK(gameSim().phase == PH_VICTORY, "season %d campaign level 1 should be completable with god mode (wave %d)", sea, w); if (ms > worst) worst = ms; }
+  for (int sea = 0; sea < SEA_COUNT; ++sea) { int w = runOne(sea, 0, false, sea % W_COUNT, 60 * 60 * 18, true, &ms); CHECK(gameSim().phase == PH_VICTORY, "season %d campaign level 1 should be completable with god mode (wave %d)", sea, w); if (ms > worst) worst = ms; }
   for (int w = 0; w < W_COUNT; ++w) { runOne(1, 2, true, w, 60 * 60 * 6, true, &ms); if (ms > worst) worst = ms; }
   printf("[balance probe: mortal autopilot (kites, never aims), campaign level 1]\n");
-  for (int sea = 0; sea < SEA_COUNT; ++sea) for (int w = 0; w < W_COUNT; w += 1) { runOne(sea, 0, false, w, 60 * 60 * 14, false, &ms); }
+  for (int sea = 0; sea < SEA_COUNT; ++sea) for (int w = 0; w < W_COUNT; w += 1) { runOne(sea, 0, false, w, 60 * 60 * 18, false, &ms); }
 
   printf("[debug tools + phases]\n");
   gameStartRunForTest(0, 0, false, 0, 99);
@@ -289,8 +289,8 @@ int main() {
   for (int i = 0; i < NUM_SPELLS && byType[TY_DAMAGE] < 2; ++i) if (SPELLS[i].ty == TY_DAMAGE) { ach.spellUsed[i] = 1; ++byType[TY_DAMAGE]; }
   for (int i = 0; i < NUM_SPELLS && byType[TY_STATUS] < 2; ++i) if (SPELLS[i].ty == TY_STATUS) { ach.spellUsed[i] = 1; ++byType[TY_STATUS]; }
   for (int i = 0; i < NUM_SPELLS && byType[TY_WEAPON] < 2; ++i) if (SPELLS[i].ty == TY_WEAPON) { ach.spellUsed[i] = 1; ++byType[TY_WEAPON]; }
-  achievementProgress(ach, ACH_AVATAR, current, target);
-  CHECK(current == TY_COUNT * 2 && target == TY_COUNT * 2 && achievementUnlocked(ach, ACH_AVATAR), "Avatar achievement progression");
+  achievementProgress(ach, ACH_ELEMENTALIST, current, target);
+  CHECK(current == TY_COUNT * 2 && target == TY_COUNT * 2 && achievementUnlocked(ach, ACH_ELEMENTALIST), "Elementalist achievement progression");
 
   printf("[version-3 save migration + v5 round trip]\n");
   SaveV3Fixture old = {}; old.magic = SAVE_MAGIC; old.version = 3; old.size = sizeof old;

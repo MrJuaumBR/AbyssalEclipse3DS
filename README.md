@@ -6,7 +6,7 @@
 
 **Survive the abyss. Master the elements. Break the cycle.**
 
-**Status: v0.1 RELEASE.** Abyssal Eclipse is a 2D pixel-art arena-survivor roguelite built natively for the original Nintendo 3DS. It is written in C++17 with devkitARM, libctru, citro3d, and citro2d.
+**Status: v0.2 BETA.** Abyssal Eclipse is a 2D pixel-art arena-survivor roguelite built natively for the original Nintendo 3DS. It is written in C++17 with devkitARM, libctru, citro3d, and citro2d.
 
 Sprites, bitmap text, sound effects, and music are generated procedurally; the game does not require external runtime art files. A 256×256 RGBA8 texture atlas is built in RAM at startup.
 
@@ -14,11 +14,14 @@ Sprites, bitmap text, sound effects, and music are generated procedurally; the g
 
 You control a lone knight in a looping nightmare. Weapons attack automatically; move, dodge, collect experience, spend stat points, and build a spell loadout through timed waves and boss fights.
 
+<img src="./data/qr.svg" width="240px" height="240px" alt=".cia QRCode" title=".cia QRCode"><br>
+<small>QR Code for FBI Installer</small>
+
 ### Spell ranks and caps
 
 Spell upgrades advance one rank at a time. Rank 5 is **not** the general cap: most spells can reach Rank 10. Where applicable, generic numeric effects gain 20% per rank above Rank 1; custom timing, trigger frequency, and discrete counts follow their spell-specific formulas. Capped spells stop appearing as upgrade choices.
 
-These six orbiting or summoned-entity spells are intentionally capped at **Rank 5** to prevent runaway entity counts: **Flame Wheel, Ball Lightning, Knife Circle, Sentinel, Sentinel Drone, and Fairy Companion**. **Time-Stop** caps at Rank 9 because its interval, duration, and cooldown reach their tuned limits by then. Most other spells can reach Rank 10. Avatar Cycle triggers periodic elemental attacks rather than adding a persistent summon, so it retains the higher cap.
+These six orbiting or summoned-entity spells are intentionally capped at **Rank 5** to prevent runaway entity counts: **Flame Wheel, Ball Lightning, Knife Circle, Sentinel, Sentinel Drone, and Fairy Companion**. **Time-Stop** caps at Rank 9 because its interval, duration, and cooldown reach their tuned limits by then. Most other spells can reach Rank 10. Elementalist Cycle triggers periodic elemental attacks rather than adding a persistent summon, so it retains the higher cap.
 
 The selected-spell detail panel shows its description, current rank/cap, applicable numeric scaling or a custom-effect label, and Rank-1 stat values. The spell catalog also lists each spell’s authored description, stats, effect payload, scope, and cap in [CATALOG.md](CATALOG.md).
 
@@ -38,7 +41,7 @@ The selected-spell detail panel shows its description, current rank/cap, applica
 
 - **Play-time achievements:** Little Dummy at 1 hour, Abyss Veteran at 10 hours, and Go Touch Grass at 50 hours; several special outfits have separate achievement rewards.
 
-- **Achievement rewards:** ordinary hats, faces, colors, and the Dwarf Beard are available immediately. Five parody outfits and the Avatar air-nomad outfit are achievement-gated.
+- **Achievement rewards:** ordinary hats, faces, colors, and the Dwarf Beard are available immediately. Five parody outfits and the Elementalist air-nomad outfit are achievement-gated.
 
 - **Stat-point bank:** unused level-up points can be stored for later in a run, with a hard limit of three store actions per session.
 
@@ -100,23 +103,35 @@ For the complete spell-by-spell and item-by-item reference—including descripti
 
 ## Build and verification
 
-Install devkitPro with the 3DS development packages and Python 3. Set `DEVKITPRO` and `DEVKITARM`, then build from the repository root:
+Install devkitPro with the 3DS development packages and Python 3. Set `DEVKITPRO` and `DEVKITARM`, then build from the repository root. The Makefile detects `python3`, `python`, or the Windows `py -3` launcher; generated game data is rebuilt automatically when its inputs change.
 
 ```
-python3 tools/gen_data.py       # regenerate runtime data/localized strings
-python3 tools/gen_catalog.py    # regenerate CATALOG.md
-make
+make clean && make
+make regen                       # optional: force regeneration of art/spell data
 ```
 
 See [BUILD.md](BUILD.md) for `.3dsx` output and optional `.cia` packaging instructions.
 
-Run host, art, and backend syntax checks with:
+Run the art regression checks (the Aseprite round-trip check additionally needs Pillow):
 
 ```
-sh verify.sh
+python3 tools/test_art_raster.py
+python3 tools/test_aseprite_sync.py
 ```
 
-The checks cover simulation, spell upgrades through each spell’s cap, weapon behavior, audio, save migration, achievement and Catalog/UI flows, procedural-art rasterization, and 3DS backend syntax.
+Use `py -3` instead of `python3` in those commands if that is the Python 3 launcher available in your Windows/MSYS2 setup.
+
+## Debug spell and summon testing
+
+## Aseprite art editing
+
+Install Pillow for the optional art tool, then run `make aseprite-export`. Edit the native-size PNGs in `tools/aseprite_work/` with Aseprite and save over the same PNG (or save a same-name `.aseprite` project). Run `make aseprite-import` to update `tools/data/art.json`, create a dated backup, and regenerate `source/data_gen.cpp`. Keep the canvas size unchanged and use only opaque or fully transparent pixels. If importing `.aseprite` projects, set `ASEPRITE` to the Aseprite CLI executable; PNG import does not need the CLI. See [the art-pipeline guide](docs/art-pipeline.md) for examples and details.
+
+## Debug spell and summon testing
+
+During a run, open the debug menu using the existing debug unlock. **SPELL PICKER** opens a paged list of every spell; use D-pad to move, L/R to change pages, A to grant or upgrade the highlighted spell, and B to return. At a full loadout, the picker replaces the last non-weapon slot so spells remain testable. **SPAWN TEST GOLEM** creates a full-size Rock Golem independently of the Mountain King timer, for sprite/combat checks.
+
+The procedural 32x32 character atlas is drawn at half the old scale to preserve the original 16x16 in-game footprint. The no-hat option is transparent. Art JSON is regenerated automatically before the normal build; `make regen` forces regeneration.
 
 ## Known limitations
 
@@ -133,3 +148,5 @@ The checks cover simulation, spell upgrades through each spell’s cap, weapon b
 - **Game design and programming:** MrJuaumBR
 
 - **AI assistants:** Claude, DeepSeek, Manus
+
+- **Some Arts come from:** [disven](https://disven.itch.io/pixel-swords-assets-16x16), [scrython](https://scrython.itch.io/pixelart-guns)

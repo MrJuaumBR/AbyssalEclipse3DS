@@ -15,8 +15,11 @@ static Spr g_glyph[GLYPH_COUNT];
 
 // --- packing -------------------------------------------------------------------------------------------
 static int px = 0, py = 0, rowH = 0;
+static bool atlasOverflow = false;
 static Spr alloc(int w, int h) {
+  if (w <= 0 || h <= 0 || w > AW || h > AH) { atlasOverflow = true; return Spr{}; }
   if (px + w > AW) { px = 0; py += rowH; rowH = 0; }
+  if (py + h > AH) { atlasOverflow = true; return Spr{}; }
   Spr s; s.x = (u16)px; s.y = (u16)py; s.w = (u16)w; s.h = (u16)h;
   px += w; if (h > rowH) rowH = h;
   return s;
@@ -30,6 +33,9 @@ static void fillR(const Spr& s, int x, int y, int w, int h, u32 rgb, u32 a = 255
 }
 static void paintArt(const Spr& s, const PixArt& a) {
   for (int i = 0; i < a.n; ++i) fillR(s, a.r[i].x, a.r[i].y, a.r[i].w, a.r[i].h, a.r[i].rgb);
+}
+static void fillR2(const Spr& s, int x, int y, int w, int h, u32 rgb, u32 a = 255) {
+  fillR(s, x * 2, y * 2, w * 2, h * 2, rgb, a);
 }
 
 // --- 5x7 font (rows are 5-bit, bit4 = leftmost), ASCII 32..95 ----------------------------------------------
@@ -169,10 +175,12 @@ static void bakeSpellIcon(const Spr& s, int ty, int el, int act) {
 }
 
 static void bakeDisc(const Spr& s, u32 rgb, bool ringOnly) {
-  for (int y = 0; y < 24; ++y) for (int x = 0; x < 24; ++x) {
-    float dx = x + 0.5f - 12.0f, dy = y + 0.5f - 12.0f, d = sqrtf(dx * dx + dy * dy);
-    if (!ringOnly && d <= 11.5f) put(s, x, y, HEX(rgb, d > 9.5f ? 150 : 90));
-    if (ringOnly && d <= 11.5f && d >= 9.6f) put(s, x, y, HEX(rgb, 230));
+  // Effects are drawn to arbitrary world radii, so a compact 16px source
+  // cell keeps the same screen size while freeing atlas rows for cosmetics.
+  for (int y = 0; y < 16; ++y) for (int x = 0; x < 16; ++x) {
+    float dx = x + 0.5f - 8.0f, dy = y + 0.5f - 8.0f, d = sqrtf(dx * dx + dy * dy);
+    if (!ringOnly && d <= 7.5f) put(s, x, y, HEX(rgb, d > 6.2f ? 150 : 90));
+    if (ringOnly && d <= 7.5f && d >= 6.3f) put(s, x, y, HEX(rgb, 230));
   }
 }
 
@@ -198,18 +206,15 @@ static void bakeProjectiles() {
 }
 
 static void bakeKnightCell(const Spr& s, const Cosmetics& c) {
-  for (int y = 0; y < 16; ++y) for (int x = 0; x < 16; ++x) put(s, x, y, 0);
+  for (int y = 0; y < 32; ++y) for (int x = 0; x < 32; ++x) put(s, x, y, 0);
   const u32 K = 0x0B0A12, BRN = 0x6B4A2E, SKIN = 0xF0C8A0, BOOT = 0x3A3352;
-  if (c.hat >= 5) {
-    paintArt(s, ART_HAT[c.hat % 11]);
-    return;
-  }
-  fillR(s, 5, 13, 2, 2, BOOT); fillR(s, 9, 13, 2, 2, BOOT);
-  fillR(s, 4, 9, 8, 5, K); fillR(s, 5, 9, 6, 4, HAT_COLORS[c.color % 6]); fillR(s, 5, 11, 6, 1, BRN);
-  fillR(s, 2, 10, 2, 2, SKIN); fillR(s, 12, 10, 2, 2, SKIN);
-  fillR(s, 3, 2, 10, 8, K); fillR(s, 4, 3, 8, 6, SKIN); fillR(s, 5, 6, 1, 1, K); fillR(s, 10, 6, 1, 1, K);
+  if (c.hat >= 5) { paintArt(s, ART_HAT[c.hat % 10]); return; }
+  fillR2(s, 5, 13, 2, 2, BOOT); fillR2(s, 9, 13, 2, 2, BOOT);
+  fillR2(s, 4, 9, 8, 5, K); fillR2(s, 5, 9, 6, 4, HAT_COLORS[c.color % 6]); fillR2(s, 5, 11, 6, 1, BRN);
+  fillR2(s, 2, 10, 2, 2, SKIN); fillR2(s, 12, 10, 2, 2, SKIN);
+  fillR2(s, 3, 2, 10, 8, K); fillR2(s, 4, 3, 8, 6, SKIN); fillR2(s, 5, 6, 1, 1, K); fillR2(s, 10, 6, 1, 1, K);
   if (ART_FACE[c.face % 6].r) paintArt(s, ART_FACE[c.face % 6]);
-  paintArt(s, ART_HAT[c.hat % 11]);
+  paintArt(s, ART_HAT[c.hat % 10]);
 }
 
 static void bakeDroneCell() {
@@ -227,7 +232,7 @@ static void bakeDroneCell() {
 }
 
 static void bakeSentinelCell() {
-  const Spr& s = g_knight;
+  const Spr& s = g_sentinel;
   const u32 edge = 0x252936, stone = 0x87909D, light = 0xC8D0D8, shade = 0x596273, glow = 0xE8B54B;
   fillR(s, 4, 1, 8, 13, edge);
   fillR(s, 5, 2, 6, 11, stone);
@@ -239,8 +244,10 @@ static void bakeSentinelCell() {
 }
 
 bool init(const Cosmetics& c) {
+  plat::debugLog("gfx: init begin");
   memset(g_atlas, 0, sizeof(g_atlas));
   px = py = rowH = 0;
+  atlasOverflow = false;
   // Hardcode glyphs into an 8x16 grid (perfect 8x8 tile alignment)
   for (int i = 0; i < GLYPH_COUNT; ++i) {
     g_glyph[i].x = (u16)((i % 32) * 8);
@@ -256,8 +263,8 @@ bool init(const Cosmetics& c) {
   px = 0; py = 48; rowH = 0;
   for (int i = 0; i < NUM_ENEMIES; ++i) { g_enemy[i] = alloc(16, 16); paintArt(g_enemy[i], ART_ENEMY[i]); }
   for (int i = 0; i < IC_COUNT; ++i) { g_icon[i] = alloc(16, 16); paintArt(g_icon[i], ART_ICON[i]); }
-  g_knight = alloc(16, 16);
-  g_preview = alloc(16, 16);
+  g_knight = alloc(32, 32);
+  g_preview = alloc(32, 32);
   g_drone = alloc(16, 16); bakeDroneCell();
   g_sentinel = alloc(16, 16); bakeSentinelCell();
   for (int t = 0; t < TY_COUNT; ++t) for (int e = 0; e < EL_COUNT; ++e) for (int a = 0; a < ACT_COUNT; ++a) {
@@ -265,8 +272,8 @@ bool init(const Cosmetics& c) {
   }
   px = 0; py += rowH; rowH = 0;
   bakeProjectiles();
-  for (int i = 0; i < FX_COLORS; ++i) { g_disc[i] = alloc(24, 24); bakeDisc(g_disc[i], FX_PALETTE[i], false); }
-  for (int i = 0; i < FX_COLORS; ++i) { g_ring[i] = alloc(24, 24); bakeDisc(g_ring[i], FX_PALETTE[i], true); }
+  for (int i = 0; i < FX_COLORS; ++i) { g_disc[i] = alloc(16, 16); bakeDisc(g_disc[i], FX_PALETTE[i], false); }
+  for (int i = 0; i < FX_COLORS; ++i) { g_ring[i] = alloc(16, 16); bakeDisc(g_ring[i], FX_PALETTE[i], true); }
   g_shadow = alloc(16, 6);
   for (int y = 0; y < 6; ++y) for (int x = 0; x < 16; ++x) {
     float dx = (x + 0.5f - 8.0f) / 8.0f, dy = (y + 0.5f - 3.0f) / 3.0f;
@@ -274,13 +281,14 @@ bool init(const Cosmetics& c) {
   }
   bakeKnightCell(g_knight, c);
   bakeKnightCell(g_preview, c);
-  if (py + rowH > AH) return false;                       // atlas overflow = build-time bug
+  if (atlasOverflow || py + rowH > AH) { plat::debugLog("gfx: atlas overflow at %d,%d row=%d", px, py, rowH); return false; }
   plat::atlasUpload(g_atlas, AW, AH);
+  plat::debugLog("gfx: init complete atlas_bottom=%d", py + rowH);
   return true;
 }
 void setKnight(const Cosmetics& c) {
   bakeKnightCell(g_knight, c);
-  plat::atlasUpdate(g_knight.x, g_knight.y, 16, 16, g_atlas + g_knight.y * AW + g_knight.x, AW);
+  plat::atlasUpdate(g_knight.x, g_knight.y, 32, 32, g_atlas + g_knight.y * AW + g_knight.x, AW);
 }
 const Spr& enemy(int id) { return g_enemy[clampT(id, 0, NUM_ENEMIES - 1)]; }
 const Spr& icon(int id) { return g_icon[clampT(id, 0, (int)IC_COUNT - 1)]; }
@@ -288,13 +296,13 @@ const Spr& spellIcon(int t, int e, int a) { return g_spellIcon[clampT(t, 0, 2)][
 const Spr& knight() { return g_knight; }
 const Spr& knightPreview(const Cosmetics& c) {
   bakeKnightCell(g_preview, c);
-  plat::atlasUpdate(g_preview.x, g_preview.y, 16, 16, g_atlas + g_preview.y * AW + g_preview.x, AW);
+  plat::atlasUpdate(g_preview.x, g_preview.y, 32, 32, g_atlas + g_preview.y * AW + g_preview.x, AW);
   return g_preview;
 }
 const Spr& clothingPreview(int hat) {
-  for (int y = 0; y < 16; ++y) for (int x = 0; x < 16; ++x) put(g_preview, x, y, 0);
-  paintArt(g_preview, ART_HAT[clampT(hat, 0, 10)]);
-  plat::atlasUpdate(g_preview.x, g_preview.y, 16, 16, g_atlas + g_preview.y * AW + g_preview.x, AW);
+  for (int y = 0; y < 32; ++y) for (int x = 0; x < 32; ++x) put(g_preview, x, y, 0);
+  paintArt(g_preview, ART_HAT[clampT(hat, 0, 9)]);
+  plat::atlasUpdate(g_preview.x, g_preview.y, 32, 32, g_atlas + g_preview.y * AW + g_preview.x, AW);
   return g_preview;
 }
 const Spr& drone() { return g_drone; }

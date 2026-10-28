@@ -191,8 +191,8 @@ void simDraw(Sim& s, bool showFps, int fps) {
     gfx::sprC(gfx::shadow(), p.x, p.y + 8);
     bool blink = p.iframes > 0 && ((s.frame >> 2) & 1);
     if (!blink) {
-      if (p.hurtFlash > 0) gfx::sprC(gfx::knight(), p.x, p.y, 1.0f, HEX(C_RED), plat::BLIT_TINT);
-      else gfx::sprC(gfx::knight(), p.x, p.y);
+      if (p.hurtFlash > 0) gfx::sprC(gfx::knight(), p.x, p.y, 0.5f, HEX(C_RED), plat::BLIT_TINT);
+      else gfx::sprC(gfx::knight(), p.x, p.y, 0.5f);
     }
   }
   drawAuraAccents(s);

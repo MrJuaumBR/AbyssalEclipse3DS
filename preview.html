@@ -1,70 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Abyssal Eclipse - Art Preview</title>
-    <style>
-        body { background: #1E1A2E; color: white; font-family: monospace; display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; }
-        .sprite { display: flex; flex-direction: column; align-items: center; background: #0B0A12; border: 1px solid #3A3352; padding: 10px; width: 80px; }
-        .sprite svg { width: 64px; height: 64px; } /* 4x scale for visibility */
-        .name { font-size: 10px; margin-top: 5px; color: #9B92B0; text-align: center; word-break: break-all; }
-        #drop-zone { width: 100%; padding: 50px; text-align: center; border: 2px dashed #4A7FC1; border-radius: 10px; margin-bottom: 20px; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <div id="drop-zone">
-        <h2>Click here to select tools/data/art.json</h2>
-    </div>
-    <input type="file" id="fileInput" accept=".json" style="display: none;">
-    <div id="container" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-
-<script>
-    const fileInput = document.getElementById('fileInput');
-    const dropZone = document.getElementById('drop-zone');
-    const container = document.getElementById('container');
-
-    dropZone.addEventListener('click', () => fileInput.click());
-    
-    // Drag and drop support
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.background = '#3A3352'; });
-    dropZone.addEventListener('dragleave', () => { dropZone.style.background = 'transparent'; });
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.style.background = 'transparent';
-        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    });
-
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length) handleFile(e.target.files[0]);
-    });
-
-    function handleFile(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const art = JSON.parse(e.target.result);
-                renderArt(art);
-            } catch (err) {
-                alert("Invalid JSON file!");
-            }
-        };
-        reader.readAsText(file);
-    }
-
-    function renderArt(art) {
-        container.innerHTML = ''; // Clear existing
-        dropZone.style.display = 'none'; // Hide dropzone
-        for (const [cat, sprites] of Object.entries(art)) {
-            if (['R', 'SV', 'K', 'SIL', 'GOLD', 'BRN', 'knightInner', 'ICOKEYS', 'SKIN', 'COLORS', 'SKINS'].includes(cat)) continue;
-            
-            for (const [name, svg] of Object.entries(sprites)) {
-                if (typeof svg !== 'string' || !svg) continue;
-                const div = document.createElement('div');
-                div.className = 'sprite';
-                div.innerHTML = `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">${svg}</svg><span class="name">${cat}:${name}</span>`;
-                container.appendChild(div);
-            }
-        }
-    }
-</script>
-</body>
-</html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Abyssal Eclipse — Art Preview</title>
+<style>:root{color-scheme:dark}body{margin:0;background:#100d1d;color:#f5f1ff;font:14px system-ui,sans-serif}.top{padding:18px 24px;border-bottom:1px solid #3d3560;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.top h1{font-size:20px;margin:0 18px 0 0}.muted{color:#a99fc2;font-size:12px}.control{background:#241d3d;border:1px solid #3d3560;color:#fff;border-radius:6px;padding:8px}.drop{margin:18px 24px;padding:24px;text-align:center;border:2px dashed #4a7fc1;border-radius:10px;background:#17122a}.drop.over{background:#2b2350}.drop input{display:none}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:0 24px 16px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;padding:0 24px 24px}.card{background:#1b1630;border:1px solid #3d3560;border-radius:8px;padding:10px;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center}.card:hover{border-color:#7db7ff}.card svg{width:96px;height:96px;image-rendering:pixelated;background:#0b0a12}.name{margin-top:8px;color:#c9c0dc;font:12px ui-monospace,monospace;text-align:center;word-break:break-word}.empty{text-align:center;color:#a99fc2;padding:60px}</style></head>
+<body><header class="top"><h1>Abyssal Eclipse — Art Preview</h1><span class="muted">v0.2 BETA · original cosmetic names</span><button class="control" id="open">Load art.json</button><input id="file" type="file" accept=".json"><button class="control" id="reset">Reset</button></header>
+<div class="drop" id="drop"><strong>Drop tools/data/art.json here</strong><br><span class="muted">or click “Load art.json”. Use the filter below to inspect a category.</span></div>
+<div class="toolbar"><input class="control" id="filter" placeholder="Filter sprites…"><select class="control" id="category"><option value="*">All categories</option></select><span class="muted" id="count"></span></div><div id="grid" class="grid"><div class="empty">Load an art.json file to begin.</div></div>
+<script>const skip=new Set(['R','SV','K','SIL','GOLD','BRN','knightInner','ICOKEYS','SKIN','COLORS','SKINS']);let art=null;const $=x=>document.getElementById(x);function loadText(t){try{art=JSON.parse(t);render()}catch(e){alert('Invalid JSON file')}}function render(){let cats=Object.keys(art||{}).filter(x=>!skip.has(x));$('category').innerHTML='<option value="*">All categories</option>'+cats.map(x=>`<option>${x}</option>`).join('');let q=$('filter').value.toLowerCase(),cat=$('category').value,items=[];cats.filter(x=>cat==='*'||x===cat).forEach(c=>Object.entries(art[c]||{}).forEach(([n,svg])=>{if(typeof svg==='string'&&svg&&(c+':'+n).toLowerCase().includes(q))items.push([c,n,svg])}));$('count').textContent=`${items.length} sprites`;$('grid').innerHTML='';items.forEach(([c,n,svg])=>{let d=document.createElement('div');d.className='card';d.innerHTML=`<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">${svg}</svg><div class="name">${c}:${n}</div>`;$('grid').appendChild(d)});if(!items.length)$('grid').innerHTML='<div class="empty">No sprites match this filter.</div>'}function pick(f){let r=new FileReader();r.onload=()=>loadText(r.result);r.readAsText(f)}$('open').onclick=()=>$('file').click();$('file').onchange=e=>e.target.files[0]&&pick(e.target.files[0]);$('drop').ondragover=e=>{e.preventDefault();$('drop').classList.add('over')};$('drop').ondragleave=()=>$('drop').classList.remove('over');$('drop').ondrop=e=>{e.preventDefault();$('drop').classList.remove('over');if(e.dataTransfer.files[0])pick(e.dataTransfer.files[0])};$('filter').oninput=render;$('category').onchange=render;$('reset').onclick=()=>{art=null;$('grid').innerHTML='<div class="empty">Load an art.json file to begin.</div>'};</script></body></html>

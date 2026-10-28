@@ -145,7 +145,7 @@ bool saveLoad(SaveData& s) {
     if (got == sizeof(SaveData)) {
       SaveData t; memcpy(&t, raw, sizeof t);
       if (t.magic == SAVE_MAGIC && t.version == SAVE_VERSION && t.size == sizeof(SaveData) && t.crc == calc(t) &&
-          t.lang < LANG_COUNT && t.hat < 11 && t.face < 6 && t.color < 6 && t.lastWeapon < W_COUNT) {
+          t.lang < LANG_COUNT && t.hat < 10 && t.face < 6 && t.color < 6 && t.lastWeapon < W_COUNT) {
         s = t; return true;
       }
     }
@@ -209,19 +209,18 @@ void achievementProgress(const SaveData& s, int id, u32& current, u32& target) {
     static const u32 hours[3] = {1, 10, 50};
     target = hours[id - ACH_LITTLE_DUMMY] * 3600;
     current = s.playTimeSeconds < target ? s.playTimeSeconds : target;
-  } else if (id >= ACH_CLOTH_BATMAN && id <= ACH_CLOTH_IRONMAN) {
+  } else if (id >= ACH_CLOTH_NIGHTWARDEN && id <= ACH_CLOTH_ARCWARDEN) {
     switch (id) {
-      case ACH_CLOTH_BATMAN: current = s.playTimeSeconds; target = 3600; break;
-      case ACH_CLOTH_JOKER: current = s.playTimeSeconds; target = 10 * 3600; break;
-      case ACH_CLOTH_TERRARIA: current = s.playTimeSeconds; target = 50 * 3600; break;
-      case ACH_CLOTH_MARIO: current = s.totalKills; target = 1000; break;
+      case ACH_CLOTH_NIGHTWARDEN: current = s.playTimeSeconds; target = 3600; break;
+      case ACH_CLOTH_GRINMASK: current = s.playTimeSeconds; target = 10 * 3600; break;
+      case ACH_CLOTH_REDCAP: current = s.totalKills; target = 1000; break;
       default:
         for (int i = 0; i < NUM_SPELLS; ++i) if (s.spellFound[i]) ++current;
         for (int i = 0; i < NUM_ENEMIES; ++i) if (s.enemySeen[i]) ++current;
         target = NUM_SPELLS + NUM_ENEMIES; break;
     }
     if (current > target) current = target;
-  } else if (id == ACH_AVATAR) {
+  } else if (id == ACH_ELEMENTALIST) {
     int byType[TY_COUNT] = {0, 0, 0};
     for (int i = 0; i < NUM_SPELLS; ++i) if (s.spellUsed[i]) ++byType[SPELLS[i].ty];
     for (int t = 0; t < TY_COUNT; ++t) current += minT(byType[t], 2);

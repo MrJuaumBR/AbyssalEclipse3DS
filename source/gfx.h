@@ -23,8 +23,8 @@ const Spr& drone();
 const Spr& sentinel();
 enum ProjSpr { PS_DAGGER, PS_ARROW, PS_AXE, PS_ORB, PS_PELLET, PS_PISTOL, PS_TRIDENT, PS_SHARD, PS_WEB, PS_BOLT, PS_EMBER, PS_GEM, PS_SPARK, PS_KNIFE, PS_TNT, PS_COUNT };
 const Spr& proj(int id);
-const Spr& disc(int colorIdx);                // 24x24 filled, translucent
-const Spr& ring(int colorIdx);                // 24x24 outline
+const Spr& disc(int colorIdx);                // 16x16 source, drawn to requested radius
+const Spr& ring(int colorIdx);                // 16x16 source, drawn to requested radius
 const Spr& shadow();                          // 16x6
 
 // Drawing (all coordinates in pixels of the current screen)
@@ -33,7 +33,7 @@ void rect(float x, float y, float w, float h, u32 rgb, u32 a = 255);
 void panel(float x, float y, float w, float h, u32 fill, u32 border);   // 2 quads
 void spr(const Spr& s, float x, float y, float scale = 1.0f, u32 color = 0xFFFFFFFFu, int mode = plat::BLIT_PLAIN, float rot = 0.0f);   // top-left
 void sprC(const Spr& s, float cx, float cy, float scale = 1.0f, u32 color = 0xFFFFFFFFu, int mode = plat::BLIT_PLAIN, float rot = 0.0f); // centered
-void discC(int colorIdx, float cx, float cy, float radius, u32 alpha = 255);  // scales the 24px disc
+void discC(int colorIdx, float cx, float cy, float radius, u32 alpha = 255);  // scales the compact source cell
 void ringC(int colorIdx, float cx, float cy, float radius, u32 alpha = 255);
 
 // Text (UTF-8, uppercase glyphs only; lowercase is drawn as capitals)

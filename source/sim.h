@@ -86,6 +86,6 @@ void simResume(Sim& s);                     // starts the next wave from CLEARED
 int  simSpellLevelOf(const Sim& s, int spellId);
 // debug (deterministic + reversible, design doc "Debug Tools")
 void dbgWaveEnd(Sim& s); void dbgBoss(Sim& s); void dbgForceSpell(Sim& s); void dbgClearSpells(Sim& s);
-void dbgDeath(Sim& s); void dbgGiveLevel(Sim& s);
+void dbgDeath(Sim& s); void dbgGiveLevel(Sim& s); void dbgGrantSpell(Sim& s, int spellId); void dbgSpawnGolem(Sim& s);
 const char* phaseName(Phase p);
 void recompute(Sim& s);

@@ -11,7 +11,7 @@ static const char* const UI_EN[S_COUNT] = {
   "CATALOG", // nav_catalog
   "OPTIONS", // nav_options
   "SURVIVE THE ABYSS.", // tagline
-  "v0.1", // version
+  "v0.2 BETA", // version
   "FOREST", // s_forest
   "DESERT", // s_desert
   "SNOW", // s_snow
@@ -222,6 +222,50 @@ static const char* const UI_EN[S_COUNT] = {
   "+{n}% NUMERIC SCALE VS RANK 1", // spell_rank_gain
   "BASE STATS", // spell_base_stats
   "CUSTOM PER-RANK EFFECT", // spell_rank_custom
+  "FOREST CLEAR", // ach_season_forest
+  "DESERT CLEAR", // ach_season_desert
+  "SNOW CLEAR", // ach_season_snow
+  "MOUNTAIN CLEAR", // ach_season_mountain
+  "ECLIPSE CLEAR", // ach_season_eclipse
+  "FIRST THOUSAND", // ach_kills_1000
+  "TEN THOUSAND", // ach_kills_10000
+  "HUNDRED THOUSAND", // ach_kills_100000
+  "FOREST CATALOG", // ach_catalog_forest
+  "DESERT CATALOG", // ach_catalog_desert
+  "SNOW CATALOG", // ach_catalog_snow
+  "MOUNTAIN CATALOG", // ach_catalog_mountain
+  "ECLIPSE CATALOG", // ach_catalog_eclipse
+  "MASTER CATALOG", // ach_full_catalog
+  "LITTLE DUMMY", // ach_little_dummy
+  "ABYSS VETERAN", // ach_abyss_veteran
+  "GO TOUCH GRASS", // ach_touch_grass
+  "NIGHT WATCH", // ach_nightwarden
+  "WHY SO SERIOUS\?", // ach_grinmask
+  "CRIMSON CAP", // ach_redcap
+  "HEART OF IRON", // ach_arcwarden
+  "ELEMENTALIST", // ach_elementalist
+  "Clear the Forest season.", // ach_season_forest_desc
+  "Clear the Desert season.", // ach_season_desert_desc
+  "Clear the Snow season.", // ach_season_snow_desc
+  "Clear the Mountain season.", // ach_season_mountain_desc
+  "Clear the Eclipse season.", // ach_season_eclipse_desc
+  "Defeat 1,000 enemies.", // ach_kills_1000_desc
+  "Defeat 10,000 enemies.", // ach_kills_10000_desc
+  "Defeat 100,000 enemies.", // ach_kills_100000_desc
+  "Discover the Forest catalog.", // ach_catalog_forest_desc
+  "Discover the Desert catalog.", // ach_catalog_desert_desc
+  "Discover the Snow catalog.", // ach_catalog_snow_desc
+  "Discover the Mountain catalog.", // ach_catalog_mountain_desc
+  "Discover the Eclipse catalog.", // ach_catalog_eclipse_desc
+  "Discover every spell and enemy in the game.", // ach_full_catalog_desc
+  "Play for at least 1 hour.", // ach_little_dummy_desc
+  "Play for at least 10 hours.", // ach_abyss_veteran_desc
+  "Play for at least 50 hours. Please take a break.", // ach_touch_grass_desc
+  "Play for at least 1 hour to unlock the Nightwarden outfit.", // ach_nightwarden_desc
+  "Play for at least 10 hours to unlock the Grinmask outfit.", // ach_grinmask_desc
+  "Defeat 1,000 enemies to unlock the Crimson Cap outfit.", // ach_redcap_desc
+  "Complete the full catalog to unlock the Arc Helmet outfit.", // ach_arcwarden_desc
+  "Use at least two distinct spells from each spell type.", // ach_elementalist_desc
   "PAUSED", // paused
   "RESUME", // resume
   "QUIT TO MENU", // quit_menu
@@ -272,52 +316,6 @@ static const char* const UI_EN[S_COUNT] = {
   "ACHIEVEMENTS", // ach_title
   "LOCKED", // ach_locked
   "UNLOCKED", // ach_unlocked
-  "FOREST COMPLETE", // ach_season_forest
-  "Clear all three Forest campaign levels.", // ach_season_forest_desc
-  "DESERT COMPLETE", // ach_season_desert
-  "Clear all three Desert campaign levels.", // ach_season_desert_desc
-  "SNOW COMPLETE", // ach_season_snow
-  "Clear all three Snow campaign levels.", // ach_season_snow_desc
-  "MOUNTAIN COMPLETE", // ach_season_mountain
-  "Clear all three Mountain campaign levels.", // ach_season_mountain_desc
-  "ECLIPSE COMPLETE", // ach_season_eclipse
-  "Clear all three Eclipse campaign levels.", // ach_season_eclipse_desc
-  "1,000 ENEMIES", // ach_kills_1000
-  "Defeat 1,000 enemies across all runs.", // ach_kills_1000_desc
-  "10,000 ENEMIES", // ach_kills_10000
-  "Defeat 10,000 enemies across all runs.", // ach_kills_10000_desc
-  "100,000 ENEMIES", // ach_kills_100000
-  "Defeat 100,000 enemies across all runs.", // ach_kills_100000_desc
-  "FOREST FIELD GUIDE", // ach_catalog_forest
-  "Discover every Forest-exclusive spell and enemy.", // ach_catalog_forest_desc
-  "DESERT FIELD GUIDE", // ach_catalog_desert
-  "Discover every Desert-exclusive spell and enemy.", // ach_catalog_desert_desc
-  "SNOW FIELD GUIDE", // ach_catalog_snow
-  "Discover every Snow-exclusive spell and enemy.", // ach_catalog_snow_desc
-  "MOUNTAIN FIELD GUIDE", // ach_catalog_mountain
-  "Discover every Mountain-exclusive spell and enemy.", // ach_catalog_mountain_desc
-  "ECLIPSE FIELD GUIDE", // ach_catalog_eclipse
-  "Discover every Eclipse-exclusive spell and enemy.", // ach_catalog_eclipse_desc
-  "MASTER CATALOG", // ach_full_catalog
-  "Discover every spell and enemy in the game.", // ach_full_catalog_desc
-  "LITTLE DUMMY", // ach_little_dummy
-  "Play for at least 1 hour.", // ach_little_dummy_desc
-  "ABYSS VETERAN", // ach_abyss_veteran
-  "Play for at least 10 hours.", // ach_abyss_veteran_desc
-  "GO TOUCH GRASS", // ach_touch_grass
-  "Play for at least 50 hours. Please take a break.", // ach_touch_grass_desc
-  "NIGHT WATCH", // ach_batman
-  "Play for at least 1 hour to unlock the Batman parody outfit.", // ach_batman_desc
-  "WHY SO SERIOUS\?", // ach_joker
-  "Play for at least 10 hours to unlock the Joker parody outfit.", // ach_joker_desc
-  "DIG DEEP", // ach_terraria
-  "Play for at least 50 hours to unlock the Terraria parody outfit.", // ach_terraria_desc
-  "IT'S-A ME", // ach_mario
-  "Defeat 1,000 enemies to unlock the Mario parody outfit.", // ach_mario_desc
-  "HEART OF IRON", // ach_iron_man
-  "Complete the full catalog to unlock the Iron Man parody outfit.", // ach_iron_man_desc
-  "AVATAR", // ach_avatar
-  "Use at least two distinct spells from each spell type to unlock the Avatar outfit.", // ach_avatar_desc
   "RUNS", // stat_games
   "WINS", // stat_wins
   "LOSSES", // stat_losses
@@ -335,19 +333,17 @@ static const char* const UI_EN[S_COUNT] = {
   "A: PLAY TRACK", // music_play
   "B: STOP PREVIEW", // music_stop
   "NIGHT COWL", // cloth_bat_cowl
-  "GRINNING MASK", // cloth_joker_grin
-  "PIXEL MINER HELM", // cloth_terra_hat
+  "GRINNING MASK", // cloth_grinmask_grin
+  "NIGHT COWL", // cloth_nightwarden
+  "GRINNING MASK", // cloth_grinmask
+  "CRIMSON CAP", // cloth_redcap
+  "ARC HELMET", // cloth_arcwarden
   "ABYSSAL CROWN", // cloth_abyss_crown
   "KNIGHT HELM", // cloth_default
   "WIZARD HAT", // cloth_wizard
   "LEAF HOOD", // cloth_leaf
   "TINY CROWN", // cloth_crown
   "NONE", // cloth_none
-  "NIGHT COWL", // cloth_batman
-  "GRINNING MASK", // cloth_joker
-  "PIXEL MINER HELM", // cloth_terraria
-  "RED PLUMBER CAP", // cloth_mario
-  "ARC HELMET", // cloth_ironman
   "DWARF BEARD", // face_dwarf_beard
   "FOREST - ROOTS OF DUSK", // music_forest
   "DESERT - SUNKEN HORIZON", // music_desert
@@ -359,7 +355,7 @@ static const char* const UI_EN[S_COUNT] = {
   "BANK USES LEFT: {n}/3", // stores_left
   "POINTS STORED", // points_stored
   "RELEASE", // release_status
-  "AIR NOMAD AVATAR", // cloth_avatar
+  "AIR NOMAD ELEMENTALIST", // cloth_elementalist
   "TRIDENT RECLAIMED", // trident_ready
   "TRIDENT OUT - MOVE CLOSE TO RECOVER", // trident_out
 };
@@ -373,7 +369,7 @@ static const char* const UI_PT[S_COUNT] = {
   "CATÁLOGO", // nav_catalog
   "OPÇÕES", // nav_options
   "SOBREVIVA AO ABISMO.", // tagline
-  "v0.1", // version
+  "v0.2 BETA", // version
   "FLORESTA", // s_forest
   "DESERTO", // s_desert
   "NEVE", // s_snow
@@ -578,12 +574,56 @@ static const char* const UI_PT[S_COUNT] = {
   "KATANA", // w_katana
   "METRALHADORA", // w_machine_gun
   "UM GOLPE RAPIDO DE CURTO ALCANCE QUE ATINGE EM ARCO E PODE CAUSAR SANGRAMENTO.", // fire_katana
-  "UMA RAJADA RAPIDA DE ALCANCE MEDIO; PESADA, ENTAO VOCE SE MOVE MAIS DEVAGAR.", // fire_machine_gun
+  "UMA RAJADA RÁPIDA DE ALCANCE MEDIO; PESADA, ENTÃO VOCÊ SE MOVE MAIS DEVAGAR.", // fire_machine_gun
   "ARMAS", // cat_weapons
   "NÍVEL", // spell_rank
   "+{n}% ESCALA NUMÉRICA VS NÍVEL 1", // spell_rank_gain
   "ATRIBUTOS BASE", // spell_base_stats
   "EFEITO ESPECIAL POR NÍVEL", // spell_rank_custom
+  "CONCLUSAO DA FLORESTA", // ach_season_forest
+  "CONCLUSAO DO DESERTO", // ach_season_desert
+  "CONCLUSAO DA NEVE", // ach_season_snow
+  "CONCLUSAO DA MONTANHA", // ach_season_mountain
+  "CONCLUSAO DO ECLIPSE", // ach_season_eclipse
+  "PRIMEIRO MILHAR", // ach_kills_1000
+  "DEZ MIL", // ach_kills_10000
+  "CEM MIL", // ach_kills_100000
+  "CATALOGO DA FLORESTA", // ach_catalog_forest
+  "CATALOGO DO DESERTO", // ach_catalog_desert
+  "CATALOGO DA NEVE", // ach_catalog_snow
+  "CATALOGO DA MONTANHA", // ach_catalog_mountain
+  "CATALOGO DO ECLIPSE", // ach_catalog_eclipse
+  "CATALOGO COMPLETO", // ach_full_catalog
+  "BOBINHO", // ach_little_dummy
+  "VETERANO DO ABISMO", // ach_abyss_veteran
+  "VÁ TOCAR GRAMA!", // ach_touch_grass
+  "VIGILANTE NOTURNO", // ach_nightwarden
+  "POR QUE ESTÁ TÃO SÉRIO\?", // ach_grinmask
+  "BONE CARMESIM", // ach_redcap
+  "CORAÇÃO DE FERRO", // ach_arcwarden
+  "ELEMENTALISTA", // ach_elementalist
+  "Conclua a temporada da Floresta.", // ach_season_forest_desc
+  "Conclua a temporada do Deserto.", // ach_season_desert_desc
+  "Conclua a temporada da Neve.", // ach_season_snow_desc
+  "Conclua a temporada da Montanha.", // ach_season_mountain_desc
+  "Conclua a temporada do Eclipse.", // ach_season_eclipse_desc
+  "Derrote 1.000 inimigos.", // ach_kills_1000_desc
+  "Derrote 10.000 inimigos.", // ach_kills_10000_desc
+  "Derrote 100.000 inimigos.", // ach_kills_100000_desc
+  "Descubra o catalogo da Floresta.", // ach_catalog_forest_desc
+  "Descubra o catalogo do Deserto.", // ach_catalog_desert_desc
+  "Descubra o catalogo da Neve.", // ach_catalog_snow_desc
+  "Descubra o catalogo da Montanha.", // ach_catalog_mountain_desc
+  "Descubra o catalogo do Eclipse.", // ach_catalog_eclipse_desc
+  "Descubra todas as magias e inimigos do jogo.", // ach_full_catalog_desc
+  "Jogue por pelo menos 1 hora.", // ach_little_dummy_desc
+  "Jogue por pelo menos 10 horas.", // ach_abyss_veteran_desc
+  "Jogue por pelo menos 50 horas. Faca uma pausa.", // ach_touch_grass_desc
+  "Jogue por pelo menos 1 hora para liberar a roupa Nightwarden.", // ach_nightwarden_desc
+  "Jogue por pelo menos 10 horas para liberar a roupa Grinmask.", // ach_grinmask_desc
+  "Derrote 1.000 inimigos para liberar a roupa Bone Carmesim.", // ach_redcap_desc
+  "Complete o catálogo para liberar a roupa Capacete Arc.", // ach_arcwarden_desc
+  "Use pelo menos duas magias diferentes de cada tipo.", // ach_elementalist_desc
   "PAUSADO", // paused
   "CONTINUAR", // resume
   "SAIR PARA O MENU", // quit_menu
@@ -634,52 +674,6 @@ static const char* const UI_PT[S_COUNT] = {
   "CONQUISTAS", // ach_title
   "BLOQUEADA", // ach_locked
   "DESBLOQUEADA", // ach_unlocked
-  "FLORESTA COMPLETA", // ach_season_forest
-  "Conclua as tres fases da Floresta.", // ach_season_forest_desc
-  "DESERTO COMPLETO", // ach_season_desert
-  "Conclua as tres fases do Deserto.", // ach_season_desert_desc
-  "NEVE COMPLETA", // ach_season_snow
-  "Conclua as tres fases da Neve.", // ach_season_snow_desc
-  "MONTANHA COMPLETA", // ach_season_mountain
-  "Conclua as tres fases da Montanha.", // ach_season_mountain_desc
-  "ECLIPSE COMPLETO", // ach_season_eclipse
-  "Conclua as tres fases do Eclipse.", // ach_season_eclipse_desc
-  "1.000 INIMIGOS", // ach_kills_1000
-  "Derrote 1.000 inimigos em todas as partidas.", // ach_kills_1000_desc
-  "10.000 INIMIGOS", // ach_kills_10000
-  "Derrote 10.000 inimigos em todas as partidas.", // ach_kills_10000_desc
-  "100.000 INIMIGOS", // ach_kills_100000
-  "Derrote 100.000 inimigos em todas as partidas.", // ach_kills_100000_desc
-  "GUIA DA FLORESTA", // ach_catalog_forest
-  "Descubra todas as magias e inimigos exclusivos da Floresta.", // ach_catalog_forest_desc
-  "GUIA DO DESERTO", // ach_catalog_desert
-  "Descubra todas as magias e inimigos exclusivos do Deserto.", // ach_catalog_desert_desc
-  "GUIA DA NEVE", // ach_catalog_snow
-  "Descubra todas as magias e inimigos exclusivos da Neve.", // ach_catalog_snow_desc
-  "GUIA DA MONTANHA", // ach_catalog_mountain
-  "Descubra todas as magias e inimigos exclusivos da Montanha.", // ach_catalog_mountain_desc
-  "GUIA DO ECLIPSE", // ach_catalog_eclipse
-  "Descubra todas as magias e inimigos exclusivos do Eclipse.", // ach_catalog_eclipse_desc
-  "CATALOGO COMPLETO", // ach_full_catalog
-  "Descubra todas as magias e inimigos do jogo.", // ach_full_catalog_desc
-  "PEQUENO BOBO", // ach_little_dummy
-  "Jogue por pelo menos 1 hora.", // ach_little_dummy_desc
-  "VETERANO DO ABISMO", // ach_abyss_veteran
-  "Jogue por pelo menos 10 horas.", // ach_abyss_veteran_desc
-  "VAI TOCAR GRAMA", // ach_touch_grass
-  "Jogue por pelo menos 50 horas. Faca uma pausa.", // ach_touch_grass_desc
-  "VIGILANTE NOTURNO", // ach_batman
-  "Jogue por pelo menos 1 hora para liberar a roupa parodia do Batman.", // ach_batman_desc
-  "POR QUE TAO SERIO\?", // ach_joker
-  "Jogue por pelo menos 10 horas para liberar a roupa parodia do Joker.", // ach_joker_desc
-  "CAVE FUNDO", // ach_terraria
-  "Jogue por pelo menos 50 horas para liberar a roupa parodia de Terraria.", // ach_terraria_desc
-  "AQUI E O MARIO", // ach_mario
-  "Derrote 1.000 inimigos para liberar a roupa parodia do Mario.", // ach_mario_desc
-  "CORACAO DE FERRO", // ach_iron_man
-  "Complete o catalogo para liberar a roupa parodia do Homem de Ferro.", // ach_iron_man_desc
-  "AVATAR", // ach_avatar
-  "Use pelo menos duas magias diferentes de cada tipo para liberar a roupa do Avatar.", // ach_avatar_desc
   "PARTIDAS", // stat_games
   "VITORIAS", // stat_wins
   "DERROTAS", // stat_losses
@@ -697,19 +691,17 @@ static const char* const UI_PT[S_COUNT] = {
   "A: TOCAR MUSICA", // music_play
   "B: PARAR PREVIA", // music_stop
   "CAPUZ NOTURNO", // cloth_bat_cowl
-  "MASCARA SORRIDENTE", // cloth_joker_grin
-  "CAPACETE DO MINEIRO PIXEL", // cloth_terra_hat
+  "MASCARA SORRIDENTE", // cloth_grinmask_grin
+  "CAPUZ NOTURNO", // cloth_nightwarden
+  "MASCARA SORRIDENTE", // cloth_grinmask
+  "BONE CARMESIM", // cloth_redcap
+  "CAPACETE ARC", // cloth_arcwarden
   "COROA ABISSAL", // cloth_abyss_crown
   "ELMO DO CAVALEIRO", // cloth_default
   "CHAPEU DE MAGO", // cloth_wizard
   "CAPUZ DE FOLHAS", // cloth_leaf
   "COROA PEQUENA", // cloth_crown
   "NENHUM", // cloth_none
-  "CAPUZ NOTURNO", // cloth_batman
-  "MASCARA SORRIDENTE", // cloth_joker
-  "CAPACETE DO MINEIRO PIXEL", // cloth_terraria
-  "BONE VERMULHO", // cloth_mario
-  "CAPACETE ARC", // cloth_ironman
   "BARBA DE ANAO", // face_dwarf_beard
   "FLORESTA - RAIZES DO CREPUSCULO", // music_forest
   "DESERTO - HORIZONTE SUBMERSO", // music_desert
@@ -721,7 +713,7 @@ static const char* const UI_PT[S_COUNT] = {
   "USOS DO BANCO: {n}/3", // stores_left
   "PONTOS GUARDADOS", // points_stored
   "LANCAMENTO", // release_status
-  "AVATAR NOMADE DO AR", // cloth_avatar
+  "ELEMENTALIST NOMADE DO AR", // cloth_elementalist
   "TRIDENTE RECUPERADO", // trident_ready
   "TRIDENTE FORA - CHEGUE PERTO PARA RECUPERAR", // trident_out
 };
@@ -873,7 +865,7 @@ const SpellDef SPELLS[147] = {
   {EL_WATER,TY_DAMAGE,ACT_AOE,R_RARE,SC_ELEMENT,SEA_NONE,10,{{E_HIT_FREEZE,18.0f,1.2f,0.0f},{E_KILL_BURST,6.0f,32.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // GLACIAL BLOOM
   {EL_LIGHTNING,TY_WEAPON,ACT_SELF,R_EPIC,SC_ELEMENT,SEA_NONE,10,{{E_NTH_BOLT,7.0f,14.0f,44.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // STARLANCE
   {EL_BLOOD,TY_STATUS,ACT_SELF,R_RARE,SC_ELEMENT,SEA_NONE,10,{{E_KILL_HEALEVERY,1.5f,5.0f,0.0f},{E_LIFESTEAL,1.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // SOUL HARVEST
-  {EL_AIR,TY_DAMAGE,ACT_SELF,R_LEGENDARY,SC_GLOBAL,SEA_NONE,10,{{E_AVATAR,8.0f,18.0f,42.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // AVATAR CYCLE
+  {EL_AIR,TY_DAMAGE,ACT_SELF,R_LEGENDARY,SC_GLOBAL,SEA_NONE,10,{{E_ELEMENTALIST,8.0f,18.0f,42.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // ELEMENTALIST CYCLE
   {EL_AIR,TY_STATUS,ACT_SELF,R_EPIC,SC_GLOBAL,SEA_NONE,5,{{E_FAIRY,1.0f,4.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // FAIRY COMPANION
   {EL_LIGHTNING,TY_STATUS,ACT_SELF,R_LEGENDARY,SC_GLOBAL,SEA_NONE,9,{{E_TIME_STOP,12.0f,1.2f,14.0f},{E_NONE,0.0f,0.0f,0.0f},{E_NONE,0.0f,0.0f,0.0f}}}, // TIME-STOP
 };
@@ -1022,7 +1014,7 @@ static const SpellText SPT_EN[147] = {
   {"GLACIAL BLOOM","FREEZE FOES ON HIT, THEN SHATTER THEM WITH A BURST WHEN THEY FALL.","18% FREEZE, 6 BURST DMG / 32 RADIUS"},
   {"STARLANCE","EVERY FEW ATTACKS, A LIGHTNING LANCE STRIKES NEARBY FOES.","EVERY 7TH THROW, 14 DMG / 44 RADIUS"},
   {"SOUL HARVEST","KILLS FEED YOUR VITALITY; BLOODLUST RESTORES HEALTH ON EVERY HIT.","HEAL EVERY 5 KILLS, 1.5 HP / 1 LIFESTEAL"},
-  {"AVATAR CYCLE","EVERY FEW ATTACKS, RANDOMLY RELEASES AN EARTH SPIKE, WATER SLASH, AIR PUSH, OR FIREBALL.","EVERY 8TH ATTACK, RANDOM ELEMENTAL STRIKE"},
+  {"ELEMENTALIST CYCLE","EVERY FEW ATTACKS, RANDOMLY RELEASES AN EARTH SPIKE, WATER SLASH, AIR PUSH, OR FIREBALL.","EVERY 8TH ATTACK, RANDOM ELEMENTAL STRIKE"},
   {"FAIRY COMPANION","A FAIRY FOLLOWS YOU AND PERIODICALLY RESTORES A SMALL AMOUNT OF LIFE.","SUMMONED COMPANION, HEALS EVERY 4 SECONDS"},
   {"TIME-STOP","EVERY 12 ATTACKS, BRIEFLY STOPS ENEMIES AND THEIR PROJECTILES. RARE AND POWERFUL, WITH A LONG COOLDOWN.","EVERY 12TH ATTACK, 1.2S STOP / 14S COOLDOWN"},
 };
@@ -1171,7 +1163,7 @@ static const SpellText SPT_PT[147] = {
   {"FLOR GLACIAL","CONGELE INIMIGOS AO ACERTAR E OS ESTILHACA EM UMA EXPLOSAO AO CAIR.","18% CONGELAR, 6 DANO / RAIO 32"},
   {"LANCA ESTELAR","A CADA POUCOS ATAQUES, UMA LANCA ELETRICA ATINGE INIMIGOS PROXIMOS.","A CADA 7 DISPAROS, 14 DANO / RAIO 44"},
   {"COLHEITA DE ALMAS","ABATES ALIMENTAM SUA VITALIDADE; GOLPES DE SANGUE RESTAURAM VIDA.","CURA A CADA 5 ABATES, 1,5 VIDA / 1 DRENAGEM"},
-  {"CICLO DO AVATAR","A CADA POUCOS ATAQUES, LIBERA UM GOLPE ALEATORIO DE TERRA, AGUA, AR OU FOGO.","A CADA 8 ATAQUES, GOLPE ELEMENTAL ALEATORIO"},
+  {"CICLO DO ELEMENTALIST","A CADA POUCOS ATAQUES, LIBERA UM GOLPE ALEATORIO DE TERRA, ÁGUA, AR OU FOGO.","A CADA 8 ATAQUES, GOLPE ELEMENTAL ALEATORIO"},
   {"COMPANHEIRA FADA","UMA FADA SEGUE VOCE E RESTAURA VIDA PERIODICAMENTE.","COMPANHEIRA INVOCADA, CURA A CADA 4 SEGUNDOS"},
   {"PARADA TEMPORAL","A CADA 12 ATAQUES, PARA INIMIGOS E PROJETEIS POR UM INSTANTE.","A CADA 12 ATAQUES, 1,2S PARADO / 14S DE RECARGA"},
 };
@@ -1641,25 +1633,22 @@ static const PixRect ART_E_eye[] = {{1,4,14,1,0x0B0A12},{1,5,14,1,0x0B0A12},{1,6
 static const PixRect ART_E_husk[] = {{4,2,8,1,0x0B0A12},{4,3,8,1,0x0B0A12},{4,4,8,1,0x0B0A12},{4,5,8,1,0x0B0A12},{4,6,8,1,0x0B0A12},{4,7,8,1,0x0B0A12},{4,8,8,1,0x0B0A12},{4,9,8,1,0x0B0A12},{4,10,8,1,0x0B0A12},{4,11,8,1,0x0B0A12},{4,12,8,1,0x0B0A12},{4,13,8,1,0x0B0A12},{4,14,8,1,0x0B0A12},{5,3,6,1,0x7A5A6A},{5,4,6,1,0x7A5A6A},{5,5,6,1,0x7A5A6A},{5,6,6,1,0x7A5A6A},{5,7,6,1,0x7A5A6A},{5,8,6,1,0x7A5A6A},{5,9,6,1,0x7A5A6A},{5,10,6,1,0x7A5A6A},{5,11,6,1,0x7A5A6A},{5,12,6,1,0x7A5A6A},{5,13,6,1,0x7A5A6A},{5,4,2,1,0x0B0A12},{9,4,2,1,0x0B0A12},{6,6,4,1,0x0B0A12},{6,7,4,1,0x0B0A12},{6,8,4,1,0x0B0A12},{6,9,4,1,0x0B0A12},{6,10,4,1,0x0B0A12},{7,8,2,1,0xC43D3D},{7,9,2,1,0xC43D3D},{2,8,2,1,0x0B0A12},{2,9,2,1,0x0B0A12},{2,10,2,1,0x0B0A12},{2,11,2,1,0x0B0A12},{2,12,2,1,0x0B0A12},{12,8,2,1,0x0B0A12},{12,9,2,1,0x0B0A12},{12,10,2,1,0x0B0A12},{12,11,2,1,0x0B0A12},{12,12,2,1,0x0B0A12},{3,9,1,1,0x7A5A6A},{3,10,1,1,0x7A5A6A},{3,11,1,1,0x7A5A6A},{12,9,1,1,0x7A5A6A},{12,10,1,1,0x7A5A6A},{12,11,1,1,0x7A5A6A}};
 static const PixRect ART_E_choir[] = {{2,2,12,1,0x0B0A12},{2,3,12,1,0x0B0A12},{2,4,12,1,0x0B0A12},{2,5,12,1,0x0B0A12},{2,6,12,1,0x0B0A12},{2,7,12,1,0x0B0A12},{2,8,12,1,0x0B0A12},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{2,14,12,1,0x0B0A12},{3,3,10,1,0x3A2A5A},{3,4,10,1,0x3A2A5A},{3,5,10,1,0x3A2A5A},{3,6,10,1,0x3A2A5A},{3,7,10,1,0x3A2A5A},{3,8,10,1,0x3A2A5A},{3,9,10,1,0x3A2A5A},{3,10,10,1,0x3A2A5A},{3,11,10,1,0x3A2A5A},{3,12,10,1,0x3A2A5A},{3,13,10,1,0x3A2A5A},{4,5,2,1,0xB83A8A},{4,6,2,1,0xB83A8A},{4,7,2,1,0xB83A8A},{7,4,2,1,0xB83A8A},{7,5,2,1,0xB83A8A},{7,6,2,1,0xB83A8A},{7,7,2,1,0xB83A8A},{10,5,2,1,0xB83A8A},{10,6,2,1,0xB83A8A},{10,7,2,1,0xB83A8A},{7,5,2,1,0xF0EAD6},{4,0,8,1,0xB83A8A},{4,11,2,1,0xB83A8A},{10,11,2,1,0xB83A8A}};
 const PixArt ART_ENEMY[25] = {{ART_E_grub,20},{ART_E_wasp,26},{ART_E_beetle,31},{ART_E_spider,20},{ART_E_brood,38},{ART_E_scarab,33},{ART_E_thrall,31},{ART_E_hound,29},{ART_E_guard,38},{ART_E_pharaoh,40},{ART_E_bat,31},{ART_E_ice,31},{ART_E_archer,46},{ART_E_stalker,31},{ART_E_frozen,32},{ART_E_golem,33},{ART_E_brute,36},{ART_E_sentry,33},{ART_E_crawler,42},{ART_E_king,37},{ART_E_acolyte,33},{ART_E_flesh,23},{ART_E_eye,34},{ART_E_husk,49},{ART_E_choir,38}};
-static const PixRect ART_H_helm[] = {{4,1,8,1,0x9B92B0},{4,2,8,1,0x9B92B0},{4,3,8,1,0x9B92B0},{4,3,8,1,0x6B6480},{5,2,2,1,0xF0EAD6},{7,0,2,1,0xC43D3D}};
-static const PixRect ART_H_wizard[] = {{1,3,14,1,0x5B3F9F},{4,2,8,1,0x8B5FBF},{5,1,6,1,0x8B5FBF},{6,0,4,1,0x8B5FBF},{7,2,1,1,0xE8B54B}};
-static const PixRect ART_H_leaf[] = {{4,2,8,1,0x2F6B3A},{4,3,8,1,0x2F6B3A},{3,3,1,1,0x2F6B3A},{3,4,1,1,0x2F6B3A},{3,5,1,1,0x2F6B3A},{3,6,1,1,0x2F6B3A},{3,7,1,1,0x2F6B3A},{12,3,1,1,0x2F6B3A},{12,4,1,1,0x2F6B3A},{12,5,1,1,0x2F6B3A},{12,6,1,1,0x2F6B3A},{12,7,1,1,0x2F6B3A},{6,1,4,1,0x4FA85A},{5,2,1,1,0xA8E0A0}};
-static const PixRect ART_H_crown[] = {{5,2,6,1,0xE8B54B},{5,3,6,1,0xE8B54B},{5,1,1,1,0xE8B54B},{7,1,2,1,0xE8B54B},{10,1,1,1,0xE8B54B},{7,2,2,1,0xC43D3D}};
-static const PixRect ART_H_none[] = {{4,2,8,1,0x6B4A2E},{4,3,8,1,0x6B4A2E}};
-static const PixRect ART_H_batman[] = {{3,1,10,1,0x0B0A12},{3,2,10,1,0x0B0A12},{3,3,10,1,0x0B0A12},{3,4,10,1,0x0B0A12},{3,5,10,1,0x0B0A12},{3,6,10,1,0x0B0A12},{3,7,10,1,0x0B0A12},{3,8,10,1,0x0B0A12},{5,3,6,1,0x252936},{5,4,6,1,0x252936},{5,5,6,1,0x252936},{5,6,6,1,0x252936},{5,5,1,1,0xE8B54B},{10,5,1,1,0xE8B54B},{2,9,12,1,0x0B0A12},{2,10,12,1,0x0B0A12},{2,11,12,1,0x0B0A12},{2,12,12,1,0x0B0A12},{2,13,12,1,0x0B0A12},{4,10,8,1,0x252936},{4,11,8,1,0x252936},{4,12,8,1,0x252936},{4,13,8,1,0x252936},{1,11,2,1,0x0B0A12},{1,12,2,1,0x0B0A12},{1,13,2,1,0x0B0A12},{13,11,2,1,0x0B0A12},{13,12,2,1,0x0B0A12},{13,13,2,1,0x0B0A12}};
-static const PixRect ART_H_joker[] = {{3,2,10,1,0x8B5FBF},{3,3,10,1,0x8B5FBF},{3,4,10,1,0x8B5FBF},{3,5,10,1,0x8B5FBF},{3,6,10,1,0x8B5FBF},{3,7,10,1,0x8B5FBF},{3,8,10,1,0x8B5FBF},{5,0,6,1,0x4FA85A},{5,1,6,1,0x4FA85A},{5,2,6,1,0x4FA85A},{5,5,1,1,0x0B0A12},{10,5,1,1,0x0B0A12},{3,9,10,1,0x5B3F9F},{3,10,10,1,0x5B3F9F},{3,11,10,1,0x5B3F9F},{3,12,10,1,0x5B3F9F},{3,13,10,1,0x5B3F9F},{5,10,6,1,0x4FA85A},{5,11,6,1,0x4FA85A}};
-static const PixRect ART_H_terraria[] = {{3,1,10,1,0xC8845A},{3,2,10,1,0xC8845A},{3,3,10,1,0xC8845A},{3,4,10,1,0xC8845A},{4,0,8,1,0x9B92B0},{4,1,8,1,0x9B92B0},{5,5,6,1,0xF0C8A0},{5,6,6,1,0xF0C8A0},{5,7,6,1,0xF0C8A0},{5,8,6,1,0xF0C8A0},{3,9,10,1,0x6B4A2E},{3,10,10,1,0x6B4A2E},{3,11,10,1,0x6B4A2E},{3,12,10,1,0x6B4A2E},{3,13,10,1,0x6B4A2E},{5,10,6,1,0x9B92B0},{5,11,6,1,0x9B92B0},{5,12,6,1,0x9B92B0}};
-static const PixRect ART_H_mario[] = {{3,1,10,1,0xC43D3D},{3,2,10,1,0xC43D3D},{3,3,10,1,0xC43D3D},{5,4,6,1,0xF0C8A0},{5,5,6,1,0xF0C8A0},{5,6,6,1,0xF0C8A0},{5,7,6,1,0xF0C8A0},{5,8,6,1,0xF0C8A0},{3,9,10,1,0x4A7FC1},{3,10,10,1,0x4A7FC1},{3,11,10,1,0x4A7FC1},{3,12,10,1,0x4A7FC1},{3,13,10,1,0x4A7FC1},{5,9,6,1,0xC43D3D},{5,10,6,1,0xC43D3D},{4,13,2,1,0x4A7FC1},{10,13,2,1,0x4A7FC1}};
-static const PixRect ART_H_ironman[] = {{3,2,10,1,0xC43D3D},{3,3,10,1,0xC43D3D},{3,4,10,1,0xC43D3D},{3,5,10,1,0xC43D3D},{3,6,10,1,0xC43D3D},{3,7,10,1,0xC43D3D},{3,8,10,1,0xC43D3D},{5,3,6,1,0xE8B54B},{5,4,6,1,0xE8B54B},{5,5,6,1,0xE8B54B},{5,6,6,1,0xE8B54B},{7,5,2,1,0x7FD0D8},{7,6,2,1,0x7FD0D8},{2,9,12,1,0xC43D3D},{2,10,12,1,0xC43D3D},{2,11,12,1,0xC43D3D},{2,12,12,1,0xC43D3D},{2,13,12,1,0xC43D3D},{4,10,8,1,0xE8B54B},{4,11,8,1,0xE8B54B},{4,12,8,1,0xE8B54B},{4,13,8,1,0xE8B54B},{7,10,2,1,0x7FD0D8},{7,11,2,1,0x7FD0D8}};
-static const PixRect ART_H_avatar[] = {{4,0,8,1,0x4A7FC1},{4,1,8,1,0x4A7FC1},{4,2,8,1,0x4A7FC1},{3,2,10,1,0xE8B54B},{3,3,10,1,0xE8B54B},{5,4,6,1,0xF0C8A0},{5,5,6,1,0xF0C8A0},{5,6,6,1,0xF0C8A0},{5,7,6,1,0xF0C8A0},{5,8,6,1,0xF0C8A0},{7,4,2,1,0x4A7FC1},{7,5,2,1,0x4A7FC1},{7,6,2,1,0x4A7FC1},{7,7,2,1,0x4A7FC1},{3,9,10,1,0x4A7FC1},{3,10,10,1,0x4A7FC1},{3,11,10,1,0x4A7FC1},{3,12,10,1,0x4A7FC1},{3,13,10,1,0x4A7FC1},{5,9,6,1,0xE8B54B},{5,10,6,1,0xE8B54B},{7,2,2,1,0xE8B54B}};
-const PixArt ART_HAT[11] = {{ART_H_helm,6},{ART_H_wizard,5},{ART_H_leaf,14},{ART_H_crown,6},{ART_H_none,2},{ART_H_batman,29},{ART_H_joker,19},{ART_H_terraria,18},{ART_H_mario,17},{ART_H_ironman,24},{ART_H_avatar,22}};
-static const PixRect ART_F_beard[] = {{4,7,8,1,0x6B4A2E},{4,8,8,1,0x6B4A2E},{5,9,6,1,0x6B4A2E}};
-static const PixRect ART_F_glasses[] = {{4,5,4,1,0x0B0A12},{4,7,4,1,0x0B0A12},{4,5,1,1,0x0B0A12},{4,6,1,1,0x0B0A12},{4,7,1,1,0x0B0A12},{7,5,1,1,0x0B0A12},{7,6,1,1,0x0B0A12},{7,7,1,1,0x0B0A12},{8,5,4,1,0x0B0A12},{8,7,4,1,0x0B0A12},{8,5,1,1,0x0B0A12},{8,6,1,1,0x0B0A12},{8,7,1,1,0x0B0A12},{11,5,1,1,0x0B0A12},{11,6,1,1,0x0B0A12},{11,7,1,1,0x0B0A12}};
-static const PixRect ART_F_scar[] = {{9,4,1,1,0xC43D3D},{9,5,1,1,0xC43D3D},{9,6,1,1,0xC43D3D},{9,7,1,1,0xC43D3D}};
-static const PixRect ART_F_freckles[] = {{5,7,1,1,0xC8845A},{7,7,1,1,0xC8845A},{8,7,1,1,0xC8845A},{10,7,1,1,0xC8845A}};
-static const PixRect ART_F_dwarf_beard[] = {{3,7,10,1,0xC8845A},{3,8,10,1,0xC8845A},{3,9,10,1,0xC8845A},{4,10,8,1,0x6B4A2E},{4,11,8,1,0x6B4A2E},{6,12,4,1,0x6B4A2E}};
-const PixArt ART_FACE[6] = {{ART_F_beard,3},{ART_F_glasses,16},{ART_F_scar,4},{ART_F_freckles,4},{nullptr,0},{ART_F_dwarf_beard,6}};
-static const PixRect ART_I_leaf[] = {{6,2,4,1,0x4FA85A},{6,3,4,1,0x4FA85A},{4,4,8,1,0x4FA85A},{4,5,8,1,0x4FA85A},{3,6,9,1,0x4FA85A},{3,7,9,1,0x4FA85A},{3,8,9,1,0x4FA85A},{4,9,7,1,0x4FA85A},{4,10,7,1,0x4FA85A},{5,11,3,1,0x4FA85A},{3,12,3,1,0x2F6B3A},{3,13,3,1,0x2F6B3A},{6,4,2,1,0xA8E0A0}};
+static const PixRect ART_H_helm[] = {{14,0,4,1,0xC43D3D},{14,1,4,1,0xC43D3D},{8,2,16,1,0x9B92B0},{8,3,16,1,0x9B92B0},{8,4,2,1,0x9B92B0},{8,5,2,1,0x9B92B0},{10,4,4,1,0xF0EAD6},{10,5,4,1,0xF0EAD6},{14,4,10,1,0x9B92B0},{14,5,10,1,0x9B92B0},{8,6,16,1,0x6B6480},{8,7,16,1,0x6B6480},{8,8,3,1,0x4A4560},{21,8,3,1,0x4A4560},{8,9,2,1,0x4A4560},{8,10,2,1,0x4A4560},{22,9,2,1,0x4A4560},{22,10,2,1,0x4A4560},{9,11,1,1,0x4A4560},{22,11,1,1,0x4A4560}};
+static const PixRect ART_H_wizard[] = {{12,0,8,1,0x8B5FBF},{12,1,8,1,0x8B5FBF},{10,2,5,1,0x8B5FBF},{15,2,2,1,0xE8B54B},{17,2,5,1,0x8B5FBF},{10,3,4,1,0x8B5FBF},{14,3,4,1,0xE8B54B},{14,4,4,1,0xE8B54B},{18,3,4,1,0x8B5FBF},{8,4,6,1,0x8B5FBF},{18,4,6,1,0x8B5FBF},{8,5,7,1,0x8B5FBF},{15,5,2,1,0xE8B54B},{17,5,7,1,0x8B5FBF},{2,6,28,1,0x5B3F9F},{2,7,28,1,0x5B3F9F}};
+static const PixRect ART_H_leaf[] = {{12,2,8,1,0x43924E},{12,3,8,1,0x43924E},{8,4,16,1,0x377B42},{8,5,16,1,0x377B42},{6,6,20,1,0x2F6B3A},{6,7,20,1,0x2F6B3A},{6,8,2,1,0x2F6B3A},{6,9,2,1,0x2F6B3A},{6,10,2,1,0x2F6B3A},{6,11,2,1,0x2F6B3A},{24,8,2,1,0x2F6B3A},{24,9,2,1,0x2F6B3A},{24,10,2,1,0x2F6B3A},{24,11,2,1,0x2F6B3A},{6,12,2,1,0x275C32},{6,13,2,1,0x275C32},{24,12,2,1,0x275C32},{24,13,2,1,0x275C32},{6,14,2,1,0x1E4D2A},{6,15,2,1,0x1E4D2A},{24,14,2,1,0x1E4D2A},{24,15,2,1,0x1E4D2A}};
+static const PixRect ART_H_crown[] = {{10,2,1,1,0xFACD6F},{11,2,1,1,0xFFCA5D},{14,2,4,1,0xE8B54B},{14,3,4,1,0xE8B54B},{20,2,2,1,0xE8B54B},{20,3,2,1,0xE8B54B},{10,3,1,1,0xFFCA5D},{11,3,1,1,0xFFC347},{10,4,1,1,0xFFC347},{10,5,1,1,0xFFC347},{11,4,1,1,0xF4BC49},{11,5,1,1,0xF4BC49},{12,4,3,1,0xE8B54B},{15,4,1,1,0xDB6363},{16,4,1,1,0xC43D3D},{17,4,5,1,0xE8B54B},{12,5,2,1,0xE8B54B},{14,5,2,1,0xD65050},{16,5,2,1,0xC43D3D},{18,5,4,1,0xE8B54B},{18,6,4,1,0xE8B54B},{10,6,1,1,0xF4BC49},{10,7,1,1,0xF4BC49},{11,6,3,1,0xE8B54B},{14,6,4,1,0xC43D3D},{11,7,11,1,0xE8B54B}};
+static const PixRect ART_H_nightwarden[] = {{11,1,1,1,0x000000},{20,1,1,1,0x000000},{11,2,2,1,0x000000},{19,2,2,1,0x000000},{11,3,10,1,0x000000},{11,4,10,1,0x000000},{11,5,2,1,0x000000},{13,5,2,1,0xFFFFFF},{15,5,2,1,0x000000},{17,5,2,1,0xFFFFFF},{19,5,2,1,0x000000},{11,6,10,1,0x000000},{11,7,2,1,0x000000},{11,8,2,1,0x000000},{11,9,2,1,0x000000},{11,10,2,1,0x000000},{13,7,1,1,0xEEC39A},{14,7,4,1,0x000000},{18,7,1,1,0xEEC39A},{19,7,2,1,0x000000},{19,8,2,1,0x000000},{19,9,2,1,0x000000},{19,10,2,1,0x000000},{13,8,6,1,0xEEC39A},{13,9,6,1,0xEEC39A},{13,10,6,1,0xEEC39A},{12,11,8,1,0x000000},{8,12,16,1,0x000000},{7,13,18,1,0x000000},{4,14,1,1,0x000000},{6,14,20,1,0x000000},{27,14,1,1,0x000000},{5,15,4,1,0x000000},{9,15,14,1,0x636363},{23,15,4,1,0x000000},{6,16,1,1,0x000000},{6,17,1,1,0x000000},{7,16,7,1,0x636363},{14,16,1,1,0x000000},{15,16,2,1,0x636363},{17,16,1,1,0x000000},{18,16,7,1,0x636363},{25,16,1,1,0x000000},{25,17,1,1,0x000000},{4,17,1,1,0x000000},{7,17,5,1,0x636363},{12,17,2,1,0x000000},{14,17,1,1,0x636363},{15,17,2,1,0x000000},{17,17,1,1,0x636363},{18,17,2,1,0x000000},{20,17,5,1,0x636363},{27,17,1,1,0x000000},{5,18,2,1,0x000000},{7,18,2,1,0x636363},{7,19,2,1,0x636363},{9,18,1,1,0x000000},{9,19,1,1,0x000000},{10,18,1,1,0x636363},{11,18,10,1,0x000000},{21,18,1,1,0x636363},{22,18,1,1,0x000000},{22,19,1,1,0x000000},{23,18,2,1,0x636363},{23,19,2,1,0x636363},{25,18,2,1,0x000000},{6,19,1,1,0x000000},{10,19,12,1,0x636363},{10,20,12,1,0x636363},{25,19,1,1,0x000000},{3,20,1,1,0x000000},{5,20,5,1,0x000000},{22,20,5,1,0x000000},{28,20,1,1,0x000000},{4,21,5,1,0x000000},{9,21,1,1,0x2A2A2A},{9,22,1,1,0x2A2A2A},{9,23,1,1,0x2A2A2A},{10,21,1,1,0x000000},{10,22,1,1,0x000000},{10,23,1,1,0x000000},{10,24,1,1,0x000000},{10,25,1,1,0x000000},{11,21,3,1,0xFFBE2E},{14,21,4,1,0x636363},{18,21,3,1,0xFFBE2E},{21,21,1,1,0x000000},{21,22,1,1,0x000000},{21,23,1,1,0x000000},{21,24,1,1,0x000000},{21,25,1,1,0x000000},{22,21,1,1,0x2A2A2A},{22,22,1,1,0x2A2A2A},{22,23,1,1,0x2A2A2A},{23,21,5,1,0x000000},{5,22,4,1,0x000000},{11,22,1,1,0xEEAF22},{12,22,2,1,0xFFBE2E},{14,22,1,1,0xD9A126},{15,22,2,1,0xFFBE2E},{17,22,1,1,0xD9A126},{18,22,2,1,0xFFBE2E},{20,22,1,1,0xEEAF22},{23,22,4,1,0x000000},{6,23,3,1,0x000000},{11,23,1,1,0x636363},{12,23,2,1,0xEEAF22},{14,23,1,1,0xDD9F15},{15,23,2,1,0xD9A126},{17,23,1,1,0xDD9F15},{18,23,2,1,0xEEAF22},{20,23,1,1,0x636363},{23,23,3,1,0x000000},{11,24,10,1,0x636363},{11,25,10,1,0x636363},{9,26,1,1,0x000000},{9,27,1,1,0x000000},{9,28,1,1,0x000000},{10,26,5,1,0x636363},{15,26,2,1,0x000000},{17,26,5,1,0x636363},{22,26,1,1,0x000000},{22,27,1,1,0x000000},{22,28,1,1,0x000000},{10,27,4,1,0x636363},{14,27,1,1,0x000000},{17,27,1,1,0x000000},{18,27,4,1,0x636363},{10,28,2,1,0x636363},{12,28,3,1,0x000000},{17,28,3,1,0x000000},{20,28,2,1,0x636363},{9,29,6,1,0x000000},{9,30,6,1,0x000000},{9,31,6,1,0x000000},{17,29,6,1,0x000000},{17,30,6,1,0x000000},{17,31,6,1,0x000000}};
+static const PixRect ART_H_grinmask[] = {{12,0,1,1,0x6ABE30},{18,0,2,1,0x6ABE30},{13,1,5,1,0x6ABE30},{21,1,1,1,0x6ABE30},{21,2,1,1,0x6ABE30},{12,2,2,1,0x6ABE30},{14,2,4,1,0xFFFFFF},{18,2,2,1,0x6ABE30},{11,3,2,1,0x6ABE30},{13,3,6,1,0xFFFFFF},{19,3,2,1,0x6ABE30},{10,4,2,1,0x6ABE30},{12,4,8,1,0xFFFFFF},{20,4,2,1,0x6ABE30},{9,5,2,1,0x6ABE30},{11,5,2,1,0xFFFFFF},{13,5,1,1,0xC6C6C6},{14,5,4,1,0xFFFFFF},{18,5,1,1,0xC6C6C6},{19,5,2,1,0xFFFFFF},{21,5,2,1,0x6ABE30},{10,6,1,1,0x6ABE30},{10,7,1,1,0x6ABE30},{11,6,1,1,0xFFFFFF},{12,6,3,1,0x000000},{15,6,2,1,0xFFFFFF},{17,6,3,1,0x000000},{20,6,1,1,0xFFFFFF},{21,6,1,1,0x6ABE30},{21,7,1,1,0x6ABE30},{11,7,2,1,0xFFFFFF},{13,7,1,1,0xC6C6C6},{14,7,4,1,0xFFFFFF},{18,7,1,1,0xC6C6C6},{19,7,2,1,0xFFFFFF},{9,8,2,1,0x6ABE30},{11,8,10,1,0xFFFFFF},{21,8,2,1,0x6ABE30},{10,9,1,1,0x6ABE30},{11,9,2,1,0xFFFFFF},{13,9,2,1,0xAC3232},{15,9,2,1,0xFFFFFF},{17,9,2,1,0xAC3232},{19,9,2,1,0xFFFFFF},{21,9,1,1,0x6ABE30},{11,10,1,1,0x808080},{12,10,3,1,0xFFFFFF},{15,10,2,1,0xAC3232},{17,10,3,1,0xFFFFFF},{20,10,1,1,0x808080},{12,11,1,1,0x808080},{13,11,6,1,0xFFFFFF},{19,11,1,1,0x808080},{5,12,8,1,0x76428A},{13,12,1,1,0x6ABE30},{14,12,4,1,0xFFFFFF},{18,12,1,1,0x6ABE30},{19,12,8,1,0x76428A},{6,13,1,1,0x76428A},{6,14,1,1,0x76428A},{6,15,1,1,0x76428A},{6,16,1,1,0x76428A},{6,17,1,1,0x76428A},{6,18,1,1,0x76428A},{6,19,1,1,0x76428A},{7,13,4,1,0xB24FD9},{11,13,1,1,0x76428A},{12,13,1,1,0xE87009},{13,13,6,1,0x6ABE30},{19,13,1,1,0xE87009},{20,13,1,1,0x76428A},{21,13,4,1,0xB24FD9},{25,13,1,1,0x76428A},{25,14,1,1,0x76428A},{25,15,1,1,0x76428A},{7,14,5,1,0xB24FD9},{7,15,5,1,0xB24FD9},{7,16,5,1,0xB24FD9},{7,17,5,1,0xB24FD9},{12,14,1,1,0x76428A},{12,15,1,1,0x76428A},{12,16,1,1,0x76428A},{12,17,1,1,0x76428A},{12,18,1,1,0x76428A},{13,14,1,1,0xE87009},{13,15,1,1,0xE87009},{14,14,4,1,0x6ABE30},{14,15,4,1,0x6ABE30},{18,14,1,1,0xE87009},{18,15,1,1,0xE87009},{19,14,1,1,0x76428A},{19,15,1,1,0x76428A},{19,16,1,1,0x76428A},{19,17,1,1,0x76428A},{19,18,1,1,0x76428A},{20,14,5,1,0xB24FD9},{20,15,5,1,0xB24FD9},{20,16,5,1,0xB24FD9},{20,17,5,1,0xB24FD9},{13,16,2,1,0xE87009},{13,17,2,1,0xE87009},{15,16,2,1,0x6ABE30},{15,17,2,1,0x6ABE30},{17,16,2,1,0xE87009},{17,17,2,1,0xE87009},{25,16,1,1,0x331D19},{25,17,1,1,0x331D19},{25,18,1,1,0x331D19},{25,19,1,1,0x331D19},{7,18,2,1,0xB24FD9},{7,19,2,1,0xB24FD9},{9,18,1,1,0x76428A},{9,19,1,1,0x76428A},{10,18,2,1,0xB24FD9},{13,18,1,1,0xE87009},{14,18,1,1,0xEC8934},{15,18,2,1,0xE87009},{17,18,1,1,0xEC8934},{18,18,1,1,0xE87009},{20,18,2,1,0xB24FD9},{22,18,1,1,0x76428A},{22,19,1,1,0x76428A},{23,18,2,1,0xB24FD9},{23,19,2,1,0xB24FD9},{10,19,1,1,0xB24FD9},{10,20,1,1,0xB24FD9},{11,19,1,1,0x76428A},{11,20,1,1,0x76428A},{12,19,1,1,0xE87009},{12,20,1,1,0xE87009},{13,19,2,1,0xEC8934},{15,19,2,1,0x8E453B},{17,19,2,1,0xEC8934},{19,19,1,1,0xE87009},{19,20,1,1,0xE87009},{20,19,1,1,0x76428A},{20,20,1,1,0x76428A},{21,19,1,1,0xB24FD9},{21,20,1,1,0xB24FD9},{5,20,2,1,0x355F18},{7,20,2,1,0x6ABE30},{9,20,1,1,0x355F18},{13,20,6,1,0xEC8934},{22,20,1,1,0x355F18},{23,20,2,1,0x6ABE30},{25,20,2,1,0x355F18},{5,21,1,1,0x355F18},{5,22,1,1,0x355F18},{6,21,1,1,0x6ABE30},{7,21,1,1,0x508F24},{8,21,2,1,0x355F18},{10,21,1,1,0x76428A},{10,22,1,1,0x76428A},{10,23,1,1,0x76428A},{10,24,1,1,0x76428A},{10,25,1,1,0x76428A},{11,21,1,1,0xE87009},{11,22,1,1,0xE87009},{12,21,3,1,0xEC8934},{15,21,2,1,0x8E453B},{17,21,3,1,0xEC8934},{20,21,1,1,0xE87009},{20,22,1,1,0xE87009},{21,21,1,1,0x76428A},{21,22,1,1,0x76428A},{21,23,1,1,0x76428A},{21,24,1,1,0x76428A},{21,25,1,1,0x76428A},{22,21,2,1,0x355F18},{24,21,1,1,0x508F24},{25,21,1,1,0x6ABE30},{26,21,1,1,0x355F18},{26,22,1,1,0x355F18},{6,22,2,1,0x6ABE30},{8,22,1,1,0x508F24},{9,22,1,1,0x355F18},{12,22,2,1,0xEC8934},{14,22,1,1,0x8E453B},{15,22,2,1,0x6C2C85},{17,22,1,1,0x8E453B},{18,22,2,1,0xEC8934},{22,22,1,1,0x355F18},{23,22,1,1,0x508F24},{24,22,2,1,0x6ABE30},{6,23,3,1,0x355F18},{11,23,3,1,0x8E453B},{14,23,4,1,0x6C2C85},{18,23,3,1,0x8E453B},{23,23,3,1,0x355F18},{11,24,10,1,0x6C2C85},{11,25,10,1,0x8F3EAF},{9,26,1,1,0x76428A},{9,27,1,1,0x76428A},{9,28,1,1,0x76428A},{9,29,1,1,0x76428A},{9,30,1,1,0x76428A},{10,26,5,1,0xA147C4},{15,26,2,1,0x76428A},{17,26,5,1,0xA147C4},{22,26,1,1,0x76428A},{22,27,1,1,0x76428A},{22,28,1,1,0x76428A},{22,29,1,1,0x76428A},{22,30,1,1,0x76428A},{10,27,4,1,0xB24FD9},{14,27,1,1,0x76428A},{14,28,1,1,0x76428A},{14,29,1,1,0x76428A},{14,30,1,1,0x76428A},{17,27,1,1,0x76428A},{17,28,1,1,0x76428A},{17,29,1,1,0x76428A},{17,30,1,1,0x76428A},{18,27,4,1,0xB24FD9},{10,28,4,1,0x611F7A},{10,29,4,1,0x611F7A},{18,28,4,1,0x611F7A},{18,29,4,1,0x611F7A},{10,30,4,1,0x2F0041},{18,30,4,1,0x2F0041},{9,31,6,1,0x2F0041},{17,31,6,1,0x2F0041}};
+static const PixRect ART_H_redcap[] = {{10,0,12,1,0x561919},{9,1,1,1,0x561919},{10,1,5,1,0xAC3232},{15,1,2,1,0xFFFFFF},{17,1,5,1,0xAC3232},{22,1,1,1,0x561919},{9,2,1,1,0x431313},{10,2,4,1,0xAC3232},{14,2,4,1,0xFFFFFF},{14,3,4,1,0xFFFFFF},{18,2,4,1,0xAC3232},{22,2,1,1,0x431313},{10,3,1,1,0x431313},{11,3,3,1,0x852525},{18,3,3,1,0x852525},{21,3,1,1,0x431313},{11,4,1,1,0x561919},{12,4,3,1,0xAC3232},{15,4,2,1,0xFFFFFF},{17,4,3,1,0xAC3232},{20,4,1,1,0x561919},{11,5,1,1,0x77624D},{12,5,1,1,0x663931},{13,5,6,1,0xAC3232},{19,5,1,1,0x663931},{20,5,1,1,0x77624D},{10,6,1,1,0x77624D},{10,7,1,1,0x77624D},{10,8,1,1,0x77624D},{10,9,1,1,0x77624D},{10,10,1,1,0x77624D},{11,6,2,1,0x663931},{13,6,6,1,0xEEC39A},{19,6,2,1,0x663931},{21,6,1,1,0x77624D},{21,7,1,1,0x77624D},{21,8,1,1,0x77624D},{21,9,1,1,0x77624D},{21,10,1,1,0x77624D},{11,7,1,1,0x663931},{12,7,8,1,0xEEC39A},{20,7,1,1,0x663931},{11,8,2,1,0xEEC39A},{11,9,2,1,0xEEC39A},{13,8,1,1,0x639BFF},{14,8,1,1,0xEEC39A},{15,8,2,1,0xD9A066},{17,8,1,1,0xEEC39A},{18,8,1,1,0x639BFF},{19,8,2,1,0xEEC39A},{19,9,2,1,0xEEC39A},{13,9,1,1,0x5B6EE1},{14,9,3,1,0xEEC39A},{17,9,1,1,0xD9A066},{17,10,1,1,0xD9A066},{18,9,1,1,0x5B6EE1},{11,10,6,1,0xEEC39A},{18,10,3,1,0xEEC39A},{11,11,1,1,0x77624D},{12,11,3,1,0xEEC39A},{15,11,2,1,0xD9A066},{17,11,3,1,0xEEC39A},{20,11,1,1,0x77624D},{12,12,1,1,0x77624D},{13,12,6,1,0xEEC39A},{19,12,1,1,0x77624D},{10,13,3,1,0x561919},{13,13,1,1,0xAC3232},{14,13,4,1,0xEEC39A},{18,13,1,1,0xAC3232},{19,13,3,1,0x561919},{9,14,1,1,0x561919},{10,14,3,1,0xAC3232},{13,14,1,1,0x5B6EE1},{14,14,4,1,0xAC3232},{18,14,1,1,0x5B6EE1},{19,14,3,1,0xAC3232},{22,14,1,1,0x561919},{8,15,1,1,0x561919},{9,15,4,1,0xAC3232},{13,15,2,1,0x5B6EE1},{15,15,2,1,0xAC3232},{15,16,2,1,0xAC3232},{17,15,2,1,0x5B6EE1},{19,15,4,1,0xAC3232},{23,15,1,1,0x561919},{7,16,1,1,0x561919},{7,17,1,1,0x561919},{7,18,1,1,0x561919},{8,16,6,1,0xAC3232},{14,16,1,1,0x5B6EE1},{17,16,1,1,0x5B6EE1},{18,16,6,1,0xAC3232},{24,16,1,1,0x561919},{24,17,1,1,0x561919},{24,18,1,1,0x561919},{8,17,3,1,0xAC3232},{8,18,3,1,0xAC3232},{11,17,1,1,0x561919},{11,18,1,1,0x561919},{11,19,1,1,0x561919},{12,17,2,1,0xAC3232},{12,18,2,1,0xAC3232},{14,17,4,1,0x5B6EE1},{14,18,4,1,0x5B6EE1},{18,17,2,1,0xAC3232},{18,18,2,1,0xAC3232},{20,17,1,1,0x561919},{20,18,1,1,0x561919},{20,19,1,1,0x561919},{21,17,3,1,0xAC3232},{21,18,3,1,0xAC3232},{7,19,1,1,0x808080},{8,19,3,1,0xFFFFFF},{12,19,1,1,0xAC3232},{13,19,6,1,0x5B6EE1},{19,19,1,1,0xAC3232},{21,19,3,1,0xFFFFFF},{24,19,2,1,0x808080},{6,20,1,1,0x808080},{6,21,1,1,0x808080},{6,22,1,1,0x808080},{7,20,4,1,0xFFFFFF},{11,20,1,1,0x2E3771},{11,21,1,1,0x2E3771},{11,22,1,1,0x2E3771},{11,23,1,1,0x2E3771},{11,24,1,1,0x2E3771},{11,25,1,1,0x2E3771},{11,26,1,1,0x2E3771},{11,27,1,1,0x2E3771},{11,28,1,1,0x2E3771},{12,20,2,1,0x5B6EE1},{12,21,2,1,0x5B6EE1},{14,20,1,1,0xFBF236},{14,21,1,1,0xFBF236},{15,20,2,1,0x5B6EE1},{15,21,2,1,0x5B6EE1},{17,20,1,1,0xFBF236},{17,21,1,1,0xFBF236},{18,20,2,1,0x5B6EE1},{18,21,2,1,0x5B6EE1},{20,20,1,1,0x2E3771},{20,21,1,1,0x2E3771},{20,22,1,1,0x2E3771},{20,23,1,1,0x2E3771},{20,24,1,1,0x2E3771},{20,25,1,1,0x2E3771},{20,26,1,1,0x2E3771},{20,27,1,1,0x2E3771},{20,28,1,1,0x2E3771},{21,20,4,1,0xFFFFFF},{25,20,1,1,0x808080},{25,21,1,1,0x808080},{7,21,1,1,0xFFFFFF},{8,21,1,1,0xCBDBFC},{9,21,1,1,0xFFFFFF},{10,21,1,1,0xCBDBFC},{21,21,1,1,0xCBDBFC},{22,21,1,1,0xFFFFFF},{23,21,1,1,0xCBDBFC},{24,21,1,1,0xFFFFFF},{7,22,2,1,0xFFFFFF},{9,22,2,1,0xCBDBFC},{12,22,8,1,0x5B6EE1},{12,23,8,1,0x5B6EE1},{12,24,8,1,0x5B6EE1},{12,25,8,1,0x5B6EE1},{12,26,8,1,0x5B6EE1},{12,27,8,1,0x5B6EE1},{21,22,2,1,0xCBDBFC},{23,22,2,1,0xFFFFFF},{7,23,1,1,0x808080},{8,23,3,1,0xFFFFFF},{21,23,3,1,0xFFFFFF},{24,23,1,1,0x808080},{8,24,3,1,0x808080},{21,24,3,1,0x808080},{12,28,1,1,0x5B6EE1},{13,28,2,1,0x663931},{15,28,2,1,0x5B6EE1},{17,28,2,1,0x663931},{19,28,1,1,0x5B6EE1},{11,29,1,1,0x331D19},{11,30,1,1,0x331D19},{12,29,8,1,0x663931},{12,30,8,1,0x663931},{20,29,1,1,0x331D19},{20,30,1,1,0x331D19},{12,31,8,1,0x331D19}};
+static const PixRect ART_H_arcwarden[] = {{12,1,8,1,0x561919},{11,2,1,1,0x561919},{11,3,1,1,0x561919},{11,4,1,1,0x561919},{12,2,8,1,0xAC3232},{20,2,1,1,0x561919},{20,3,1,1,0x561919},{20,4,1,1,0x561919},{12,3,1,1,0xAC3232},{12,4,1,1,0xAC3232},{13,3,6,1,0xF8C047},{13,4,6,1,0xF8C047},{19,3,1,1,0xAC3232},{19,4,1,1,0xAC3232},{10,5,1,1,0x561919},{10,6,1,1,0x561919},{10,7,1,1,0x561919},{10,8,1,1,0x561919},{10,9,1,1,0x561919},{11,5,2,1,0xAC3232},{13,5,1,1,0xF8C047},{14,5,1,1,0x5FCDE4},{14,6,1,1,0x5FCDE4},{15,5,2,1,0xF8C047},{15,6,2,1,0xF8C047},{17,5,1,1,0x5FCDE4},{17,6,1,1,0x5FCDE4},{18,5,1,1,0xF8C047},{19,5,2,1,0xAC3232},{21,5,1,1,0x561919},{21,6,1,1,0x561919},{21,7,1,1,0x561919},{21,8,1,1,0x561919},{21,9,1,1,0x561919},{11,6,1,1,0xAC3232},{11,7,1,1,0xAC3232},{12,6,2,1,0xF8C047},{18,6,2,1,0xF8C047},{20,6,1,1,0xAC3232},{20,7,1,1,0xAC3232},{12,7,8,1,0xF8C047},{11,8,2,1,0xAC3232},{11,9,2,1,0xAC3232},{13,8,1,1,0xE4B34A},{14,8,4,1,0xF8C047},{18,8,1,1,0xE4B34A},{19,8,2,1,0xAC3232},{19,9,2,1,0xAC3232},{13,9,2,1,0xE4B34A},{15,9,2,1,0xAD8A3F},{17,9,2,1,0xE4B34A},{11,10,1,1,0x561919},{12,10,2,1,0xAC3232},{14,10,1,1,0xE4B34A},{15,10,2,1,0xF8C047},{17,10,1,1,0xE4B34A},{18,10,2,1,0xAC3232},{20,10,1,1,0x561919},{10,11,1,1,0x561919},{11,11,1,1,0x8D8D8D},{12,11,1,1,0x561919},{13,11,6,1,0xAC3232},{19,11,1,1,0x561919},{20,11,1,1,0x8D8D8D},{21,11,1,1,0x561919},{8,12,2,1,0x561919},{10,12,4,1,0x8D8D8D},{14,12,1,1,0x561919},{15,12,2,1,0xAC3232},{17,12,1,1,0x561919},{18,12,4,1,0x8D8D8D},{22,12,2,1,0x561919},{7,13,1,1,0x561919},{8,13,1,1,0xBF5638},{9,13,14,1,0xAC3232},{23,13,1,1,0xBF5638},{24,13,1,1,0x561919},{6,14,1,1,0x561919},{6,15,1,1,0x561919},{6,16,1,1,0x561919},{6,17,1,1,0x561919},{6,18,1,1,0x561919},{6,19,1,1,0x561919},{7,14,1,1,0xAC3232},{7,15,1,1,0xAC3232},{7,16,1,1,0xAC3232},{7,17,1,1,0xAC3232},{7,18,1,1,0xAC3232},{8,14,1,1,0xD2793D},{9,14,1,1,0xBF5638},{10,14,5,1,0xAC3232},{15,14,2,1,0xBB4242},{17,14,1,1,0xA63737},{17,15,1,1,0xA63737},{18,14,4,1,0xAC3232},{22,14,1,1,0xBF5638},{23,14,1,1,0xD2793D},{24,14,1,1,0xAC3232},{24,15,1,1,0xAC3232},{24,16,1,1,0xAC3232},{24,17,1,1,0xAC3232},{24,18,1,1,0xAC3232},{25,14,1,1,0x561919},{25,15,1,1,0x561919},{25,16,1,1,0x561919},{25,17,1,1,0x561919},{25,18,1,1,0x561919},{25,19,1,1,0x561919},{8,15,1,1,0xF8C047},{9,15,1,1,0xD2793D},{10,15,1,1,0xBF5638},{11,15,3,1,0xAC3232},{14,15,1,1,0xBB4242},{14,16,1,1,0xBB4242},{15,15,1,1,0xAFE6F2},{16,15,1,1,0x89C1F9},{18,15,3,1,0xAC3232},{21,15,1,1,0xBF5638},{22,15,1,1,0xD2793D},{23,15,1,1,0xF8C047},{8,16,2,1,0xF8C047},{8,17,2,1,0xF8C047},{10,16,1,1,0xD2793D},{10,17,1,1,0xD2793D},{11,16,1,1,0xBF5638},{11,17,1,1,0xBF5638},{11,18,1,1,0xBF5638},{12,16,2,1,0xAC3232},{12,17,2,1,0xAC3232},{15,16,1,1,0x89C1F9},{16,16,1,1,0x76AEFC},{17,16,1,1,0x9C3131},{18,16,2,1,0xAC3232},{20,16,1,1,0xBF5638},{20,17,1,1,0xBF5638},{20,18,1,1,0xBF5638},{21,16,1,1,0xD2793D},{21,17,1,1,0xD2793D},{22,16,2,1,0xF8C047},{22,17,2,1,0xF8C047},{14,17,2,1,0xA63737},{16,17,1,1,0x9C3131},{17,17,3,1,0xAC3232},{8,18,1,1,0xF8C047},{9,18,1,1,0x7C6024},{10,18,1,1,0x762323},{12,18,8,1,0xAC3232},{21,18,1,1,0x762323},{22,18,1,1,0x7C6024},{23,18,1,1,0xF8C047},{7,19,2,1,0xAC3232},{7,20,2,1,0xAC3232},{9,19,1,1,0x561919},{9,20,1,1,0x561919},{10,19,1,1,0xAC3232},{11,19,2,1,0x762323},{13,19,6,1,0xAC3232},{19,19,2,1,0x762323},{21,19,1,1,0xAC3232},{22,19,1,1,0x561919},{22,20,1,1,0x561919},{23,19,2,1,0xAC3232},{23,20,2,1,0xAC3232},{5,20,2,1,0x7C6024},{10,20,3,1,0xAC3232},{13,20,1,1,0x762323},{14,20,1,1,0xAC3232},{15,20,2,1,0x762323},{17,20,1,1,0xAC3232},{18,20,1,1,0x762323},{19,20,3,1,0xAC3232},{25,20,2,1,0x7C6024},{5,21,1,1,0x7C6024},{5,22,1,1,0x7C6024},{6,21,1,1,0xF8C047},{7,21,1,1,0xBA9036},{8,21,2,1,0x7C6024},{10,21,1,1,0x561919},{10,22,1,1,0x561919},{10,23,1,1,0x561919},{10,24,1,1,0x561919},{10,25,1,1,0x561919},{11,21,3,1,0xAC3232},{14,21,1,1,0x762323},{15,21,2,1,0xAC3232},{17,21,1,1,0x762323},{18,21,3,1,0xAC3232},{21,21,1,1,0x561919},{21,22,1,1,0x561919},{21,23,1,1,0x561919},{21,24,1,1,0x561919},{21,25,1,1,0x561919},{22,21,2,1,0x7C6024},{24,21,1,1,0xBA9036},{25,21,1,1,0xF8C047},{26,21,1,1,0x7C6024},{26,22,1,1,0x7C6024},{6,22,3,1,0xF8C047},{9,22,1,1,0x7C6024},{11,22,2,1,0x762323},{13,22,2,1,0xAC3232},{15,22,2,1,0x762323},{17,22,2,1,0xAC3232},{19,22,2,1,0x762323},{22,22,1,1,0x7C6024},{23,22,3,1,0xF8C047},{6,23,3,1,0x7C6024},{11,23,2,1,0xAC3232},{13,23,2,1,0x762323},{15,23,2,1,0xAC3232},{17,23,2,1,0x762323},{19,23,2,1,0xAC3232},{23,23,3,1,0x7C6024},{11,24,1,1,0x762323},{12,24,3,1,0xAC3232},{15,24,2,1,0x762323},{17,24,3,1,0xAC3232},{20,24,1,1,0x762323},{11,25,1,1,0xAC3232},{12,25,2,1,0xF8C047},{14,25,1,1,0x762323},{15,25,2,1,0xAC3232},{17,25,1,1,0x762323},{18,25,2,1,0xF8C047},{20,25,1,1,0xAC3232},{9,26,1,1,0x561919},{9,27,1,1,0x561919},{9,28,1,1,0x561919},{9,29,1,1,0x561919},{9,30,1,1,0x561919},{10,26,2,1,0xAC3232},{12,26,1,1,0xF8C047},{13,26,2,1,0xAC3232},{15,26,2,1,0x561919},{17,26,2,1,0xAC3232},{19,26,1,1,0xF8C047},{20,26,2,1,0xAC3232},{22,26,1,1,0x561919},{22,27,1,1,0x561919},{22,28,1,1,0x561919},{22,29,1,1,0x561919},{22,30,1,1,0x561919},{10,27,4,1,0xAC3232},{10,28,4,1,0xAC3232},{10,29,4,1,0xAC3232},{14,27,1,1,0x561919},{14,28,1,1,0x561919},{14,29,1,1,0x561919},{14,30,1,1,0x561919},{17,27,1,1,0x561919},{17,28,1,1,0x561919},{17,29,1,1,0x561919},{17,30,1,1,0x561919},{18,27,4,1,0xAC3232},{18,28,4,1,0xAC3232},{18,29,4,1,0xAC3232},{10,30,4,1,0xBB4242},{18,30,4,1,0xBB4242},{9,31,6,1,0xBB4242},{17,31,6,1,0xBB4242}};
+static const PixRect ART_H_elementalist[] = {{14,1,4,1,0x77624D},{13,2,1,1,0x77624D},{14,2,1,1,0xEEC39A},{15,2,2,1,0x639BFF},{15,3,2,1,0x639BFF},{15,4,2,1,0x639BFF},{15,5,2,1,0x639BFF},{17,2,1,1,0xEEC39A},{18,2,1,1,0x77624D},{12,3,1,1,0x77624D},{13,3,2,1,0xEEC39A},{17,3,2,1,0xEEC39A},{19,3,1,1,0x77624D},{11,4,1,1,0x77624D},{12,4,3,1,0xEEC39A},{17,4,3,1,0xEEC39A},{20,4,1,1,0x77624D},{10,5,1,1,0x77624D},{10,6,1,1,0x77624D},{10,7,1,1,0x77624D},{10,8,1,1,0x77624D},{10,9,1,1,0x77624D},{11,5,4,1,0xEEC39A},{17,5,4,1,0xEEC39A},{21,5,1,1,0x77624D},{21,6,1,1,0x77624D},{21,7,1,1,0x77624D},{21,8,1,1,0x77624D},{21,9,1,1,0x77624D},{11,6,3,1,0xEEC39A},{14,6,4,1,0x639BFF},{18,6,3,1,0xEEC39A},{11,7,2,1,0xEEC39A},{11,8,2,1,0xEEC39A},{13,7,1,1,0x000000},{13,8,1,1,0x000000},{14,7,1,1,0xEEC39A},{15,7,2,1,0x639BFF},{17,7,1,1,0xEEC39A},{18,7,1,1,0x000000},{18,8,1,1,0x000000},{19,7,2,1,0xEEC39A},{19,8,2,1,0xEEC39A},{14,8,4,1,0xEEC39A},{11,9,10,1,0xEEC39A},{11,10,1,1,0x77624D},{12,10,8,1,0xEEC39A},{20,10,1,1,0x77624D},{12,11,1,1,0x77624D},{13,11,6,1,0xEEC39A},{19,11,1,1,0x77624D},{8,12,5,1,0x703913},{13,12,1,1,0xDF7126},{14,12,4,1,0xEEC39A},{18,12,1,1,0xDF7126},{19,12,5,1,0x703913},{7,13,1,1,0x703913},{8,13,16,1,0xDF7126},{24,13,1,1,0x703913},{6,14,1,1,0x703913},{6,15,1,1,0x703913},{7,14,1,1,0xDF7126},{8,14,3,1,0xFFBE2E},{11,14,10,1,0xDF7126},{11,15,10,1,0xDF7126},{11,16,10,1,0xDF7126},{21,14,3,1,0xFFBE2E},{24,14,1,1,0xDF7126},{25,14,1,1,0x703913},{25,15,1,1,0x703913},{7,15,3,1,0xEEAF22},{10,15,1,1,0xFFBE2E},{10,16,1,1,0xFFBE2E},{21,15,1,1,0xFFBE2E},{21,16,1,1,0xFFBE2E},{22,15,3,1,0xEEAF22},{6,16,1,1,0x331D19},{6,17,1,1,0x331D19},{6,18,1,1,0x331D19},{6,19,1,1,0x331D19},{7,16,2,1,0x663931},{7,17,2,1,0x663931},{7,18,2,1,0x663931},{7,19,2,1,0x663931},{9,16,1,1,0xEEAF22},{9,17,1,1,0xEEAF22},{22,16,1,1,0xEEAF22},{22,17,1,1,0xEEAF22},{23,16,2,1,0x663931},{23,17,2,1,0x663931},{23,18,2,1,0x663931},{23,19,2,1,0x663931},{25,16,1,1,0x331D19},{25,17,1,1,0x331D19},{25,18,1,1,0x331D19},{25,19,1,1,0x331D19},{10,17,12,1,0xDF7126},{10,18,12,1,0xDF7126},{10,19,12,1,0xDF7126},{10,20,12,1,0xDF7126},{9,18,1,1,0x331D19},{9,19,1,1,0x331D19},{22,18,1,1,0x331D19},{22,19,1,1,0x331D19},{5,20,2,1,0x77624D},{7,20,2,1,0xEEC39A},{9,20,1,1,0x77624D},{22,20,1,1,0x77624D},{23,20,2,1,0xEEC39A},{25,20,2,1,0x77624D},{5,21,1,1,0x77624D},{5,22,1,1,0x77624D},{6,21,1,1,0xEEC39A},{7,21,1,1,0xB39374},{8,21,2,1,0x77624D},{10,21,1,1,0x703913},{10,22,1,1,0x703913},{10,23,1,1,0x703913},{10,24,1,1,0x703913},{10,25,1,1,0x703913},{11,21,3,1,0xFFBE2E},{14,21,4,1,0xDF7126},{18,21,3,1,0xFFBE2E},{21,21,1,1,0x703913},{21,22,1,1,0x703913},{21,23,1,1,0x703913},{21,24,1,1,0x703913},{21,25,1,1,0x703913},{22,21,2,1,0x77624D},{24,21,1,1,0xB39374},{25,21,1,1,0xEEC39A},{26,21,1,1,0x77624D},{26,22,1,1,0x77624D},{6,22,2,1,0xEEC39A},{8,22,1,1,0xB39374},{9,22,1,1,0x77624D},{11,22,1,1,0xEEAF22},{12,22,2,1,0xFFBE2E},{14,22,1,1,0xD9A126},{15,22,2,1,0xFFBE2E},{17,22,1,1,0xD9A126},{18,22,2,1,0xFFBE2E},{20,22,1,1,0xEEAF22},{22,22,1,1,0x77624D},{23,22,1,1,0xB39374},{24,22,2,1,0xEEC39A},{6,23,3,1,0x77624D},{11,23,1,1,0xDF7126},{12,23,2,1,0xEEAF22},{14,23,1,1,0xDD9F15},{15,23,2,1,0xD9A126},{17,23,1,1,0xDD9F15},{18,23,2,1,0xEEAF22},{20,23,1,1,0xDF7126},{23,23,3,1,0x77624D},{11,24,3,1,0xDF7126},{14,24,1,1,0xFFBE2E},{15,24,2,1,0xDF7126},{15,25,2,1,0xDF7126},{17,24,1,1,0xFFBE2E},{18,24,3,1,0xDF7126},{11,25,2,1,0xDF7126},{13,25,2,1,0xFFBE2E},{17,25,2,1,0xFFBE2E},{19,25,2,1,0xDF7126},{9,26,1,1,0x703913},{9,27,1,1,0x703913},{9,28,1,1,0x703913},{9,29,1,1,0x703913},{9,30,1,1,0x703913},{10,26,3,1,0xDF7126},{13,26,1,1,0xFFBE2E},{14,26,1,1,0xDF7126},{15,26,2,1,0x703913},{17,26,1,1,0xDF7126},{18,26,1,1,0xFFBE2E},{19,26,3,1,0xDF7126},{22,26,1,1,0x703913},{22,27,1,1,0x703913},{22,28,1,1,0x703913},{22,29,1,1,0x703913},{22,30,1,1,0x703913},{10,27,4,1,0xDF7126},{14,27,1,1,0x703913},{14,28,1,1,0x703913},{14,29,1,1,0x703913},{14,30,1,1,0x703913},{17,27,1,1,0x703913},{17,28,1,1,0x703913},{17,29,1,1,0x703913},{17,30,1,1,0x703913},{18,27,4,1,0xDF7126},{10,28,4,1,0x8A4821},{10,29,4,1,0x8A4821},{18,28,4,1,0x8A4821},{18,29,4,1,0x8A4821},{10,30,4,1,0x351F1B},{18,30,4,1,0x351F1B},{9,31,6,1,0x351F1B},{17,31,6,1,0x351F1B}};
+const PixArt ART_HAT[10] = {{ART_H_helm,20},{ART_H_wizard,16},{ART_H_leaf,22},{ART_H_crown,26},{nullptr,0},{ART_H_nightwarden,138},{ART_H_grinmask,222},{ART_H_redcap,190},{ART_H_arcwarden,260},{ART_H_elementalist,200}};
+static const PixRect ART_F_beard[] = {{8,14,16,1,0x6B4A2E},{8,15,16,1,0x6B4A2E},{8,16,16,1,0x6B4A2E},{8,17,16,1,0x6B4A2E},{10,18,12,1,0x6B4A2E},{10,19,12,1,0x6B4A2E},{10,16,2,1,0xA07A50},{10,17,2,1,0xA07A50},{20,16,2,1,0x4A3028},{20,17,2,1,0x4A3028}};
+static const PixRect ART_F_glasses[] = {{11,11,3,1,0x0B0A12},{18,11,3,1,0x0B0A12},{10,12,1,1,0x0B0A12},{10,13,1,1,0x0B0A12},{14,12,4,1,0x0B0A12},{21,12,1,1,0x0B0A12},{21,13,1,1,0x0B0A12},{14,13,1,1,0x0B0A12},{17,13,1,1,0x0B0A12},{11,14,3,1,0x0B0A12},{18,14,3,1,0x0B0A12}};
+static const PixRect ART_F_freckles[] = {{10,14,2,1,0xC8845A},{10,15,2,1,0xC8845A},{14,14,2,1,0xC8845A},{14,15,2,1,0xC8845A},{16,14,2,1,0xC8845A},{16,15,2,1,0xC8845A},{20,14,2,1,0xC8845A},{20,15,2,1,0xC8845A},{12,16,2,1,0xF0B080},{12,17,2,1,0xF0B080},{22,16,2,1,0xF0B080},{22,17,2,1,0xF0B080}};
+static const PixRect ART_F_dwarf_beard[] = {{6,14,20,1,0xC8845A},{6,15,20,1,0xC8845A},{6,16,20,1,0xC8845A},{6,17,20,1,0xC8845A},{6,18,20,1,0xC8845A},{6,19,20,1,0xC8845A},{8,20,16,1,0x6B4A2E},{8,21,16,1,0x6B4A2E},{8,22,16,1,0x6B4A2E},{8,23,16,1,0x6B4A2E},{12,24,8,1,0x6B4A2E},{12,25,8,1,0x6B4A2E}};
+const PixArt ART_FACE[6] = {{ART_F_beard,10},{ART_F_glasses,11},{nullptr,0},{ART_F_freckles,12},{nullptr,0},{ART_F_dwarf_beard,12}};
+static const PixRect ART_I_leaf[] = {{12,0,2,1,0x57B012},{8,1,2,1,0x57B012},{10,1,2,1,0x4AA007},{12,1,2,1,0x1B8509},{6,2,2,1,0x57B012},{8,2,2,1,0x4AA007},{10,2,2,1,0x1B8509},{12,2,1,1,0x1A4E10},{13,2,1,1,0x1B8509},{5,3,1,1,0x57B012},{6,3,3,1,0x1B8509},{9,3,1,1,0x1A4E10},{10,3,1,1,0x1B8509},{11,3,1,1,0x1A4E10},{12,3,2,1,0x1B8509},{14,3,1,1,0x157205},{14,4,1,1,0x157205},{4,4,1,1,0x57B012},{4,5,1,1,0x57B012},{5,4,1,1,0x4AA007},{5,5,1,1,0x4AA007},{6,4,4,1,0x1B8509},{10,4,1,1,0x1A4E10},{10,5,1,1,0x1A4E10},{11,4,3,1,0x1B8509},{6,5,1,1,0x1B8509},{7,5,1,1,0x1A4E10},{8,5,2,1,0x1B8509},{11,5,4,1,0x1B8509},{15,5,1,1,0x157205},{15,6,1,1,0x157205},{3,6,1,1,0x157205},{3,7,1,1,0x157205},{4,6,5,1,0x1B8509},{9,6,3,1,0x1A4E10},{12,6,3,1,0x1B8509},{4,7,11,1,0x1B8509},{15,7,1,1,0x105A03},{15,8,1,1,0x105A03},{15,9,1,1,0x105A03},{3,8,1,1,0x105A03},{3,9,1,1,0x105A03},{4,8,2,1,0x1B8509},{6,8,1,1,0x1A4E10},{6,9,1,1,0x1A4E10},{7,8,2,1,0x1B8509},{9,8,1,1,0x1A4E10},{10,8,2,1,0x1B8509},{12,8,1,1,0x1A4E10},{13,8,2,1,0x1B8509},{4,9,1,1,0x136206},{5,9,1,1,0x1B8509},{7,9,1,1,0x1B8509},{8,9,1,1,0x1A4E10},{9,9,1,1,0x1B8509},{10,9,2,1,0x1A4E10},{12,9,2,1,0x1B8509},{14,9,1,1,0x136206},{4,10,1,1,0x105A03},{5,10,1,1,0x136206},{6,10,1,1,0x1B8509},{6,11,1,1,0x1B8509},{7,10,1,1,0x1A4E10},{7,11,1,1,0x1A4E10},{7,12,1,1,0x1A4E10},{8,10,6,1,0x1B8509},{14,10,1,1,0x105A03},{5,11,1,1,0x105A03},{8,11,5,1,0x1B8509},{13,11,1,1,0x136206},{6,12,1,1,0x136206},{8,12,5,1,0x136206},{13,12,1,1,0x105A03},{6,13,2,1,0x136206},{8,13,1,1,0x105A03},{5,14,1,1,0x105A03},{6,14,1,1,0x136206},{7,14,1,1,0x105A03},{5,15,2,1,0x105A03}};
 static const PixRect ART_I_pyr[] = {{7,2,2,1,0xF0C860},{7,3,2,1,0xF0C860},{6,4,4,1,0xF0C860},{6,5,4,1,0xF0C860},{5,6,6,1,0xF0C860},{5,7,6,1,0xF0C860},{4,8,8,1,0xF0C860},{4,9,8,1,0xF0C860},{3,10,10,1,0xF0C860},{3,11,10,1,0xF0C860},{2,12,12,1,0xB88A30},{2,13,12,1,0xB88A30},{7,4,1,1,0xFFF0B0},{7,5,1,1,0xFFF0B0}};
 static const PixRect ART_I_snow[] = {{7,0,2,1,0xCFE8F5},{7,1,2,1,0xCFE8F5},{7,2,2,1,0xCFE8F5},{7,3,2,1,0xCFE8F5},{7,4,2,1,0xCFE8F5},{7,5,2,1,0xCFE8F5},{7,6,2,1,0xCFE8F5},{7,7,2,1,0xCFE8F5},{7,8,2,1,0xCFE8F5},{7,9,2,1,0xCFE8F5},{7,10,2,1,0xCFE8F5},{7,11,2,1,0xCFE8F5},{7,12,2,1,0xCFE8F5},{7,13,2,1,0xCFE8F5},{7,14,2,1,0xCFE8F5},{7,15,2,1,0xCFE8F5},{1,4,3,1,0xCFE8F5},{2,5,3,1,0xCFE8F5},{4,6,3,1,0xCFE8F5},{6,7,3,1,0xCFE8F5},{7,8,3,1,0xCFE8F5},{9,9,3,1,0xCFE8F5},{11,10,3,1,0xCFE8F5},{12,11,3,1,0xCFE8F5},{12,4,3,1,0xCFE8F5},{11,5,3,1,0xCFE8F5},{9,6,3,1,0xCFE8F5},{7,7,3,1,0xCFE8F5},{6,8,3,1,0xCFE8F5},{4,9,3,1,0xCFE8F5},{2,10,3,1,0xCFE8F5},{1,11,3,1,0xCFE8F5},{6,6,4,1,0xF0EAD6},{6,7,4,1,0xF0EAD6},{6,8,4,1,0xF0EAD6},{6,9,4,1,0xF0EAD6},{6,2,4,1,0xF0EAD6},{6,13,4,1,0xF0EAD6}};
 static const PixRect ART_I_peak[] = {{7,2,2,1,0xF0EAD6},{7,3,2,1,0xF0EAD6},{6,4,4,1,0xF0EAD6},{6,5,4,1,0xF0EAD6},{5,6,6,1,0x9B92B0},{5,7,6,1,0x9B92B0},{4,8,8,1,0x9B92B0},{4,9,8,1,0x9B92B0},{3,10,10,1,0x9B92B0},{3,11,10,1,0x9B92B0},{2,12,12,1,0x6B6480},{2,13,12,1,0x6B6480}};
@@ -1675,16 +1664,16 @@ static const PixRect ART_I_star[] = {{7,2,2,1,0x8B5FBF},{7,3,2,1,0x8B5FBF},{7,4,
 static const PixRect ART_I_skull[] = {{3,2,10,1,0xF0EAD6},{3,3,10,1,0xF0EAD6},{3,4,10,1,0xF0EAD6},{3,5,10,1,0xF0EAD6},{3,6,10,1,0xF0EAD6},{3,7,10,1,0xF0EAD6},{3,8,10,1,0xF0EAD6},{3,9,10,1,0xF0EAD6},{4,10,8,1,0xF0EAD6},{4,11,8,1,0xF0EAD6},{4,12,8,1,0xF0EAD6},{5,6,2,1,0x0B0A12},{5,7,2,1,0x0B0A12},{9,6,2,1,0x0B0A12},{9,7,2,1,0x0B0A12},{7,9,2,1,0x0B0A12}};
 static const PixRect ART_I_clock[] = {{6,2,4,1,0xF0EAD6},{4,3,8,1,0xF0EAD6},{3,4,10,1,0xF0EAD6},{3,5,10,1,0xF0EAD6},{2,6,12,1,0xF0EAD6},{2,7,12,1,0xF0EAD6},{2,8,12,1,0xF0EAD6},{2,9,12,1,0xF0EAD6},{3,10,10,1,0xF0EAD6},{3,11,10,1,0xF0EAD6},{4,12,8,1,0xF0EAD6},{6,13,4,1,0xF0EAD6},{5,2,6,1,0x0B0A12},{3,3,2,1,0x0B0A12},{11,3,2,1,0x0B0A12},{3,4,1,1,0x0B0A12},{12,4,1,1,0x0B0A12},{2,5,1,1,0x0B0A12},{13,5,1,1,0x0B0A12},{2,6,1,1,0x0B0A12},{13,6,1,1,0x0B0A12},{2,7,1,1,0x0B0A12},{13,7,1,1,0x0B0A12},{2,8,1,1,0x0B0A12},{13,8,1,1,0x0B0A12},{2,9,1,1,0x0B0A12},{13,9,1,1,0x0B0A12},{2,10,1,1,0x0B0A12},{13,10,1,1,0x0B0A12},{3,11,1,1,0x0B0A12},{12,11,1,1,0x0B0A12},{3,12,2,1,0x0B0A12},{11,12,2,1,0x0B0A12},{5,13,6,1,0x0B0A12},{7,4,1,1,0x0B0A12},{7,5,1,1,0x0B0A12},{7,6,1,1,0x0B0A12},{7,7,1,1,0x0B0A12},{7,8,1,1,0x0B0A12},{7,8,3,1,0x0B0A12}};
 static const PixRect ART_I_trophy[] = {{4,2,8,1,0xE8B54B},{4,3,8,1,0xE8B54B},{4,4,8,1,0xE8B54B},{4,5,8,1,0xE8B54B},{4,6,8,1,0xE8B54B},{7,7,2,1,0xE8B54B},{7,8,2,1,0xE8B54B},{7,9,2,1,0xE8B54B},{7,10,2,1,0xE8B54B},{5,11,6,1,0xE8B54B},{5,12,6,1,0xE8B54B},{2,3,2,1,0xE8B54B},{2,4,2,1,0xE8B54B},{2,5,2,1,0xE8B54B},{12,3,2,1,0xE8B54B},{12,4,2,1,0xE8B54B},{12,5,2,1,0xE8B54B}};
-static const PixRect ART_I_dagger[] = {{12,1,2,1,0xC8D0D8},{12,2,2,1,0xC8D0D8},{10,3,2,1,0xC8D0D8},{10,4,2,1,0xC8D0D8},{8,5,2,1,0xC8D0D8},{8,6,2,1,0xC8D0D8},{6,7,2,1,0xC8D0D8},{6,8,2,1,0xC8D0D8},{12,1,1,1,0xF0EAD6},{2,7,2,1,0xE8B54B},{2,8,2,1,0xE8B54B},{4,9,2,1,0xE8B54B},{4,10,2,1,0xE8B54B},{6,11,2,1,0xE8B54B},{6,12,2,1,0xE8B54B},{2,11,2,1,0x6B4A2E},{2,12,2,1,0x6B4A2E},{0,13,2,1,0x6B4A2E},{0,14,2,1,0x6B4A2E}};
-static const PixRect ART_I_bow[] = {{9,1,3,1,0x9A6A30},{9,2,3,1,0x9A6A30},{11,3,2,1,0x9A6A30},{11,4,2,1,0x9A6A30},{11,5,2,1,0x9A6A30},{12,6,2,1,0x9A6A30},{12,7,2,1,0x9A6A30},{12,8,2,1,0x9A6A30},{12,9,2,1,0x9A6A30},{11,10,2,1,0x9A6A30},{11,11,2,1,0x9A6A30},{11,12,2,1,0x9A6A30},{9,13,3,1,0x9A6A30},{9,14,3,1,0x9A6A30},{8,3,1,1,0xF0EAD6},{8,4,1,1,0xF0EAD6},{8,5,1,1,0xF0EAD6},{8,6,1,1,0xF0EAD6},{8,7,1,1,0xF0EAD6},{8,8,1,1,0xF0EAD6},{8,9,1,1,0xF0EAD6},{8,10,1,1,0xF0EAD6},{8,11,1,1,0xF0EAD6},{8,12,1,1,0xF0EAD6},{2,8,10,1,0x9B92B0},{1,7,2,1,0xC8D0D8},{1,8,2,1,0xC8D0D8},{1,9,2,1,0xC8D0D8},{10,7,2,1,0xC43D3D},{10,9,2,1,0xC43D3D}};
-static const PixRect ART_I_axe[] = {{7,2,4,1,0x9B92B0},{7,3,4,1,0x9B92B0},{9,4,5,1,0x9B92B0},{9,5,5,1,0x9B92B0},{9,6,5,1,0x9B92B0},{11,7,2,1,0x9B92B0},{8,2,1,1,0xF0EAD6},{8,6,2,1,0x6B4A2E},{8,7,2,1,0x6B4A2E},{6,8,2,1,0x6B4A2E},{6,9,2,1,0x6B4A2E},{4,10,2,1,0x6B4A2E},{4,11,2,1,0x6B4A2E},{2,12,2,1,0x6B4A2E},{2,13,2,1,0x6B4A2E}};
-static const PixRect ART_I_staff[] = {{10,1,4,1,0x8B5FBF},{10,2,4,1,0x8B5FBF},{10,3,4,1,0x8B5FBF},{10,4,4,1,0x8B5FBF},{11,2,1,1,0xD8B8F0},{8,5,2,1,0x6B4A2E},{8,6,2,1,0x6B4A2E},{6,7,2,1,0x6B4A2E},{6,8,2,1,0x6B4A2E},{4,9,2,1,0x6B4A2E},{4,10,2,1,0x6B4A2E},{2,11,2,1,0x6B4A2E},{2,12,2,1,0x6B4A2E},{1,13,2,1,0x6B4A2E},{1,14,2,1,0x6B4A2E}};
-static const PixRect ART_I_shotgun[] = {{2,4,10,1,0x6B4A2E},{2,5,10,1,0x6B4A2E},{2,6,10,1,0x6B4A2E},{2,7,10,1,0x6B4A2E},{10,3,4,1,0xC8D0D8},{10,4,4,1,0xC8D0D8},{10,5,4,1,0xC8D0D8},{5,8,3,1,0x6B4A2E},{5,9,3,1,0x6B4A2E},{5,10,3,1,0x6B4A2E},{5,11,3,1,0x6B4A2E},{5,12,3,1,0x6B4A2E},{5,13,3,1,0x6B4A2E},{3,3,6,1,0x9B92B0},{3,4,6,1,0x9B92B0}};
-static const PixRect ART_I_pistol[] = {{2,4,10,1,0xC8D0D8},{2,5,10,1,0xC8D0D8},{2,6,10,1,0xC8D0D8},{10,3,4,1,0xE8E0C0},{10,4,4,1,0xE8E0C0},{6,7,3,1,0x6B4A2E},{6,8,3,1,0x6B4A2E},{6,9,3,1,0x6B4A2E},{6,10,3,1,0x6B4A2E},{6,11,3,1,0x6B4A2E},{6,12,3,1,0x6B4A2E},{5,7,5,1,0x6B4A2E},{5,8,5,1,0x6B4A2E}};
-static const PixRect ART_I_trident[] = {{7,1,2,1,0xC8D0D8},{7,2,2,1,0xC8D0D8},{7,3,2,1,0xC8D0D8},{7,4,2,1,0xC8D0D8},{7,5,2,1,0xC8D0D8},{7,6,2,1,0xC8D0D8},{7,7,2,1,0xC8D0D8},{7,8,2,1,0xC8D0D8},{7,9,2,1,0xC8D0D8},{7,10,2,1,0xC8D0D8},{7,11,2,1,0xC8D0D8},{3,1,2,1,0xC8D0D8},{3,2,2,1,0xC8D0D8},{3,3,2,1,0xC8D0D8},{3,4,2,1,0xC8D0D8},{3,5,2,1,0xC8D0D8},{11,1,2,1,0xC8D0D8},{11,2,2,1,0xC8D0D8},{11,3,2,1,0xC8D0D8},{11,4,2,1,0xC8D0D8},{11,5,2,1,0xC8D0D8},{4,5,8,1,0xC8D0D8},{4,6,8,1,0xC8D0D8},{7,12,2,1,0x6B4A2E},{7,13,2,1,0x6B4A2E},{7,14,2,1,0x6B4A2E}};
-static const PixRect ART_I_chest[] = {{2,5,12,1,0x6B4A2E},{2,6,12,1,0x6B4A2E},{2,7,12,1,0x6B4A2E},{2,8,12,1,0x6B4A2E},{2,9,12,1,0x6B4A2E},{2,10,12,1,0x6B4A2E},{2,11,12,1,0x6B4A2E},{2,12,12,1,0x6B4A2E},{2,5,12,1,0xE8B54B},{2,6,12,1,0xE8B54B},{7,8,2,1,0xE8B54B},{7,9,2,1,0xE8B54B}};
+static const PixRect ART_I_dagger[] = {{10,3,3,1,0x000000},{9,4,1,1,0x000000},{10,4,1,1,0xFFFFFF},{11,4,1,1,0xDFDFDF},{12,4,1,1,0x000000},{12,5,1,1,0x000000},{8,5,1,1,0x000000},{9,5,1,1,0xFFFFFF},{10,5,1,1,0xDFDFDF},{11,5,1,1,0xC4C4C4},{7,6,1,1,0x000000},{8,6,1,1,0xFFFFFF},{9,6,1,1,0xDFDFDF},{10,6,1,1,0xC4C4C4},{11,6,1,1,0x000000},{6,7,1,1,0x000000},{6,8,1,1,0x000000},{7,7,1,1,0xF9DC52},{8,7,1,1,0x000000},{9,7,1,1,0xC4C4C4},{10,7,1,1,0x000000},{7,8,1,1,0xD7B300},{8,8,1,1,0xF9DC52},{9,8,1,1,0x000000},{5,9,1,1,0x000000},{6,9,1,1,0x9A7025},{7,9,2,1,0x000000},{4,10,1,1,0x000000},{5,10,1,1,0x6F4804},{6,10,1,1,0x000000},{4,11,2,1,0x000000}};
+static const PixRect ART_I_bow[] = {{1,1,1,1,0xA8773A},{1,2,1,1,0xA8773A},{2,2,2,1,0xA17135},{1,3,1,1,0xBBBBBB},{3,3,2,1,0x9E6E33},{5,3,1,1,0x9A6A30},{2,4,1,1,0xBBBBBB},{5,4,3,1,0x9A6A30},{3,5,1,1,0xBBBBBB},{7,5,2,1,0x9A6A30},{4,6,1,1,0xBBBBBB},{8,6,2,1,0x9A6A30},{5,7,1,1,0xBBBBBB},{9,7,2,1,0x9A6A30},{6,8,1,1,0xBBBBBB},{10,8,2,1,0x9A6A30},{7,9,1,1,0xBBBBBB},{11,9,1,1,0x9A6A30},{8,10,1,1,0xBBBBBB},{11,10,2,1,0x9A6A30},{9,11,1,1,0xBBBBBB},{12,11,1,1,0x95662E},{12,12,1,1,0x95662E},{10,12,1,1,0xBBBBBB},{13,12,1,1,0x8F622B},{13,13,1,1,0x8F622B},{11,13,1,1,0xBBBBBB},{12,14,1,1,0xBBBBBB},{13,14,2,1,0x845925}};
+static const PixRect ART_I_axe[] = {{6,2,3,1,0xC8C8C8},{5,3,5,1,0xC8C8C8},{5,4,2,1,0xC8C8C8},{7,4,3,1,0x969696},{5,5,1,1,0xC8C8C8},{6,5,4,1,0x969696},{10,5,1,1,0x8B5C34},{11,5,1,1,0x895020},{6,6,3,1,0x969696},{9,6,1,1,0x8B5C34},{10,6,2,1,0x895020},{7,7,1,1,0x969696},{8,7,1,1,0x8B5C34},{9,7,2,1,0x895020},{7,8,1,1,0x8B5C34},{8,8,1,1,0x895020},{9,8,1,1,0x804A1D},{10,8,1,1,0x969696},{11,8,1,1,0xC8C8C8},{6,9,1,1,0x8B5C34},{7,9,1,1,0x895020},{8,9,1,1,0x804A1D},{10,9,2,1,0xC8C8C8},{5,10,1,1,0x8B5C34},{6,10,1,1,0x895020},{7,10,1,1,0x804A1D},{4,11,1,1,0x8B5C34},{5,11,1,1,0x925623},{6,11,1,1,0x804A1D},{3,12,1,1,0x8B5C34},{4,12,1,1,0x925623},{5,12,1,1,0x804A1D},{3,13,1,1,0x925623},{4,13,1,1,0x804A1D}};
+static const PixRect ART_I_staff[] = {{13,0,3,1,0x000000},{12,1,1,1,0x000000},{13,1,1,1,0xB863FF},{14,1,1,1,0xD0A1FF},{15,1,1,1,0x000000},{15,2,1,1,0x000000},{11,2,1,1,0x000000},{11,3,1,1,0x000000},{12,2,2,1,0xB863FF},{14,2,1,1,0x9E5BE1},{12,3,2,1,0x9E5BE1},{14,3,1,1,0x000000},{10,4,1,1,0x000000},{11,4,1,1,0xE7E7E7},{12,4,2,1,0x000000},{9,5,1,1,0x000000},{10,5,1,1,0xE7E7E7},{11,5,1,1,0x000000},{8,6,1,1,0x000000},{9,6,1,1,0xE7E7E7},{10,6,1,1,0x000000},{7,7,1,1,0x000000},{8,7,1,1,0x8F563B},{9,7,1,1,0x000000},{6,8,1,1,0x000000},{7,8,1,1,0x8F563B},{8,8,1,1,0x000000},{5,9,1,1,0x000000},{6,9,1,1,0x8F563B},{7,9,1,1,0x000000},{4,10,1,1,0x000000},{5,10,1,1,0x8F563B},{6,10,1,1,0x000000},{3,11,1,1,0x000000},{4,11,1,1,0x8F563B},{5,11,1,1,0x000000},{2,12,1,1,0x000000},{3,12,1,1,0x8F563B},{4,12,1,1,0x000000},{1,13,1,1,0x000000},{2,13,1,1,0x8F563B},{3,13,1,1,0x000000},{0,14,1,1,0x000000},{1,14,1,1,0x8F563B},{2,14,1,1,0x000000},{0,15,2,1,0x000000}};
+static const PixRect ART_I_shotgun[] = {{5,5,11,1,0x131013},{4,6,1,1,0x131013},{5,6,2,1,0x333333},{5,7,2,1,0x333333},{7,6,1,1,0x4C4C4C},{8,6,1,1,0x3D3D3D},{9,6,3,1,0x333333},{12,6,1,1,0x3D3D3D},{13,6,2,1,0x333333},{15,6,1,1,0x131013},{0,7,5,1,0x131013},{7,7,2,1,0x3D3D3D},{9,7,2,1,0x4C4C4C},{11,7,2,1,0x683017},{13,7,1,1,0x3D3D3D},{14,7,2,1,0x131013},{0,8,1,1,0x131013},{0,9,1,1,0x131013},{0,10,1,1,0x131013},{0,11,1,1,0x131013},{1,8,3,1,0x683017},{4,8,1,1,0x874C36},{4,9,1,1,0x874C36},{5,8,1,1,0x333333},{6,8,9,1,0x131013},{1,9,1,1,0x874C36},{2,9,2,1,0x683017},{5,9,2,1,0x131013},{1,10,3,1,0x683017},{4,10,1,1,0x131013},{1,11,1,1,0x683017},{2,11,2,1,0x131013},{1,12,2,1,0x131013}};
+static const PixRect ART_I_pistol[] = {{3,5,12,1,0x131013},{3,6,1,1,0x131013},{3,7,1,1,0x131013},{4,6,10,1,0x333333},{14,6,1,1,0x131013},{14,7,1,1,0x131013},{4,7,1,1,0x3D3D3D},{5,7,1,1,0x4C4C4C},{6,7,1,1,0x3D3D3D},{7,7,1,1,0x4C4C4C},{8,7,1,1,0x3D3D3D},{9,7,1,1,0x4C4C4C},{10,7,1,1,0x3D3D3D},{11,7,1,1,0x4C4C4C},{12,7,1,1,0x3D3D3D},{13,7,1,1,0x333333},{3,8,2,1,0x131013},{3,9,2,1,0x131013},{5,8,2,1,0x3D3D3D},{7,8,1,1,0x131013},{8,8,1,1,0x4C4C4C},{9,8,6,1,0x131013},{5,9,1,1,0x4C4C4C},{6,9,1,1,0x3D3D3D},{7,9,1,1,0x4C4C4C},{8,9,2,1,0x131013},{3,10,1,1,0x131013},{3,11,1,1,0x131013},{4,10,1,1,0x4C4C4C},{4,11,1,1,0x4C4C4C},{5,10,3,1,0x3D3D3D},{8,10,1,1,0x131013},{5,11,2,1,0x3D3D3D},{7,11,2,1,0x131013},{3,12,5,1,0x131013}};
+static const PixRect ART_I_trident[] = {{11,0,2,1,0x000000},{10,1,1,1,0x000000},{11,1,1,1,0xEFF1F1},{12,1,3,1,0x000000},{9,2,1,1,0x000000},{10,2,1,1,0xEFF1F1},{11,2,2,1,0x000000},{13,2,1,1,0xD1D9DD},{14,2,1,1,0x000000},{8,3,1,1,0x000000},{9,3,1,1,0xEFF1F1},{10,3,2,1,0x000000},{12,3,1,1,0xD1D9DD},{13,3,3,1,0x000000},{7,4,1,1,0x000000},{8,4,1,1,0xEFF1F1},{9,4,2,1,0x000000},{11,4,1,1,0xD1D9DD},{12,4,2,1,0x000000},{14,4,1,1,0xB3C0C8},{15,4,1,1,0x000000},{6,5,1,1,0x000000},{7,5,1,1,0xEFF1F1},{8,5,2,1,0x000000},{10,5,1,1,0xD1D9DD},{11,5,2,1,0x000000},{13,5,1,1,0xB3C0C8},{14,5,1,1,0x000000},{5,6,1,1,0x000000},{5,7,1,1,0x000000},{6,6,1,1,0xEFF1F1},{7,6,2,1,0x000000},{9,6,1,1,0xD1D9DD},{10,6,2,1,0x000000},{12,6,1,1,0xB3C0C8},{13,6,1,1,0x000000},{6,7,1,1,0x414141},{7,7,2,1,0xD1D9DD},{9,7,2,1,0x000000},{11,7,1,1,0xB3C0C8},{12,7,1,1,0x000000},{6,8,1,1,0x000000},{7,8,1,1,0x414141},{8,8,1,1,0xB3C0C8},{9,8,1,1,0x000000},{10,8,1,1,0xB3C0C8},{11,8,1,1,0x000000},{5,9,1,1,0x000000},{6,9,1,1,0x414141},{7,9,1,1,0x000000},{8,9,1,1,0x414141},{9,9,1,1,0xB3C0C8},{10,9,1,1,0x000000},{4,10,1,1,0x000000},{5,10,1,1,0x414141},{6,10,1,1,0x000000},{8,10,2,1,0x000000},{3,11,1,1,0x000000},{4,11,1,1,0x414141},{5,11,1,1,0x000000},{2,12,1,1,0x000000},{3,12,1,1,0x353535},{4,12,1,1,0x000000},{1,13,1,1,0x000000},{2,13,1,1,0x353535},{3,13,1,1,0x000000},{0,14,1,1,0x000000},{1,14,1,1,0x353535},{2,14,1,1,0x000000},{0,15,2,1,0x000000}};
+static const PixRect ART_I_chest[] = {{3,3,10,1,0x070707},{2,4,1,1,0x070707},{3,4,1,1,0xEBBB00},{4,4,1,1,0x835835},{5,4,6,1,0xB38047},{11,4,1,1,0x835835},{12,4,1,1,0xEBBB00},{13,4,1,1,0x070707},{1,5,1,1,0x070707},{1,6,1,1,0x070707},{1,7,1,1,0x070707},{1,8,1,1,0x070707},{1,9,1,1,0x070707},{1,10,1,1,0x070707},{2,5,1,1,0xD28100},{2,6,1,1,0xD28100},{3,5,1,1,0xFFFFBB},{3,6,1,1,0xFFFFBB},{4,5,1,1,0xB38047},{5,5,6,1,0xD09F69},{11,5,1,1,0xB38047},{12,5,1,1,0xFFFFBB},{12,6,1,1,0xFFFFBB},{13,5,1,1,0xD28100},{13,6,1,1,0xD28100},{14,5,1,1,0x070707},{14,6,1,1,0x070707},{14,7,1,1,0x070707},{14,8,1,1,0x070707},{14,9,1,1,0x070707},{14,10,1,1,0x070707},{4,6,1,1,0x835835},{5,6,6,1,0xB38047},{11,6,1,1,0x835835},{2,7,1,1,0xEBBB00},{2,8,1,1,0xEBBB00},{3,7,1,1,0xFDFF00},{4,7,1,1,0xB38047},{5,7,6,1,0xD09F69},{11,7,1,1,0xB38047},{12,7,1,1,0xFDFF00},{13,7,1,1,0xEBBB00},{13,8,1,1,0xEBBB00},{3,8,1,1,0xD28100},{4,8,1,1,0x835835},{5,8,1,1,0xB38047},{6,8,4,1,0xFFFFBB},{10,8,1,1,0xB38047},{11,8,1,1,0x835835},{12,8,1,1,0xD28100},{2,9,1,1,0xFDFF00},{3,9,1,1,0xFFFFBB},{4,9,1,1,0xFDFF00},{5,9,1,1,0xD28100},{6,9,4,1,0xFDFF00},{10,9,1,1,0xD28100},{11,9,1,1,0xFDFF00},{12,9,1,1,0xFFFFBB},{13,9,1,1,0xFDFF00},{2,10,3,1,0xD28100},{5,10,1,1,0xA84D00},{6,10,1,1,0xEBBB00},{7,10,2,1,0x452E25},{9,10,1,1,0xEBBB00},{10,10,1,1,0xA84D00},{11,10,3,1,0xD28100},{2,11,1,1,0x070707},{2,12,1,1,0x070707},{2,13,1,1,0x070707},{3,11,1,1,0xA84D00},{4,11,1,1,0x452E25},{5,11,1,1,0x58362A},{6,11,4,1,0xD28100},{10,11,1,1,0x58362A},{11,11,1,1,0x452E25},{12,11,1,1,0xA84D00},{13,11,1,1,0x070707},{13,12,1,1,0x070707},{13,13,1,1,0x070707},{3,12,1,1,0xD28100},{4,12,1,1,0x58362A},{5,12,6,1,0x6E492F},{11,12,1,1,0x58362A},{12,12,1,1,0xD28100},{3,13,1,1,0xA84D00},{4,13,1,1,0x452E25},{5,13,6,1,0x58362A},{11,13,1,1,0x452E25},{12,13,1,1,0xA84D00},{2,14,12,1,0x070707}};
 static const PixRect ART_I_bug[] = {{5,5,6,1,0xC43D3D},{5,6,6,1,0xC43D3D},{5,7,6,1,0xC43D3D},{5,8,6,1,0xC43D3D},{5,9,6,1,0xC43D3D},{5,10,6,1,0xC43D3D},{5,11,6,1,0xC43D3D},{7,3,2,1,0xC43D3D},{7,4,2,1,0xC43D3D},{3,6,2,1,0xC43D3D},{11,6,2,1,0xC43D3D},{3,9,2,1,0xC43D3D},{11,9,2,1,0xC43D3D},{6,7,1,1,0x0B0A12},{9,7,1,1,0x0B0A12}};
 static const PixRect ART_I_sprout[] = {{7,8,2,1,0x2F6B3A},{7,9,2,1,0x2F6B3A},{7,10,2,1,0x2F6B3A},{7,11,2,1,0x2F6B3A},{7,12,2,1,0x2F6B3A},{7,13,2,1,0x2F6B3A},{3,5,4,1,0x4FA85A},{3,6,4,1,0x4FA85A},{3,7,4,1,0x4FA85A},{9,4,4,1,0x4FA85A},{9,5,4,1,0x4FA85A},{9,6,4,1,0x4FA85A},{4,5,1,1,0xA8E0A0}};
-static const PixRect ART_I_katana[] = {{0,6,2,1,0x4A3028},{0,7,2,1,0x4A3028},{0,8,2,1,0x4A3028},{1,5,4,1,0x4A3028},{1,6,4,1,0x4A3028},{1,7,4,1,0x4A3028},{1,8,4,1,0x4A3028},{1,9,4,1,0x4A3028},{2,6,1,1,0x80553A},{2,7,1,1,0x80553A},{2,8,1,1,0x80553A},{4,5,1,1,0xC6A15B},{4,6,1,1,0xC6A15B},{4,7,1,1,0xC6A15B},{4,8,1,1,0xC6A15B},{4,9,1,1,0xC6A15B},{5,4,2,1,0x8D6A35},{5,5,2,1,0x8D6A35},{5,6,2,1,0x8D6A35},{5,7,2,1,0x8D6A35},{5,8,2,1,0x8D6A35},{5,9,2,1,0x8D6A35},{5,10,2,1,0x8D6A35},{6,5,8,1,0x657584},{6,6,8,1,0x657584},{6,7,8,1,0x657584},{6,8,8,1,0x657584},{6,9,8,1,0x657584},{6,5,7,1,0xDCE3E8},{6,6,7,1,0xDCE3E8},{6,7,7,1,0xDCE3E8},{7,5,5,1,0xFFFFFF},{7,8,7,1,0xB8C4CF},{7,9,7,1,0xB8C4CF},{13,6,2,1,0xDCE3E8},{13,7,2,1,0xDCE3E8},{13,8,2,1,0xDCE3E8},{13,8,1,1,0x657584}};
-static const PixRect ART_I_machine_gun[] = {{2,6,10,1,0x0B0A12},{2,7,10,1,0x0B0A12},{2,8,10,1,0x0B0A12},{2,9,10,1,0x0B0A12},{2,10,10,1,0x0B0A12},{3,7,8,1,0x6B6480},{3,8,8,1,0x6B6480},{3,9,8,1,0x6B6480},{10,5,5,1,0x9B92B0},{10,6,5,1,0x9B92B0},{5,10,2,1,0x6B4A2E},{5,11,2,1,0x6B4A2E},{5,12,2,1,0x6B4A2E},{5,13,2,1,0x6B4A2E},{1,8,3,1,0xE8B54B}};
-const PixArt ART_ICON[28] = {{ART_I_leaf,13},{ART_I_pyr,14},{ART_I_snow,38},{ART_I_peak,12},{ART_I_ecl,36},{ART_I_lock,18},{ART_I_book,27},{ART_I_heart,13},{ART_I_gem,11},{ART_I_shield,19},{ART_I_bolt,12},{ART_I_clover,18},{ART_I_star,22},{ART_I_skull,16},{ART_I_clock,40},{ART_I_trophy,17},{ART_I_dagger,19},{ART_I_bow,30},{ART_I_axe,15},{ART_I_staff,15},{ART_I_shotgun,15},{ART_I_pistol,13},{ART_I_trident,26},{ART_I_chest,12},{ART_I_bug,15},{ART_I_sprout,13},{ART_I_katana,38},{ART_I_machine_gun,15}};
+static const PixRect ART_I_katana[] = {{14,0,2,1,0x000000},{13,1,1,1,0x000000},{14,1,1,1,0x636363},{15,1,1,1,0x000000},{12,2,1,1,0x000000},{13,2,1,1,0x636363},{14,2,1,1,0x000000},{11,3,1,1,0x000000},{12,3,1,1,0x636363},{13,3,1,1,0x000000},{10,4,1,1,0x000000},{11,4,1,1,0x535353},{12,4,1,1,0x000000},{9,5,1,1,0x000000},{10,5,1,1,0x535353},{11,5,1,1,0x000000},{8,6,1,1,0x000000},{9,6,1,1,0x535353},{10,6,1,1,0x000000},{7,7,1,1,0x000000},{8,7,1,1,0x414141},{9,7,1,1,0x000000},{2,8,2,1,0x000000},{6,8,1,1,0x000000},{7,8,1,1,0x414141},{8,8,1,1,0x000000},{2,9,1,1,0x000000},{3,9,1,1,0xD7B300},{4,9,2,1,0x000000},{6,9,1,1,0x414141},{7,9,1,1,0x000000},{3,10,1,1,0x000000},{3,11,1,1,0x000000},{4,10,1,1,0xD7B300},{5,10,1,1,0x414141},{6,10,1,1,0x000000},{6,11,1,1,0x000000},{4,11,1,1,0xF9DC52},{5,11,1,1,0xD7B300},{2,12,1,1,0x000000},{3,12,1,1,0xF9DC52},{4,12,2,1,0x000000},{6,12,1,1,0xD7B300},{7,12,1,1,0x000000},{1,13,1,1,0x000000},{2,13,1,1,0xF9DC52},{3,13,1,1,0x000000},{6,13,2,1,0x000000},{0,14,1,1,0x000000},{1,14,1,1,0xF9DC52},{2,14,1,1,0x000000},{0,15,2,1,0x000000}};
+static const PixRect ART_I_machine_gun[] = {{5,5,2,1,0x131013},{1,6,4,1,0x131013},{5,6,2,1,0x333333},{7,6,8,1,0x131013},{0,7,1,1,0x131013},{0,8,1,1,0x131013},{1,7,1,1,0x4C4C4C},{2,7,3,1,0x3D3D3D},{5,7,1,1,0x4C4C4C},{6,7,1,1,0x333333},{7,7,1,1,0x4C4C4C},{8,7,1,1,0x3D3D3D},{9,7,1,1,0x4C4C4C},{10,7,1,1,0x3D3D3D},{11,7,1,1,0x4C4C4C},{12,7,2,1,0x3D3D3D},{14,7,1,1,0x131013},{1,8,1,1,0x333333},{2,8,1,1,0x3D3D3D},{3,8,1,1,0x333333},{4,8,3,1,0x131013},{7,8,3,1,0x333333},{10,8,4,1,0x131013},{1,9,5,1,0x131013},{6,9,1,1,0x333333},{7,9,2,1,0x131013},{9,9,1,1,0x3D3D3D},{10,9,1,1,0x131013},{6,10,4,1,0x131013}};
+const PixArt ART_ICON[28] = {{ART_I_leaf,79},{ART_I_pyr,14},{ART_I_snow,38},{ART_I_peak,12},{ART_I_ecl,36},{ART_I_lock,18},{ART_I_book,27},{ART_I_heart,13},{ART_I_gem,11},{ART_I_shield,19},{ART_I_bolt,12},{ART_I_clover,18},{ART_I_star,22},{ART_I_skull,16},{ART_I_clock,40},{ART_I_trophy,17},{ART_I_dagger,31},{ART_I_bow,29},{ART_I_axe,34},{ART_I_staff,46},{ART_I_shotgun,33},{ART_I_pistol,35},{ART_I_trident,70},{ART_I_chest,90},{ART_I_bug,15},{ART_I_sprout,13},{ART_I_katana,52},{ART_I_machine_gun,29}};

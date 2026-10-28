@@ -2,6 +2,7 @@
 #include <3ds.h>
 #include <citro2d.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include <sys/stat.h>
 #include "platform.h"
@@ -30,18 +31,32 @@ void aptHookFn(APT_HookType h, void*) {
 }
 }  // namespace
 
+#ifdef __3DS__
+void debugLog(const char* fmt, ...) {
+  FILE* f = fopen("sdmc:/3ds/AbyssalEclipse/boot.log", "ab");
+  if (!f) return;
+  va_list ap; va_start(ap, fmt); vfprintf(f, fmt, ap); va_end(ap);
+  fputc('\n', f); fclose(f);
+}
+#endif
+
 bool init() {
   gfxInitDefault();
+  mkdir(DIR1, 0777); mkdir(DIR2, 0777);
+  debugLog("platform: gfxInitDefault");
   gfxSet3D(false);
-  if (!C3D_Init(C3D_DEFAULT_CMDBUF_SIZE)) return false;
-  if (!C2D_Init(1536)) return false;
+  if (!C3D_Init(C3D_DEFAULT_CMDBUF_SIZE)) { debugLog("platform: C3D_Init FAILED"); return false; }
+  debugLog("platform: C3D_Init OK");
+  if (!C2D_Init(1536)) { debugLog("platform: C2D_Init FAILED"); return false; }
+  debugLog("platform: C2D_Init OK");
   C2D_Prepare();
   g_top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
   g_bot = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
   g_gfx = true;
   aptHook(&g_hook, aptHookFn, nullptr);
   romfsInit();
-  mkdir(DIR1, 0777); mkdir(DIR2, 0777);
+  debugLog("platform: targets top=%p bottom=%p", (void*)g_top, (void*)g_bot);
+  debugLog("platform: romfsInit complete");
   return g_top && g_bot;
 }
 
@@ -101,6 +116,8 @@ void blit(int sx, int sy, int sw, int sh, float dx, float dy, float dw, float dh
   Tex3DS_SubTexture st = {};
   st.width = (u16)sw;
   st.height = (u16)sh;
+  // Use texel boundaries with nearest filtering; half-texel insets crop edge pixels
+  // (most noticeable on the tiny 5x7 font and narrow cosmetic details).
   st.left = (float)sx / AW;
   st.right = (float)(sx + sw) / AW;
   // Tex3DS uses top > bottom for a normal, non-rotated top-down image.
@@ -181,10 +198,12 @@ static void uploadWholeAtlas() {
 }
 
 void atlasUpload(const u32* rgba, int w, int h) {
-  if (!rgba || w != AW || h != AH || !ensureAtlasTexture()) return;
+  if (!rgba || w != AW || h != AH) { debugLog("atlas: invalid upload dimensions %dx%d", w, h); return; }
+  if (!ensureAtlasTexture()) { debugLog("atlas: texture allocation FAILED"); return; }
   if (rgba != g_atlasCpu)
     memcpy(g_atlasCpu, rgba, (size_t)AW * AH * sizeof(u32));
   uploadWholeAtlas();
+  debugLog("atlas: uploaded %dx%d RGBA8", w, h);
 }
 
 void atlasUpdate(int x, int y, int w, int h, const u32* rgba, int stride) {
@@ -204,7 +223,7 @@ void setTargetFps(int fps) { C3D_FrameRate(fps >= 60 ? 60.0f : 30.0f); }
 
 bool audioInit(MixCallback cb) {
   g_mix = cb;
-  if (R_FAILED(ndspInit())) return false;
+  if (R_FAILED(ndspInit())) { debugLog("audio: ndspInit FAILED; silent mode"); return false; }
   ndspSetOutputMode(NDSP_OUTPUT_MONO);
   ndspChnReset(0);
   ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
@@ -213,10 +232,11 @@ bool audioInit(MixCallback cb) {
   float mix[12]; memset(mix, 0, sizeof mix); mix[0] = 1.0f; mix[1] = 1.0f;
   ndspChnSetMix(0, mix);
   g_abuf = (s16*)linearAlloc(sizeof(s16) * BUF_FRAMES * NBUF);
-  if (!g_abuf) { ndspExit(); return false; }
+  if (!g_abuf) { debugLog("audio: buffer allocation FAILED; silent mode"); ndspExit(); return false; }
   memset(g_wb, 0, sizeof g_wb);
   for (int i = 0; i < NBUF; ++i) { g_wb[i].data_vaddr = g_abuf + i * BUF_FRAMES; g_wb[i].nsamples = BUF_FRAMES; g_wb[i].status = NDSP_WBUF_DONE; }
   g_audio = true;
+  debugLog("audio: initialized");
   return true;
 }
 

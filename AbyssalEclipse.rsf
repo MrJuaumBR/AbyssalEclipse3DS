@@ -6,7 +6,7 @@ BasicInfo:
   Logo                    : Homebrew
 
 RomFs:
-  RootPath                : .
+  RootPath                : romfs
 
 TitleInfo:
   UniqueId                : 0x00BAB3

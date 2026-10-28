@@ -3,7 +3,7 @@
 #include "types.h"
 
 namespace bal {
-static const float BASE_HP = 60.0f;
+static const float BASE_HP = 40.0f;
 static const int   BASE_STAT[5] = {8, 5, 4, 3, 5};          // STR RES SPD LUCK INT (zero point of the bonus)
 static const float PLAYER_SPEED = 62.0f;                    // px/s
 static const float PLAYER_RADIUS = 5.0f;
@@ -50,4 +50,8 @@ enum { MAX_ENEMIES = 48, MAX_PROJ = 72, MAX_GEMS = 48, MAX_FX = 32, MAX_ZONES = 
 inline float hpScale(int wave, int levelTier) { return (1.0f + 0.12f * (wave - 1)) * (1.0f + 0.35f * levelTier); }
 inline float dmgScale(int wave, int levelTier) { return (1.0f + 0.04f * (wave - 1)) * (1.0f + 0.15f * levelTier); }
 inline int waveQuota(int wave) { return 12 + 4 * wave; }
+// Sentinel Drone tuning: lower rank-one pressure and scale more gently with upgrades.
+static const float DRONE_DAMAGE_MUL = 2.5f;
+static const float DRONE_FIRE_INTERVAL = 0.26f;
 }  // namespace bal
+
