@@ -2,7 +2,7 @@
   "LANGS": {
     "en": {
       "nav_menu": "MENU",
-      "nav_campaign": "CAMPAIGN",
+      "nav_campaign": "CAMPAIGNS",
       "nav_endless": "ENDLESS",
       "nav_custom": "CUSTOMIZE",
       "nav_weapon": "WEAPON",
@@ -10,7 +10,7 @@
       "nav_catalog": "CATALOG",
       "nav_options": "OPTIONS",
       "tagline": "SURVIVE THE ABYSS.",
-      "version": "v0.2 BETA",
+      "version": "v0.2",
       "s_forest": "FOREST",
       "s_desert": "DESERT",
       "s_snow": "SNOW",
@@ -1491,7 +1491,7 @@
     },
     "pt-br": {
       "nav_menu": "MENU",
-      "nav_campaign": "CAMPANHA",
+      "nav_campaign": "CAMPANHAS",
       "nav_endless": "INFINITO",
       "nav_custom": "PERSONALIZAR",
       "nav_weapon": "ARMA",
@@ -1499,7 +1499,7 @@
       "nav_catalog": "CATÁLOGO",
       "nav_options": "OPÇÕES",
       "tagline": "SOBREVIVA AO ABISMO.",
-      "version": "v0.2 BETA",
+      "version": "v0.2",
       "s_forest": "FLORESTA",
       "s_desert": "DESERTO",
       "s_snow": "NEVE",
