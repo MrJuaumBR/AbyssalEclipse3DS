@@ -1,8 +1,9 @@
 # Art pipeline
 
-The game keeps the compact enemy, icon, spell, weapon-icon, and projectile artwork on a 16×16 canvas. Cosmetic artwork is now authored and baked on a dedicated 32×32 canvas:
+The game keeps the compact enemy, icon, spell, weapon-icon, projectile, and spell-companion/pickup artwork on a 16×16 canvas. Cosmetic artwork is authored and baked on a dedicated 32×32 canvas:
 
 - `tools/data/art.json` contains the SVG-like fragments.
+- The `SPELL` group in `tools/data/art.json` contains the Fairy, Sentinel, Drone, Potion, and Coin sprites; these are emitted into the graphics atlas and are editable through the same Aseprite bridge as icons and enemies.
 - `tools/art_raster.py` rasterizes rectangles, circles, ellipses, lines, inherited group strokes, and paint order. `rects(svg, size=32)` is used for `HAT` and `FACE` entries.
 - `tools/gen_data.py` emits `source/data_gen.cpp`; the normal Makefile build regenerates it automatically when the generator or JSON inputs change. Run `make regen` to force regeneration.
 - `source/gfx.cpp` composes the knight in a 32×32 atlas cell. Every character/costume draw uses half the former scale, preserving the original 16×16 gameplay footprint (and prior menu-preview size), while each cosmetic pixel has independent space for highlights, outlines, and facial details.
@@ -19,7 +20,7 @@ python3 -m pip install pillow   # or: py -3 -m pip install pillow
 make aseprite-export
 ```
 
-Open and edit the PNGs under `tools/aseprite_work/` in Aseprite. Keep the canvas size unchanged: hats/faces are 32×32; enemies/icons are 16×16. Use fully opaque pixels or full transparency (no partial alpha). Save over the same PNG, or save a same-name `.aseprite`/`.ase` file. The importer rejects resized canvases and semi-transparent pixels instead of silently distorting game art.
+Open and edit the PNGs under `tools/aseprite_work/` in Aseprite. Keep the canvas size unchanged: hats/faces are 32×32; enemies/icons/spell companions/pickups are 16×16. Use fully opaque pixels or full transparency (no partial alpha). Save over the same PNG, or save a same-name `.aseprite`/`.ase` file. The importer rejects resized canvases and semi-transparent pixels instead of silently distorting game art.
 
 ```sh
 make aseprite-import
@@ -32,7 +33,13 @@ ASEPRITE='C:/Program Files (x86)/Steam/steamapps/common/Aseprite/Aseprite.exe' \
   make aseprite-import
 ```
 
-The exporter refuses to replace an existing work manifest by default. To start a fresh export in the same folder, first move/delete that work folder, or run the script with `export --overwrite` only when you are willing to replace its PNGs.
+`make aseprite-export` is safe to rerun: it uses `export --merge`, keeps existing PNGs (including edits), adds newly introduced art files, and updates the manifest without dropping other groups. To intentionally regenerate and replace the PNGs, use the Make variable syntax below; do not put the script flag after the make target, because GNU Make parses that as one of its own options:
+
+```sh
+make aseprite-export ASEPRITE_EXPORT_ARGS=--overwrite
+```
+
+The direct Python equivalent is `python3 tools/aseprite_sync.py export --overwrite` (or `py -3` on Windows/MSYS2). Overwrite replaces art in the selected export scope, so only use it when you mean to discard the existing PNG edits.
 
 Run the regression checks with:
 
@@ -52,7 +59,7 @@ python3 tools/preview_art.py
 ```
 
 The default output is `tools/preview/`, and each standalone PNG is 128×128
-pixels by default. Use `--group HAT`, `--group FACE`, `--name arcwarden`,
+pixels by default. Use `--group HAT`, `--group FACE`, `--group SPELL`, `--name arcwarden`,
 `--scale 12`, `--size 256`, or `--out /path/to/previews` to narrow or
 customize the output. The preview uses the same rasterizer and canvas sizes as
 the game compiler.

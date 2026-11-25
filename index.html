@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en" class="skin-default theme-dark palette-a">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Abyssal Eclipse 3DS stable v0.2" />
+    <title>Abyssal Eclipse 3DS · v0.2</title>
+    <link rel="stylesheet" href="universal-global.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+      :root {
+        --color-bg: #0b0c10;
+        --color-surface: #171827;
+        --color-surface-raised: #24243a;
+        --color-surface-inset: #10101a;
+        --color-text: #eeeafa;
+        --color-text-muted: #ada8bf;
+        --color-text-subtle: #89839a;
+        --color-border: #40395d;
+        --color-border-strong: #7664a4;
+        --color-primary: #a77bff;
+        --color-primary-strong: #d2bfff;
+        --color-primary-text: #120c20;
+        --color-accent: #55e6d1;
+        --color-accent-text: #061c19;
+        --color-focus: #ffe28a;
+        --color-success: #70e09b;
+        --color-warning: #ffd166;
+        --color-danger: #ff718d;
+        --color-info: #71b7ff;
+        --color-shadow: 0 10px 30px #0004;
+        --content-max: 1180px;
+        font:
+          16px/1.55 system-ui,
+          sans-serif;
+        color-scheme: dark;
+      }
+      .theme-light {
+        --color-bg: #f5f3fa;
+        --color-surface: #fff;
+        --color-surface-raised: #eeeafa;
+        --color-surface-inset: #f1eef7;
+        --color-text: #211d2d;
+        --color-text-muted: #5e586c;
+        --color-text-subtle: #777080;
+        --color-border: #c6bdd8;
+        --color-border-strong: #8c78a9;
+        --color-primary: #6331b8;
+        --color-primary-strong: #47208c;
+        --color-primary-text: #fff;
+        --color-accent: #087d70;
+        --color-accent-text: #fff;
+        --color-focus: #8a5cf6;
+        --color-success: #237a45;
+        --color-warning: #8c5b00;
+        --color-danger: #a51f43;
+        --color-info: #1d5e9e;
+        --color-shadow: 0 10px 30px #0002;
+        color-scheme: light;
+      }
+      .palette-b {
+        --color-primary: #ff6f91;
+        --color-primary-strong: #c73a62;
+        --color-accent: #ffbd69;
+      }
+      .palette-c {
+        --color-primary: #55b7ff;
+        --color-primary-strong: #1978c4;
+        --color-accent: #8ff0ff;
+      }
+      .palette-d {
+        --color-primary: #e7bd59;
+        --color-primary-strong: #a67911;
+        --color-accent: #ff8a65;
+      }
+      .skin-cyberpunk {
+        --color-primary: #00e5ff;
+        --color-primary-strong: #8fffff;
+        --color-accent: #ff3bd4;
+      }
+      .skin-discord {
+        --color-primary: #5865f2;
+        --color-primary-strong: #9da7ff;
+        --color-accent: #23d6a5;
+      }
+      .skin-solo-leveling {
+        --color-primary: #7f6cff;
+        --color-primary-strong: #bcb3ff;
+        --color-accent: #58c7ff;
+      }
+      .skin-xbox-360 {
+        --color-primary: #6fdc3c;
+        --color-primary-strong: #b5ff8c;
+        --color-accent: #f4d35e;
+      }
+      .skin-windows-xp {
+        --color-primary: #2d72d9;
+        --color-primary-strong: #8dbaff;
+        --color-accent: #f6c343;
+      }
+      .skin-piece-ocean {
+        --color-primary: #087d70;
+        --color-primary-strong: #42d6c1;
+        --color-accent: #70b7e8;
+      }
+      .skin-kaiju-war {
+        --color-primary: #258dff;
+        --color-primary-strong: #9ed0ff;
+        --color-accent: #4df5ff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(
+          circle at top,
+          #211b3a,
+          var(--color-bg) 42%
+        );
+        color: var(--color-text);
+      }
+      a {
+        color: var(--color-accent);
+      }
+      .wrap {
+        width: min(calc(100% - 2rem), var(--content-max));
+        margin: auto;
+      }
+      header {
+        padding: 3rem 0 2rem;
+        border-bottom: 1px solid var(--color-border);
+        text-align: center;
+      }
+      h1 {
+        margin: 0.2rem 0;
+        color: var(--color-primary-strong);
+        font-size: clamp(2rem, 6vw, 4.5rem);
+        letter-spacing: 0.04em;
+      }
+      h2 {
+        color: var(--color-primary);
+        margin-top: 2.5rem;
+      }
+      .muted {
+        color: var(--color-text-muted);
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        justify-content: center;
+        margin: 1.2rem 0;
+      }
+      button {
+        background: var(--color-surface-raised);
+        border: 1px solid var(--color-border);
+        border-radius: 0.6rem;
+        color: var(--color-text);
+        padding: 0.65rem 1rem;
+        cursor: pointer;
+      }
+      button:hover,
+      button[aria-pressed="true"] {
+        border-color: var(--color-primary);
+        color: var(--color-primary-strong);
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--color-focus);
+        outline-offset: 3px;
+      }
+      .panel {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 1rem;
+        padding: 1.2rem;
+        box-shadow: 0 10px 30px #0004;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+        gap: 1rem;
+      }
+      .preview {
+        overflow: hidden;
+        padding: 0;
+      }
+      .preview img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        background: var(--color-surface-raised);
+      }
+      .preview figcaption {
+        padding: 0.8rem;
+      }
+      .md {
+        overflow: auto;
+      }
+      .md h1,
+      .md h2,
+      .md h3 {
+        font-size: 1.25rem;
+      }
+      .md h1,
+      .md h2,
+      .md h3 {
+        scroll-margin-top: 1rem;
+      }
+      .md table {
+        width: 100%;
+        border-collapse: collapse;
+        display: block;
+        overflow-x: auto;
+        background: var(--color-surface-inset);
+      }
+      .md th,
+      .md td {
+        border: 1px solid var(--color-border);
+        padding: 0.55rem 0.7rem;
+        text-align: left;
+        vertical-align: top;
+        min-width: 8rem;
+      }
+      .md th {
+        background: var(--color-surface-raised);
+        color: var(--color-primary-strong);
+      }
+      .md pre {
+        background: var(--color-surface-raised);
+        padding: 1rem;
+        white-space: pre-wrap;
+      }
+      .md code {
+        font-family: ui-monospace, monospace;
+      }
+      .md li {
+        margin: 0.35rem 0;
+      }
+      .status {
+        color: var(--color-text-muted);
+        white-space: pre-wrap;
+      }
+      .warning {
+        border-left: 4px solid var(--color-accent);
+        padding-left: 1rem;
+      }
+      .ai {
+        font-size: 0.9rem;
+        color: var(--color-text-muted);
+        margin: 2rem 0;
+        padding: 1rem 0;
+        border-top: 1px solid var(--color-border);
+      }
+      dialog {
+        max-width: min(92vw, 30rem);
+        width: 30rem;
+        background: var(--color-surface);
+        color: var(--color-text);
+        border: 1px solid var(--color-primary);
+        border-radius: 1rem;
+        padding: 0;
+        box-shadow: 0 20px 80px #0009;
+      }
+      dialog::backdrop {
+        background: #05040a99;
+      }
+      .window {
+        padding: 1.2rem;
+      }
+      .window header {
+        padding: 0 0 1rem;
+        text-align: left;
+      }
+      .window-controls {
+        display: flex;
+        gap: 0.3rem;
+        justify-content: flex-end;
+      }
+      .window-controls button {
+        padding: 0.25rem 0.55rem;
+      }
+      .appearance-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7rem;
+      }
+      .appearance-grid button {
+        width: 100%;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <p class="muted">Nintendo 3DS (Old) · stable v0.2</p>
+        <h1>ABYSSAL ECLIPSE</h1>
+        <p id="tagline">
+          Survive the abyss. Master the elements. Break the cycle.
+        </p>
+      </div>
+    </header>
+    <main class="wrap">
+      <section aria-labelledby="about">
+        <h2 id="about">Abyssal Eclipse 3DS</h2>
+        <div class="panel">
+          <p id="intro">
+            A 2D pixel-art arena-survivor roguelite built natively for the
+            original Nintendo 3DS.
+          </p>
+          <p>
+            <a href="https://github.com/MrJuaumBR/AbyssalEclipse3DS"
+              >View the source repository</a
+            >
+            · <a href="CATALOG.md">Open CATALOG.md</a>
+          </p>
+        </div>
+      </section>
+      <section aria-labelledby="previews">
+        <h2 id="previews">Game previews</h2>
+        <div id="preview-grid" class="grid"></div>
+      </section>
+      <section aria-labelledby="catalog">
+        <h2 id="catalog">Full game catalogue</h2>
+        <article id="catalog-content" class="panel md">
+          <p class="status">Loading CATALOG.md…</p>
+        </article>
+      </section>
+      <section aria-labelledby="changelog">
+        <h2 id="changelog">Changelog</h2>
+        <article id="notes" class="panel md">
+          <p class="status">Loading romfs/note.txt…</p>
+        </article>
+        <h2>AI change log</h2>
+        <article id="changes" class="panel md">
+          <p class="status">Loading AI_Changes.md…</p>
+        </article>
+      </section>
+      <p class="ai">
+        <strong>AI-assisted project:</strong> game design, art and programming
+        remain credited to MrJuaumBR. AI assistance used DeepSeek, Claude and
+        Manus AI. Human-authored art is preserved.
+      </p>
+    </main>
+    <script>
+      const $ = (s) => document.querySelector(s),
+        VALID = {
+          skins: [
+            "default",
+            "cyberpunk",
+            "discord",
+            "solo-leveling",
+            "xbox-360",
+            "windows-xp",
+            "piece-ocean",
+            "kaiju-war",
+          ],
+          modes: ["dark", "light"],
+          palettes: ["a", "b", "c", "d"],
+        };
+      function normalizeTheme(input = {}) {
+        return {
+          skin: VALID.skins.includes(input.skin) ? input.skin : "default",
+          mode: VALID.modes.includes(input.mode) ? input.mode : "dark",
+          palette: VALID.palettes.includes(input.palette) ? input.palette : "a",
+          effects: {
+            animatedBorder: input.effects?.animatedBorder !== false,
+            backgroundMotion: input.effects?.backgroundMotion !== false,
+          },
+        };
+      }
+      let saved = {};
+      try {
+        saved = JSON.parse(localStorage.getItem("ecosystemTheme") || "{}");
+      } catch (e) {}
+      const state = normalizeTheme(saved);
+      state.lang = localStorage.getItem("ae:lang") || "en";
+      function apply() {
+        document.body.className = `skin-${state.skin} theme-${state.mode} palette-${state.palette}`;
+        document.documentElement.className = state.effects.backgroundMotion
+          ? ""
+          : "reduced-effects";
+        document.documentElement.lang = state.lang;
+        localStorage.setItem(
+          "ecosystemTheme",
+          JSON.stringify({
+            skin: state.skin,
+            mode: state.mode,
+            palette: state.palette,
+            effects: state.effects,
+          }),
+        );
+        localStorage.setItem("ae:lang", state.lang);
+        // $("#lang").textContent =
+        //   state.lang === "en" ? "Português (Brasil)" : "English (US)";
+        $("#intro").textContent =
+          state.lang === "en"
+            ? "A 2D pixel-art arena-survivor roguelite built natively for the original Nintendo 3DS."
+            : "Um roguelite de arena e sobrevivência em pixel art, desenvolvido nativamente para o Nintendo 3DS original.";
+      }
+      apply();
+    //   $("#lang").onclick = () => {
+    //     state.lang = state.lang === "en" ? "pt-BR" : "en";
+    //     apply();
+    //   };
+      document.querySelectorAll("[data-mode]").forEach(
+        (b) =>
+          (b.onclick = () => {
+            state.mode = b.dataset.mode;
+            apply();
+          }),
+      );
+      document.querySelectorAll("[data-palette]").forEach(
+        (b) =>
+          (b.onclick = () => {
+            state.palette = b.dataset.palette;
+            apply();
+          }),
+      );
+      function esc(s) {
+        return s
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+      function slug(s) {
+        return s
+          .toLowerCase()
+          .normalize("NFKD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9\s-]/g, "")
+          .trim()
+          .replace(/\s+/g, "-");
+      }
+      function inline(s) {
+        return esc(s)
+          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+          .replace(/`([^`]+)`/g, "<code>$1</code>")
+          .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      }
+      function cells(s) {
+        return s
+          .trim()
+          .replace(/^\|/, "")
+          .replace(/\|$/, "")
+          .split("|")
+          .map((x) => x.trim());
+      }
+      function md(src) {
+        const lines = src.replace(/\r/g, "").split("\n"),
+          out = [];
+        let code = false,
+          list = null;
+        for (let i = 0; i < lines.length; i++) {
+          const raw = lines[i],
+            t = raw.trim();
+          if (t.startsWith("```")) {
+            if (code) out.push("</pre>");
+            else out.push("<pre>");
+            code = !code;
+            continue;
+          }
+          if (code) {
+            out.push(esc(raw));
+            continue;
+          }
+          if (!t) {
+            if (list) {
+              out.push(`</${list}>`);
+              list = null;
+            }
+            continue;
+          }
+          let m = raw.match(/^(#{1,6})\s+(.*)$/);
+          if (m) {
+            if (list) {
+              out.push(`</${list}>`);
+              list = null;
+            }
+            const text = m[2].replace(/[#].*$/, "").trim();
+            out.push(
+              `<h${m[1].length} id="${slug(text)}">${inline(text)}</h${m[1].length}>`,
+            );
+            continue;
+          }
+          if (
+            t.includes("|") &&
+            i + 1 < lines.length &&
+            /^\s*\|?\s*:?-{3,}/.test(lines[i + 1])
+          ) {
+            const head = cells(raw);
+            const body = [];
+            i += 2;
+            while (
+              i < lines.length &&
+              lines[i].trim().includes("|") &&
+              lines[i].trim()
+            ) {
+              body.push(cells(lines[i++]));
+            }
+            i--;
+            out.push(
+              `<div class="table-scroll"><table><thead><tr>${head.map((x) => `<th>${inline(x)}</th>`).join("")}</tr></thead><tbody>${body.map((r) => `<tr>${head.map((_, j) => `<td>${inline(r[j] || "")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`,
+            );
+            continue;
+          }
+          m = raw.match(/^([-*+]\s+|\d+\.\s+)(.*)$/);
+          if (m) {
+            const type = /\d/.test(m[1]) ? "ol" : "ul";
+            if (list !== type) {
+              if (list) out.push(`</${list}>`);
+              out.push(`<${type}>`);
+              list = type;
+            }
+            out.push(`<li>${inline(m[2])}</li>`);
+            continue;
+          }
+          if (list) {
+            out.push(`</${list}>`);
+            list = null;
+          }
+          out.push(`<p>${inline(t)}</p>`);
+        }
+        if (list) out.push(`</${list}>`);
+        if (code) out.push("</pre>");
+        return out.join("");
+      }
+      async function load(id, url) {
+        try {
+          const r = await fetch(url);
+          if (!r.ok) throw Error(r.status);
+          $(id).innerHTML = md(await r.text());
+        } catch (e) {
+          $(id).innerHTML =
+            `<p class="warning">Unable to load <code>${url}</code>. GitHub Pages must serve this page over HTTP; opening index.html directly as file:// prevents fetch from loading local Markdown.</p><p><a href="${url}">Open the source file directly</a></p>`;
+        }
+      }
+      load("#catalog-content", "CATALOG.md");
+      load("#notes", "romfs/note.txt");
+      load("#changes", "AI_Changes.md");
+      const previews = [
+        ["Main menu", "data/main-menu.png"],
+        ["Campaigns", "data/campaigns.png"],
+        ["Catalog", "data/catalog.png"],
+        ["Endless mode", "data/endless.png"],
+        ["Enemies", "previews/enemy_sheet.png"],
+        ["Event icons", "previews/event-christmas.png"],
+      ];
+      $("#preview-grid").innerHTML = previews
+        .map(
+          ([n, src]) =>
+            `<figure class="panel preview"><img loading="lazy" src="${src}" alt="${n} preview"><figcaption>${n}</figcaption></figure>`,
+        )
+        .join("");
+    </script>
+    <script src="universal-global.js" defer></script>
+  </body>
+</html>

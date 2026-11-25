@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <time.h>
 #include "platform.h"
 
 namespace plat {
@@ -32,9 +33,21 @@ void aptHookFn(APT_HookType h, void*) {
 }  // namespace
 
 #ifdef __3DS__
+static void resetBootLog() {
+  FILE* f = fopen("sdmc:/3ds/AbyssalEclipse/boot.log", "wb");
+  if (!f) return;
+  fputs("=== Abyssal Eclipse boot log (reset) ===\n", f);
+  fclose(f);
+}
 void debugLog(const char* fmt, ...) {
   FILE* f = fopen("sdmc:/3ds/AbyssalEclipse/boot.log", "ab");
   if (!f) return;
+  const time_t now = time(nullptr);
+  struct tm* stamp = now >= 1577836800 ? localtime(&now) : nullptr;
+  if (stamp) fprintf(f, "[%04d-%02d-%02d %02d:%02d:%02d] ",
+                     stamp->tm_year + 1900, stamp->tm_mon + 1, stamp->tm_mday,
+                     stamp->tm_hour, stamp->tm_min, stamp->tm_sec);
+  else fprintf(f, "[uptime %llu ms] ", (unsigned long long)osGetTime());
   va_list ap; va_start(ap, fmt); vfprintf(f, fmt, ap); va_end(ap);
   fputc('\n', f); fclose(f);
 }
@@ -43,6 +56,10 @@ void debugLog(const char* fmt, ...) {
 bool init() {
   gfxInitDefault();
   mkdir(DIR1, 0777); mkdir(DIR2, 0777);
+#ifdef __3DS__
+  resetBootLog();
+#endif
+  debugLog("boot: new launch; log reset");
   debugLog("platform: gfxInitDefault");
   gfxSet3D(false);
   if (!C3D_Init(C3D_DEFAULT_CMDBUF_SIZE)) { debugLog("platform: C3D_Init FAILED"); return false; }
@@ -256,6 +273,9 @@ void audioShutdown() {
   ndspChnReset(0); ndspExit(); linearFree(g_abuf); g_audio = false;
 }
 
+bool romfsRead(const char* name, void* buf, size_t cap, size_t* got) {
+  char path[128]; snprintf(path,sizeof path,"romfs:/%s",name?name:""); FILE* f=fopen(path,"rb"); if(!f) return false; size_t n=fread(buf,1,cap,f); fclose(f); if(got)*got=n; return true;
+}
 bool storageRead(const char* name, void* buf, size_t cap, size_t* got) {
   char path[160]; snprintf(path, sizeof path, "%s/%s", DIR2, name);
   FILE* f = fopen(path, "rb");
@@ -268,10 +288,16 @@ bool storageRead(const char* name, void* buf, size_t cap, size_t* got) {
 bool storageWrite(const char* name, const void* buf, size_t len) {
   char path[160], tmp[170]; snprintf(path, sizeof path, "%s/%s", DIR2, name); snprintf(tmp, sizeof tmp, "%s.tmp", path);
   FILE* f = fopen(tmp, "wb"); if (!f) return false;
-  size_t w = fwrite(buf, 1, len, f); fclose(f);
-  if (w != len) return false;
-  remove(path);
-  return rename(tmp, path) == 0;
+  size_t w = fwrite(buf, 1, len, f);
+  bool ok = w == len && fflush(f) == 0;
+  if (fclose(f) != 0) ok = false;
+  if (!ok) return false;
+  struct stat existing;
+  // Save slots alternate; this removes only the older target slot while the
+  // other (newest valid) slot remains intact across any failure here.
+  if (stat(path, &existing) == 0 && remove(path) != 0) return false;
+  if (rename(tmp, path) != 0) return false;
+  return true;
 }
 
 u64 nowMs() { return osGetTime(); }

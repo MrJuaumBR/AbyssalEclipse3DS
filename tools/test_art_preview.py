@@ -8,12 +8,12 @@ class ArtTests(unittest.TestCase):
  def test_all_art_is_rect_only_and_valid(self):
   for g,(w,h) in SIZES.items():
    for n,s in self.data[g].items():
-    self.assertIsNone(re.search(r"<(?!rect\b|/rect\b)[A-Za-z]",s),f"{g}.{n}")
+    self.assertIsNone(re.search(r"<(?!/?(?:rect|circle|ellipse|line|g)\b)[A-Za-z]",s),f"{g}.{n}")
     raster(s,w,h)
  def test_hat_bounds_are_inside_canvas(self):
   for name, art in self.data["HAT"].items():
    pixels = rects(art, size=32)
-   for x, y, w, h, color in pixels:
+   for x, y, w, h, color, alpha in pixels:
     self.assertGreaterEqual(x, 0, name)
     self.assertGreaterEqual(y, 0, name)
     self.assertLessEqual(x + w, 32, name)

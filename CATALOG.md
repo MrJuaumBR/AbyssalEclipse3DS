@@ -7,7 +7,7 @@ This reference covers the current game content and documented mechanics: spells 
 ## At a glance
 
 - **147 spell entries**; six are capped at Rank 5 for orbital/summoned entities, Time-Stop caps at Rank 9, and other spells cap at Rank 10.
-- **25 enemy types**, **9 weapons**, **5 seasons**, **15 campaign levels**, **5 catalog music tracks**, and **22 achievements**.
+- **25 enemy types**, **9 weapons**, **5 seasons**, **15 campaign levels**, **5 catalog music tracks**, and **21 achievements**.
 - Cosmetic selection: 11 headwear/outfit entries, six faces, and six colors.
 
 ## Contents
@@ -131,9 +131,9 @@ Effect payloads use internal effect names and source parameters, useful for dist
 | 89 | **MARTYR** / MÁRTIR | BLOOD / SANGUE | STATUS / SELF | EPIC | ELEMENT / BLOOD | 10 | `TAKEN_PCT(-15); DEALT_PCT(-10)` | -15% TAKEN; -10% DEALT / -15% RECEBIDO; -10% CAUSADO | TAKE 15% LESS DMG, DEAL 10% LESS DMG. / TOME 15% MENOS DANO, CAUSE 10% MENOS DANO. | — / — |
 | 90 | **LAST BREATH** / ÚLTIMO SUSPIRO | BLOOD / SANGUE | WEAPON / SELF | EPIC | ELEMENT / BLOOD | 10 | `LOWHP_DMG(50, 30)` | +50% DMG / +50% DANO | +50% DMG BELOW 30% HP. / +50% DE DANO ABAIXO DE 30% DE VIDA. | Kept in a jar by something that wanted to remember how it felt. / Guardado num frasco por algo que queria lembrar como era. |
 | 91 | **BLOOD MOON** / LUA DE SANGUE | BLOOD / SANGUE | DAMAGE / AREA OF EFFECT | EPIC | ELEMENT / BLOOD | 10 | `AURA(3, 56, 0); AURA_HEALKILL(1)` | 3 DPS; +1 HP/KILL / 3 DPS; +1 VIDA/MORTE | AURA DEALS 3 DPS. KILLS IN IT HEAL 1 HP. / AURA CAUSA 3 DE DANO/S. MORTES NELA CURAM 1 DE VIDA. | It rose red once, and has been collecting ever since. / Subiu vermelha uma vez e vem cobrando desde então. |
-| 92 | **SANGUINE RITE** / RITO SANGUÍNEO | BLOOD / SANGUE | STATUS / SELF | EPIC | ELEMENT / BLOOD | 10 | `KILL_MAXHP(1, 10)` | +1 HP/10K / +1 VIDA/10 | EVERY 10 KILLS, GAIN +1 MAX HP. / A CADA 10 MORTES, GANHE +1 DE VIDA MÁXIMA. | — / — |
+| 92 | **SANGUINE RITE** / RITO SANGUÍNEO | BLOOD / SANGUE | STATUS / SELF | EPIC | ELEMENT / BLOOD | 10 | `KILL_MAXHP(1, 10, 5)` | +1 HP/10K / +1 VIDA/10 | EVERY 10 KILLS, GAIN +1 MAX HP. / A CADA 10 MORTES, GANHE +1 DE VIDA MÁXIMA. | — / — |
 | 93 | **CRIMSON CHAIN** / CORRENTE CARMESIM | BLOOD / SANGUE | DAMAGE / TOUCH | EPIC | ELEMENT / BLOOD | 10 | `CRIT_HEAL(1)` | +1 HP/CRIT / +1 VIDA/CRÍT. | CRITS HEAL 1 HP. CAP 1 PER SECOND. / CRÍTICOS CURAM 1 DE VIDA. LIMITE 1 POR SEGUNDO. | — / — |
-| 94 | **RED TIDE** / MARÉ VERMELHA | BLOOD / SANGUE | DAMAGE / AREA OF EFFECT | EPIC | ELEMENT / BLOOD | 10 | `AURA(2, 56, 0); KILL_HEALEVERY(1, 4)` | 2 DPS; 1HP/4K / 2 DPS; 1 VIDA/4 | AURA DEALS 2 DPS, HEALS 1 HP PER 4 KILLS. / AURA CAUSA 2 DE DANO/S, CURA 1 DE VIDA A CADA 4 MORTES. | — / — |
+| 94 | **RED TIDE** / MARÉ VERMELHA | BLOOD / SANGUE | DAMAGE / AREA OF EFFECT | EPIC | ELEMENT / BLOOD | 10 | `AURA(2, 56, 0); KILL_HEALEVERY(1, 4, 2.5)` | 2 DPS; 1HP/4K / 2 DPS; 1 VIDA/4 | AURA DEALS 2 DPS, HEALS 1 HP PER 4 KILLS. / AURA CAUSA 2 DE DANO/S, CURA 1 DE VIDA A CADA 4 MORTES. | — / — |
 | 95 | **HEART OF GLASS** / CORAÇÃO DE VIDRO | BLOOD / SANGUE | STATUS / SELF | LEGENDARY | ELEMENT / BLOOD | 10 | `MAXHP_PCT(-40); DMG_PCT(60)` | -40% HP; +60% DMG / -40% VIDA; +60% DANO | -40% MAX HP, +60% DAMAGE. / -40% DE VIDA MÁXIMA, +60% DE DANO. | It beats. You can hear it. That is the problem. / — |
 | 96 | **EXSANGUINATE** / EXSANGUINAR | BLOOD / SANGUE | WEAPON / TOUCH | LEGENDARY | ELEMENT / BLOOD | 10 | `EXSANG(8)` | 8%; 2X +1HP / 8%; 2X +1 VIDA | 8% CHANCE TO DEAL DOUBLE DMG AND HEAL 1 HP. / 8% DE CHANCE DE DANO DOBRADO E CURA 1 DE VIDA. | The last drop of a very persistent nobleman. / — |
 | 97 | **JOLT** / PULSO | LIGHTNING / RAIO | DAMAGE / TOUCH | COMMON | ELEMENT / LIGHTNING | 10 | `ATKSPD_PCT(8)` | +8% ATK / +8% ATQ | +8% ATTACK SPEED. / +8% DE VELOCIDADE DE ATAQUE. | — / — |
@@ -182,14 +182,14 @@ Effect payloads use internal effect names and source parameters, useful for dist
 | 140 | **SENTINEL** / SENTINELA | EARTH / TERRA | WEAPON / SELF | LEGENDARY | ELEMENT / EARTH | 5 | `SENTINEL(1)` | 50 HP; 0.8S SHOTS / 50 VIDA; DISPARO 0,8S | A STONE SENTINEL GUARDS YOU AND FIRES AT NEARBY FOES. / UMA SENTINELA DE PEDRA PROTEGE E ATIRA EM INIMIGOS. | An ancient guardian that still recognizes the living. / Uma guardia antiga que ainda reconhece os vivos. |
 | 141 | **GLACIAL BLOOM** / FLOR GLACIAL | WATER / ÁGUA | DAMAGE / AREA OF EFFECT | RARE | ELEMENT / WATER | 10 | `HIT_FREEZE(18, 1.2); KILL_BURST(6, 32)` | 18% FREEZE; 6 BURST DMG / 32 RADIUS / 18% CONGELAR; 6 DANO / RAIO 32 | FREEZE FOES ON HIT, THEN SHATTER THEM WITH A BURST WHEN THEY FALL. / CONGELE INIMIGOS AO ACERTAR E OS ESTILHACA EM UMA EXPLOSAO AO CAIR. | Old ice blooms again wherever a foe falls, turning every defeat into a brittle frostburst. / O gelo antigo floresce onde um inimigo cai, transformando cada derrota em uma explosao congelante. |
 | 142 | **STARLANCE** / LANCA ESTELAR | LIGHTNING / RAIO | WEAPON / SELF | EPIC | ELEMENT / LIGHTNING | 10 | `NTH_BOLT(7, 14, 44)` | EVERY 7TH THROW; 14 DMG / 44 RADIUS / A CADA 7 DISPAROS; 14 DANO / RAIO 44 | EVERY FEW ATTACKS, A LIGHTNING LANCE STRIKES NEARBY FOES. / A CADA POUCOS ATAQUES, UMA LANCA ELETRICA ATINGE INIMIGOS PROXIMOS. | A needle of starlight waits between volleys, then crosses the battlefield in a single bright instant. / Uma agulha de luz estelar aguarda entre disparos e cruza o campo em um unico instante brilhante. |
-| 143 | **SOUL HARVEST** / COLHEITA DE ALMAS | BLOOD / SANGUE | STATUS / SELF | RARE | ELEMENT / BLOOD | 10 | `KILL_HEALEVERY(1.5, 5); LIFESTEAL(1)` | HEAL EVERY 5 KILLS; 1.5 HP / 1 LIFESTEAL / CURA A CADA 5 ABATES; 1,5 VIDA / 1 DRENAGEM | KILLS FEED YOUR VITALITY; BLOODLUST RESTORES HEALTH ON EVERY HIT. / ABATES ALIMENTAM SUA VITALIDADE; GOLPES DE SANGUE RESTAURAM VIDA. | The harvest is never wasted: every fallen enemy and every stolen heartbeat returns a little strength. / Nada se perde na colheita: cada inimigo abatido e cada batimento roubado devolvem um pouco de vigor. |
+| 143 | **SOUL HARVEST** / COLHEITA DE ALMAS | BLOOD / SANGUE | STATUS / SELF | RARE | ELEMENT / BLOOD | 10 | `KILL_HEALEVERY(1.5, 5, 3); LIFESTEAL(1)` | HEAL EVERY 5 KILLS; 1.5 HP / 1 LIFESTEAL / CURA A CADA 5 ABATES; 1,5 VIDA / 1 DRENAGEM | KILLS FEED YOUR VITALITY; BLOODLUST RESTORES HEALTH ON EVERY HIT. / ABATES ALIMENTAM SUA VITALIDADE; GOLPES DE SANGUE RESTAURAM VIDA. | The harvest is never wasted: every fallen enemy and every stolen heartbeat returns a little strength. / Nada se perde na colheita: cada inimigo abatido e cada batimento roubado devolvem um pouco de vigor. |
 | 144 | **ELEMENTALIST CYCLE** / CICLO DO ELEMENTALIST | AIR / AR | DAMAGE / SELF | LEGENDARY | GLOBAL | 10 | `ELEMENTALIST(8, 18, 42)` | EVERY 8TH ATTACK; RANDOM ELEMENTAL STRIKE / A CADA 8 ATAQUES; GOLPE ELEMENTAL ALEATORIO | EVERY FEW ATTACKS, RANDOMLY RELEASES AN EARTH SPIKE, WATER SLASH, AIR PUSH, OR FIREBALL. / A CADA POUCOS ATAQUES, LIBERA UM GOLPE ALEATORIO DE TERRA, ÁGUA, AR OU FOGO. | Four elements answer the same call, but never in the same order. / Quatro elementos respondem ao mesmo chamado, mas nunca na mesma ordem. |
 | 145 | **FAIRY COMPANION** / COMPANHEIRA FADA | AIR / AR | STATUS / SELF | EPIC | GLOBAL | 5 | `FAIRY(1, 4, 0)` | SUMMONED COMPANION; HEALS EVERY 4 SECONDS / COMPANHEIRA INVOCADA; CURA A CADA 4 SEGUNDOS | A FAIRY FOLLOWS YOU AND PERIODICALLY RESTORES A SMALL AMOUNT OF LIFE. / UMA FADA SEGUE VOCE E RESTAURA VIDA PERIODICAMENTE. | A tiny light follows the survivor and refuses to let hope die. / Uma pequena luz segue o sobrevivente e se recusa a deixar a esperanca morrer. |
 | 146 | **TIME-STOP** / PARADA TEMPORAL | LIGHTNING / RAIO | STATUS / SELF | LEGENDARY | GLOBAL | 9 | `TIME_STOP(12, 1.2, 14)` | EVERY 12TH ATTACK; 1.2S STOP / 14S COOLDOWN / A CADA 12 ATAQUES; 1,2S PARADO / 14S DE RECARGA | EVERY 12 ATTACKS, BRIEFLY STOPS ENEMIES AND THEIR PROJECTILES. RARE AND POWERFUL, WITH A LONG COOLDOWN. / A CADA 12 ATAQUES, PARA INIMIGOS E PROJETEIS POR UM INSTANTE. | Chronos grants no second chance: one stolen moment, then a long silence before time can be folded again. / Chronos nao concede uma segunda chance: um momento roubado, depois um longo silencio antes que o tempo se dobre outra vez. |
 
 ## Weapons
 
-All nine selectable weapons have explicit combat stats. Only Machine Gun is completion-locked; the other eight are available from the weapon selector. Base values are before player stats and spell modifiers.
+All ten weapon variants have explicit combat stats. Machine Gun is completion-locked and Infinity Glove is achievement-locked; the other eight are available from the weapon selector. Base values are before player stats and spell modifiers.
 
 | # | Weapon | Description (EN / PT-BR) | Damage | Attack interval | Range | Projectile speed | Pierce | Hit radius | Unlock / special behavior |
 |---:|---|---|---:|---:|---:|---:|---:|---:|---|
@@ -202,6 +202,7 @@ All nine selectable weapons have explicit combat stats. Only Machine Gun is comp
 | 6 | **TRIDENT** / TRIDENTE | THROW IT, THEN MOVE CLOSE TO RECLAIM IT. / ARREMESSE E CHEGUE PERTO PARA RECUPERAR. | 18 | 1.35 s | 220 px | 170 px/s | 0 | 5 px | Thrown weapon; retrieve it by moving within 32 px. |
 | 7 | **KATANA** / KATANA | A FAST CLOSE-RANGE SWING THAT HITS IN AN ARC AND MAY BLEED. / UM GOLPE RAPIDO DE CURTO ALCANCE QUE ATINGE EM ARCO E PODE CAUSAR SANGRAMENTO. | 9 | 0.48 s | 56 px | 250 px/s | 0 | 3 px | Automatic close-range cleave; 46 px hit range; may cause bleed; distinct swing VFX/SFX. |
 | 8 | **MACHINE GUN** / METRALHADORA | A RAPID MEDIUM-RANGE STREAM; HEAVY TO CARRY, SO YOU MOVE SLOWER. / UMA RAJADA RÁPIDA DE ALCANCE MEDIO; PESADA, ENTÃO VOCÊ SE MOVE MAIS DEVAGAR. | 4 | 0.14 s | 240 px | 420 px/s | 0 | 2.5 px | Unlock after clearing all three campaign levels in all five seasons; movement speed multiplier 0.70. |
+| 9 | **INFINITY GLOVE** / MANOPLA DO INFINITO | A SIX-ELEMENT SHOT THAT CYCLES THROUGH THE ELEMENTAL CIRCLE. / UM DISPARO DE SEIS ELEMENTOS QUE CIRCULA PELO CICLO ELEMENTAL. | 10 | 0.62 s | 210 px | 300 px/s | 0 | 4 px | Available from start. |
 
 ## Music and sound effects
 
@@ -233,6 +234,8 @@ SFX are generated oscillator/noise sweeps; `noise=0` is tonal, `noise=1` is nois
 | DEATH | 400 | 45 | 0.80 s | 0.26 | tonal |
 | BLAST | 260 | 60 | 0.25 s | 0.24 | noise |
 | SWING | 1500 | 240 | 0.12 s | 0.14 | mixed noise + tone |
+| ELECTRIC | 2200 | 280 | 0.18 s | 0.18 | mixed noise + tone |
+| SPLASH | 180 | 65 | 0.22 s | 0.20 | noise |
 
 ## Bestiary
 
@@ -244,12 +247,12 @@ There are **25 enemy types**. Values are base data before wave scaling. `Behavio
 | 1 | **STINGER WASP** / VESPA FERROADORA | FOREST | 4 | 2 | FAST | NORMAL | TOUCH | FAST AND BRITTLE, DIVES AT YOUR HEAD. / RÁPIDA E FRÁGIL, MERGULHA NA SUA CABEÇA. | DASHES AFTER A SHORT WINDUP; DASH / INVESTE APÓS UM CURTO PREPARO | It apologizes after the sting, but only out of habit. / Pede desculpas depois da ferroada, mas só por hábito. |
 | 2 | **BARK BEETLE** / BESOURO-CASCA | FOREST | 18 | 2 | VERY SLOW | SLOW | TOUCH | AN ARMORED WALL OF BARK AND LEGS. / UMA MURALHA BLINDADA DE CASCA E PATAS. | ARMORED -1 DMG; ARMOR / BLINDADO: -1 DE DANO | Wears the forest floor like a coat of old doors. / Veste o chão da floresta como um casaco de portas velhas. |
 | 3 | **WEB SPITTER** / COSPE-TEIAS | FOREST | 8 | 1 | NORMAL | SLOW | HIGH | LURKS IN CORNERS AND SPITS STICKY WEBS. / ESPREITA NOS CANTOS E COSPE TEIAS PEGAJOSAS. | WEBS SLOW YOU; WEB / AS TEIAS DEIXAM VOCÊ LENTO | Every web is a letter, and most of them are about you. / Cada teia é uma carta, e a maioria é sobre você. |
-| 4 | **BROOD MOTHER (BOSS)** / MÃE DA NINHADA (CHEFE) | FOREST | 240 | 6 | NORMAL | NORMAL | HIGH | THE FOREST'S HEART, BIRTHING ENDLESS WASPS. / O CORAÇÃO DA FLORESTA, GERANDO VESPAS SEM FIM. | SUMMONS WASPS, ENRAGES AT 50%; BOSS / INVOCA VESPAS, ENFURECE COM 50% | She does not fight. She only makes more. / Ela não luta. Ela só faz mais. |
+| 4 | **BROOD MOTHER (BOSS)** / MÃE DA NINHADA (CHEFE) | FOREST | 240 | 6 | NORMAL | NORMAL | HIGH | THE FOREST'S HEART, BIRTHING ENDLESS WASPS. / O CORAÇÃO DA FLORESTA, GERANDO VESPAS SEM FIM. | SUMMONS WASPS, ENRAGES AT 50%; BOSS / INVOCA VESPAS, ENFURECE COM 50% | She was a Queen of Chemical, but due to her diabetes she died after eating pineapple with an insect hidden inside of it. / Ela era a Rainha da Química, mas morreu devido ao diabetes depois de comer um abacaxi com um inseto escondido dentro dele. |
 | 5 | **SCARAB** / ESCARAVELHO | DESERT | 8 | 1 | NORMAL | NORMAL | TOUCH | A SCUTTLING DUNE BEETLE. / UM BESOURO DAS DUNAS QUE ANDA DE LADO. | NONE / NENHUM | Pushes a small sun across the sand and resents every witness. / Empurra um solzinho pela areia e se ressente de cada testemunha. |
 | 6 | **BANDAGED THRALL** / ESCRAVO ENFAIXADO | DESERT | 14 | 3 | VERY SLOW | SLOW | TOUCH | A WRAPPED CORPSE THAT RISES AGAIN. / UM CADÁVER ENFAIXADO QUE LEVANTA DE NOVO. | REVIVES ONCE AT 50% HP; REVIVE / REVIVE UMA VEZ COM 50% DE VIDA | Still wearing the linen it was promised would be temporary. / Ainda usa o linho que lhe prometeram ser temporário. |
 | 7 | **ANUBIS HOUND** / CÃO DE ANÚBIS | DESERT | 12 | 3 | VERY FAST | NORMAL | TOUCH | A JACKAL-FACED HUNTER THAT LUNGES IN A LINE. / UM CAÇADOR COM CARA DE CHACAL QUE DÁ BOTES EM LINHA. | STRAIGHT-LINE LUNGE; LUNGE / BOTE EM LINHA RETA | Its smile is the only part of it that holds still. / O sorriso é a única parte dele que fica parada. |
 | 8 | **TOMB GUARDIAN** / GUARDIÃO DA TUMBA | DESERT | 24 | 4 | VERY SLOW | SLOW | TOUCH | A SHIELDED STATUE THAT MUST BE FLANKED. / UMA ESTÁTUA COM ESCUDO QUE PRECISA SER FLANQUEADA. | SHIELD: HIT FROM BEHIND; SHIELD / ESCUDO: ATAQUE PELAS COSTAS | Sworn to a door that fell down three kingdoms ago. / Jurou proteger uma porta que caiu três reinos atrás. |
-| 9 | **SUN PHARAOH (BOSS)** / FARAÓ SOLAR (CHEFE) | DESERT | 260 | 7 | LOW | NORMAL | HIGH | THE SUN-CROWNED RULER OF THE DUNES. / O GOVERNANTE DAS DUNAS COROADO PELO SOL. | SUMMONS REVIVING THRALLS, SOLAR BEAM SWEEP, ENRAGES AT 30%; BOSS / INVOCA ESCRAVOS QUE REVIVEM, VARREDURA DE RAIO SOLAR, ENFURECE COM 30% | His crown is a sunrise he refuses to let finish. / A coroa dele é um nascer do sol que ele se recusa a deixar terminar. |
+| 9 | **SUN PHARAOH (BOSS)** / FARAÓ SOLAR (CHEFE) | DESERT | 260 | 7 | LOW | NORMAL | HIGH | THE SUN-CROWNED RULER OF THE DUNES. / O GOVERNANTE DAS DUNAS COROADO PELO SOL. | SUMMONS REVIVING THRALLS, SOLAR BEAM SWEEP, ENRAGES AT 30%; BOSS / INVOCA ESCRAVOS QUE REVIVEM, VARREDURA DE RAIO SOLAR, ENFURECE COM 30% | Before he died, he was only a simple teacher called Berto Gil, who was a master on Old Gods Reproduction. / Antes de morrer, ele era apenas um professor comum chamado Berto Gil, especialista em reprodução dos Deuses Antigos. |
 | 10 | **FROST BAT** / MORCEGO GÉLIDO | SNOW | 6 | 2 | VERY FAST | FAST | TOUCH | A SHRIEKING FLIER, ERRATIC AND FAST. / UM VOADOR ESTRIDENTE, ERRÁTICO E RÁPIDO. | ERRATIC FLIGHT; ERRATIC / VOO ERRÁTICO | Screams in a key the snow has never learned to ignore. / Grita numa nota que a neve nunca aprendeu a ignorar. |
 | 11 | **ICE ELEMENTAL** / ELEMENTAL DE GELO | SNOW | 16 | 3 | SLOW | NORMAL | TOUCH | A FROZEN CORE THAT SPLITS WHEN BROKEN. / UM NÚCLEO CONGELADO QUE SE DIVIDE AO QUEBRAR. | SPLITS INTO 2 ON DEATH; SPLIT_DEATH / DIVIDE-SE EM 2 AO MORRER | Somewhere inside, a very small summer is still trying to get out. / Lá dentro, um verão minúsculo ainda tenta escapar. |
 | 12 | **FROST ARCHER** / ARQUEIRO GÉLIDO | SNOW | 10 | 3 | LOW | SLOW | VERY HIGH | A PATIENT SHOOTER IN A FROSTED HOOD. / UM ATIRADOR PACIENTE COM CAPUZ COBERTO DE GELO. | HITS SLOW YOU 25%; SLOWHIT / ACERTOS DEIXAM VOCÊ 25% MAIS LENTO | Frost on the string, and nothing in the quiver but winters. / Geada na corda e nada na aljava além de invernos. |
@@ -280,7 +283,7 @@ Campaign seasons each contain three levels with wave quotas of 10, 15, and 20. C
 
 ## Achievements
 
-There are **22 achievements**. Exact completion criteria are taken from the localized descriptions; rewards are listed where applicable.
+There are **21 achievements**. Exact completion criteria are taken from the localized descriptions; rewards are listed where applicable.
 
 | # | Achievement (EN / PT-BR) | Requirement (EN / PT-BR) | Reward / note |
 |---:|---|---|---|
@@ -301,11 +304,10 @@ There are **22 achievements**. Exact completion criteria are taken from the loca
 | 15 | **LITTLE DUMMY** / BOBINHO | Play for at least 1 hour. / Jogue por pelo menos 1 hora. | Achievement only; no cosmetic reward. |
 | 16 | **ABYSS VETERAN** / VETERANO DO ABISMO | Play for at least 10 hours. / Jogue por pelo menos 10 horas. | Achievement only; no cosmetic reward. |
 | 17 | **GO TOUCH GRASS** / VÁ TOCAR GRAMA! | Play for at least 50 hours. Please take a break. / Jogue por pelo menos 50 horas. Faca uma pausa. | Achievement only; no cosmetic reward. |
-| 18 | **NIGHT WATCH** / VIGILANTE NOTURNO | Play for at least 1 hour to unlock the Nightwarden outfit. / Jogue por pelo menos 1 hora para liberar a roupa Nightwarden. | NIGHT COWL (parody headwear) |
-| 19 | **WHY SO SERIOUS?** / POR QUE ESTÁ TÃO SÉRIO? | Play for at least 10 hours to unlock the Grinmask outfit. / Jogue por pelo menos 10 horas para liberar a roupa Grinmask. | GRINNING MASK (parody headwear) |
-| 20 | **CRIMSON CAP** / BONE CARMESIM | Defeat 1,000 enemies to unlock the Crimson Cap outfit. / Derrote 1.000 inimigos para liberar a roupa Bone Carmesim. | Achievement only; no cosmetic reward. |
-| 21 | **HEART OF IRON** / CORAÇÃO DE FERRO | Complete the full catalog to unlock the Arc Helmet outfit. / Complete o catálogo para liberar a roupa Capacete Arc. | ARC HELMET (parody headwear) |
-| 22 | **ELEMENTALIST** / ELEMENTALISTA | Use at least two distinct spells from each spell type. / Use pelo menos duas magias diferentes de cada tipo. | AIR NOMAD ELEMENTALIST outfit |
+| 18 | **ELEMENTALIST** / ELEMENTALISTA | Use at least two distinct spells from each spell type. / Use pelo menos duas magias diferentes de cada tipo. | AIR NOMAD ELEMENTALIST outfit |
+| 19 | **THE START** / O INICIO | Survive Endless mode until at least wave 30. / Sobreviva ao modo Infinito ate pelo menos a onda 30. | Achievement only; no cosmetic reward. |
+| 20 | **WHAT IS INFINITY** / O QUE E O INFINITO | Survive Endless mode until at least wave 50. / Sobreviva ao modo Infinito ate pelo menos a onda 50. | Achievement only; no cosmetic reward. |
+| 21 | **I'M UNSTOPPABLE** / EU SOU IMPARAVEL | Survive Endless mode until at least wave 70. Unlocks the Infinity Glove. / Sobreviva ao modo Infinito ate pelo menos a onda 70. Libera a Manopla do Infinito. | Achievement only; no cosmetic reward. |
 
 ## Customization
 

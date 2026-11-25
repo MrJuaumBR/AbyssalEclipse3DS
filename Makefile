@@ -7,7 +7,11 @@
 ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
+# ROMFS must be a path RELATIVE to TOPDIR. devkitPro's 3ds_rules prepends
+# $(TOPDIR)/ to it internally, so an absolute path here breaks the 3dsx romfs.
 TOPDIR ?= $(CURDIR)
+ROMFS  := romfs
+export TOPDIR ROMFS
 include $(DEVKITARM)/3ds_rules
 
 TARGET      := AbyssalEclipse
@@ -62,20 +66,34 @@ else
 	export APP_ICON := $(TOPDIR)/$(ICON)
 endif
 
-ifeq ($(strip $(NO_SMDH)),)
-	export _3DSXFLAGS += --smdh=$(CURDIR)/$(TARGET).smdh
+# Always emit --romfs= ourselves. Some 3ds_rules versions don't derive it from
+# ROMFS, which silently produced a .3dsx with an empty RomFS. Add the flag
+# explicitly and export _3DSXFLAGS unconditionally (previously it was only
+# exported when NO_SMDH was unset, so romfs could disappear).
+ifneq ($(strip $(ROMFS)),)
+	_3DSXFLAGS += --romfs=$(TOPDIR)/$(ROMFS)
 endif
+ifeq ($(strip $(NO_SMDH)),)
+	_3DSXFLAGS += --smdh=$(CURDIR)/$(TARGET).smdh
+endif
+export _3DSXFLAGS
+
+# Make the recursive build see romfs file changes so `make` rebuilds the
+# .3dsx/.cia whenever anything under romfs/ changes (adding/removing files is a
+# silent no-op in stock 3ds_rules).
+ROMFS_FILES := $(shell find $(ROMFS) -type f 2>/dev/null)
 
 .PHONY: all clean regen cia aseprite-export aseprite-import FORCE
 
 # Prefer Python 3, then python, then the Windows py launcher used by some MSYS2 installs.
 PYTHON ?= $(shell if command -v python3 >/dev/null 2>&1; then echo python3; elif command -v python >/dev/null 2>&1; then echo python; elif command -v py >/dev/null 2>&1; then echo 'py -3'; fi)
+ASEPRITE_EXPORT_ARGS ?= --merge
 DATA_INPUTS := tools/gen_data.py tools/art_raster.py tools/data/mock_data.json tools/data/art.json tools/data/project.json
 
 all: $(BUILD)
 
 # The generated art/spell tables are a prerequisite of the recursive build.
-$(BUILD): source/data_gen.cpp
+$(BUILD): source/data_gen.cpp $(ROMFS_FILES)
 	@mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
@@ -90,12 +108,15 @@ regen: FORCE
 FORCE:
 
 aseprite-export:
-	$(PYTHON) tools/aseprite_sync.py export
+	$(PYTHON) tools/aseprite_sync.py export $(ASEPRITE_EXPORT_ARGS)
 
 aseprite-import:
 	$(PYTHON) tools/aseprite_sync.py import
 
 # --- CIA Build Target ---
+# NOTE: do NOT pass `-romfs romfs` to makerom. That flag expects a pre-built
+# RomFS *binary file* (e.g. built with 3dstool), not a directory. The .cia gets
+# its RomFS from the `RomFs:` section of $(RSF_FILE) (RootPath: romfs).
 cia: all $(BANNER_BNR) $(SMDH_FILE)
 	@echo "Building CIA..."
 	$(MAKEROM) -f cia -target t -exefslogo -o $(CIA_NAME) -elf $(TARGET).elf -rsf $(RSF_FILE) -banner $(BANNER_BNR) -icon $(SMDH_FILE)
@@ -118,7 +139,9 @@ clean:
 
 else
 DEPENDS := $(OFILES:.o=.d)
-$(OUTPUT).3dsx : $(OUTPUT).elf $(OUTPUT).smdh
+# Include romfs files as prerequisites so touching romfs/note.txt forces a
+# relink + repack.
+$(OUTPUT).3dsx : $(OUTPUT).elf $(OUTPUT).smdh $(ROMFS_FILES)
 $(OUTPUT).elf : $(OFILES)
 -include $(DEPENDS)
 endif

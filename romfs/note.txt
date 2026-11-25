@@ -1,0 +1,41 @@
+=== Abyssal Eclipse ===
+Upd 0.2:
+- Multiple Tweaks;
+- Endless Popup Gamerules;
+- Agents/LLMs Skills where added to the Github;
+- New Project dedicated home page;
+- Full enemies sprites rework;
+- New Weapon - Infinity Glove;
+- Rework on Endless Menu;
+- Rework on the In-Game Pause Menu;
+- Rework on Main Menu;
+- Fixes to some spells and enemies;
+- Rework on the Achievments;
+- Rework on the Campaigns System;
+- Rework on the Endless Mode;
+    - Able to Sacrifice Level 5+ Spells;
+    - Able to change the Gamerule of random spells;
+- Spells Balancment;
+- New Screen Shake VFX;
+- New Sprites and Improvments to others;
+- Fixed some text line break issues;
+- Added a new Note/Changelog System;
+
+Upd 0.2-b:
+- Added the QRCode to the ".cia" file;
+- Added translation_editor.html;
+- fixed preview.html;
+- lowered player life (60 -> 40);
+- removed the discontinued mining cosmetic;
+- changed some cosmetic names due to copyright reasons(fear);
+
+Upd 0.1:
+- Achievments;
+- New Cutomization Options;
+    - Some are Achievments rewards;
+- Some New Spells;
+- Statistics Handler;
+- New 2 Pages to Catalog(Music and Clothes).
+
+Upd 0.1-b:
+- No data

@@ -12,10 +12,10 @@ from art_raster import rects
 
 def pixels(shapes):
     out = [[0] * 16 for _ in range(16)]
-    for x, y, w, h, color in shapes:
+    for x, y, w, h, color, alpha in shapes:
         for yy in range(y, min(16, y + h)):
             for xx in range(x, min(16, x + w)):
-                out[yy][xx] = color
+                out[yy][xx] = color if alpha == 255 else (color, alpha)
     return out
 
 
@@ -32,9 +32,11 @@ def main():
     assert clock[2][2] == 0, 'clock face corners must remain transparent'
 
     hat = rects(data['HAT']['arcwarden'], size=32)
-    assert max(x + w for x, y, w, h, c in hat) <= 32
+    assert max(x + w for x, y, w, h, c, a in hat) <= 32
     assert rects(data['HAT']['none'], size=32) == [], 'the none hat must leave the face and head clear'
 
+    translucent = rects('<rect x="1" y="1" width="2" height="2" fill="#AABBCC" fill-opacity="0.5"/>')
+    assert translucent and translucent[0][4:] == (0xAABBCC, 128), 'pixel art must preserve semi-transparent alpha'
     snow = pixels(rects(data['ICO']['snow']))
     assert snow[1][8] == 0xCFE8F5, 'snowflake lines must inherit the group stroke'
     assert snow[0][0] == 0, 'snowflake must not fill unrelated pixels'

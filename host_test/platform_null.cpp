@@ -26,6 +26,7 @@ bool storageRead(const char* name, void* buf, size_t cap, size_t* got) {
   FILE* f = fopen(name, "rb"); if (!f) return false;
   *got = fread(buf, 1, cap, f); fclose(f); return true;
 }
+bool romfsRead(const char* name, void* buf, size_t cap, size_t* got) { (void)name; (void)buf; (void)cap; if (got) *got = 0; return false; }
 bool storageWrite(const char* name, const void* buf, size_t len) {
   char tmp[128]; snprintf(tmp, sizeof tmp, "%s.tmp", name);
   FILE* f = fopen(tmp, "wb"); if (!f) return false;

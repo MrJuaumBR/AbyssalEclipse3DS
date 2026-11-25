@@ -18,7 +18,7 @@ def _color(value):
     return int(m.group(1), 16) if m else None
 
 
-def _runs(mask, color, out, size):
+def _runs(mask, color, alpha, out, size):
     if color is None:
         return
     for y, row in enumerate(mask):
@@ -30,7 +30,7 @@ def _runs(mask, color, out, size):
             x0 = x
             while x < size and row[x]:
                 x += 1
-            out.append((x0, y, x - x0, 1, color))
+            out.append((x0, y, x - x0, 1, color, alpha))
 
 
 def _empty_mask(size):
@@ -72,6 +72,11 @@ def rects(svg, size=16):
         stroke = _color(attrs.get('stroke')) or groups[-1][0]
         stroke_width = float(attrs.get('stroke-width', groups[-1][1]))
         fill = _color(attrs.get('fill'))
+        opacity_text = attrs.get('fill-opacity', attrs.get('opacity', '1'))
+        try: fill_alpha = max(0, min(255, int(float(opacity_text) * 255 + 0.5)))
+        except ValueError: fill_alpha = 255
+        try: stroke_alpha = max(0, min(255, int(float(attrs.get('stroke-opacity', attrs.get('opacity', '1'))) * 255 + 0.5)))
+        except ValueError: stroke_alpha = 255
 
         if tag == 'rect':
             x, y = float(attrs['x']), float(attrs['y'])
@@ -82,7 +87,7 @@ def rects(svg, size=16):
                     for px in range(size):
                         cx, cy = px + 0.5, py + 0.5
                         mask[py][px] = x <= cx < x + w and y <= cy < y + h
-                _runs(mask, fill, out, size)
+                _runs(mask, fill, fill_alpha, out, size)
             if stroke is not None and stroke_width > 0 and w > 0 and h > 0:
                 mask = _empty_mask(size)
                 half = stroke_width * 0.5
@@ -92,7 +97,7 @@ def rects(svg, size=16):
                         inside = x <= cx < x + w and y <= cy < y + h
                         near = min(abs(cx-x), abs(cx-(x+w)), abs(cy-y), abs(cy-(y+h))) <= half
                         mask[py][px] = inside and near
-                _runs(mask, stroke, out, size)
+                _runs(mask, stroke, stroke_alpha, out, size)
 
         elif tag in ('circle', 'ellipse'):
             cx, cy = float(attrs['cx']), float(attrs['cy'])
@@ -112,8 +117,8 @@ def rects(svg, size=16):
                         fill_mask[py][px] = True
                     if stroke is not None and stroke_width > 0 and abs(radius - 1.0) <= half / max(rx, ry):
                         stroke_mask[py][px] = True
-            _runs(fill_mask, fill, out, size)
-            _runs(stroke_mask, stroke, out, size)
+            _runs(fill_mask, fill, fill_alpha, out, size)
+            _runs(stroke_mask, stroke, stroke_alpha, out, size)
 
         elif tag == 'line':
             color = stroke or 0xFFFFFF
@@ -125,7 +130,7 @@ def rects(svg, size=16):
                 for px in range(size):
                     if _segment_distance(px + 0.5, py + 0.5, x1, y1, x2, y2) <= radius:
                         mask[py][px] = True
-            _runs(mask, color, out, size)
+            _runs(mask, color, stroke_alpha, out, size)
     return out
 
 

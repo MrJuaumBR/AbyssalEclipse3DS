@@ -68,8 +68,8 @@ S('SKY DANCE',('NTH_DOUBLE',3)); S('TEMPEST',('HIT_BOLT',8,2)); S('EYE OF THE ST
 S('BLOOD PEBBLE',('LIFESTEAL',1)); S('THIRST',('VS_WOUNDED',15)); S('BLOOD SIGIL',('DMG_PCT',30),('MAXHP_PCT',-25))
 S('CRIMSON PACT',('DMG_PCT',40),('HEAL_PCT',-50)); S('VAMPIRE TOUCH',('LIFESTEAL',3)); S('RUPTURE',('HIT_BLEED',3,3))
 S('VEIN BURST',('KILL_BURST',8,48)); S('MARTYR',('TAKEN_PCT',-15),('DEALT_PCT',-10)); S('LAST BREATH',('LOWHP_DMG',50,30))
-S('BLOOD MOON',('AURA',3,56,0),('AURA_HEALKILL',1)); S('SANGUINE RITE',('KILL_MAXHP',1,10)); S('CRIMSON CHAIN',('CRIT_HEAL',1))
-S('RED TIDE',('AURA',2,56,0),('KILL_HEALEVERY',1,4)); S('HEART OF GLASS',('MAXHP_PCT',-40),('DMG_PCT',60)); S('EXSANGUINATE',('EXSANG',8))
+S('BLOOD MOON',('AURA',3,56,0),('AURA_HEALKILL',1)); S('SANGUINE RITE',('KILL_MAXHP',1,10,5)); S('CRIMSON CHAIN',('CRIT_HEAL',1))
+S('RED TIDE',('AURA',2,56,0),('KILL_HEALEVERY',1,4,2.5)); S('HEART OF GLASS',('MAXHP_PCT',-40),('DMG_PCT',60)); S('EXSANGUINATE',('EXSANG',8))
 # lightning
 S('JOLT',('ATKSPD_PCT',8)); S('STATIC CLING',('HIT_CHAIN',2,1)); S('STATIC BLOOM',('KILL_BURST',5,40))
 S('SHOCK THERAPY',('VS_FROZEN',25)); S('OVERCHARGE',('DMG_PCT',20),('MAXHP_PCT',-10)); S('THUNDER STEP',('MOVE_PCT',10),('TRAIL_SPARK',2))
@@ -103,7 +103,7 @@ S('TEMPEST CROWN',('NTH_STRIKE3',5,10,3))
 # New hybrid spells combine existing systems and benefit from meaningful upgrades.
 S('GLACIAL BLOOM',('HIT_FREEZE',18,1.2),('KILL_BURST',6,32))
 S('STARLANCE',('NTH_BOLT',7,14,44))
-S('SOUL HARVEST',('KILL_HEALEVERY',1.5,5),('LIFESTEAL',1))
+S('SOUL HARVEST',('KILL_HEALEVERY',1.5,5,3),('LIFESTEAL',1))
 S('ELEMENTALIST CYCLE',('ELEMENTALIST',8,18,42))
 S('FAIRY COMPANION',('FAIRY',1.0,4.0,0.0))
 S('TIME-STOP',('TIME_STOP',12,1.2,14))
@@ -188,12 +188,15 @@ EXTRA = {  # key: (en, pt)
  'ach_redcap':("IT'S-A ME",'AQUI E O REDCAP'), 'ach_redcap_desc':('Defeat 1,000 enemies to unlock the Redcap parody outfit.','Derrote 1.000 inimigos para liberar a roupa parodia do Redcap.'),
  'ach_arcwarden':('HEART OF IRON','CORACAO DE FERRO'), 'ach_arcwarden_desc':('Complete the full catalog to unlock the Arc Warden parody outfit.','Complete o catalogo para liberar a roupa parodia do Homem de Ferro.'),
  'ach_elementalist':('ELEMENTALIST','ELEMENTALIST'), 'ach_elementalist_desc':('Use at least two distinct spells from each spell type to unlock the Elementalist outfit.','Use pelo menos duas magias diferentes de cada tipo para liberar a roupa do Elementalist.'),
+ 'ach_start':('THE START','O INICIO'), 'ach_start_desc':('Survive Endless mode until at least wave 30.','Sobreviva ao modo Infinito ate pelo menos a onda 30.'),
+ 'ach_infinity':('WHAT IS INFINITY','O QUE E O INFINITO'), 'ach_infinity_desc':('Survive Endless mode until at least wave 50.','Sobreviva ao modo Infinito ate pelo menos a onda 50.'),
+ 'ach_unstoppable':("I'M UNSTOPPABLE",'EU SOU IMPARAVEL'), 'ach_unstoppable_desc':('Survive Endless mode until at least wave 70. Unlocks the Infinity Glove.','Sobreviva ao modo Infinito ate pelo menos a onda 70. Libera a Manopla do Infinito.'),
  'stat_games':('RUNS','PARTIDAS'), 'stat_wins':('WINS','VITORIAS'), 'stat_losses':('LOSSES','DERROTAS'),
  'stat_kills':('LIFETIME KILLS','ABATES TOTAIS'), 'stat_picks':('SPELLS ACQUIRED','MAGIAS OBTIDAS'),
  'stat_casts':('SPELL ACTIVATIONS','ATIVACOES DE MAGIA'),
  'stat_upgrades':('SPELL UPGRADES','MELHORIAS DE MAGIA'), 'stat_throws':('WEAPON ATTACKS','ATAQUES DA ARMA'),
  'stat_time':('TIME PLAYED','TEMPO JOGADO'), 'ach_progress':('PROGRESS','PROGRESSO'),
- 'ach_hint':('UP/DOWN: SELECT   B: BACK','CIMA/BAIXO: SELECIONAR   B: VOLTAR'),
+ 'ach_hint':('UP/DOWN: SELECT  L/R: PAGE  B: BACK','CIMA/BAIXO: SELECIONAR  L/R: PAGINA  B: VOLTAR'),
  'cat_clothes':('CLOTHES','ROUPAS'), 'cat_music':('MUSIC','MUSICAS'),
  'music_locked':('CLEAR THE SEASON TO UNLOCK THIS TRACK','CONCLUA A ESTACAO PARA DESBLOQUEAR ESTA MUSICA'),
  'music_play':('A: PLAY TRACK','A: TOCAR MUSICA'), 'music_stop':('B: STOP PREVIEW','B: PARAR PREVIA'),
@@ -207,12 +210,59 @@ EXTRA = {  # key: (en, pt)
  'music_snow':('SNOW - WHITE SILENCE','NEVE - SILENCIO BRANCO'),
  'music_mountain':('MOUNTAIN - STONE ABOVE','MONTANHA - PEDRA ACIMA'),
  'music_eclipse':('ECLIPSE - THE LAST LIGHT','ECLIPSE - A ULTIMA LUZ'),
+ 'cat_element':('ELEMENT: %s','ELEMENTO: %s'), 'cat_season':('SEASON: %s','ESTACAO: %s'),
+ 'cat_general_spells':('GENERAL SPELLS','MAGIAS GERAIS'),
+ 'cat_normal_clothes':('NORMAL CLOTHES','ROUPAS COMUNS'), 'cat_reward_clothes':('REWARD CLOTHES','ROUPAS DE RECOMPENSA'),
+ 'cat_normal_weapons':('NORMAL WEAPONS','ARMAS COMUNS'), 'cat_reward_weapons':('REWARD WEAPONS','ARMAS DE RECOMPENSA'),
+ 'cat_prev':('PREV','ANT.'), 'cat_next':('NEXT','PROX.'),
+ 'cat_controls':('L/R TAB   X/Y LORE   B BACK','L/R ABA   X/Y TEXTO   B VOLTAR'),
+ 'run_info':('RUN INFO','INFO DA PARTIDA'), 'run_info_controls':('TOUCH DRAG  X/Y FAST SCROLL  L/R TABS','TOQUE ARRASTA  X/Y ROLA  L/R ABAS'),
+ 'run_section':('RUN','PARTIDA'), 'character_section':('CHARACTER','PERSONAGEM'),
+ 'combat_section':('COMBAT','COMBATE'), 'other_section':('OTHER','OUTROS'),
+ 'run_value':('VALUE','VALOR'), 'run_change':('CHANGE','ALTERACAO'),
+ 'stat_damage':('DAMAGE','DANO'), 'stat_attack_rate':('ATTACK RATE','ATAQUES/S'),
+ 'stat_range':('RANGE','ALCANCE'), 'stat_move_speed':('MOVE SPEED','MOVIMENTO'),
+ 'stat_crit_chance':('CRIT CHANCE','CHANCE CRIT.'), 'stat_crit_power':('CRIT POWER','PODER CRIT.'),
+ 'stat_max_hp':('MAX HP','HP MAXIMO'), 'stat_damage_reduction':('DAMAGE RED.','RED. DANO'),
+ 'stat_area':('AREA','AREA'), 'stat_projectile_speed':('PROJECTILE SPD.','VEL. PROJETIL'),
+ 'stat_xp_gain':('XP GAIN','GANHO XP'), 'stat_pierce':('EXTRA PIERCE','PERFURACAO'),
  'store_points':('X: STORE POINTS','X: GUARDAR PONTOS'), 'use_stored':('Y: USE STORED ({n})','Y: USAR GUARDADOS ({n})'),
  'stores_left':('BANK USES LEFT: {n}/3','USOS DO BANCO: {n}/3'), 'points_stored':('POINTS STORED','PONTOS GUARDADOS'),
  'release_status':('RELEASE','LANCAMENTO'),
  'cloth_elementalist':('AIR NOMAD ELEMENTALIST','ELEMENTALIST NOMADE DO AR'),
  'trident_ready':('TRIDENT RECLAIMED','TRIDENTE RECUPERADO'),
- 'trident_out':('TRIDENT OUT - MOVE CLOSE TO RECOVER','TRIDENTE FORA - CHEGUE PERTO PARA RECUPERAR')
+ 'trident_out':('TRIDENT OUT - MOVE CLOSE TO RECOVER','TRIDENTE FORA - CHEGUE PERTO PARA RECUPERAR'),
+ 'campaigns_title':('CAMPAIGNS','CAMPANHAS'),
+ 'campaign_main':('MAIN CAMPAIGN','CAMPANHA PRINCIPAL'),
+ 'campaign_events':('SPECIAL EVENTS','EVENTOS ESPECIAIS'),
+ 'campaign_main_short':('Five seasonal chapters','Cinco capitulos sazonais'),
+ 'campaign_events_short':('Limited-time adventures','Aventuras por tempo limitado'),
+ 'campaign_main_desc':('Play the five authored chapters: Forest, Desert, Snow, Mountain and Eclipse.','Jogue os cinco capitulos criados: Floresta, Deserto, Neve, Montanha e Eclipse.'),
+ 'campaign_events_desc':('Seasonal events will appear here when their content is ready.','Eventos sazonais aparecerao aqui quando estiverem prontos.'),
+ 'campaign_overview':('Choose a campaign, then browse its contents below.','Escolha uma campanha e navegue pelo conteudo abaixo.'),
+ 'campaign_choose':('TOUCH SELECT  A: CONTENTS','TOQUE SELEC.  A: CONTEUDO'),
+ 'campaign_browse':('TOUCH SELECT  A: OPEN  B: BACK','TOQUE SELEC.  A: ABRIR  B: VOLTAR'),
+ 'campaign_coming':('COMING SOON','EM BREVE'),
+ 'campaign_christmas':('CHRISTMAS','NATAL'), 'campaign_easter':('EASTER','PASCOA'), 'campaign_halloween':('HALLOWEEN','HALLOWEEN'),
+ 'campaign_current_forest':('FOREST','FLORESTA'),
+ 'campaign_current_desert':('DESERT','DESERTO'),
+ 'campaign_current_snow':('SNOW','NEVE'),
+ 'campaign_current_mountain':('MOUNTAIN','MONTANHA'),
+ 'campaign_current_eclipse':('ECLIPSE','ECLIPSE'),
+ 'campaign_future':('FUTURE & STEAM','FUTURO & VAPOR'),
+ 'campaign_future_short':('Two upcoming eras','Duas eras futuras'),
+ 'campaign_future_desc':('Future & Steam will add a cyberpunk season and a steampunk season in a later update.','Futuro & Vapor adicionara uma temporada cyberpunk e uma steampunk em uma atualizacao futura.'),
+ 'campaign_future_cyberpunk':('CYBERPUNK','CYBERPUNK'),
+ 'campaign_future_steampunk':('STEAMPUNK','STEAMPUNK'),
+ 'ach_popup':('ACHIEVEMENT UNLOCKED','CONQUISTA DESBLOQUEADA'),
+ 'save_recovery':('SAVE RECOVERY REQUIRED - BACKUP PRESERVED','RECUPERACAO NECESSARIA - BACKUP PRESERVADO'),
+ 'save_status_loaded':('loaded','carregado'), 'save_status_migrated':('migrated','migrado'),
+ 'save_status_new':('new save','novo save'), 'save_status_recovery':('recovery required','recuperacao necessaria'),
+ 'sacrifice_action':('HOLD A/TOUCH 3S: +{n} XP','SEGURE A/TOQUE 3S: +{n} XP'),
+ 'sacrifice_ready':('HOLD FOR 3 SECONDS  |  RANK 5+','SEGURE POR 3 SEGUNDOS  |  RANK 5+'),
+ 'sacrifice_used':('ALREADY SACRIFICED THIS WAVE','JA SACRIFICOU NESTA ONDA'),
+ 'sacrifice_locked':('INFINITE ONLY - SPELL MUST BE RANK 5+','SO INFINITO - MAGIA PRECISA ESTAR NO RANK 5+'),
+ 'sacrifice_toast':('SACRIFICED: +{n} XP','SACRIFICADA: +{n} XP')
 }
 
 def main():
@@ -302,7 +352,7 @@ def main():
     def emit(name, svg, size=16):
         r = rects(svg, size=size)
         if not r: return 0
-        o.append('static const PixRect %s[] = {%s};' % (name, ','.join('{%d,%d,%d,%d,0x%06X}'%t for t in r)))
+        o.append('static const PixRect %s[] = {%s};' % (name, ','.join('{%d,%d,%d,%d,0x%06X,%d}'%t for t in r)))
         return len(r)
         
     arts=[]
@@ -325,12 +375,19 @@ def main():
         if not rects(svg): fa.append(('nullptr',0)); continue
         n=emit('ART_F_'+f,svg, size=32); fa.append(('ART_F_'+f,n))
     o.append('const PixArt ART_FACE[6] = {%s};' % ','.join('{%s,%d}'%a for a in fa))
+
+    spell_art = ['fairy','sentinel','drone']
+    sa=[]
+    for art_name in spell_art:
+        n=emit('ART_S_'+art_name,A['SPELL'][art_name]); sa.append(('ART_S_'+art_name,n))
+    sa += [('nullptr',0),('nullptr',0)]
+    o.append('const PixArt ART_SPELL[SA_COUNT] = {%s};' % ','.join('{%s,%d}'%a for a in sa))
     
-    icons = ['leaf','pyr','snow','peak','ecl','lock','book','heart','gem','shield','bolt','clover','star','skull','clock','trophy','dagger','bow','axe','staff','shotgun','pistol','trident','chest','bug','sprout','katana','machine_gun']
+    icons = ['leaf','pyr','snow','peak','ecl','lock','book','heart','gem','shield','bolt','clover','star','skull','clock','trophy','dagger','bow','axe','staff','shotgun','pistol','trident','chest','bug','sprout','katana','machine_gun','cyber','steam','gear','infinity','event_christmas','event_easter','event_halloween','coin','potion']
     ia=[]
     for ic in icons:
         n=emit('ART_I_'+ic,A['ICO'][ic]); ia.append(('ART_I_'+ic,n))
-    o.append('const PixArt ART_ICON[%d] = {%s};' % (len(icons),','.join('{%s,%d}'%a for a in ia)))
+    o.append('const PixArt ART_ICON[37] = {%s};' % (','.join('{%s,%d}'%a for a in ia)))
     
     open(os.path.join(ROOT,'source','data_gen.cpp'),'w',encoding='utf-8').write('\n'.join(o)+'\n')
     print('kinds used:', ' '.join(KINDS))

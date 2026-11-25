@@ -31,7 +31,7 @@ from art_raster import rects
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_JSON = ROOT / "tools" / "data" / "art.json"
 DEFAULT_WORK = ROOT / "tools" / "aseprite_work"
-GROUPS = ("ENEMY", "HAT", "FACE", "ICO")
+GROUPS = ("ENEMY", "HAT", "FACE", "ICO", "SPELL")
 MANIFEST_NAME = "aseprite_manifest.json"
 FORMAT_VERSION = 1
 
@@ -59,8 +59,8 @@ def render_fragment(fragment: str, size: int) -> Image.Image:
     """Render the project's opaque pixel-runs into a transparent RGBA image."""
     image = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     pixels = image.load()
-    for x, y, w, h, color in rects(fragment, size=size):
-        rgba = ((color >> 16) & 255, (color >> 8) & 255, color & 255, 255)
+    for x, y, w, h, color, alpha in rects(fragment, size=size):
+        rgba = ((color >> 16) & 255, (color >> 8) & 255, color & 255, alpha)
         for yy in range(y, min(size, y + h)):
             for xx in range(x, min(size, x + w)):
                 pixels[xx, yy] = rgba
@@ -79,30 +79,29 @@ def png_to_fragment(image: Image.Image) -> str:
         x = 0
         while x < width:
             r, g, b, a = px[x, y]
-            if a not in (0, 255):
-                raise ValueError(f"semi-transparent pixel at ({x},{y}); use fully opaque colors or full transparency")
             if a == 0:
                 x += 1
                 continue
             color = (r, g, b)
             x0 = x
             x += 1
-            while x < width and px[x, y] == (r, g, b, 255):
+            while x < width and px[x, y] == (r, g, b, a):
                 x += 1
-            key = (x0, x - x0, color)
+            key = (x0, x - x0, color, a)
             rect = previous.get(key)
             if rect is not None and rect["y"] + rect["height"] == y:
                 rect["height"] += 1
             else:
-                rect = {"x": x0, "y": y, "width": x - x0, "height": 1, "color": color}
+                rect = {"x": x0, "y": y, "width": x - x0, "height": 1, "color": color, "alpha": a}
                 rectangles.append(rect)
             current[key] = rect
         previous = current
 
-    rectangles.sort(key=lambda r: (r["y"], r["x"], r["color"]))
+    rectangles.sort(key=lambda r: (r["y"], r["x"], r["color"], r["alpha"]))
     return "".join(
         f'<rect x="{r["x"]}" y="{r["y"]}" width="{r["width"]}" height="{r["height"]}" '
-        f'fill="#{r["color"][0]:02X}{r["color"][1]:02X}{r["color"][2]:02X}"/>'
+        f'fill="#{r["color"][0]:02X}{r["color"][1]:02X}{r["color"][2]:02X}"'
+        + (f' fill-opacity="{r["alpha"] / 255:.4f}"' if r["alpha"] < 255 else '') + '/>'
         for r in rectangles
     )
 
@@ -116,10 +115,23 @@ def safe_output_path(root: Path, relative: str) -> Path:
 
 def export_assets(args) -> int:
     data = load_data(args.json)
-    if (args.out / MANIFEST_NAME).exists() and not args.overwrite:
-        raise SystemExit(f"Refusing to replace existing {args.out / MANIFEST_NAME}; use --overwrite or choose a new --out folder")
+    manifest_path = args.out / MANIFEST_NAME
+    existing_assets = {}
+    if manifest_path.exists() and args.merge and not args.overwrite:
+        try:
+            old_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise SystemExit(f"Cannot read existing {manifest_path}: {exc}") from exc
+        if old_manifest.get("format_version") != FORMAT_VERSION or not isinstance(old_manifest.get("assets"), list):
+            raise SystemExit(f"Unsupported or invalid existing {MANIFEST_NAME}; move it aside or use --overwrite")
+        for asset in old_manifest["assets"]:
+            group, name = asset.get("group"), asset.get("name")
+            if group in data and isinstance(data[group], dict) and name in data[group]:
+                existing_assets[(group, name)] = asset
+    elif manifest_path.exists() and not args.overwrite:
+        raise SystemExit(f"Refusing to replace existing {manifest_path}; use --merge to preserve existing art or --overwrite to replace it")
     groups = [args.group] if args.group else list(GROUPS)
-    assets = []
+    assets = existing_assets
     seen_files = set()
     for group in groups:
         entries = data[group]
@@ -133,16 +145,19 @@ def export_assets(args) -> int:
             seen_files.add(relative.as_posix())
             output = args.out / relative
             if output.exists() and not args.overwrite:
-                raise SystemExit(f"Refusing to overwrite {output}; use --overwrite or choose a new --out folder")
+                if not args.merge:
+                    raise SystemExit(f"Refusing to overwrite {output}; use --merge to preserve it or --overwrite to replace it")
+                assets[(group, name)] = {"group": group, "name": name, "size": canvas_for(group), "file": relative.as_posix()}
+                continue
             output.parent.mkdir(parents=True, exist_ok=True)
             size = canvas_for(group)
             render_fragment(entries[name], size).save(output)
-            assets.append({"group": group, "name": name, "size": size, "file": relative.as_posix()})
+            assets[(group, name)] = {"group": group, "name": name, "size": size, "file": relative.as_posix()}
 
     args.out.mkdir(parents=True, exist_ok=True)
-    manifest = {"format_version": FORMAT_VERSION, "source_json": str(args.json), "assets": assets}
-    (args.out / MANIFEST_NAME).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    print(f"Exported {len(assets)} native-size PNGs to {args.out}")
+    manifest = {"format_version": FORMAT_VERSION, "source_json": str(args.json), "assets": list(assets.values())}
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    print(f"Exported or preserved {len(assets)} native-size PNGs in {args.out}")
     print(f"Open/edit the PNGs in Aseprite; keep the canvas size and save with the same filename.")
     return 0
 
@@ -284,6 +299,7 @@ def make_parser():
     exp.add_argument("--out", type=Path, default=DEFAULT_WORK, help="Aseprite work folder")
     exp.add_argument("--group", choices=GROUPS, help="export one art group")
     exp.add_argument("--name", help="export one named entry; requires --group")
+    exp.add_argument("--merge", action="store_true", help="preserve existing PNGs and manifest entries; add missing/new assets")
     exp.add_argument("--overwrite", action="store_true", help="allow overwriting existing PNGs/manifest")
 
     imp = sub.add_parser("import", help="import edited PNG/Aseprite files into art.json", add_help=False)

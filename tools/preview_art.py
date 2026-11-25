@@ -31,7 +31,7 @@ from art_raster import rects
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_JSON = ROOT / "tools" / "data" / "art.json"
 DEFAULT_OUT = ROOT / "tools" / "preview"
-GROUPS = ("ENEMY", "HAT", "FACE", "ICO")
+GROUPS = ("ENEMY", "HAT", "FACE", "ICO", "SPELL")
 LABEL_H = 26
 PAD = 8
 BG = (20, 18, 30, 255)
@@ -51,8 +51,8 @@ def canvas_for(group: str) -> int:
 def raster_image(svg: str, size: int, scale: int) -> Image.Image:
     image = Image.new("RGBA", (size * scale, size * scale), (0, 0, 0, 0))
     px = image.load()
-    for x, y, w, h, color in rects(svg, size=size):
-        rgb = ((color >> 16) & 255, (color >> 8) & 255, color & 255, 255)
+    for x, y, w, h, color, alpha in rects(svg, size=size):
+        rgb = ((color >> 16) & 255, (color >> 8) & 255, color & 255, alpha)
         for yy in range(y, min(size, y + h)):
             for xx in range(x, min(size, x + w)):
                 for sy in range(scale):

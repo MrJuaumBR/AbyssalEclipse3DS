@@ -1,0 +1,193 @@
+/* MrJuaumBR universal ecosystem layer. Load after project styles. */
+.theme-dropdown{display:none!important}
+:root{--ug-z-settings:1200;--ug-motion-scale:1;--ug-radius:16px;--ug-shadow:0 18px 60px rgb(0 0 0/.34)}
+body.skin-piece-ocean{--primary:#087fbd;--primary-light:#39c4e8;--accent:#ffcb55;--surface:#102b3b;--bg-dark:#061923}
+body.skin-kaiju-war{--primary:#c62828;--primary-light:#ff5648;--accent:#b9e42b;--surface:#202a28;--bg-dark:#0b1110}
+body.skin-piece-ocean.theme-light{--bg-dark:#e9f8fc;--surface:#fff;--text:#102b3b;--text-muted:#426373;--border:#b5dbe7}
+body.skin-kaiju-war.theme-light{--bg-dark:#f4f5ef;--surface:#fff;--text:#202a28;--text-muted:#52605b;--border:#cbd2c6}
+.ug-appearance-trigger{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));z-index:var(--ug-z-settings);width:54px;height:54px;border:1px solid var(--border,#415064);border-radius:50%;color:var(--text,#fff);background:var(--surface,#1f2833);box-shadow:var(--ug-shadow);display:grid;place-items:center;cursor:pointer;font-size:1.15rem;transition:transform calc(180ms * var(--ug-motion-scale)) ease,background .2s}
+.ug-appearance-trigger:hover{transform:translateY(-3px)}.ug-appearance-panel{position:fixed;z-index:calc(var(--ug-z-settings) + 1);left:max(16px,env(safe-area-inset-left));bottom:80px;width:min(360px,calc(100vw - 32px));max-height:min(76dvh,640px);overflow:auto;padding:18px;border:1px solid var(--border,#415064);border-radius:18px;color:var(--text,#fff);background:var(--surface,#1f2833);box-shadow:var(--ug-shadow);transform-origin:bottom left;animation:ug-in calc(180ms * var(--ug-motion-scale)) ease both}.ug-appearance-panel[hidden]{display:none}.ug-appearance-panel h2{font-size:1.05rem;margin:0 0 12px}.ug-settings-row{display:grid;gap:6px;margin:12px 0}.ug-settings-row label{font-size:.84rem;color:var(--text-muted,#a0a0a0)}.ug-settings-row select{width:100%;min-height:44px;padding:8px 10px;border-radius:9px;border:1px solid var(--border,#415064);color:var(--text,#fff);background:var(--bg-dark,#0b0c10);font:inherit}.ug-panel-close{position:absolute;right:12px;top:10px;min-width:40px;min-height:40px;border:0;border-radius:10px;background:transparent;color:inherit;font-size:1.2rem;cursor:pointer}
+.ug-scroll-top{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));z-index:900;width:48px;height:48px;border:0;border-radius:50%;color:white;background:var(--primary,#7b2cbf);box-shadow:0 8px 24px rgb(0 0 0/.25);cursor:pointer;opacity:0;visibility:hidden;transition:transform calc(220ms * var(--ug-motion-scale)) cubic-bezier(.2,.8,.2,1),opacity .2s,visibility .2s}.ug-scroll-top.show{opacity:.82;visibility:visible}.ug-scroll-top.show:hover{opacity:1;transform:translateY(-3px)}
+.ug-toast-region{position:fixed;z-index:1500;right:16px;top:max(16px,env(safe-area-inset-top));display:grid;gap:10px;width:min(380px,calc(100vw - 32px));pointer-events:none}.ug-toast{position:relative;overflow:hidden;padding:14px 42px 14px 16px;border:1px solid var(--border,#415064);border-left:4px solid var(--ug-tone,#4da3ff);border-radius:12px;color:var(--text,#fff);background:var(--surface,#1f2833);box-shadow:var(--ug-shadow);pointer-events:auto;animation:ug-in calc(220ms * var(--ug-motion-scale)) ease both}.ug-toast[data-kind=success]{--ug-tone:#24b47e}.ug-toast[data-kind=danger]{--ug-tone:#e5484d}.ug-toast[data-kind=warn]{--ug-tone:#e8a317}.ug-toast[data-kind=info]{--ug-tone:#4395e8}.ug-toast p{margin:0}.ug-toast-close{position:absolute;right:6px;top:5px;width:36px;height:36px;border:0;background:transparent;color:inherit;font-size:1.15rem;cursor:pointer}.ug-toast-progress{position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--ug-tone);transform-origin:left;animation:ug-progress var(--ug-duration,4s) linear forwards}.ug-window{position:fixed;z-index:1300;inset:50% auto auto 50%;width:min(720px,calc(100vw - 24px));max-height:min(82dvh,760px);display:flex;flex-direction:column;transform:translate(-50%,-50%);border:1px solid var(--border,#415064);border-radius:14px;color:var(--text,#fff);background:var(--surface,#1f2833);box-shadow:var(--ug-shadow);overflow:hidden}.ug-window[hidden]{display:none}.ug-window-titlebar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:color-mix(in srgb,var(--primary,#7b2cbf) 20%,var(--surface,#1f2833));cursor:move}.ug-window-titlebar button{width:38px;height:38px;border:0;border-radius:8px;color:inherit;background:transparent;cursor:pointer}.ug-window-content{padding:16px;overflow:auto}.ug-window.is-maximized{inset:12px;width:auto;max-height:none;transform:none}.ug-window.is-minimized .ug-window-content{display:none}
+@keyframes ug-in{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes ug-progress{to{transform:scaleX(0)}}
+:where(button,a,input,select,textarea):focus-visible{outline:3px solid var(--accent,#64dfdf);outline-offset:3px}
+@media(max-width:600px){.ug-appearance-panel{bottom:78px}.ug-window{width:calc(100vw - 16px);max-height:calc(100dvh - 24px)}.ug-toast-region{right:8px;width:calc(100vw - 16px)}}
+@media(prefers-reduced-motion:reduce){:root{--ug-motion-scale:0}.ug-appearance-trigger,.ug-appearance-panel,.ug-toast,.ug-toast-progress,.ug-scroll-top{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Mobile performance guardrails: favor compositor-safe motion and avoid costly backdrop filters. */
+@media (max-width: 760px){
+  body.skin-cyberpunk .background,body.skin-solo-leveling .background{animation:none!important;background-size:cover!important}
+  .animated-border .card,.animated-border .skill-card,.animated-border .game-card,.animated-border .repo-card,.animated-border .artist-card{animation:none!important}
+  .animated-border .card::after,.animated-border .skill-card::after,.animated-border .game-card::after,.animated-border .repo-card::after,.animated-border .artist-card::after{animation:none!important;filter:none!important}
+  .game-card .game-detail-panel,.skin-cyberpunk .card,.setup-carousel-arrow{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .artists-carousel{animation-duration:60s}
+}
+/* Universal appearance window and per-skin named accent palette tokens. */
+.ug-appearance-window{position:fixed;left:max(12px,env(safe-area-inset-left));right:auto;top:auto;bottom:max(82px,calc(env(safe-area-inset-bottom) + 76px));transform:none;width:min(390px,calc(100vw - 24px));max-height:min(78dvh,720px);z-index:1305;border-radius:14px;}
+.ug-appearance-window .ug-window-titlebar{cursor:grab;touch-action:none;user-select:none}
+.ug-appearance-window .ug-window-titlebar:active{cursor:grabbing}
+.ug-window-controls{display:flex;align-items:center;gap:4px}.ug-window-controls button{width:38px;height:38px;border:0;border-radius:8px;background:transparent;color:inherit;font-size:1.15rem;cursor:pointer}.ug-window-controls button:hover,.ug-window-controls button:focus-visible{background:color-mix(in srgb,var(--primary,#7b2cbf) 24%,transparent)}
+.ug-window-content{display:grid;gap:10px}.ug-settings-row{margin:0}.ug-settings-row select,.ug-settings-row input[type=range]{width:100%;min-height:42px}.ug-settings-row input[type=color]{width:56px;height:40px;padding:2px;border:1px solid var(--border,#415064);border-radius:8px;background:var(--surface,#1f2833)}
+.ug-segmented{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ug-segmented button{min-height:42px;border:1px solid var(--border,#415064);border-radius:9px;color:var(--text,#fff);background:var(--bg-dark,#0b0c10);font:inherit;cursor:pointer}.ug-segmented button.active{border-color:var(--primary-light,#9d4edd);box-shadow:inset 0 0 0 1px var(--primary,#7b2cbf);background:color-mix(in srgb,var(--primary,#7b2cbf) 22%,var(--surface,#1f2833))}
+.ug-section-label{margin:2px 0 0;font-size:.86rem;color:var(--text-muted,#a0a0a0)}.ug-palette-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ug-palette-choice{display:flex;align-items:center;gap:9px;min-height:44px;padding:7px 10px;border:1px solid var(--border,#415064);border-radius:10px;color:var(--text,#fff);background:var(--bg-dark,#0b0c10);text-align:left;font:inherit;cursor:pointer}.ug-palette-choice[aria-pressed=true]{border-color:var(--ug-swatch);box-shadow:0 0 0 1px var(--ug-swatch),0 0 18px color-mix(in srgb,var(--ug-swatch) 28%,transparent)}.ug-swatch{width:20px;height:20px;flex:0 0 20px;border-radius:50%;background:var(--ug-swatch);box-shadow:0 0 0 2px color-mix(in srgb,var(--ug-swatch) 30%,transparent)}.ug-check-row{display:flex;align-items:center;gap:9px;min-height:40px;color:var(--text,#fff);font-size:.9rem}.ug-check-row input{width:20px;height:20px;accent-color:var(--primary,#7b2cbf)}.ug-speed-value{min-width:52px;color:var(--primary-light,#9d4edd);font-weight:700;text-align:right}
+.ug-window.is-minimized .ug-window-content{display:none}.ug-window.is-maximized.ug-appearance-window{inset:12px;width:auto;max-height:none;transform:none}.ug-app-window{z-index:1300;max-height:min(84dvh,760px)}
+.ug-toast.is-leaving{opacity:0;transform:translateX(16px);transition:opacity 180ms,transform 180ms}
+body.skin-piece-ocean.theme-dark.palette-a,body.skin-piece-ocean.theme-light.palette-a{--primary:#d9292f;--primary-light:#ff6b55;--accent:#ffd166}
+body.skin-piece-ocean.theme-dark.palette-b,body.skin-piece-ocean.theme-light.palette-b{--primary:#ff8a00;--primary-light:#ffad33;--accent:#ffcf66}
+body.skin-piece-ocean.theme-dark.palette-c,body.skin-piece-ocean.theme-light.palette-c{--primary:#7b3fe4;--primary-light:#a878ff;--accent:#e0c7ff}
+body.skin-piece-ocean.theme-dark.palette-d,body.skin-piece-ocean.theme-light.palette-d{--primary:#15a8bd;--primary-light:#43d6dc;--accent:#f3e5b5}
+body.skin-kaiju-war.theme-dark.palette-a,body.skin-kaiju-war.theme-light.palette-a{--primary:#c62828;--primary-light:#ff5c55;--accent:#ffb4a9}
+body.skin-kaiju-war.theme-dark.palette-b,body.skin-kaiju-war.theme-light.palette-b{--primary:#85ae18;--primary-light:#b9e42b;--accent:#dfff76}
+body.skin-kaiju-war.theme-dark.palette-c,body.skin-kaiju-war.theme-light.palette-c{--primary:#c47c08;--primary-light:#ffb12b;--accent:#ffe19b}
+body.skin-kaiju-war.theme-dark.palette-d,body.skin-kaiju-war.theme-light.palette-d{--primary:#52777b;--primary-light:#8da8aa;--accent:#c3e2e0}
+@media(max-width:600px){.ug-appearance-window{left:8px;right:8px;bottom:max(78px,calc(env(safe-area-inset-bottom) + 72px));width:auto;max-height:calc(100dvh - 108px)}.ug-appearance-window .ug-window-content{padding:12px}.ug-app-window{width:calc(100vw - 16px)!important}}
+@media(prefers-reduced-motion:reduce){.ug-window,.ug-toast,.ug-scroll-top,.ug-appearance-trigger,.ug-palette-choice{animation:none!important;transition:none!important}}
+/* Share the right edge: the cart lifts into the upper slot when Scroll-to-top appears after 300px. */
+#scrollTop.ug-scroll-top{right:max(2rem,env(safe-area-inset-right))!important;bottom:max(20px,env(safe-area-inset-bottom))!important}
+
+/* Complete accent palette matrix for the original six skins in both modes. */
+body.skin-default.theme-dark.palette-a { --primary:#7b2cbf; --primary-light:#b36df3; --accent:#64dfdf; }
+body.skin-default.theme-dark.palette-b { --primary:#b23b7a; --primary-light:#e45b9e; --accent:#ff9ab9; }
+body.skin-default.theme-dark.palette-c { --primary:#495057; --primary-light:#9aa3ad; --accent:#c7d0d9; }
+body.skin-default.theme-dark.palette-d { --primary:#0f887d; --primary-light:#22c8b5; --accent:#a5f3e8; }
+body.skin-default.theme-light.palette-a { --primary:#6d28d9; --primary-light:#8b5cf6; --accent:#0f9f95; }
+body.skin-default.theme-light.palette-b { --primary:#be185d; --primary-light:#db2777; --accent:#f472b6; }
+body.skin-default.theme-light.palette-c { --primary:#374151; --primary-light:#596579; --accent:#8995a5; }
+body.skin-default.theme-light.palette-d { --primary:#0f766e; --primary-light:#0d9488; --accent:#2dd4bf; }
+body.skin-cyberpunk.theme-dark.palette-a { --primary:#ff2d75; --primary-light:#00f0ff; --accent:#ffe500; }
+body.skin-cyberpunk.theme-dark.palette-b { --primary:#ff1744; --primary-light:#ff5a36; --accent:#ffb000; }
+body.skin-cyberpunk.theme-dark.palette-c { --primary:#94c900; --primary-light:#c7ff3d; --accent:#00f0ff; }
+body.skin-cyberpunk.theme-dark.palette-d { --primary:#8a35d6; --primary-light:#d276ff; --accent:#00e5ff; }
+body.skin-cyberpunk.theme-light.palette-a { --primary:#bd174d; --primary-light:#007e91; --accent:#a87800; }
+body.skin-cyberpunk.theme-light.palette-b { --primary:#bd1538; --primary-light:#c83b22; --accent:#a36500; }
+body.skin-cyberpunk.theme-light.palette-c { --primary:#537800; --primary-light:#617c00; --accent:#007e91; }
+body.skin-cyberpunk.theme-light.palette-d { --primary:#7024aa; --primary-light:#7827a9; --accent:#007e91; }
+body.skin-discord.theme-dark.palette-a { --primary:#4752c4; --primary-light:#7983f5; --accent:#00a8fc; }
+body.skin-discord.theme-dark.palette-b { --primary:#248046; --primary-light:#3ba55d; --accent:#a6e8bd; }
+body.skin-discord.theme-dark.palette-c { --primary:#b74373; --primary-light:#ed5e91; --accent:#ffb3cb; }
+body.skin-discord.theme-dark.palette-d { --primary:#5f6872; --primary-light:#9aa4af; --accent:#c3c9d0; }
+body.skin-discord.theme-light.palette-a { --primary:#4752c4; --primary-light:#5865f2; --accent:#007dbb; }
+body.skin-discord.theme-light.palette-b { --primary:#237a40; --primary-light:#248046; --accent:#3ba55d; }
+body.skin-discord.theme-light.palette-c { --primary:#b33368; --primary-light:#d8467d; --accent:#ed5e91; }
+body.skin-discord.theme-light.palette-d { --primary:#515862; --primary-light:#6e7781; --accent:#929aa4; }
+body.skin-solo-leveling.theme-dark.palette-a { --primary:#455edb; --primary-light:#91aaff; --accent:#60dcff; }
+body.skin-solo-leveling.theme-dark.palette-b { --primary:#168cc5; --primary-light:#5bcaff; --accent:#b1edff; }
+body.skin-solo-leveling.theme-dark.palette-c { --primary:#b72c53; --primary-light:#f06483; --accent:#ffadbd; }
+body.skin-solo-leveling.theme-dark.palette-d { --primary:#a77a1a; --primary-light:#ecc45f; --accent:#ffe9a4; }
+body.skin-solo-leveling.theme-light.palette-a { --primary:#354dbd; --primary-light:#536bd9; --accent:#078bb2; }
+body.skin-solo-leveling.theme-light.palette-b { --primary:#08749f; --primary-light:#168fbe; --accent:#5bcaff; }
+body.skin-solo-leveling.theme-light.palette-c { --primary:#a82348; --primary-light:#ca3d60; --accent:#e34d78; }
+body.skin-solo-leveling.theme-light.palette-d { --primary:#8b6410; --primary-light:#b3841e; --accent:#d6a638; }
+body.skin-xbox-360.theme-dark.palette-a { --primary:#78b829; --primary-light:#a1e15b; --accent:#e9f6dc; }
+body.skin-xbox-360.theme-dark.palette-b { --primary:#1488af; --primary-light:#53cde8; --accent:#a5edfa; }
+body.skin-xbox-360.theme-dark.palette-c { --primary:#a77d18; --primary-light:#e5c451; --accent:#ffe7a0; }
+body.skin-xbox-360.theme-dark.palette-d { --primary:#a42f42; --primary-light:#ed6271; --accent:#ffc4ca; }
+body.skin-xbox-360.theme-light.palette-a { --primary:#4b8d18; --primary-light:#69a92a; --accent:#2486a0; }
+body.skin-xbox-360.theme-light.palette-b { --primary:#13728f; --primary-light:#188da9; --accent:#43a967; }
+body.skin-xbox-360.theme-light.palette-c { --primary:#846010; --primary-light:#a88320; --accent:#407eaf; }
+body.skin-xbox-360.theme-light.palette-d { --primary:#98283a; --primary-light:#bb3b4b; --accent:#d27727; }
+body.skin-windows-xp.theme-light.palette-a { --primary:#165dba; --primary-light:#3b89df; --accent:#58a332; }
+body.skin-windows-xp.theme-light.palette-b { --primary:#52662a; --primary-light:#798d43; --accent:#2c75c4; }
+body.skin-windows-xp.theme-light.palette-c { --primary:#596d83; --primary-light:#8196aa; --accent:#347ec5; }
+body.skin-windows-xp.theme-light.palette-d { --primary:#244d92; --primary-light:#396fb9; --accent:#53a13a; }
+body.skin-windows-xp.theme-dark.palette-a { --primary:#447fc5; --primary-light:#70b5f2; --accent:#80be58; }
+body.skin-windows-xp.theme-dark.palette-b { --primary:#697d3a; --primary-light:#98ad61; --accent:#70a6dc; }
+body.skin-windows-xp.theme-dark.palette-c { --primary:#61778f; --primary-light:#9eb1c7; --accent:#5794d0; }
+body.skin-windows-xp.theme-dark.palette-d { --primary:#365fa0; --primary-light:#6c99da; --accent:#81bd5a; }
+
+/* Shared semantic tokens: legacy variables remain aliases so components can migrate safely. */
+:root{--font-sans:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--radius-sm:.375rem;--radius-md:.75rem;--radius-lg:1rem;--space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-6:1.5rem;--space-8:2rem;--content-max:82rem;--motion-fast:160ms;--motion-normal:240ms;--motion-slow:500ms;--ug-motion-scale:1}
+body.theme-dark{--color-bg:var(--bg-dark,#0b0c10);--color-surface:var(--surface,#1f2833);--color-surface-raised:var(--dropdown-bg,var(--surface,#273344));--color-text:var(--text,#e0e0e0);--color-text-muted:var(--text-muted,#a0a0a0);--color-border:var(--border,#2c3e50);--color-primary:var(--primary,#7b2cbf);--color-primary-strong:var(--primary-light,#9d4edd);--color-accent:var(--accent,#64dfdf);--color-success:#24b47e;--color-warning:#e8a317;--color-danger:#e5484d;--color-info:#4395e8}
+body.theme-light{--color-bg:var(--bg-dark,#f5f5f7);--color-surface:var(--surface,#fff);--color-surface-raised:var(--dropdown-bg,var(--surface,#fff));--color-text:var(--text,#1e1e2f);--color-text-muted:var(--text-muted,#4a4a5a);--color-border:var(--border,#d1d5db);--color-primary:var(--primary,#6d28d9);--color-primary-strong:var(--primary-light,#8b5cf6);--color-accent:var(--accent,#0f9f95);--color-success:#167a4a;--color-warning:#9a5b00;--color-danger:#b4232b;--color-info:#155da8}
+
+
+/* Common token fallbacks and contrast-safe base surfaces for standalone future projects. */
+body.theme-dark{--bg-dark:#0b0c10;--surface:#1f2833;--text:#e0e0e0;--text-muted:#a0a0a0;--border:#2c3e50;--primary:#7b2cbf;--primary-light:#b36df3;--accent:#64dfdf}
+body.theme-light{--bg-dark:#f5f5f7;--surface:#fff;--text:#1e1e2f;--text-muted:#4a4a5a;--border:#d1d5db;--primary:#6d28d9;--primary-light:#8b5cf6;--accent:#0f9f95}
+body.skin-default.theme-dark{--bg-dark:#0b0c10;--surface:#1f2833}
+body.skin-default.theme-light{--bg-dark:#f5f5f7;--surface:#fff}
+body.skin-cyberpunk.theme-dark{--bg-dark:#080a10;--surface:#151525}
+body.skin-cyberpunk.theme-light{--bg-dark:#e8edf2;--surface:#f7fafc}
+body.skin-discord.theme-dark{--bg-dark:#1e1f22;--surface:#2b2d31}
+body.skin-discord.theme-light{--bg-dark:#f2f3f5;--surface:#fff}
+body.skin-solo-leveling.theme-dark{--bg-dark:#070812;--surface:#111523}
+body.skin-solo-leveling.theme-light{--bg-dark:#edf0f8;--surface:#fff}
+body.skin-xbox-360.theme-dark{--bg-dark:#070a0b;--surface:#151b1d}
+body.skin-xbox-360.theme-light{--bg-dark:#eff5e9;--surface:#fff}
+body.skin-windows-xp.theme-dark{--bg-dark:#101c35;--surface:#202d46}
+body.skin-windows-xp.theme-light{--bg-dark:#4c94d8;--surface:#f4f7fa}
+body.skin-piece-ocean.theme-dark{--bg-dark:#061923;--surface:#102b3b}
+body.skin-piece-ocean.theme-light{--bg-dark:#e9f8fc;--surface:#fff}
+body.skin-kaiju-war.theme-dark{--bg-dark:#0b1110;--surface:#202a28}
+body.skin-kaiju-war.theme-light{--bg-dark:#f4f5ef;--surface:#fff}
+
+/* Keep the existing shop entry point operable when the appearance window is open. */
+#cartIcon{z-index:1310!important}
+
+.ug-app-window{resize:both;min-width:min(280px,calc(100vw - 16px));min-height:160px}
+.ug-app-window.is-maximized{resize:none}
+.ug-appearance-window:not([hidden]),.ug-app-window{animation:ug-window-enter 180ms ease both}
+@keyframes ug-window-enter{from{opacity:.25}to{opacity:1}}
+@media(max-width:600px){.ug-app-window{resize:none;min-width:0;min-height:0}}
+
+/* Reusable vertical-header layout. Discord applies it automatically on this portfolio; other projects can add .ug-vertical-header to body. */
+.ug-vertical-header .site-header{position:fixed!important;inset:0 auto 0 0;width:232px;height:100dvh;padding:1rem .8rem;display:flex;align-items:stretch;overflow-y:auto;background:var(--header-bg,var(--surface,#2b2d31));border:0;border-right:1px solid var(--border,#3f4147);box-shadow:6px 0 24px rgb(0 0 0/.16);backdrop-filter:none;z-index:1000}
+.ug-vertical-header .header-container{width:100%;max-width:none;height:100%;margin:0;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;flex-wrap:nowrap;gap:1.2rem}
+.ug-vertical-header .logo{padding:.45rem .55rem}.ug-vertical-header .menu-toggle{display:none!important}
+.ug-vertical-header .main-nav{position:static!important;inset:auto!important;flex:1 0 auto;width:100%!important;max-height:none!important;overflow:visible!important;padding:0!important;background:transparent!important;border:0!important}
+.ug-vertical-header .main-nav ul{display:flex;flex-direction:column;align-items:stretch;gap:.25rem;padding:.25rem 0;list-style:none}
+.ug-vertical-header .main-nav li{width:100%}.ug-vertical-header .main-nav li a{display:flex;width:100%;padding:.72rem .85rem;border-radius:8px;color:var(--text,#dbdee1);font-size:.92rem;text-decoration:none;white-space:normal;transition:background .16s,color .16s}
+.ug-vertical-header .main-nav li a::after{display:none}.ug-vertical-header .main-nav li a:hover,.ug-vertical-header .main-nav li a:focus-visible{background:color-mix(in srgb,var(--primary,#5865f2) 25%,var(--surface,#2b2d31));color:var(--text,#fff)}
+.ug-vertical-header .xp-tray{display:none!important}.ug-vertical-header .container{width:auto;max-width:1100px;margin:2rem 2rem 2rem calc(232px + 3rem);padding:0 1.5rem}
+.ug-vertical-header main [id]{scroll-margin-top:1rem}
+@media(max-width:900px){
+ .ug-vertical-header .site-header{position:sticky!important;inset:auto!important;width:100%;height:auto;padding:.5rem .9rem;overflow:visible;border:0;border-bottom:1px solid var(--border,#3f4147);box-shadow:0 5px 18px rgb(0 0 0/.14)}
+ .ug-vertical-header .header-container{height:auto;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.35rem .8rem}
+ .ug-vertical-header .logo{flex:1 1 auto}.ug-vertical-header .menu-toggle{display:block!important;order:2}
+ .ug-vertical-header .main-nav{order:3;flex:0 0 100%;max-height:0!important;overflow:hidden!important;padding:0!important;transition:max-height .24s ease,padding .24s ease}
+ .ug-vertical-header .main-nav.active{max-height:420px!important;overflow:auto!important;padding:.4rem .25rem .65rem!important}
+ .ug-vertical-header .main-nav ul{gap:.2rem;padding:.15rem 0}.ug-vertical-header .main-nav li a{padding:.68rem .8rem}
+ .ug-vertical-header .container{width:auto;max-width:1100px;margin:1.2rem auto;padding:0 1rem}
+}
+/* Piece Ocean: original multi-layer sea swells at the viewport foot, tuned for light and dark modes. */
+body.skin-piece-ocean::before,body.skin-piece-ocean::after{content:"";position:fixed;inset:auto 0 0;height:clamp(105px,22vh,245px);z-index:-1;pointer-events:none;background-repeat:repeat-x;background-position:bottom center;background-size:1440px 100%}
+body.skin-piece-ocean::before{opacity:.64;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 260' preserveAspectRatio='none'%3E%3Cpath fill='%230a7890' fill-opacity='.52' d='M0 102C120 64 235 61 360 98s242 50 362 1 250-54 365-11 226 52 353 9v163H0Z'/%3E%3Cpath fill='%230b5b78' fill-opacity='.64' d='M0 147c147-37 254-7 377 20s227-15 347-45 239-15 347 22 246 40 369-4v120H0Z'/%3E%3C/svg%3E");}
+body.skin-piece-ocean::after{height:clamp(72px,15vh,168px);opacity:.48;background-size:1280px 100%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 190' preserveAspectRatio='none'%3E%3Cpath fill='%2315a8bd' fill-opacity='.48' d='M0 67c109 37 207 37 316 1s205-40 318-4 211 44 320 3 215-43 326-2v125H0Z'/%3E%3C/svg%3E");}
+/* Kaiju War: graphic beam rays and custom bolt silhouettes add impact without heavy filters or raster assets. */
+body.skin-kaiju-war::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.28;background:repeating-conic-gradient(from 208deg at 84% 4%,transparent 0deg 7deg,rgba(255,187,54,.15) 7.4deg 8.1deg,transparent 8.5deg 16deg);}
+body.skin-kaiju-war::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.26;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='xMidYMid slice'%3E%3Cpath d='M1110-50 1012 210l91-24-158 278 41-204-97 28 134-338Zm190 232-88 200 71-17-112 219 34-161-68 18 104-259Z' fill='%23d8f33a' fill-opacity='.38' stroke='%23f7ffba' stroke-opacity='.35' stroke-width='5'/%3E%3Cpath d='M790 3 750 106l34-9-69 128 18-91-43 12 58-143Z' fill='%23ff654f' fill-opacity='.45'/%3E%3C/svg%3E");background-position:center;background-size:cover}
+
+
+
+/* Kaiju War: vivid Kafka-blue accents and Tesla-coil-style electrical discharge. */
+body.skin-kaiju-war{--primary:#176dff;--primary-light:#74c5ff;--accent:#c4ecff;--surface:#10233c;--bg-dark:#071322;--text:#f1f7ff;--text-muted:#b6c9df;--border:#31557d}
+body.skin-kaiju-war.theme-light{--primary:#0757c7;--primary-light:#0868ce;--accent:#0875cf;--surface:#fff;--bg-dark:#eef6ff;--text:#10253f;--text-muted:#405a77;--border:#b5cce6}
+body.skin-kaiju-war.theme-dark.palette-a{--primary:#176dff;--primary-light:#74c5ff;--accent:#c4ecff}
+body.skin-kaiju-war.theme-light.palette-a{--primary:#0757c7;--primary-light:#0868ce;--accent:#0875cf}
+body.skin-kaiju-war.theme-dark.palette-b{--primary:#00a9e8;--primary-light:#55d9ff;--accent:#b8f2ff}
+body.skin-kaiju-war.theme-light.palette-b{--primary:#007cae;--primary-light:#0089bd;--accent:#007cae}
+body.skin-kaiju-war.theme-dark.palette-c{--primary:#d43b51;--primary-light:#ff7182;--accent:#ffc3cb}
+body.skin-kaiju-war.theme-light.palette-c{--primary:#b7283e;--primary-light:#c63249;--accent:#b7283e}
+body.skin-kaiju-war.theme-dark.palette-d{--primary:#d58b09;--primary-light:#ffc247;--accent:#ffe5a3}
+body.skin-kaiju-war.theme-light.palette-d{--primary:#9a5f00;--primary-light:#aa6d00;--accent:#9a5f00}
+body.skin-kaiju-war.theme-dark .background{background:radial-gradient(ellipse at 82% 12%,#123d72 0,transparent 42%),linear-gradient(145deg,#06101e,#0b1c32 56%,#081326);animation:none}
+body.skin-kaiju-war.theme-light .background{background:radial-gradient(ellipse at 82% 12%,#d9edff 0,transparent 44%),linear-gradient(145deg,#edf7ff,#cce7ff 56%,#e6f3ff);animation:none}
+body.skin-kaiju-war::before{opacity:.58;background:repeating-conic-gradient(from 208deg at 84% 4%,transparent 0deg 6deg,rgba(35,146,255,.36) 6.5deg 7.6deg,transparent 8deg 15deg),radial-gradient(ellipse at 84% 5%,rgba(31,138,255,.32),transparent 42%);animation:teslaBeamCharge 3.1s steps(1,end) infinite}
+body.skin-kaiju-war::after{opacity:.72;filter:drop-shadow(0 0 8px rgba(37,145,255,.9)) drop-shadow(0 0 24px rgba(14,109,255,.65));background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='xMidYMid slice'%3E%3Cpath d='M1110-50 1012 210l91-24-158 278 41-204-97 28 134-338Zm190 232-88 200 71-17-112 219 34-161-68 18 104-259ZM790 3 750 106l34-9-69 128 18-91-43 12 58-143Z' fill='%23176dff' fill-opacity='.78' stroke='%23b8e7ff' stroke-opacity='.96' stroke-width='5'/%3E%3Cpath d='m1080 28-53 172 40-15-74 155 23-128-43 18 107-202ZM1260 430l-48 118 37-9-61 119 19-89-37 11 90-150Z' fill='%2355d9ff' fill-opacity='.62' stroke='%23e0f8ff' stroke-opacity='.75' stroke-width='3'/%3E%3C/svg%3E");background-position:center;background-size:cover;transform-origin:84% 8%;animation:teslaArcDischarge 2.7s steps(1,end) infinite}
+@keyframes teslaBeamCharge{0%,17%,20%,48%,51%,100%{opacity:.5;filter:brightness(1)}18%,19%,49%,50%{opacity:.88;filter:brightness(1.4)}}
+@keyframes teslaArcDischarge{0%,14%,18%,47%,51%,100%{opacity:.66;filter:drop-shadow(0 0 7px rgba(37,145,255,.9)) drop-shadow(0 0 21px rgba(14,109,255,.65))}15%,16%,48%,49%{opacity:.98;filter:drop-shadow(0 0 13px rgba(117,211,255,1)) drop-shadow(0 0 32px rgba(14,109,255,.95))}}
+
+/* Piece Ocean: a bright open sky, slow passing clouds and migrating seabirds. */
+.piece-sky{display:none}
+body.skin-piece-ocean .piece-sky{display:block;position:fixed;inset:0 0 auto;width:100%;height:clamp(280px,62vh,620px);z-index:-1;pointer-events:none;overflow:hidden}
+body.skin-piece-ocean.theme-dark .background{background:linear-gradient(180deg,#5db9e9 0%,#a8ddf4 46%,#d4edf8 100%);animation:none}
+body.skin-piece-ocean.theme-light .background{background:linear-gradient(180deg,#58b8f0 0%,#a4dcf7 48%,#d9f2ff 100%);animation:none}
+body.skin-piece-ocean::before{animation:pieceWaveSwell 23s ease-in-out infinite alternate}
+body.skin-piece-ocean::after{animation:pieceWaveSwell 31s ease-in-out infinite alternate-reverse}
+.piece-cloud{animation:pieceCloudDrift 104s linear infinite;will-change:transform}
+.piece-cloud.cloud-two{animation-duration:142s;animation-delay:-61s;opacity:.8}
+.piece-birds{animation:pieceBirdFlight 74s linear infinite;will-change:transform}
+@keyframes pieceWaveSwell{from{transform:translate3d(-1.2%,0,0) scaleX(1.04)}to{transform:translate3d(1.2%,0,0) scaleX(1.04)}}
+@keyframes pieceCloudDrift{from{transform:translate3d(-460px,0,0)}to{transform:translate3d(1500px,0,0)}}
+@keyframes pieceBirdFlight{from{transform:translate3d(-220px,0,0)}to{transform:translate3d(1500px,0,0)}}
+@media(max-width:760px){body.skin-piece-ocean .piece-sky{height:48vh}.piece-cloud,.piece-birds{will-change:auto}}
+@media(prefers-reduced-motion:reduce){body.skin-piece-ocean::before,body.skin-piece-ocean::after,.piece-cloud,.piece-birds,body.skin-kaiju-war::before,body.skin-kaiju-war::after{animation:none!important;will-change:auto!important}body.skin-kaiju-war::before{opacity:.58}body.skin-kaiju-war::after{opacity:.72}}

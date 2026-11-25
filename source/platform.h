@@ -37,6 +37,7 @@ void audioShutdown();
 
 // Storage (SD card on hardware). name is a bare file name inside the game folder.
 bool storageRead(const char* name, void* buf, size_t cap, size_t* got);
+bool romfsRead(const char* name, void* buf, size_t cap, size_t* got);
 bool storageWrite(const char* name, const void* buf, size_t len);  // atomic (tmp + rename)
 u64 nowMs();
 #ifdef __3DS__

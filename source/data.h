@@ -67,20 +67,22 @@ extern const char* const* const ENEMY_LORE[LANG_COUNT];
 extern const char* const* const UI_TABLE[LANG_COUNT];
 
 // Pixel art as rectangle lists; enemies/icons stay 16x16, cosmetics use a 32x32 canvas.
-struct PixRect { u8 x, y, w, h; u32 rgb; };
+struct PixRect { u8 x, y, w, h; u32 rgb; u8 alpha; };
 struct PixArt { const PixRect* r; u16 n; };
 extern const PixArt ART_ENEMY[NUM_ENEMIES];
 extern const PixArt ART_HAT[10];
 extern const PixArt ART_FACE[6];
+enum SpellArtId { SA_FAIRY, SA_SENTINEL, SA_DRONE, SA_POTION, SA_COIN, SA_COUNT };
+extern const PixArt ART_SPELL[SA_COUNT];
 enum IconId { IC_LEAF, IC_PYR, IC_SNOW, IC_PEAK, IC_ECL, IC_LOCK, IC_BOOK, IC_HEART, IC_GEM, IC_SHIELD, IC_BOLT, IC_CLOVER,
               IC_STAR, IC_SKULL, IC_CLOCK, IC_TROPHY, IC_DAGGER, IC_BOW, IC_AXE, IC_STAFF, IC_SHOTGUN, IC_PISTOL, IC_TRIDENT,
-              IC_CHEST, IC_BUG, IC_SPROUT, IC_KATANA, IC_MACHINE_GUN, IC_COUNT };
+              IC_CHEST, IC_BUG, IC_SPROUT, IC_KATANA, IC_MACHINE_GUN, IC_CYBER, IC_STEAM, IC_GEAR, IC_INFINITY, IC_EVENT_CHRISTMAS, IC_EVENT_EASTER, IC_EVENT_HALLOWEEN, IC_COIN, IC_POTION, IC_COUNT };
 extern const PixArt ART_ICON[IC_COUNT];
 
 // Hand-written level / weapon / cosmetic tables (data_static.cpp)
 struct LevelDef { const char* id; u8 waves; };
 extern const LevelDef LEVELS[3];
-enum WeaponId { W_DAGGER, W_BOW, W_AXE, W_STAFF, W_SHOTGUN, W_PISTOL, W_TRIDENT, W_KATANA, W_MACHINE_GUN, W_COUNT };
+enum WeaponId { W_DAGGER, W_BOW, W_AXE, W_STAFF, W_SHOTGUN, W_PISTOL, W_TRIDENT, W_KATANA, W_MACHINE_GUN, W_INFINITY_GLOVE, W_COUNT };
 extern const u32 SEASON_COLOR[SEA_COUNT];
 extern const u8 SEASON_ELEM[SEA_COUNT][2];
 extern const u32 ELEM_COLOR[EL_COUNT];

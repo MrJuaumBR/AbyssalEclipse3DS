@@ -17,10 +17,13 @@ int spawnEnemy(Sim& s, int type, float x, float y, bool small) {
     const int tier = s.endless ? minT(3, (s.wave - 1) / 10) : (int)s.levelIdx;
     const bool boss = (d.beh & B_BOSS) != 0;
     const float hs = boss ? 1.0f + 0.35f * tier : hpScale(s.wave, tier);
+    const float diffHp = s.endless ? (s.difficulty == 0 ? 0.78f : (s.difficulty == 2 ? 1.30f : 1.0f)) : 1.0f;
+    const float diffDmg = s.endless ? (s.difficulty == 0 ? 0.75f : (s.difficulty == 2 ? 1.25f : 1.0f)) : 1.0f;
+    const float diffSpd = s.endless && s.difficulty == 2 ? 1.08f : 1.0f;
     e.alive = true; e.type = (u8)type; e.small = small;
-    e.maxhp = e.hp = d.hp * hs * (small ? 0.6f : 1.0f);
-    e.dmg = d.dmg * dmgScale(s.wave, tier);
-    e.spd = SPEED_WORD[d.spd] * (boss ? 1.0f : s.rng.range(0.92f, 1.08f));
+    e.maxhp = e.hp = d.hp * hs * diffHp * (small ? 0.6f : 1.0f);
+    e.dmg = d.dmg * dmgScale(s.wave, tier) * diffDmg;
+    e.spd = SPEED_WORD[d.spd] * diffSpd * (boss ? 1.0f : s.rng.range(0.92f, 1.08f));
     e.atkT = s.rng.range(0.4f, 1.2f); e.t0 = s.rng.range(0.5f, 2.0f); e.t1 = 3.0f;
     e.x = x; e.y = y;
     s.seenEnemy[type] = true;
@@ -166,7 +169,7 @@ void enemiesUpdate(Sim& s, float dt) {
     } else if (def.range != RW_TOUCH) {
       const float R = RANGE_WORD[def.range], want = R * 0.7f;
       if (dist < want * 0.6f) { mvx = -nx; mvy = -ny; } else if (dist < want) hold = true;
-      if (e.atkT <= 0 && dist < R) {
+      if (e.atkT <= 0 && (dist < R || (def.beh & B_FAN))) {
         const float ang = atan2f(ny, nx), dm = e.dmg;
         if (def.beh & B_WEB) shoot(s, e, ang, 95, dm, gfx::PS_WEB, 1);
         else if (def.beh & B_SLOWHIT) shoot(s, e, ang, 150, dm, gfx::PS_ARROW, 2);

@@ -9,3 +9,10 @@ int gameTargetFps();
 // test hooks
 struct Sim; Sim& gameSim();
 void gameStartRunForTest(int season, int level, bool endless, int weapon, u32 seed);
+int gameCatalogJumpForTest(int tab, int currentSection, int direction);
+int gameAchievementPopupForTest();
+void gameCampaignHubForTest();
+int gameCampaignSelectionForTest();
+int gameCampaignFocusForTest();
+int gameRunInfoScrollForTest();
+bool gameDebugMenuForTest();

@@ -1,5 +1,6 @@
 #include "gfx.h"
 #include <string.h>
+#include <stdio.h>
 
 namespace gfx {
 const u32 FX_PALETTE[FX_COLORS] = {0xFFFFFF, 0xC43D3D, 0xF08030, 0x4A9FD9, 0x4FA85A, 0x8B5FBF, 0xF0E050, 0xE8B54B, 0x8C3DFF, 0xFF55D8};
@@ -7,7 +8,7 @@ const u32 FX_PALETTE[FX_COLORS] = {0xFFFFFF, 0xC43D3D, 0xF08030, 0x4A9FD9, 0x4FA
 enum { AW = 256, AH = 256 };
 static u32 g_atlas[AW * AH];                 // CPU copy (256 KB). Needed for the knight re-bake.
 
-static Spr g_enemy[NUM_ENEMIES], g_icon[IC_COUNT], g_spellIcon[TY_COUNT][EL_COUNT][ACT_COUNT], g_knight, g_preview, g_drone, g_sentinel, g_proj[PS_COUNT];
+static Spr g_enemy[NUM_ENEMIES], g_icon[IC_COUNT], g_spellArt[SA_COUNT], g_spellIcon[TY_COUNT][EL_COUNT][ACT_COUNT], g_knight, g_preview, g_drone, g_sentinel, g_proj[PS_COUNT];
 static Spr g_disc[FX_COLORS], g_ring[FX_COLORS], g_shadow;
 static float g_offX = 0.0f, g_offY = 0.0f;
 enum { GLYPH_ASCII = 64, GLYPH_COMP = 12, GLYPH_DEG = GLYPH_ASCII + GLYPH_COMP, GLYPH_COUNT = GLYPH_DEG + 1 };
@@ -32,7 +33,7 @@ static void fillR(const Spr& s, int x, int y, int w, int h, u32 rgb, u32 a = 255
   for (int j = 0; j < h; ++j) for (int i = 0; i < w; ++i) put(s, x + i, y + j, HEX(rgb, a));
 }
 static void paintArt(const Spr& s, const PixArt& a) {
-  for (int i = 0; i < a.n; ++i) fillR(s, a.r[i].x, a.r[i].y, a.r[i].w, a.r[i].h, a.r[i].rgb);
+  for (int i = 0; i < a.n; ++i) fillR(s, a.r[i].x, a.r[i].y, a.r[i].w, a.r[i].h, a.r[i].rgb, a.r[i].alpha);
 }
 static void fillR2(const Spr& s, int x, int y, int w, int h, u32 rgb, u32 a = 255) {
   fillR(s, x * 2, y * 2, w * 2, h * 2, rgb, a);
@@ -122,6 +123,7 @@ static int glyphForCp(u32 cp) {
   if (cp == '`') return '\'' - 32;
   if (cp == 0xB0 || cp == 0xBA) return GLYPH_DEG;
   for (int i = 0; i < GLYPH_COMP; ++i) if (COMPS[i].cp[0] == cp || COMPS[i].cp[1] == cp) return GLYPH_ASCII + i;
+  if (cp < 32) return ' ' - 32;
   return '?' - 32;
 }
 static u32 nextCp(const char*& s) {
@@ -217,32 +219,15 @@ static void bakeKnightCell(const Spr& s, const Cosmetics& c) {
   paintArt(s, ART_HAT[c.hat % 10]);
 }
 
-static void bakeDroneCell() {
-  const Spr& s = g_drone;
-  const u32 dark = 0x252936, metal = 0x8E98A8, light = 0xD2D9E0, glow = 0x61D7E8;
-  fillR(s, 3, 4, 10, 8, dark);
-  fillR(s, 4, 5, 8, 6, metal);
-  fillR(s, 5, 6, 6, 2, light);
-  fillR(s, 6, 9, 4, 1, 0x596273);
-  fillR(s, 12, 7, 3, 2, dark);
-  fillR(s, 14, 7, 2, 2, glow);
-  fillR(s, 1, 2, 5, 1, dark); fillR(s, 10, 2, 5, 1, dark);
-  fillR(s, 2, 2, 1, 2, metal); fillR(s, 13, 2, 1, 2, metal);
-  fillR(s, 7, 3, 2, 1, glow);
+bool exportAtlas() {
+  // Netpbm PAM stores RGBA directly, preserving transparent pixels for inspection.
+  static u8 pam[80 + AW * AH * 4];
+  int h = snprintf((char*)pam, 80, "P7\nWIDTH %d\nHEIGHT %d\nDEPTH 4\nMAXVAL 255\nTUPLTYPE RGB_ALPHA\nENDHDR\n", AW, AH);
+  if (h <= 0 || h + AW * AH * 4 > (int)sizeof(pam)) return false;
+  size_t o = (size_t)h;
+  for (int i=0;i<AW*AH;++i) { const u32 c=g_atlas[i]; pam[o++]=(u8)(c>>16); pam[o++]=(u8)(c>>8); pam[o++]=(u8)c; pam[o++]=(u8)(c>>24); }
+  return plat::storageWrite("debug_spritesheet.pam", pam, o);
 }
-
-static void bakeSentinelCell() {
-  const Spr& s = g_sentinel;
-  const u32 edge = 0x252936, stone = 0x87909D, light = 0xC8D0D8, shade = 0x596273, glow = 0xE8B54B;
-  fillR(s, 4, 1, 8, 13, edge);
-  fillR(s, 5, 2, 6, 11, stone);
-  fillR(s, 6, 3, 4, 3, light);
-  fillR(s, 6, 7, 1, 2, glow); fillR(s, 9, 7, 1, 2, glow);
-  fillR(s, 6, 10, 4, 1, shade);
-  fillR(s, 3, 13, 10, 2, edge); fillR(s, 2, 15, 12, 1, shade);
-  fillR(s, 3, 4, 2, 5, shade); fillR(s, 11, 4, 2, 5, shade);
-}
-
 bool init(const Cosmetics& c) {
   plat::debugLog("gfx: init begin");
   memset(g_atlas, 0, sizeof(g_atlas));
@@ -263,10 +248,11 @@ bool init(const Cosmetics& c) {
   px = 0; py = 48; rowH = 0;
   for (int i = 0; i < NUM_ENEMIES; ++i) { g_enemy[i] = alloc(16, 16); paintArt(g_enemy[i], ART_ENEMY[i]); }
   for (int i = 0; i < IC_COUNT; ++i) { g_icon[i] = alloc(16, 16); paintArt(g_icon[i], ART_ICON[i]); }
+  for (int i = 0; i < SA_COUNT; ++i) { g_spellArt[i] = alloc(16, 16); paintArt(g_spellArt[i], ART_SPELL[i]); }
   g_knight = alloc(32, 32);
   g_preview = alloc(32, 32);
-  g_drone = alloc(16, 16); bakeDroneCell();
-  g_sentinel = alloc(16, 16); bakeSentinelCell();
+  g_drone = g_spellArt[SA_DRONE];
+  g_sentinel = g_spellArt[SA_SENTINEL];
   for (int t = 0; t < TY_COUNT; ++t) for (int e = 0; e < EL_COUNT; ++e) for (int a = 0; a < ACT_COUNT; ++a) {
     g_spellIcon[t][e][a] = alloc(16, 16); bakeSpellIcon(g_spellIcon[t][e][a], t, e, a);
   }
@@ -293,6 +279,7 @@ void setKnight(const Cosmetics& c) {
 const Spr& enemy(int id) { return g_enemy[clampT(id, 0, NUM_ENEMIES - 1)]; }
 const Spr& icon(int id) { return g_icon[clampT(id, 0, (int)IC_COUNT - 1)]; }
 const Spr& spellIcon(int t, int e, int a) { return g_spellIcon[clampT(t, 0, 2)][clampT(e, 0, 5)][clampT(a, 0, 2)]; }
+const Spr& spellArt(int id) { return g_spellArt[clampT(id, 0, (int)SA_COUNT - 1)]; }
 const Spr& knight() { return g_knight; }
 const Spr& knightPreview(const Cosmetics& c) {
   bakeKnightCell(g_preview, c);
@@ -357,32 +344,29 @@ void textC(const char* s, float cx, float y, u32 rgb, int scale, u32 a) { text(s
 void textR(const char* s, float rx, float y, u32 rgb, int scale, u32 a) { text(s, rx - textWidth(s, scale), y, rgb, scale, a); }
 
 int textWrap(const char* s, float x, float y, float w, u32 rgb, int scale, int maxLines, int skipLines, int* totalLines) {
-  const int maxCols = (int)(w / (GLYPH_W * scale));
-  char line[160];
-  int len = 0, lineNo = 0, drawn = 0, lineCols = 0;
-  auto flush = [&]() {
-    line[len] = 0;
-    if (lineNo >= skipLines && (maxLines <= 0 || drawn < maxLines)) {
-      text(line, x, y + drawn * (LINE_H * scale), rgb, scale);
-      ++drawn;
+  const int maxCols = maxT(1, (int)(w / (GLYPH_W * scale)));
+  char line[160]; int len=0, lineCols=0, lineNo=0, drawn=0;
+  auto flush=[&]() { line[len]=0; if(lineNo>=skipLines && (maxLines<=0 || drawn<maxLines)) { text(line,x,y+drawn*(LINE_H*scale),rgb,scale); ++drawn; } ++lineNo; len=0; lineCols=0; };
+  const char* p=s;
+  while(*p) {
+    if(*p=='\r') { ++p; continue; }
+    if(*p=='\n') { flush(); ++p; continue; }
+    if(*p==' ') { if(lineCols>0) { if(lineCols>=maxCols) flush(); else { line[len++]=' '; ++lineCols; } } ++p; continue; }
+    const char* q=p; while(*q && *q!=' ' && *q!='\n') nextCp(q);
+    int bytes=(int)(q-p), off=0;
+    if(lineCols && lineCols+1>=maxCols) flush();
+    else if(lineCols) { line[len++]=' '; ++lineCols; }
+    while(off<bytes) {
+      if(lineCols>=maxCols) flush();
+      const char* cp=p+off; nextCp(cp); int cb=(int)(cp-(p+off));
+      if(len+cb>=159) { flush(); }
+      memcpy(line+len,p+off,(size_t)cb); len+=cb; lineCols++; off+=cb;
+      if(off<bytes && lineCols>=maxCols) flush();
     }
-    ++lineNo; len = 0; lineCols = 0;
-  };
-  const char* p = s;
-  while (*p) {
-    // measure next word
-    const char* q = p; int wc = 0;
-    while (*q && *q != ' ' && *q != '\n') { nextCp(q); ++wc; }
-    int wbytes = (int)(q - p);
-    if (lineCols > 0 && lineCols + 1 + wc > maxCols) flush();
-    if (lineCols > 0 && len < 158) { line[len++] = ' '; ++lineCols; }
-    if (len + wbytes < 158) { memcpy(line + len, p, (size_t)wbytes); len += wbytes; lineCols += wc; }
-    p = q;
-    if (*p == '\n') { flush(); ++p; }
-    else if (*p == ' ') ++p;
+    p=q;
   }
-  if (len > 0) flush();
-  if (totalLines) *totalLines = lineNo;
+  if(len>0 || lineNo==0) flush();
+  if(totalLines) *totalLines=lineNo;
   return drawn;
 }
 }  // namespace gfx

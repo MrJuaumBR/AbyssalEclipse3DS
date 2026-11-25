@@ -8,7 +8,7 @@ static const int   BASE_STAT[5] = {8, 5, 4, 3, 5};          // STR RES SPD LUCK 
 static const float PLAYER_SPEED = 62.0f;                    // px/s
 static const float PLAYER_RADIUS = 5.0f;
 static const float IFRAMES = 0.6f;
-static const float WAVE_LEN = 40.0f;
+static const float WAVE_LEN = 46.0f;
 static const int   MAX_SLOTS = 12;
 static const int   MAX_SPELL_LV = 10;                       // per-spell caps may be lower (e.g. orbiters/summons)
 static const float LV_BONUS = 0.20f;                        // +20% numeric effects per upgrade
@@ -34,7 +34,8 @@ static const WeaponStat WEAPON[W_COUNT] = {
     {7.5f, 0.48f, 185.0f, 360.0f, 0, 2.5f},   // PISTOL  reliable single-shot pressure
     {18.0f, 1.35f, 220.0f, 170.0f, 0, 5.0f},  // TRIDENT thrown until recovered
     {9.0f, 0.48f, 56.0f, 250.0f, 0, 3.0f},    // KATANA  close-range cleave
-    {4.0f, 0.14f, 240.0f, 420.0f, 0, 2.5f}}; // MACHINE GUN rapid stream
+    {4.0f, 0.14f, 240.0f, 420.0f, 0, 2.5f},    // MACHINE GUN rapid stream
+    {10.0f, 0.62f, 210.0f, 300.0f, 0, 4.0f}};  // INFINITY GLOVE elemental cycle
 static const float TRIDENT_PICKUP_RANGE = 32.0f;
 static const float KATANA_RANGE = 46.0f;
 static const float KATANA_ARC_COS = 0.15f;

@@ -128,9 +128,9 @@ def weapon_section(lines: list[str]) -> None:
     if not stat_block:
         raise RuntimeError("Could not parse weapon combat stats")
     rows = re.findall(r"\{([^{}]+)\}", stat_block.group(1))
-    if not (len(name_keys) == len(desc_keys) == len(rows) == 9):
+    if not (len(name_keys) == len(desc_keys) == len(rows) == 10):
         raise RuntimeError(f"Weapon table mismatch: {len(name_keys)} names, {len(desc_keys)} descriptions, {len(rows)} stat rows")
-    lines += ["## Weapons", "", "All nine selectable weapons have explicit combat stats. Only Machine Gun is completion-locked; the other eight are available from the weapon selector. Base values are before player stats and spell modifiers.", "",
+    lines += ["## Weapons", "", "All ten weapon variants have explicit combat stats. Machine Gun is completion-locked and Infinity Glove is achievement-locked; the other eight are available from the weapon selector. Base values are before player stats and spell modifiers.", "",
               "| # | Weapon | Description (EN / PT-BR) | Damage | Attack interval | Range | Projectile speed | Pierce | Hit radius | Unlock / special behavior |",
               "|---:|---|---|---:|---:|---:|---:|---:|---:|---|"]
     for i, (name_key, desc_key, row) in enumerate(zip(name_keys, desc_keys, rows)):

@@ -157,17 +157,29 @@ void simDraw(Sim& s, bool showFps, int fps) {
   const Player& p = s.p;
   s.camX = s.allSeasons ? clampT(p.x - 200.0f, 0.0f, 400.0f) : 0.0f;
   s.camY = s.allSeasons ? clampT(p.y - 120.0f, 0.0f, 360.0f) : 0.0f;
-  gfx::setOffset(-s.camX, -s.camY);
+  float shakeX = 0.0f, shakeY = 0.0f;
+  if (s.shakeEnabled && s.shake > 0.0f) {
+    const float strength = 3.5f * clampT(s.shake / 0.30f, 0.0f, 1.0f);
+    const u32 h = s.frame * 747796405u + 2891336453u;
+    shakeX = (((h & 255u) / 127.5f) - 1.0f) * strength;
+    shakeY = ((((h >> 8) & 255u) / 127.5f) - 1.0f) * strength;
+  }
+  gfx::setOffset(-s.camX + shakeX, -s.camY + shakeY);
   drawBackground(s);
   drawZones(s);
   drawAuras(s);
-  if (s.fairy.active) { gfx::discC(4, s.fairy.x, s.fairy.y, 5, 220); gfx::ringC(7, s.fairy.x, s.fairy.y, 8, 180); }
+  if (s.fairy.active) { gfx::discC(4, s.fairy.x, s.fairy.y, 5, 120); gfx::sprC(gfx::spellArt(SA_FAIRY), s.fairy.x, s.fairy.y, 1.0f); }
   for (int i = 0; i < 2; ++i) if (s.sentinels[i].active) {
     const Sentinel& sent = s.sentinels[i];
     gfx::sprC(gfx::sentinel(), sent.x, sent.y, 1.0f);
     bar(sent.x - 12, sent.y - 13, 24, 4, sent.hp / sent.maxhp, C_GREEN);
   }
-  for (int i = 0; i < MAX_GEMS; ++i) if (s.gem[i].alive) gfx::sprC(gfx::proj(gfx::PS_GEM), s.gem[i].x, s.gem[i].y);
+  for (int i = 0; i < MAX_GEMS; ++i) if (s.gem[i].alive) {
+    const Gem& pickup = s.gem[i];
+    if (pickup.kind == PICKUP_COIN) gfx::sprC(gfx::icon(IC_COIN), pickup.x, pickup.y, 0.9f);
+    else if (pickup.kind == PICKUP_POTION) gfx::sprC(gfx::icon(IC_POTION), pickup.x, pickup.y, 0.9f);
+    else gfx::sprC(gfx::proj(gfx::PS_GEM), pickup.x, pickup.y);
+  }
   enemiesDraw(s);
   for (int i = 0; i < MAX_PROJ; ++i) {
     const Proj& q = s.pr[i];
@@ -175,10 +187,13 @@ void simDraw(Sim& s, bool showFps, int fps) {
     if (q.lob) { float k = q.life; gfx::sprC(gfx::shadow(), q.x, q.y + 6, 0.6f); gfx::sprC(gfx::proj(q.spr), q.x, q.y - 10 + (k > 0 ? 0 : 0), 1.5f, 0xFFFFFFFFu, plat::BLIT_PLAIN, (float)s.frame * 0.4f); }
     else gfx::sprC(gfx::proj(q.spr), q.x, q.y, q.kind == 5 ? 0.8f : 1.0f, 0xFFFFFFFFu, plat::BLIT_PLAIN, q.rot);
   }
+  if (s.weapon == W_INFINITY_GLOVE) { gfx::sprC(gfx::spellIcon(TY_DAMAGE, s.p.infinityElement % EL_COUNT, ACT_SELF), s.p.x + 15, s.p.y - 17, 1.0f); gfx::textC(T(ELEM_NAME[s.p.infinityElement % EL_COUNT]), s.p.x + 34, s.p.y - 20, ELEM_COLOR[s.p.infinityElement % EL_COUNT], 1); }
   if (s.nOrb > 0)
     for (int o = 0; o < s.nOrb; ++o) {
       float a = s.orb[0].ang + 6.2831853f * o / s.nOrb;
-      gfx::sprC(gfx::proj(gfx::PS_KNIFE), p.x + cosf(a) * 34, p.y + sinf(a) * 34,
+      const int visual = s.m.orbitVisual == ORBIT_FIRE ? gfx::PS_EMBER :
+                         (s.m.orbitVisual == ORBIT_LIGHTNING ? gfx::PS_BOLT : gfx::PS_KNIFE);
+      gfx::sprC(gfx::proj(visual), p.x + cosf(a) * 34, p.y + sinf(a) * 34,
                 2.0f, 0xFFFFFFFFu, plat::BLIT_PLAIN, a + 1.5707963f);
     }
   if (s.m.hasDrone) {
@@ -206,6 +221,20 @@ void simDraw(Sim& s, bool showFps, int fps) {
       case FX_RING: gfx::ringC(f.col, f.x, f.y, f.r * (0.4f + 0.6f * k), a); break;
       case FX_DISC: gfx::discC(f.col, f.x, f.y, f.r * (0.5f + 0.5f * k), a); break;
       case FX_BOLT: gfx::sprC(gfx::proj(gfx::PS_BOLT), f.x, f.y - 10, 3.0f); break;
+      case FX_CRACK: {
+        const float fade = 1.0f - clampT(f.t / f.life, 0.0f, 1.0f);
+        const u32 season = SEASON_COLOR[f.col % SEA_COUNT], dark = shade(season, 1, 3), edge = shade(season, 2, 3);
+        const float length = maxT(18.0f, f.r * 1.55f), start = f.x - length * 0.5f, step = length / 12.0f;
+        const u32 alpha = (u32)(230.0f * fade);
+        for (int j = 0; j < 12; ++j) {
+          const float x = start + j * step;
+          const float ya = f.y + ((j % 4) - 1.5f) * 2.2f;
+          const float yb = f.y + (((j + 1) % 4) - 1.5f) * 2.2f;
+          gfx::rect(x, (ya + yb) * 0.5f - 1.0f, step + 1.0f, 2.0f, dark, alpha);
+          gfx::rect(x, (ya + yb) * 0.5f - 2.0f, step, 1.0f, edge, alpha / 2);
+          if (j == 2 || j == 7 || j == 10) gfx::rect(x + step * 0.5f, ya - 4.0f, 1.5f, 5.0f, dark, alpha);
+        }
+      } break;
       case FX_SLASH: {
         const float progress = clampT(f.t / f.life, 0.0f, 1.0f);
         const float fade = 1.0f - progress;
@@ -233,6 +262,19 @@ void simDraw(Sim& s, bool showFps, int fps) {
     }
   }
   gfx::setOffset(0.0f, 0.0f);
+  if (s.endless) {
+    int alive=0; for (int i=0;i<MAX_ENEMIES;++i) if (s.en[i].alive) ++alive;
+    if (alive > 0 && alive <= 4) for (int i=0;i<MAX_ENEMIES;++i) {
+      const Enemy& e=s.en[i]; if (!e.alive || (ENEMIES[e.type].beh & B_BOSS)) continue;
+      const float sx=e.x-s.camX, sy=e.y-s.camY;
+      if (sx>=12 && sx<=388 && sy>=30 && sy<=222) continue;
+      const float dx=sx-200.0f, dy=sy-120.0f, a=atan2f(dy,dx);
+      float t=1.0f; if(dx>0) t=minT(t,188.0f/dx); else if(dx<0) t=minT(t,-188.0f/dx); if(dy>0) t=minT(t,102.0f/dy); else if(dy<0) t=minT(t,-90.0f/dy);
+      float ax=clampT(200.0f+dx*t,12.0f,388.0f), ay=clampT(120.0f+dy*t,30.0f,222.0f);
+      gfx::sprC(gfx::proj(gfx::PS_ARROW),ax,ay,2.0f,0x8B5FBF,plat::BLIT_TINT,a+1.5707963f);
+      gfx::sprC(gfx::proj(gfx::PS_ARROW),ax,ay,1.0f,0xF0E050,plat::BLIT_TINT,a+1.5707963f);
+    }
+  }
   if (s.season == SEA_ECLIPSE) {                              // darkness: 4 translucent rects around a light square
     const float screenX = p.x - s.camX, screenY = p.y - s.camY;
     const float lx = clampT(screenX - 90, 0.0f, 220.0f), ly = clampT(screenY - 70, 0.0f, 100.0f), lw = 180, lh = 140;
@@ -248,6 +290,7 @@ void simDraw(Sim& s, bool showFps, int fps) {
   bar(4, 14, 120, 5, p.exp / (float)bal::expNeed(p.level), C_EPIC);
   snprintf(b, sizeof b, "%s %d", T(S_plevel), p.level);
   gfx::text(b, 130, 4, C_GOLD);
+  snprintf(b, sizeof b, "LIFE %d   COIN %d", s.lives, s.runCoins); gfx::text(b, 130, 14, C_GOLD);
   if (s.endless) snprintf(b, sizeof b, "%s", Tn(S_wave_n, s.wave));
   else snprintf(b, sizeof b, "%s %d/%d", T(S_wave), s.wave, s.totalWaves);
   gfx::textC(b, 250, 4, C_TEXT);

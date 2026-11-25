@@ -30,6 +30,10 @@ static void fxSlash(Sim& s, float x, float y, float ang, float r) {
   Fx* f = newFx(s); if (!f) return;
   memset(f, 0, sizeof *f); f->kind = FX_SLASH; f->x = x; f->y = y; f->ang = ang; f->r = r; f->life = 0.18f;
 }
+static void fxCrack(Sim& s, float x, float y, float r) {
+  Fx* f = newFx(s); if (!f) return;
+  memset(f, 0, sizeof *f); f->kind = FX_CRACK; f->col = s.season; f->x = x; f->y = y; f->r = r; f->life = 1.1f;
+}
 void fxBolt(Sim& s, float x, float y) {
   Fx* f = newFx(s); if (!f) return;
   memset(f, 0, sizeof *f); f->kind = FX_BOLT; f->col = 6; f->x = x; f->y = y; f->life = 0.18f;
@@ -64,9 +68,52 @@ static void heal(Sim& s, float v) {
 }
 int statValue(const Sim& s, int st) { return BASE_STAT[st] + s.alloc[st] - s.drain[st]; }
 static int pts(const Sim& s, int st) { return maxT(0, s.alloc[st] - s.drain[st]); }
+static Eff scaleEff(Eff e, float m, int level);
 int simSpellLevelOf(const Sim& s, int id) {
   for (int i = 0; i < s.nSlots; ++i) if (s.slots[i].id == id) return s.slots[i].lv;
   return 0;
+}
+int simSpellTriggerInterval(const Sim& s, int slotIndex) {
+  if (slotIndex < 0 || slotIndex >= s.nSlots || s.slots[slotIndex].id < 0) return 0;
+  const SpellSlot& slot = s.slots[slotIndex];
+  if (slot.id >= NUM_SPELLS) return 0;
+  float crown = 0.0f;
+  for (int i = 0; i < s.nSlots; ++i) if (s.slots[i].id >= 0 && s.slots[i].id < NUM_SPELLS) {
+    for (int k = 0; k < 3; ++k) if (SPELLS[s.slots[i].id].eff[k].kind == E_ALLNUM_PCT)
+      crown += SPELLS[s.slots[i].id].eff[k].a * (1 + LV_BONUS * (s.slots[i].lv - 1));
+  }
+  const float mult = (1 + LV_BONUS * (slot.lv - 1)) * (1 + crown / 100.0f);
+  const SpellDef& d = SPELLS[slot.id];
+  for (int k = 0; k < 3; ++k) {
+    const EffKind kind = (EffKind)d.eff[k].kind;
+    if (kind != E_NTH_RING && kind != E_NTH_BLAST && kind != E_NTH_STUN &&
+        kind != E_NTH_DOUBLE && kind != E_NTH_STRIKE3 && kind != E_NTH_BOLT &&
+        kind != E_ELEMENTALIST && kind != E_TIME_STOP) continue;
+    const Eff scaled = scaleEff(d.eff[k], mult, slot.lv);
+    return maxT(1, (int)scaled.a);
+  }
+  return 0;
+}
+bool simKillTriggerInfo(const Sim& s, int slotIndex, int& progress, int& target, float& cooldown, float& cooldownMax) {
+  progress = target = 0; cooldown = cooldownMax = 0.0f;
+  if (slotIndex < 0 || slotIndex >= s.nSlots || s.slots[slotIndex].id < 0 || s.slots[slotIndex].id >= NUM_SPELLS) return false;
+  const SpellSlot& slot = s.slots[slotIndex]; const SpellDef& d = SPELLS[slot.id];
+  const float crown = s.m.allNumPct / 100.0f;
+  const float mult = (1.0f + LV_BONUS * (slot.lv - 1)) * (1.0f + crown);
+  for (int k = 0; k < 3; ++k) {
+    if (d.eff[k].kind != E_KILL_MAXHP && d.eff[k].kind != E_KILL_HEALEVERY) continue;
+    const Eff e = scaleEff(d.eff[k], mult, slot.lv);
+    target = maxT(1, (int)e.b);
+    if (e.kind == E_KILL_MAXHP) { progress = minT(target, (int)s.killProgress[slot.id]); cooldown = s.killCooldown[slot.id]; }
+    else { progress = minT(target, (int)s.killProgress[slot.id]); cooldown = s.killCooldown[slot.id]; }
+    cooldownMax = maxT(0.0f, e.c);
+    return true;
+  }
+  return false;
+}
+float simPotionDropChance(const Sim& s, bool critical) {
+  const float luck = (float)maxT(0, statValue(s, ST_LUCK));
+  return minT(100.0f, luck * (0.05f + (critical ? 1.0f : 0.0f)));
 }
 const char* phaseName(Phase p) {
   static const char* n[] = {"PLAY", "CLEARED", "ALLOC", "SPELL", "DEAD", "VICTORY"};
@@ -129,8 +176,10 @@ static Eff scaleEff(Eff e, float m, int level) {
 
 void recompute(Sim& s) {
   Mods& m = s.m; Player& p = s.p;
+  memset(s.pendingHitProc, 0, sizeof s.pendingHitProc);
   float oldMax = p.maxhp;
   memset((void*)&m, 0, sizeof m);
+  m.orbitVisual = ORBIT_AIR;
   float flatHp = 0, hpPct = 0, movePct = 0, atkPct = 0, cdPct = 0, crit = 0, critDmg = 0, dmgPct = 0, res = 0;
   float taken = 0, rTaken = 0, debuff = 0, heal = 0, dealt = 0, thr = 0, rng = 0;
   float crown = 0;
@@ -140,6 +189,7 @@ void recompute(Sim& s) {
   for (int i = 0; i < s.nSlots; ++i) {
     if (s.slots[i].id < 0) continue;
     float mult = (1 + LV_BONUS * (s.slots[i].lv - 1)) * (1 + crown / 100.0f);
+    const SpellDef& d = SPELLS[s.slots[i].id];
     for (int k = 0; k < 3; ++k) {
       Eff e = SPELLS[s.slots[i].id].eff[k];
       if (e.kind == E_NONE || e.kind == E_ALLNUM_PCT) continue;
@@ -188,9 +238,9 @@ void recompute(Sim& s) {
         case E_ARMOR_IGNORE: m.armorIgnore = true; m.armorBonus += maxT(0.0f, e.a - 1.0f) * 25.0f; break;
         case E_DRONE_MINIGUN: m.hasDrone = true; m.dronePower += e.a; break;
         case E_SENTINEL: m.hasSentinel = true; m.sentinelPower += e.a; break;
-        case E_ELEMENTALIST: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
+        case E_ELEMENTALIST: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c, s.slots[i].id}; break;
         case E_FAIRY: m.hasFairy = true; m.fairyPower += e.a; break;
-        case E_TIME_STOP: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
+        case E_TIME_STOP: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c, s.slots[i].id}; break;
         case E_PIERCE: m.pierce += maxT(0, (int)e.a - 1) + lv - 1; break;
         case E_BOUNCE_ENEMY: m.bounceE += maxT(1, (int)e.a) + lv - 1; m.bounceDmg = e.b; break;
         case E_BOUNCE_WALL: m.bounceW += maxT(1, (int)e.a) + lv - 1; break;
@@ -198,9 +248,12 @@ void recompute(Sim& s) {
         case E_SPLIT: m.split += (int)e.a; m.splitDmg = e.b; break;
         case E_EXPLODE: m.explodeDmg += e.a; m.explodeR = maxT(m.explodeR, e.b); break;
         case E_KNOCKBACK: m.knock = maxT(m.knock, e.a); break;
-        case E_ORBIT: m.nOrbit += (int)e.b + (s.slots[i].lv - 1); m.orbitDps += e.a; break;
+        case E_ORBIT:
+          m.nOrbit += (int)e.b + (s.slots[i].lv - 1); m.orbitDps += e.a;
+          m.orbitVisual = d.el == EL_FIRE ? ORBIT_FIRE : (d.el == EL_LIGHTNING ? ORBIT_LIGHTNING : ORBIT_AIR);
+          break;
         case E_WHIRL: m.whirlDps += e.a; m.whirlDur = e.b; break;
-        default: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c}; break;
+        default: if (m.nEv < MAX_EV) m.ev[m.nEv++] = Ev{e.kind, e.a, e.b, e.c, s.slots[i].id}; break;
       }
     }
   }
@@ -238,9 +291,9 @@ void dotEnemy(Sim& s, int ei, float dmg) {
   if (e.hp <= 0) killEnemy(s, ei, 0);
 }
 
-void hitEnemy(Sim& s, int ei, float base, float dx, float dy, bool events, bool fromProj) {
+bool hitEnemy(Sim& s, int ei, float base, float dx, float dy, bool events, bool fromProj) {
   Enemy& e = s.en[ei];
-  if (!e.alive) return;
+  if (!e.alive) return false;
   const EnemyDef& def = ENEMIES[e.type];
   Mods& m = s.m;
   float d = base;
@@ -259,7 +312,7 @@ void hitEnemy(Sim& s, int ei, float base, float dx, float dy, bool events, bool 
     for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_EXSANG && s.rng.chance(m.ev[i].a)) { d *= 2; heal(s, 1); }
   }
   if ((def.beh & B_SHIELD) && fromProj) {                 // frontal shield: only hits from behind land
-    if (dx * e.dirx + dy * e.diry <= 0) { fxText(s, e.x, e.y - 10, "BLOCK", 0); audio::sfx(audio::SFX_UI); return; }
+    if (dx * e.dirx + dy * e.diry <= 0) { fxText(s, e.x, e.y - 10, "BLOCK", 0); audio::sfx(audio::SFX_UI); return false; }
   }
   if (def.beh & B_ARMOR) {
     if (!m.armorIgnore) d = maxT(1.0f, d - 1);
@@ -273,7 +326,8 @@ void hitEnemy(Sim& s, int ei, float base, float dx, float dy, bool events, bool 
   if (m.lifesteal > 0 && s.p.lsBudget > 0) { float h = minT(d * m.lifesteal / 100.0f, s.p.lsBudget); s.p.lsBudget -= h; heal(s, h); }
   audio::sfx(audio::SFX_HIT);
   if (events) applyHitEvents(s, ei, d, crit, dx, dy);
-  if (e.hp <= 0) killEnemy(s, ei, 0);
+  if (e.hp <= 0) killEnemy(s, ei, 0, crit);
+  return true;
 }
 
 void aoeDamage(Sim& s, float x, float y, float r, float dmg) {
@@ -293,6 +347,65 @@ static void statusOn(Sim& s, Enemy& e, float slowPct, float slowT, float freeze,
   if (root > 0) e.rootT = maxT(e.rootT, root * k);
 }
 
+static bool isHitTriggered(EffKind kind) {
+  return kind == E_NTH_BLAST || kind == E_NTH_STUN || kind == E_NTH_BOLT || kind == E_NTH_STRIKE3 || kind == E_ELEMENTALIST;
+}
+static void markPendingHitProcs(Sim& s) {
+  for (int i = 0; i < s.m.nEv; ++i) {
+    const Ev& e = s.m.ev[i];
+    if (isHitTriggered((EffKind)e.kind) && s.p.throws % maxT(1, (int)e.a) == 0) s.pendingHitProc[i] = 1;
+  }
+}
+static void firePendingHitProcs(Sim& s, float x, float y) {
+  const float aoe = s.m.aoeMul, lm = 1.0f + s.m.lightning / 100.0f;
+  for (int i = 0; i < s.m.nEv; ++i) {
+    if (!s.pendingHitProc[i]) continue;
+    const Ev& v = s.m.ev[i]; s.pendingHitProc[i] = 0;
+    switch ((EffKind)v.kind) {
+      case E_ELEMENTALIST: {
+        spellCast(s); const int element = s.rng.i(4); const float r = v.c * aoe;
+        if (element == 0) { aoeDamage(s, x, y, r, v.b * s.m.dmgMul); fxRing(s, x, y, r, 2, 0.3f); }
+        else if (element == 1) {
+          for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(x, y, s.en[k].x, s.en[k].y) < sq(r)) hitEnemy(s, k, v.b * s.m.dmgMul, 0, 0, false, false);
+          fxRing(s, x, y, r, 3, 0.25f);
+        } else if (element == 2) {
+          for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(x, y, s.en[k].x, s.en[k].y) < sq(r)) {
+            statusOn(s, s.en[k], 35, 1.2f, 0, 0, 0); s.en[k].kx += (s.en[k].x - x) * 0.5f; s.en[k].ky += (s.en[k].y - y) * 0.5f;
+          }
+          fxRing(s, x, y, r, 4, 0.3f);
+        } else { aoeDamage(s, x, y, r * 0.75f, v.b * 1.15f * s.m.dmgMul); fxDisc(s, x, y, r * 0.75f, 1, 0.25f); }
+      } break;
+      case E_NTH_BLAST: {
+        spellCast(s);
+        if (v.c >= 900.0f) {
+          for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive) hitEnemy(s, k, v.b, 0, 0, false, false);
+          fxDisc(s, x, y, 150, 7, 0.4f); s.shake = maxT(s.shake, 0.42f);
+        } else {
+          const float r = minT(v.c, 999.0f) * aoe;
+          aoeDamage(s, x, y, r, v.b); fxDisc(s, x, y, r, 2, 0.3f); fxRing(s, x, y, r, 7, 0.4f);
+          if (v.c >= 100.0f) s.shake = maxT(s.shake, 0.36f); else if (v.c >= 60.0f) s.shake = maxT(s.shake, 0.24f);
+        }
+        audio::sfx(audio::SFX_BLAST);
+      } break;
+      case E_NTH_STUN: {
+        spellCast(s); const float r = v.c * aoe;
+        for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(x, y, s.en[k].x, s.en[k].y) < sq(r)) statusOn(s, s.en[k], 0, 0, 0, v.b, 0);
+        fxCrack(s, x, y, r); audio::sfx(audio::SFX_BLAST);
+      } break;
+      case E_NTH_BOLT:
+        spellCast(s); fxBolt(s, x, y - 6); aoeDamage(s, x, y, v.c * aoe, v.b * lm); audio::sfx(audio::SFX_ELECTRIC); break;
+      case E_NTH_STRIKE3: {
+        spellCast(s); int n = 0;
+        for (int k = 0; k < MAX_ENEMIES && n < (int)v.c; ++k) if (s.en[k].alive) {
+          fxBolt(s, s.en[k].x, s.en[k].y - 6); dotEnemy(s, k, v.b * lm); ++n;
+        }
+        audio::sfx(audio::SFX_ELECTRIC);
+      } break;
+      default: break;
+    }
+  }
+}
+
 static void applyHitEvents(Sim& s, int ei, float dealt, bool crit, float dx, float dy) {
   Mods& m = s.m;
   Enemy& e = s.en[ei];
@@ -305,7 +418,7 @@ static void applyHitEvents(Sim& s, int ei, float dealt, bool crit, float dx, flo
       case E_HIT_STUN: if (crit && s.rng.chance(v.a)) { spellCast(s); statusOn(s, e, 0, 0, 0, v.b, 0); } break;
       case E_HIT_ROOT: if (crit) { spellCast(s); statusOn(s, e, 0, 0, 0, 0, v.a); } break;
       case E_HIT_BURN: spellCast(s); e.burnDps = maxT(e.burnDps, v.a); e.burnT = maxT(e.burnT, v.b); break;
-      case E_HIT_BLEED: spellCast(s); e.bleedDps = maxT(e.bleedDps, v.a); e.bleedT = maxT(e.bleedT, v.b); break;
+      case E_HIT_BLEED: spellCast(s); e.bleedDps = maxT(e.bleedDps, v.a); e.bleedT = maxT(e.bleedT, v.b); audio::sfx(audio::SFX_SPLASH); break;
       case E_HIT_BONUS: if (s.rng.chance(v.a)) { spellCast(s); e.hp -= v.b * lm; fxText(s, e.x + 6, e.y - 12, "ZAP", 6); } break;
       case E_HIT_BURST: spellCast(s); aoeDamage(s, e.x, e.y, v.b * m.aoeMul, v.a); fxRing(s, e.x, e.y, v.b * m.aoeMul, 3, 0.25f); break;
       case E_HIT_CHAIN: case E_HIT_BOLT: {
@@ -343,9 +456,18 @@ static void applyHitEvents(Sim& s, int ei, float dealt, bool crit, float dx, flo
 }
 
 // ================================================================================ kills, gems, healing
+static void spawnPickup(Sim& s, float x, float y, float v, PickupKind kind) {
+  for (int i = 0; i < MAX_GEMS; ++i) if (!s.gem[i].alive) { s.gem[i] = Gem{true, x, y, v, (u8)kind}; return; }
+  if (kind == PICKUP_XP) {
+    int nearest = -1; float best = 1.0e30f;
+    for (int i = 0; i < MAX_GEMS; ++i) if (s.gem[i].kind == PICKUP_XP) {
+      const float d = dist2(x, y, s.gem[i].x, s.gem[i].y); if (d < best) { best = d; nearest = i; }
+    }
+    if (nearest >= 0) s.gem[nearest].v += v;
+  }
+}
 static void spawnGem(Sim& s, float x, float y, float v) {
-  for (int i = 0; i < MAX_GEMS; ++i) if (!s.gem[i].alive) { s.gem[i] = Gem{true, x, y, v}; return; }
-  s.gem[s.rng.i(MAX_GEMS)].v += v;                                 // pool full: merge
+  spawnPickup(s, x, y, v, PICKUP_XP);
 }
 static void gainExp(Sim& s, float v) {
   s.p.exp += v * s.m.expMul;
@@ -357,8 +479,28 @@ static void gainExp(Sim& s, float v) {
     audio::sfx(audio::SFX_LEVEL);
   }
 }
+int simSacrificeReward(const Sim& s, int slotIndex) {
+  if (!s.endless || s.phase != PH_PLAY || s.sacrificedThisWave || slotIndex <= 0 || slotIndex >= s.nSlots) return 0;
+  const SpellSlot& slot = s.slots[slotIndex];
+  if (slot.id < 0 || slot.id >= NUM_SPELLS || slot.lv < 5) return 0;
+  return 10 * (int)slot.lv + 2 * maxT(0, s.p.level - 1);
+}
+bool simSacrificeSpell(Sim& s, int slotIndex) {
+  const int reward = simSacrificeReward(s, slotIndex);
+  if (reward <= 0) return false;
+  for (int i = slotIndex; i + 1 < s.nSlots; ++i) s.slots[i] = s.slots[i + 1];
+  --s.nSlots;
+  s.slots[s.nSlots] = SpellSlot{0, 0};
+  s.sacrificedThisWave = true;
+  recompute(s);
+  // The displayed reward is fixed and is not multiplied by the XP-gain bonus.
+  gainExp(s, (float)reward / maxT(0.01f, s.m.expMul));
+  char b[40]; snprintf(b, sizeof b, "%s", Tn(S_sacrifice_toast, reward)); setToast(s, b);
+  audio::sfx(audio::SFX_LEVEL);
+  return true;
+}
 
-void killEnemy(Sim& s, int ei, int depth) {
+void killEnemy(Sim& s, int ei, int depth, bool critical) {
   Enemy& e = s.en[ei];
   if (!e.alive) return;
   const EnemyDef& def = ENEMIES[e.type];
@@ -372,6 +514,8 @@ void killEnemy(Sim& s, int ei, int depth) {
   s.totalKills++; s.p.kills++;
   if (s.runKills[e.type] < 65535) s.runKills[e.type]++;
   spawnGem(s, e.x, e.y, boss ? 25.0f : maxT(1.0f, (float)def.hp / 8.0f * (e.small ? 0.5f : 1.0f)));
+  if (s.rng.chance(28.0f)) spawnPickup(s, e.x + s.rng.range(-5.0f, 5.0f), e.y + s.rng.range(-5.0f, 5.0f), 1.0f + s.rng.i(3), PICKUP_COIN);
+  if (s.rng.chance(simPotionDropChance(s, critical))) spawnPickup(s, e.x + s.rng.range(-6.0f, 6.0f), e.y + s.rng.range(-6.0f, 6.0f), 0.25f, PICKUP_POTION);
   audio::sfx(audio::SFX_KILL);
   fxDisc(s, e.x, e.y, 9, 0, 0.16f);
   if ((def.beh & B_SPLIT_DEATH) && !e.small) {
@@ -399,10 +543,20 @@ void killEnemy(Sim& s, int ei, int depth) {
         int t = nearestEnemy(s, e.x, e.y, 70, ei);
         if (t >= 0) { fxBolt(s, s.en[t].x, s.en[t].y - 6); s.en[t].hp = 0; killEnemy(s, t, depth + 1); } } break;
       case E_KILL_MOVE: spellCast(s); s.p.moveBonus = minT(s.p.moveBonus + v.a, v.b); break;
-      case E_KILL_MAXHP: if (++s.p.killsSinceMax >= (int)v.b) { spellCast(s); s.p.killsSinceMax = 0; s.p.maxHpBonus += v.a; recompute(s); } break;
+      case E_KILL_MAXHP:
+        if (v.owner >= 0 && v.owner < NUM_SPELLS) s.killProgress[v.owner] = (u8)minT((int)v.b, (int)s.killProgress[v.owner] + 1);
+        if (v.owner >= 0 && v.owner < NUM_SPELLS && s.killProgress[v.owner] >= (int)v.b && s.killCooldown[v.owner] <= 0.0f) {
+          spellCast(s); s.killProgress[v.owner] = 0; s.killCooldown[v.owner] = maxT(0.0f, v.c); s.p.maxHpBonus += v.a; recompute(s);
+        }
+        break;
       case E_KILL_CURSE: spellCast(s); newZone(s, Z_CURSE, e.x, e.y, v.b * aoe, 1.0f, 0, v.a); break;
       case E_KILL_EXPLODE_BURNING: if (e.burnT > 0) { spellCast(s); aoeDamage(s, e.x, e.y, v.b * aoe, v.a); fxRing(s, e.x, e.y, v.b * aoe, 2, 0.25f); } break;
-      case E_KILL_HEALEVERY: if (++s.p.killsSinceHeal >= (int)v.b) { spellCast(s); s.p.killsSinceHeal = 0; heal(s, v.a); } break;
+      case E_KILL_HEALEVERY:
+        if (v.owner >= 0 && v.owner < NUM_SPELLS) s.killProgress[v.owner] = (u8)minT((int)v.b, (int)s.killProgress[v.owner] + 1);
+        if (v.owner >= 0 && v.owner < NUM_SPELLS && s.killProgress[v.owner] >= (int)v.b && s.killCooldown[v.owner] <= 0.0f) {
+          spellCast(s); s.killProgress[v.owner] = 0; heal(s, v.a); s.killCooldown[v.owner] = maxT(0.0f, v.c);
+        }
+        break;
       case E_AURA_HEALKILL: if (dist2(e.x, e.y, s.p.x, s.p.y) < sq(56 * aoe)) { spellCast(s); heal(s, v.a); } break;
       default: break;
     }
@@ -436,6 +590,9 @@ bool hurtPlayer(Sim& s, float dmg, bool ranged, Enemy* src, bool allowTiny) {
     if (m.revivePct > 0 && !p.usedRevive) {
       spellCast(s); p.usedRevive = true; p.hp = p.maxhp * m.revivePct / 100.0f; p.iframes = 2.0f;
       fxText(s, p.x, p.y - 14, "REVIVE", 2); fxRing(s, p.x, p.y, 40, 2, 0.5f);
+    } else if (s.lives > 1) {
+      --s.lives; p.hp = p.maxhp * 0.5f; p.iframes = 2.0f; p.burnT = p.slowT = 0.0f;
+      fxText(s, p.x, p.y - 14, "LIFE LOST", 7); fxRing(s, p.x, p.y, 40, 7, 0.5f); audio::sfx(audio::SFX_LEVEL);
     } else { p.hp = 0; s.phase = PH_DEAD; s.phaseT = 0; audio::sfx(audio::SFX_DEATH); }
   }
   return true;
@@ -465,9 +622,10 @@ static void fireWeapon(Sim& s, int ti, float angOff, float dmgMul) {
   if (!q) return;
   static const u8 sprs[W_COUNT] = {gfx::PS_DAGGER, gfx::PS_ARROW, gfx::PS_AXE, gfx::PS_ORB,
                                      gfx::PS_PELLET, gfx::PS_PISTOL, gfx::PS_TRIDENT,
-                                     gfx::PS_KNIFE, gfx::PS_PISTOL};
+                                     gfx::PS_KNIFE, gfx::PS_PISTOL, gfx::PS_BOLT};
   const float speed = w.speed * m.projSpd;
-  q->spr = sprs[s.weapon];
+  static const u8 infinitySpr[EL_COUNT] = {gfx::PS_BOLT, gfx::PS_EMBER, gfx::PS_ORB, gfx::PS_ARROW, gfx::PS_KNIFE, gfx::PS_BOLT};
+  q->spr = s.weapon == W_INFINITY_GLOVE ? infinitySpr[s.p.infinityElement % EL_COUNT] : sprs[s.weapon];
   q->x = s.p.x; q->y = s.p.y;
   q->vx = cosf(ang) * speed; q->vy = sinf(ang) * speed;
   q->dmg = (w.dmg + m.flat) * m.dmgMul * m.dealt * dmgMul;
@@ -481,6 +639,8 @@ static void fireWeapon(Sim& s, int ti, float angOff, float dmgMul) {
     float d = sqrtf(dist2(t.x, t.y, s.p.x, s.p.y));
     q->life = d / speed; q->aoe = w.radius * m.aoeMul;
   }
+  // The projectile above uses the current element; advance only after a shot is actually spawned.
+  if (s.weapon == W_INFINITY_GLOVE) s.p.infinityElement = (u8)((s.p.infinityElement + 1) % EL_COUNT);
 }
 
 static void radialShots(Sim& s, int n, float dmg, bool child) {
@@ -492,6 +652,7 @@ static void radialShots(Sim& s, int n, float dmg, bool child) {
     q->dmg = dmg; q->r = 4; q->life = 0.8f; q->kind = child ? 5 : 0;
   }
 }
+static void onWeaponHit(Sim& s, float x, float y) { firePendingHitProcs(s, x, y); }
 
 static void doThrow(Sim& s) {
   Player& p = s.p; Mods& m = s.m;
@@ -500,6 +661,7 @@ static void doThrow(Sim& s) {
   int t = nearestEnemy(s, p.x, p.y, w.range * m.rangeMul, -1);
   if (t < 0) return;
   p.throws++;
+  markPendingHitProcs(s);
   float extraShots = 0.0f;
   for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_NTH_DOUBLE && p.throws % maxT(1, (int)m.ev[i].a) == 0) {
     extraShots = maxT(extraShots, m.ev[i].b); if (m.ev[i].b > 0) spellCast(s);
@@ -511,7 +673,7 @@ static void doThrow(Sim& s) {
       Enemy& e = s.en[k]; if (!e.alive) continue;
       const float ex = e.x - p.x, ey = e.y - p.y, d = sqrtf(ex * ex + ey * ey) + 0.001f;
       if (d <= KATANA_RANGE + enemyTouchR(e) && (ex * dx + ey * dy) / (d * len) >= KATANA_ARC_COS) {
-        hitEnemy(s, k, (w.dmg + m.flat) * m.dmgMul * m.dealt, ex, ey, true, false);
+        if (hitEnemy(s, k, (w.dmg + m.flat) * m.dmgMul * m.dealt, ex, ey, true, false)) onWeaponHit(s, e.x, e.y);
         if (s.en[k].alive && s.rng.chance(KATANA_BLEED_CHANCE)) { s.en[k].bleedDps = maxT(s.en[k].bleedDps, KATANA_BLEED_DPS); s.en[k].bleedT = maxT(s.en[k].bleedT, KATANA_BLEED_TIME); }
       }
     }
@@ -527,35 +689,11 @@ static void doThrow(Sim& s) {
   if (s.weapon != W_TRIDENT && extraShots > bonusShots && s.rng.chance((extraShots - bonusShots) * 100.0f)) fireWeapon(s, t, 0.20f, 1.0f);
   audio::sfx(s.weapon == W_KATANA ? audio::SFX_SWING : audio::SFX_SHOOT);
   const float baseDmg = (w.dmg + m.flat) * m.dmgMul * m.dealt;
-  const float lm = 1 + m.lightning / 100.0f;
-  for (int i = 0; i < m.nEv; ++i) if (m.ev[i].kind == E_ELEMENTALIST && p.throws % maxT(1, (int)m.ev[i].a) == 0) {
-    spellCast(s); const int element = s.rng.i(4); const float r = m.ev[i].c * m.aoeMul;
-    if (element == 0) { aoeDamage(s, s.en[t].x, s.en[t].y, r, m.ev[i].b * m.dmgMul); fxRing(s, s.en[t].x, s.en[t].y, r, 2, 0.3f); }
-    else if (element == 1) { for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(s.en[t].x, s.en[t].y, s.en[k].x, s.en[k].y) < sq(r)) hitEnemy(s, k, m.ev[i].b * m.dmgMul, 0, 0, false, false); fxRing(s, s.en[t].x, s.en[t].y, r, 3, 0.25f); }
-    else if (element == 2) { for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(p.x, p.y, s.en[k].x, s.en[k].y) < sq(r)) { statusOn(s, s.en[k], 35, 1.2f, 0, 0, 0); s.en[k].kx += (s.en[k].x-p.x) * 0.5f; s.en[k].ky += (s.en[k].y-p.y) * 0.5f; } fxRing(s, p.x, p.y, r, 4, 0.3f); }
-    else { aoeDamage(s, s.en[t].x, s.en[t].y, r * 0.75f, m.ev[i].b * 1.15f * m.dmgMul); fxDisc(s, s.en[t].x, s.en[t].y, r * 0.75f, 1, 0.25f); }
-  }
   for (int i = 0; i < m.nEv; ++i) {
     const Ev& v = m.ev[i];
     switch (v.kind) {
       case E_NTH_RING: if (p.throws % maxT(1, (int)v.a) == 0) { spellCast(s); radialShots(s, maxT(1, (int)v.b), baseDmg * v.c, false); } break;
-      case E_NTH_BLAST: if (p.throws % (int)v.a == 0) {
-        spellCast(s);
-        const bool big = v.c >= 100;
-        float cx = big ? p.x : s.en[t].x, cy = big ? p.y : s.en[t].y, r = minT(v.c, 999.0f) * m.aoeMul;
-        if (v.c >= 900) { for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive) hitEnemy(s, k, v.b, 0, 0, false, false); fxDisc(s, p.x, p.y, 150, 7, 0.4f); s.shake = 0.3f; }
-        else { aoeDamage(s, cx, cy, r, v.b); fxDisc(s, cx, cy, r, 2, 0.3f); fxRing(s, cx, cy, r, 7, 0.4f); }
-        audio::sfx(audio::SFX_BLAST); } break;
-      case E_NTH_STUN: if (p.throws % (int)v.a == 0) {
-        spellCast(s);
-        for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(p.x, p.y, s.en[k].x, s.en[k].y) < sq(v.c * m.aoeMul)) statusOn(s, s.en[k], 0, 0, 0, v.b, 0);
-        fxRing(s, p.x, p.y, v.c * m.aoeMul, 7, 0.3f); audio::sfx(audio::SFX_BLAST); } break;
-      case E_NTH_BOLT: if (p.throws % (int)v.a == 0) {
-        spellCast(s);
-        fxBolt(s, s.en[t].x, s.en[t].y - 6); aoeDamage(s, s.en[t].x, s.en[t].y, v.c * m.aoeMul, v.b * lm); } break;
-      case E_NTH_STRIKE3: if (p.throws % (int)v.a == 0) {
-        spellCast(s);
-        for (int k = 0, n = 0; k < MAX_ENEMIES && n < (int)v.c; ++k) if (s.en[k].alive) { fxBolt(s, s.en[k].x, s.en[k].y - 6); dotEnemy(s, k, v.b * lm); ++n; } } break;
+      case E_NTH_BLAST: case E_NTH_STUN: case E_NTH_BOLT: case E_NTH_STRIKE3: break; // wait for an actual impact
       case E_TIME_STOP: if (p.throws % maxT(1, (int)v.a) == 0 && p.timeStopCd <= 0.0f) {
         spellCast(s); p.timeStopT = maxT(p.timeStopT, v.b); p.timeStopCd = v.c;
         fxRing(s, p.x, p.y, 72, 5, 0.45f); fxText(s, p.x, p.y - 18, "TIME STOP", 5);
@@ -594,7 +732,9 @@ static void updateProjectiles(Sim& s, float dt) {
     q.rot = atan2f(q.vy, q.vx) + 1.5707963f;
     if (q.lob) {
       if (q.life <= 0) {
-        for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(q.tx, q.ty, s.en[k].x, s.en[k].y) < sq(q.aoe + enemyTouchR(s.en[k]))) hitEnemy(s, k, q.dmg, q.vx, q.vy, true, false);
+        for (int k = 0; k < MAX_ENEMIES; ++k) if (s.en[k].alive && dist2(q.tx, q.ty, s.en[k].x, s.en[k].y) < sq(q.aoe + enemyTouchR(s.en[k]))) {
+          if (hitEnemy(s, k, q.dmg, q.vx, q.vy, true, false)) onWeaponHit(s, s.en[k].x, s.en[k].y);
+        }
         fxRing(s, q.tx, q.ty, q.aoe, 7, 0.25f); fxDisc(s, q.tx, q.ty, q.aoe, 2, 0.15f);
         q.alive = false;
       }
@@ -659,7 +799,8 @@ static void updateProjectiles(Sim& s, float dt) {
       for (int h = 0; h < minT<int>(q.nhit, 4); ++h) if (q.hit[h] == j) seen = true;
       if (seen || dist2(q.x, q.y, e.x, e.y) >= sq(q.r + enemyTouchR(e))) continue;
       if ((ENEMIES[e.type].beh & B_INVIS) && dist2(e.x, e.y, p.x, p.y) > sq(70)) continue;
-      hitEnemy(s, j, q.dmg, q.vx, q.vy, true, true);
+      const bool landed = hitEnemy(s, j, q.dmg, q.vx, q.vy, true, true);
+      if (landed) onWeaponHit(s, e.x, e.y);
       q.hit[q.nhit & 3] = (s16)j; q.nhit++;
       if (q.retrievable) { q.stuck = true; q.vx = q.vy = 0; q.life = 9999.0f; break; }
       if (m.explodeDmg > 0 && q.kind != 5) { aoeDamage(s, q.x, q.y, m.explodeR * m.aoeMul, m.explodeDmg); fxRing(s, q.x, q.y, m.explodeR * m.aoeMul, 2, 0.2f); }
@@ -789,6 +930,7 @@ static void updateAuras(Sim& s, float dt) {
 // ================================================================================ waves and phases
 static void startWave(Sim& s) {
   s.waveT = 0; s.spawned = 0; s.quota = waveQuota(s.wave); s.spawnAcc = 0; s.bossSpawned = false;
+  s.sacrificedThisWave = false;
   s.bossWave = s.endless ? (s.wave % 10 == 0) : (s.wave == s.totalWaves);
   for (int i = 0; i < ST_COUNT; ++i) s.drain[i] = 0;
   s.p.moveBonus = 0; s.p.flareT = 0;
@@ -821,10 +963,16 @@ static bool inPool(const Sim& s, int id) {
 }
 static void rollOffers(Sim& s) {
   s.nOffers = 0; s.offersAreUpgrades = false;
+  s.offerPoolCount = 0; s.offerPage = 0;
   if (s.nSlots >= MAX_SLOTS) {
     int cand[MAX_SLOTS], n = 0;
     for (int i = 1; i < s.nSlots; ++i) if (s.slots[i].id >= 0 && s.slots[i].lv < SPELLS[s.slots[i].id].maxLevel) cand[n++] = i;
     s.offersAreUpgrades = true;
+    if (!s.randomSpells) {
+      for (int i = 0; i < n; ++i) s.offerPool[s.offerPoolCount++] = (s16)cand[i];
+      for (int i = 0; i < 3 && i < n; ++i) s.offers[s.nOffers++] = cand[i];
+      return;
+    }
     while (n > 0 && s.nOffers < 3) { int k = s.rng.i(n); s.offers[s.nOffers++] = cand[k]; cand[k] = cand[--n]; }
     return;
   }
@@ -832,6 +980,11 @@ static void rollOffers(Sim& s) {
   for (int i = 0; i < NUM_SPELLS; ++i) {
     if (!inPool(s, i) || simSpellLevelOf(s, i) > 0) continue;
     pool[n++] = i;
+  }
+  if (!s.randomSpells) {
+    for (int i = 0; i < n; ++i) s.offerPool[s.offerPoolCount++] = (s16)pool[i];
+    for (int i = 0; i < 3 && i < n; ++i) s.offers[s.nOffers++] = pool[i];
+    return;
   }
   const float b = minT(s.m.rareBonus, 40.0f);
   const float W[4] = {maxT(5.0f, 60 - b), 28 + b * 0.6f, 10 + b * 0.3f, 2 + b * 0.1f};
@@ -842,14 +995,28 @@ static void rollOffers(Sim& s) {
     s.offers[s.nOffers++] = pool[k]; pool[k] = pool[--n];
   }
 }
+void simCycleOffers(Sim& s, int direction) {
+  if (s.phase != PH_SPELL || s.randomSpells || s.offerPoolCount <= 3 || direction == 0) return;
+  const int pages = (s.offerPoolCount + 2) / 3;
+  s.offerPage = (s.offerPage + (direction > 0 ? 1 : pages - 1)) % pages;
+  s.nOffers = 0;
+  for (int i = 0; i < 3; ++i) {
+    const int idx = s.offerPage * 3 + i;
+    if (idx >= s.offerPoolCount) break;
+    s.offers[s.nOffers++] = s.offerPool[idx];
+  }
+}
 static void goSpellPhase(Sim& s) {
   rollOffers(s);
   if (s.nOffers == 0) { simResume(s); return; }
   s.phase = PH_SPELL;
 }
+static u8 nextSelectedSeason(const Sim& s);
 void simResume(Sim& s) {
   if (s.forced) { s.forced = false; s.phase = PH_PLAY; return; }
-  s.wave++; startWave(s);
+  s.wave++;
+  if (s.allSeasons && s.wave > 1 && ((s.wave - 1) % 5) == 0) s.season = nextSelectedSeason(s);
+  startWave(s);
 }
 bool simSpend(Sim& s, int st) {
   if (s.phase != PH_ALLOC || s.points <= 0 || st < 0 || st >= ST_COUNT) return false;
@@ -898,27 +1065,43 @@ static void setupHazards(Sim& s) {
   }
 }
 
-void simStart(Sim& s, int season, int levelIdx, bool endless, int weapon, u32 seed, bool allSeasons) {
+void simStart(Sim& s, int season, int levelIdx, bool endless, int weapon, u32 seed, bool allSeasons, u8 selectedSeasons, bool randomSpells, int lives, int startingSpell, int difficulty) {
   memset((void*)&s, 0, sizeof(Sim));
   s.rng.s = seed ? seed : 1u;
-  s.season = (u8)season; s.levelIdx = (u8)levelIdx; s.endless = endless; s.allSeasons = allSeasons; s.weapon = (u8)weapon;
+  s.season = (u8)season; s.levelIdx = (u8)levelIdx; s.endless = endless; s.allSeasons = allSeasons; s.selectedSeasons = selectedSeasons ? selectedSeasons : (u8)(1u << season); s.weapon = (u8)weapon;
+  s.randomSpells = randomSpells; s.lives = clampT(lives, 1, 5); s.startingSpell = startingSpell;
+  s.difficulty = clampT(difficulty, 0, 2);
   s.totalWaves = endless ? 100000 : LEVELS[clampT(levelIdx, 0, 2)].waves;
   s.wave = 1; s.phase = PH_PLAY;
   s.slots[0] = SpellSlot{(s16)(-1 - weapon), 1}; s.nSlots = 1;
-  s.p.x = allSeasons ? 400.0f : 200.0f; s.p.y = allSeasons ? 300.0f : 130.0f; s.p.level = 1; s.p.lsBudget = 1;
+  if (!randomSpells && startingSpell >= 0 && startingSpell < NUM_SPELLS && inPool(s, startingSpell)) {
+    s.slots[s.nSlots++] = SpellSlot{(s16)startingSpell, 1};
+    s.seenSpell[startingSpell] = 1; s.usedSpell[startingSpell] = 1; s.runSpellsAcquired = 1;
+  }
+  s.p.x = (allSeasons || endless) ? 320.0f : 200.0f; s.p.y = (allSeasons || endless) ? 240.0f : 130.0f; s.p.level = 1; s.p.lsBudget = 1;
   recompute(s); s.p.hp = s.p.maxhp;
   setupHazards(s);
   startWave(s);
 }
 
 // ================================================================================ update
+static int randomSelectedSeason(Sim& s) {
+  int count = 0; for (int i = 0; i < SEA_COUNT; ++i) if (s.selectedSeasons & (1u << i)) ++count;
+  int pick = s.rng.i(maxT(1, count));
+  for (int i = 0; i < SEA_COUNT; ++i) if (s.selectedSeasons & (1u << i)) { if (pick-- == 0) return i; }
+  return s.season;
+}
+static u8 nextSelectedSeason(const Sim& s) {
+  for (int offset = 1; offset <= SEA_COUNT; ++offset) { const int i = (s.season + offset) % SEA_COUNT; if (s.selectedSeasons & (1u << i)) return (u8)i; }
+  return s.season;
+}
 static void spawnTick(Sim& s) {
   int enemiesAlive = 0;
   for (int i = 0; i < MAX_ENEMIES; ++i) if (s.en[i].alive) ++enemiesAlive;
   s.enemiesAlive = enemiesAlive;
   if (s.bossWave && !s.bossSpawned && s.waveT >= 1.5f) {
     s.bossSpawned = true;
-    int bossSeason = s.allSeasons ? s.rng.i(5) : s.season;
+    int bossSeason = s.allSeasons ? randomSelectedSeason(s) : s.season;
     int b = spawnEnemy(s, bossSeason * 5 + 4, (arenaMinX(s) + arenaMaxX(s)) * 0.5f, arenaMinY(s) - 14, false);
     if (b >= 0) setToast(s, T(S_boss_incoming));
     audio::sfx(audio::SFX_BOSS);
@@ -930,13 +1113,20 @@ static void spawnTick(Sim& s) {
     float w0 = 10, w1 = s.wave >= 2 ? 7.0f : 0.0f, w2 = s.wave >= 4 ? 5.0f : 0.0f, w3 = s.wave >= 6 ? 3.0f : 0.0f;
     float x = s.rng.f() * (w0 + w1 + w2 + w3); int t = 0;
     if (x > w0) { x -= w0; t = 1; if (x > w1) { x -= w1; t = 2; if (x > w2) t = 3; } }
-    int side = s.rng.i(4); float px, py;
+    float px, py;
     const float x0 = arenaMinX(s), x1 = arenaMaxX(s), y0 = arenaMinY(s), y1 = arenaMaxY(s);
-    if (side == 0) { px = s.rng.range(x0, x1); py = y0 - 12; }
-    else if (side == 1) { px = s.rng.range(x0, x1); py = y1 + 12; }
-    else if (side == 2) { px = x0 - 12; py = s.rng.range(y0, y1); }
-    else { px = x1 + 12; py = s.rng.range(y0, y1); }
-    const int group = (s.allSeasons ? s.rng.i(5) : s.season) * 5;
+    if (s.endless) {
+      const float a = s.rng.range(0.0f, 6.2831853f), r = s.rng.range(205.0f, 255.0f);
+      px = clampT(s.p.x + cosf(a) * r, x0 + 8.0f, x1 - 8.0f);
+      py = clampT(s.p.y + sinf(a) * r, y0 + 8.0f, y1 - 8.0f);
+    } else {
+      const int side = s.rng.i(4);
+      if (side == 0) { px = s.rng.range(x0, x1); py = y0 - 12; }
+      else if (side == 1) { px = s.rng.range(x0, x1); py = y1 + 12; }
+      else if (side == 2) { px = x0 - 12; py = s.rng.range(y0, y1); }
+      else { px = x1 + 12; py = s.rng.range(y0, y1); }
+    }
+    const int group = (s.allSeasons ? randomSelectedSeason(s) : s.season) * 5;
     if (spawnEnemy(s, group + t, px, py, false) < 0) break;
     ++s.spawned; ++enemiesAlive;
   }
@@ -952,7 +1142,12 @@ static void updateGems(Sim& s, float dt, bool all) {
       float l = sqrtf(d) + 0.01f, sp = all ? 260.0f : 150.0f;
       g.x += (p.x - g.x) / l * sp * dt; g.y += (p.y - g.y) / l * sp * dt;
     }
-    if (d < sq(PICKUP_R)) { g.alive = false; gainExp(s, g.v); audio::sfx(audio::SFX_PICKUP); }
+    if (d < sq(PICKUP_R)) {
+      if (g.kind == PICKUP_XP) gainExp(s, g.v);
+      else if (g.kind == PICKUP_COIN) s.runCoins += (int)g.v;
+      else if (g.kind == PICKUP_POTION) heal(s, s.p.maxhp * g.v);
+      g.alive = false; audio::sfx(audio::SFX_PICKUP);
+    }
   }
 }
 
@@ -973,7 +1168,7 @@ static void updateSentinels(Sim& s, float dt) {
     if (s.sentinelSpawnT <= 0.0f) {
       for (int i = 0; i < 2; ++i) if (!s.sentinels[i].active) {
         Sentinel& sent = s.sentinels[i];
-        sent.active = true; sent.x = s.p.x; sent.y = s.p.y;
+        sent.active = true; const float a = (i == 0 ? -0.9f : 0.9f); sent.x = clampT(s.p.x + cosf(a) * 22.0f, arenaMinX(s) + 18.0f, arenaMaxX(s) - 18.0f); sent.y = clampT(s.p.y + sinf(a) * 22.0f, arenaMinY(s) + 18.0f, arenaMaxY(s) - 18.0f);
         sent.hp = sent.maxhp = 50.0f * maxT(0.5f, s.m.sentinelPower); sent.fireT = 0.0f;
         fxRing(s, sent.x, sent.y, 16, 3, 0.35f);
         break;
@@ -984,6 +1179,9 @@ static void updateSentinels(Sim& s, float dt) {
     Sentinel& sent = s.sentinels[i];
     if (!sent.active) continue;
     sent.iframes = maxT(0.0f, sent.iframes - dt);
+    const float followA = (i == 0 ? -0.9f : 0.9f) + s.runT * 0.45f;
+    sent.x += (clampT(s.p.x + cosf(followA) * 24.0f, arenaMinX(s) + 18.0f, arenaMaxX(s) - 18.0f) - sent.x) * minT(1.0f, dt * 4.0f);
+    sent.y += (clampT(s.p.y + sinf(followA) * 24.0f, arenaMinY(s) + 18.0f, arenaMaxY(s) - 18.0f) - sent.y) * minT(1.0f, dt * 4.0f);
     sent.fireT -= dt;
     if (sent.fireT > 0.0f) continue;
     const float power = maxT(0.5f, s.m.sentinelPower);
@@ -1005,7 +1203,10 @@ static void playUpdate(Sim& s, const SimInput& in, float dt) {
   Player& p = s.p; Mods& m = s.m;
   s.waveT += dt; s.runT += dt;
   // timers
-  p.iframes = maxT(0.0f, p.iframes - dt); p.critHealT -= dt; p.killHealT -= dt; p.hurtFlash -= dt;
+  p.iframes = maxT(0.0f, p.iframes - dt); p.critHealT -= dt; p.killHealT -= dt;
+  for (int i = 0; i < s.nSlots; ++i) if (s.slots[i].id >= 0 && s.slots[i].id < NUM_SPELLS)
+    s.killCooldown[s.slots[i].id] = maxT(0.0f, s.killCooldown[s.slots[i].id] - dt);
+  p.hurtFlash -= dt;
   p.lsBudget = minT(1.0f, p.lsBudget + dt); p.slowT -= dt; p.burnT -= dt;
   if (m.regenInt > 0) { p.regenT += dt; if (p.regenT >= m.regenInt) { spellCast(s); p.regenT = 0; heal(s, m.regenHp); } }
   // movement
@@ -1109,7 +1310,7 @@ void dbgWaveEnd(Sim& s) {
 void dbgBoss(Sim& s) {
   if (s.phase != PH_PLAY) { setToast(s, T(S_finish_phase)); return; }
   for (int i = 0; i < MAX_ENEMIES; ++i) if (s.en[i].alive && (ENEMIES[s.en[i].type].beh & B_BOSS)) { s.en[i].alive = false; setToast(s, T(S_boss_off)); return; }
-  const int group = (s.allSeasons ? s.rng.i(5) : s.season) * 5;
+  const int group = (s.allSeasons ? randomSelectedSeason(s) : s.season) * 5;
   spawnEnemy(s, group + 4, (arenaMinX(s) + arenaMaxX(s)) * 0.5f, arenaMinY(s) - 14, false);
   setToast(s, T(S_dbg_boss));
 }
@@ -1145,6 +1346,22 @@ void dbgGrantSpell(Sim& s, int spellId) {
   }
   recompute(s);
   setToast(s, "TEST SPELL ADDED / UPGRADED");
+}
+void dbgCompleteLevel(Sim& s) {
+  if (s.phase != PH_PLAY) { setToast(s, T(S_finish_phase)); return; }
+  for (int i = 0; i < MAX_ENEMIES; ++i) if (s.en[i].alive) {
+    const int type = s.en[i].type; s.en[i].alive = false;
+    if (s.enemiesAlive > 0) --s.enemiesAlive;
+    ++s.totalKills;
+    if (s.runKills[type] < 0xFFFF) ++s.runKills[type];
+    s.seenEnemy[type] = true;
+  }
+  s.wave = s.totalWaves; s.spawned = s.quota; s.bossWave = true; s.bossSpawned = true; s.enemiesAlive = 0;
+  endWave(s); setToast(s, "LEVEL COMPLETE / BESTIARY UNLOCKED");
+}
+void dbgAddMinute(Sim& s) {
+  if (s.phase == PH_DEAD || s.phase == PH_VICTORY) { setToast(s, T(S_finish_phase)); return; }
+  s.runT += 60.0f; setToast(s, "+1 MINUTE");
 }
 void dbgSpawnGolem(Sim& s) {
   if (s.phase != PH_PLAY) { setToast(s, T(S_finish_phase)); return; }

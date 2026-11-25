@@ -11,11 +11,13 @@ extern const u32 FX_PALETTE[FX_COLORS];
 
 struct Cosmetics { u8 hat = 0, face = 4, color = 0; };
 
-bool init(const Cosmetics& c);                // bake + upload the atlas (once at boot)
+bool init(const Cosmetics& c);
+bool exportAtlas(); // export the CPU-side atlas as a portable PPM for debug inspection                // bake + upload the atlas (once at boot)
 void setKnight(const Cosmetics& c);           // re-bake the knight cell
 const Spr& enemy(int id);
 const Spr& icon(int id);
 const Spr& spellIcon(int type, int elem, int act);
+const Spr& spellArt(int id);
 const Spr& knight();
 const Spr& knightPreview(const Cosmetics& c);
 const Spr& clothingPreview(int hat);

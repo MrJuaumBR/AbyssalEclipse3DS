@@ -14,6 +14,7 @@ namespace plat { u64 statMaxDrawsPerFrame(); }
 
 static int fails = 0;
 #define CHECK(c, ...) do { if (!(c)) { ++fails; printf("FAIL %s:%d: ", __FILE__, __LINE__); printf(__VA_ARGS__); printf("\n"); } } while (0)
+extern "C" volatile u32 g_debugUnlock;
 
 struct SaveV3Fixture {
   u32 magic; u16 version; u16 size; u32 crc;
@@ -35,6 +36,18 @@ struct SaveV4Fixture {
   u32 spellsAcquired, spellsCasted, spellUpgrades, weaponThrows, playTimeSeconds;
 };
 static_assert(sizeof(SaveV4Fixture) == 452, "test fixture must match the historical v4 save");
+struct SaveV5Fixture {
+  u32 magic; u16 version; u16 size; u32 crc;
+  u8 lang, musicVol, sfxVol, fps30; u8 showFps;
+  u8 hat, face, color, lastWeapon; u8 unlockAll, shakeOff, pad1, pad2;
+  u8 levelCleared[SEA_COUNT]; u8 pad3[3];
+  u16 bestWave[SEA_COUNT]; u16 bestAllSeasonsWave; u16 pad4[2];
+  u16 spellFound[NUM_SPELLS]; u8 spellUsed[NUM_SPELLS];
+  u16 enemyKills[NUM_ENEMIES]; u8 enemySeen[NUM_ENEMIES + 3];
+  u32 gamesPlayed, runsWon, runsLost, totalKills;
+  u32 spellsAcquired, spellsCasted, spellUpgrades, weaponThrows, playTimeSeconds;
+};
+static_assert(sizeof(SaveV5Fixture) == sizeof(SaveData), "test fixture must match the historical v5 save size");
 static u32 testCrc32(const u8* p, size_t n) {
   u32 c = 0xFFFFFFFFu;
   for (size_t i = 0; i < n; ++i) { c ^= p[i]; for (int k = 0; k < 8; ++k) c = (c >> 1) ^ (0xEDB88320u & (0u - (c & 1u))); }
@@ -102,8 +115,98 @@ static int runOne(int season, int level, bool endless, int weapon, int maxFrames
 }
 
 int main() {
-  remove("save.bin");
+  remove("save.bin"); remove("save.bin.tmp");
+  remove("save.0"); remove("save.0.tmp"); remove("save.1"); remove("save.1.tmp");
   CHECK(gameInit(), "gameInit failed");
+  printf("[campaign hub navigation]\n");
+  plat::Input campaignNav; campaignNav.down = plat::BTN_A; gameFrame(campaignNav, 1.0f / 60.0f); gameDraw();
+  campaignNav = plat::Input{}; campaignNav.down = plat::BTN_A; gameFrame(campaignNav, 1.0f / 60.0f); gameDraw();
+  campaignNav = plat::Input{}; campaignNav.down = plat::BTN_DOWN; gameFrame(campaignNav, 1.0f / 60.0f); gameDraw();
+  campaignNav = plat::Input{}; campaignNav.down = plat::BTN_UP; gameFrame(campaignNav, 1.0f / 60.0f); gameDraw();
+  campaignNav = plat::Input{}; campaignNav.down = plat::BTN_A; gameFrame(campaignNav, 1.0f / 60.0f); gameDraw();
+  campaignNav = plat::Input{}; campaignNav.down = plat::BTN_B; gameFrame(campaignNav, 1.0f / 60.0f); gameDraw();
+  campaignNav = plat::Input{}; campaignNav.down = plat::BTN_B; gameFrame(campaignNav, 1.0f / 60.0f);
+  campaignNav = plat::Input{}; campaignNav.down = plat::BTN_B; gameFrame(campaignNav, 1.0f / 60.0f);
+  gameCampaignHubForTest();
+  campaignNav = plat::Input{}; campaignNav.touchDown = true; campaignNav.tx = 120; campaignNav.ty = 52;
+  gameFrame(campaignNav, 1.0f / 60.0f);
+  CHECK(gameCampaignSelectionForTest() == 0 && gameCampaignFocusForTest() == 0,
+        "touching current campaign highlights it without switching to content mode");
+  campaignNav = plat::Input{}; campaignNav.touchDown = true; campaignNav.tx = 120; campaignNav.ty = 122;
+  gameFrame(campaignNav, 1.0f / 60.0f);
+  CHECK(gameCampaignSelectionForTest() == 1 && gameCampaignFocusForTest() == 0,
+        "a later bottom-screen touch selects the campaign actually tapped");
+  campaignNav = plat::Input{}; campaignNav.touchDown = true; campaignNav.tx = 120; campaignNav.ty = 52;
+  gameFrame(campaignNav, 1.0f / 60.0f);
+  CHECK(gameCampaignSelectionForTest() == 0 && gameCampaignFocusForTest() == 0,
+        "campaign touch selection can move back to another card without stale first selection");
+  printf("[spell sacrifice + scrolling run info]\n");
+  Sim sacrifice; simStart(sacrifice, SEA_FOREST, 0, true, W_DAGGER, 8172u);
+  sacrifice.p.level = 10; sacrifice.p.exp = 0.0f;
+  sacrifice.slots[1] = SpellSlot{0, 5}; sacrifice.nSlots = 2; recompute(sacrifice);
+  CHECK(simSacrificeReward(sacrifice, 1) == 68, "rank-five spell sacrifice reward scales with player level");
+  CHECK(simSacrificeSpell(sacrifice, 1) && sacrifice.nSlots == 1 && (sacrifice.p.level > 10 || sacrifice.p.exp > 0.0f) &&
+        sacrifice.sacrificedThisWave, "sacrifice removes spell and grants level-scaled XP");
+  CHECK(!simSacrificeSpell(sacrifice, 1), "cannot sacrifice a second spell in the same wave");
+  simResume(sacrifice);
+  sacrifice.slots[1] = SpellSlot{0, 4}; sacrifice.nSlots = 2; recompute(sacrifice);
+  CHECK(simSacrificeReward(sacrifice, 1) == 0, "rank below five cannot be sacrificed");
+  sacrifice.slots[1].lv = 5; recompute(sacrifice);
+  CHECK(simSacrificeReward(sacrifice, 1) == 50 + 2 * (sacrifice.p.level - 1), "next wave refreshes the sacrifice allowance with the current level bonus");
+  CHECK(simSacrificeReward(sacrifice, 0) == 0, "weapon slot cannot be sacrificed");
+  Sim campaignSacrifice; simStart(campaignSacrifice, SEA_FOREST, 0, false, W_DAGGER, 8173u);
+  campaignSacrifice.slots[1] = SpellSlot{0, 5}; campaignSacrifice.nSlots = 2; recompute(campaignSacrifice);
+  CHECK(simSacrificeReward(campaignSacrifice, 1) == 0, "campaign spells cannot be sacrificed");
+  int maxHpKillSpell = -1, healKillSpell = -1, globalStarter = -1;
+  for (int id = 0; id < NUM_SPELLS; ++id) {
+    if (!strcmp(spellName(id), "SANGUINE RITE")) maxHpKillSpell = id;
+    if (!strcmp(spellName(id), "SOUL HARVEST")) healKillSpell = id;
+    if (globalStarter < 0 && SPELLS[id].sc == SC_GLOBAL) globalStarter = id;
+  }
+  Sim killCounters; simStart(killCounters, SEA_FOREST, 0, true, W_DAGGER, 8174u);
+  killCounters.slots[1] = SpellSlot{(s16)maxHpKillSpell, 1}; killCounters.slots[2] = SpellSlot{(s16)healKillSpell, 1};
+  killCounters.nSlots = 3; recompute(killCounters);
+  killCounters.killProgress[maxHpKillSpell] = 7; killCounters.killCooldown[maxHpKillSpell] = 2.0f;
+  killCounters.killProgress[healKillSpell] = 3; killCounters.killCooldown[healKillSpell] = 0.0f;
+  int progress = 0, killTarget = 0; float cooldown = 0.0f, cooldownMax = 0.0f;
+  CHECK(simKillTriggerInfo(killCounters, 1, progress, killTarget, cooldown, cooldownMax) && progress == 7 && killTarget == 10 &&
+        cooldown == 2.0f && cooldownMax == 5.0f, "kill-based spell exposes its own kill progress and cooldown");
+  CHECK(simKillTriggerInfo(killCounters, 2, progress, killTarget, cooldown, cooldownMax) && progress == 3 && killTarget == 5 &&
+        cooldown == 0.0f && cooldownMax == 3.0f, "different kill spells keep independent counters and cooldowns");
+  Sim endlessRules; simStart(endlessRules, SEA_FOREST, 0, true, W_DAGGER, 8175u, false, 1, false, 3, globalStarter, 2);
+  CHECK(!endlessRules.randomSpells && endlessRules.lives == 3 && endlessRules.difficulty == 2 &&
+        endlessRules.nSlots == 2 && endlessRules.slots[1].id == globalStarter,
+        "manual spell choice, extra lives, and hard difficulty initialize the Endless run");
+  Sim luckTest; simStart(luckTest, SEA_FOREST, 0, true, W_DAGGER, 8176u);
+  const float luckBase = simPotionDropChance(luckTest, false), luckCritical = simPotionDropChance(luckTest, true);
+  luckTest.alloc[ST_LUCK] += 2;
+  CHECK(fabsf((simPotionDropChance(luckTest, false) - luckBase) - 0.1f) < 0.001f &&
+        fabsf((simPotionDropChance(luckTest, true) - luckCritical) - 2.1f) < 0.001f,
+        "luck adds 0.05 percentage points per point, plus 1 point on critical kills");
+  gameStartRunForTest(SEA_FOREST, 0, true, W_DAGGER, 9123u);
+  plat::Input scrollInput; scrollInput.down = plat::BTN_R; gameFrame(scrollInput, 1.0f / 60.0f);
+  scrollInput = plat::Input{}; scrollInput.down = plat::BTN_R; gameFrame(scrollInput, 1.0f / 60.0f);
+  scrollInput = plat::Input{}; scrollInput.down = plat::BTN_DOWN; gameFrame(scrollInput, 1.0f / 60.0f);
+  CHECK(gameRunInfoScrollForTest() == 0, "Partida keeps D-pad available for gameplay movement");
+  scrollInput = plat::Input{}; scrollInput.down = plat::BTN_Y; gameFrame(scrollInput, 1.0f / 60.0f);
+  CHECK(gameRunInfoScrollForTest() == 5, "Y fast-scrolls the Partida list rather than changing pages");
+  scrollInput = plat::Input{}; scrollInput.touchDown = true; scrollInput.touchHeld = true; scrollInput.ty = 150;
+  gameFrame(scrollInput, 1.0f / 60.0f);
+  scrollInput = plat::Input{}; scrollInput.touchHeld = true; scrollInput.ty = 126; gameFrame(scrollInput, 1.0f / 60.0f);
+  CHECK(gameRunInfoScrollForTest() == 7, "touch drag scrolls the Partida list");
+  gameDraw();
+  scrollInput = plat::Input{}; scrollInput.touchUp = true; gameFrame(scrollInput, 1.0f / 60.0f);
+  gameStartRunForTest(SEA_FOREST, 0, true, W_DAGGER, 9124u);
+  Sim& uiSacrifice = gameSim(); uiSacrifice.p.level = 10; uiSacrifice.p.exp = 0.0f;
+  uiSacrifice.slots[1] = SpellSlot{0, 5}; uiSacrifice.nSlots = 2; recompute(uiSacrifice);
+  scrollInput = plat::Input{}; scrollInput.down = plat::BTN_X; gameFrame(scrollInput, 1.0f / 60.0f);
+  gameDraw();
+  scrollInput = plat::Input{}; scrollInput.touchDown = true; scrollInput.touchHeld = true; scrollInput.tx = 160; scrollInput.ty = 226;
+  for (int hold = 0; hold < 185; ++hold) {
+    scrollInput.touchDown = hold == 0; gameFrame(scrollInput, 1.0f / 60.0f);
+  }
+  CHECK(uiSacrifice.nSlots == 1 && uiSacrifice.sacrificedThisWave,
+        "holding the selected-spell sacrifice control for three seconds removes the spell");
   printf("[data]\n");
   CHECK(SPELL_COUNT == NUM_SPELLS && SPELL_COUNT == 147 && ENEMY_COUNT == 25, "data counts");
   int perScope[3] = {0, 0, 0}; int per[SEA_COUNT] = {0}; int perEl[EL_COUNT] = {0};
@@ -119,6 +222,8 @@ int main() {
   const int expectedSeason[SEA_COUNT] = {5, 5, 5, 5, 6};
   for (int s = 0; s < SEA_COUNT; ++s) CHECK(per[s] == expectedSeason[s], "season %d has %d exclusives", s, per[s]);
   for (int l = 0; l < LANG_COUNT; ++l) { g_lang = l; for (int i = 0; i < NUM_SPELLS; ++i) CHECK(spellName(i)[0], "lang %d spell %d", l, i); for (int i = 0; i < NUM_ENEMIES; ++i) CHECK(enemyName(i)[0], "lang %d enemy %d", l, i); }
+  g_lang = LANG_PT;
+  CHECK(!strcmp(T(S_cat_general_spells), "MAGIAS GERAIS") && !strcmp(T(S_cat_prev), "ANT.") && !strcmp(T(S_cat_next), "PROX."), "Portuguese Catalog headings and navigation are localized");
   g_lang = LANG_EN;
 
   printf("[weapon stats + katana melee regression]\n");
@@ -233,6 +338,18 @@ int main() {
           "a protected spell cannot be upgraded beyond level 5 even with a stale offer");
   }
 
+  int echoChamber = -1;
+  for (int id = 0; id < NUM_SPELLS; ++id) if (!strcmp(spellName(id), "ECHO CHAMBER")) echoChamber = id;
+  CHECK(echoChamber >= 0, "rank-scaled strike spell exists");
+  if (echoChamber >= 0) {
+    gameStartRunForTest(SEA_FOREST, 0, true, W_DAGGER, 4241u);
+    Sim& counterSim = gameSim();
+    counterSim.slots[counterSim.nSlots++] = SpellSlot{(s16)echoChamber, 1}; recompute(counterSim);
+    CHECK(simSpellTriggerInterval(counterSim, 1) == 5, "Echo Chamber rank 1 triggers every five strikes");
+    counterSim.slots[1].lv = 2; recompute(counterSim);
+    CHECK(simSpellTriggerInterval(counterSim, 1) == 4, "Echo Chamber rank 2 counter interval reduces to four strikes");
+  }
+
   int flareSpell = -1;
   for (int id = 0; id < NUM_SPELLS; ++id) if (SPELLS[id].eff[0].kind == E_PERIODIC_FLARE) { flareSpell = id; break; }
   CHECK(flareSpell >= 0, "periodic flare spell exists for cast counter test");
@@ -243,12 +360,34 @@ int main() {
     CHECK(casts.runSpellsCasted > 0, "periodic spell activation is counted");
   }
 
+  printf("[endless selected-season rotation]\n");
+  Sim seasonSet; simStart(seasonSet, SEA_DESERT, 0, true, W_DAGGER, 7171u, true, (u8)((1u << SEA_DESERT) | (1u << SEA_MOUNTAIN)));
+  CHECK(seasonSet.selectedSeasons == ((1u << SEA_DESERT) | (1u << SEA_MOUNTAIN)), "selected season mask retained");
+  for (int i = 0; i < 5; ++i) simResume(seasonSet);
+  CHECK(seasonSet.season == SEA_MOUNTAIN, "endless rotation advances only to a checked season (%d)", seasonSet.season);
+  for (int i = 0; i < 5; ++i) simResume(seasonSet);
+  CHECK(seasonSet.season == SEA_DESERT, "endless rotation wraps within checked seasons (%d)", seasonSet.season);
+
   printf("[full runs, 60 Hz logic]\n");
   double worst = 0, ms;
   for (int sea = 0; sea < SEA_COUNT; ++sea) { int w = runOne(sea, 0, false, sea % W_COUNT, 60 * 60 * 18, true, &ms); CHECK(gameSim().phase == PH_VICTORY, "season %d campaign level 1 should be completable with god mode (wave %d)", sea, w); if (ms > worst) worst = ms; }
   for (int w = 0; w < W_COUNT; ++w) { runOne(1, 2, true, w, 60 * 60 * 6, true, &ms); if (ms > worst) worst = ms; }
   printf("[balance probe: mortal autopilot (kites, never aims), campaign level 1]\n");
   for (int sea = 0; sea < SEA_COUNT; ++sea) for (int w = 0; w < W_COUNT; w += 1) { runOne(sea, 0, false, w, 60 * 60 * 18, false, &ms); }
+
+  printf("[Infinity Glove advances per spawned shot]\n");
+  Sim glove; simStart(glove, SEA_FOREST, 0, false, W_INFINITY_GLOVE, 1881u);
+  const u8 initialGloveElement = glove.p.infinityElement;
+  simUpdate(glove, SimInput{0, 0}, 0.20f);
+  CHECK(glove.p.infinityElement == initialGloveElement, "glove element remains still without a target/shot");
+  Enemy& gloveTarget = glove.en[0]; gloveTarget.alive = true; gloveTarget.type = EN_GRUB;
+  gloveTarget.x = glove.p.x + 20.0f; gloveTarget.y = glove.p.y; gloveTarget.hp = gloveTarget.maxhp = 1000.0f;
+  glove.p.atkT = 0.0f;
+  simUpdate(glove, SimInput{0, 0}, 0.001f);
+  CHECK(glove.p.infinityElement == (u8)((initialGloveElement + 1) % EL_COUNT), "one successful shot advances exactly once");
+  bool gloveShotUsesOldElement = false;
+  for (const Proj& projectile : glove.pr) if (projectile.alive && projectile.spr == gfx::PS_BOLT) gloveShotUsesOldElement = true;
+  CHECK(gloveShotUsesOldElement, "first projectile uses the element shown before the shot");
 
   printf("[debug tools + phases]\n");
   gameStartRunForTest(0, 0, false, 0, 99);
@@ -269,6 +408,25 @@ int main() {
   while (s2.phase == PH_ALLOC) simFinishAlloc(s2);
   CHECK(s2.phase == PH_SPELL && s2.offersAreUpgrades, "12/12 offers upgrades");
   if (s2.phase == PH_SPELL) { int slot = s2.offers[0]; simPickOffer(s2, 0); CHECK(s2.slots[slot].lv == 2, "upgrade applied"); }
+
+  printf("[debug completion unlocks only current-level discoveries]\n");
+  gameStartRunForTest(SEA_SNOW, 0, false, W_DAGGER, 501u);
+  g_debugUnlock = 0x0AE13D3Bu;
+  plat::Input dbg; dbg.down = plat::BTN_SELECT; dbg.held = plat::BTN_L | plat::BTN_R | plat::BTN_X | plat::BTN_Y;
+  gameFrame(dbg, 1.0f / 60.0f);
+  for (int i = 0; i < 11; ++i) { dbg = plat::Input{}; dbg.down = plat::BTN_DOWN; gameFrame(dbg, 1.0f / 60.0f); }
+  dbg = plat::Input{}; dbg.down = plat::BTN_A; gameFrame(dbg, 1.0f / 60.0f); gameDraw();
+  SaveData debugProgress; CHECK(saveLoad(debugProgress), "debug completion saved progress");
+  for (int i = 0; i < NUM_ENEMIES; ++i)
+    CHECK((debugProgress.enemySeen[i] != 0) == (ENEMIES[i].season == SEA_SNOW),
+          "debug completion bestiary scope for enemy %d / season %d", i, ENEMIES[i].season);
+  for (int i = 0; i < NUM_SPELLS; ++i) {
+    const bool shouldFind = SPELLS[i].sc == SC_SEASON && SPELLS[i].season == SEA_SNOW;
+    CHECK((debugProgress.spellFound[i] != 0) == shouldFind, "debug completion seasonal spell scope %d", i);
+  }
+  dbg = plat::Input{}; dbg.down = plat::BTN_B; gameFrame(dbg, 1.0f / 60.0f); gameDraw(); g_debugUnlock = 0;
+  CHECK(gameAchievementPopupForTest() == ACH_CATALOG_SNOW,
+        "newly achieved seasonal catalog milestone displays a popup in the current screen");
 
   printf("[achievement progression + catalog completion]\n");
   SaveData ach; saveDefaults(ach); u32 current, target;
@@ -292,7 +450,8 @@ int main() {
   achievementProgress(ach, ACH_ELEMENTALIST, current, target);
   CHECK(current == TY_COUNT * 2 && target == TY_COUNT * 2 && achievementUnlocked(ach, ACH_ELEMENTALIST), "Elementalist achievement progression");
 
-  printf("[version-3 save migration + v5 round trip]\n");
+  printf("[version-3/4/5 migration + dual-slot save recovery]\n");
+  remove("save.0"); remove("save.0.tmp"); remove("save.1"); remove("save.1.tmp");
   SaveV3Fixture old = {}; old.magic = SAVE_MAGIC; old.version = 3; old.size = sizeof old;
   old.lang = LANG_EN; old.musicVol = 45; old.sfxVol = 65; old.showFps = 1;
   old.levelCleared[SEA_DESERT] = 7; old.bestWave[2] = 17; old.spellFound[140] = 9;
@@ -304,6 +463,7 @@ int main() {
   CHECK(migrated.version == SAVE_VERSION && migrated.levelCleared[SEA_DESERT] == 7 && migrated.bestWave[2] == 17 &&
         migrated.spellFound[140] == 9 && migrated.spellFound[143] == 0 && migrated.enemyKills[3] == 22 &&
         migrated.enemySeen[4] && migrated.showFps == 1 && migrated.gamesPlayed == 0, "v3 progress preserved and new stats defaulted");
+  remove("save.0"); remove("save.0.tmp"); remove("save.1"); remove("save.1.tmp");
   SaveV4Fixture old4 = {}; old4.magic = SAVE_MAGIC; old4.version = 4; old4.size = sizeof old4;
   old4.hat = 9; old4.lastWeapon = W_STAFF; old4.spellFound[140] = 7; old4.gamesPlayed = 44; old4.totalKills = 1234;
   old4.crc = testCrc32((const u8*)&old4 + 12, sizeof old4 - 12);
@@ -313,13 +473,41 @@ int main() {
   CHECK(migrated4.version == SAVE_VERSION && migrated4.hat == 9 && migrated4.lastWeapon == W_STAFF &&
         migrated4.spellFound[140] == 7 && migrated4.gamesPlayed == 44 && migrated4.totalKills == 1234 &&
         migrated4.spellUsed[140] == 0, "v4 progress preserved and spell-use history starts empty");
+  remove("save.0"); remove("save.0.tmp"); remove("save.1"); remove("save.1.tmp");
+  SaveV5Fixture old5 = {}; old5.magic = SAVE_MAGIC; old5.version = 5; old5.size = sizeof old5;
+  old5.spellFound[140] = 11; old5.spellUsed[140] = 1; old5.gamesPlayed = 55; old5.pad4[0] = 4321; old5.pad3[0] = 0x1F;
+  old5.crc = testCrc32((const u8*)&old5 + 12, sizeof old5 - 12);
+  fixture = fopen("save.bin", "wb"); CHECK(fixture != nullptr, "open legacy v5 fixture");
+  if (fixture) { fwrite(&old5, 1, sizeof old5, fixture); fclose(fixture); }
+  SaveData migrated5; CHECK(saveLoad(migrated5), "load legacy v5 save");
+  CHECK(migrated5.version == SAVE_VERSION && saveCoinBalance(migrated5) == 0 && migrated5.coinSeasonClaimed == 0 && migrated5.spellFound[140] == 11 &&
+        migrated5.spellUsed[140] == 1 && migrated5.gamesPlayed == 55,
+        "v5 progress preserved and new coin balance starts at zero");
+  remove("save.bin"); remove("save.bin.tmp"); remove("save.0"); remove("save.0.tmp"); remove("save.1"); remove("save.1.tmp");
   SaveData a; saveDefaults(a); a.bestWave[2] = 17; a.levelCleared[0] = 7; a.spellFound[5] = 3;
   a.gamesPlayed = 12; a.spellsCasted = 987; a.totalKills = 54321; CHECK(saveStore(a), "store v4 save");
   SaveData b; CHECK(saveLoad(b) && b.bestWave[2] == 17 && b.spellFound[5] == 3 && b.gamesPlayed == 12 &&
                     b.spellsCasted == 987 && b.totalKills == 54321, "load v4 stats");
   CHECK(seasonUnlocked(b, 1) && !seasonUnlocked(b, 2) && levelUnlocked(b, 0, 2), "unlock chain");
-  FILE* f = fopen("save.bin", "r+b"); if (f) { fseek(f, 40, SEEK_SET); fputc(0x55, f); fclose(f); }
-  CHECK(!saveLoad(b) && b.bestWave[2] == 0, "corrupt save falls back to defaults");
+  SaveData newer = a; newer.bestWave[2] = 29; newer.totalKills = 67890; CHECK(saveStore(newer), "write next save slot");
+  SaveData newest; CHECK(saveLoadEx(newest) == SAVE_LOAD_OK && newest.bestWave[2] == 29 && newest.totalKills == 67890,
+                         "load newest generation from alternating slots");
+  FILE* f = fopen("save.0", "r+b"); if (f) { fseek(f, 32, SEEK_SET); fputc(0x55, f); fclose(f); }
+  SaveData fallback; CHECK(saveLoadEx(fallback) == SAVE_LOAD_OK && fallback.bestWave[2] == 17 && fallback.totalKills == 54321,
+                            "corrupt newest slot recovers previous valid generation");
+  f = fopen("save.1", "r+b"); if (f) { fseek(f, 32, SEEK_SET); fputc(0x55, f); fclose(f); }
+  SaveData backupRecovered;
+  CHECK(saveLoadEx(backupRecovered) == SAVE_LOAD_MIGRATED && backupRecovered.bestWave[2] == 29 &&
+        backupRecovered.totalKills == 67890, "legacy recovery copy restores the latest committed save");
+  f = fopen("save.0", "r+b"); if (f) { fseek(f, 32, SEEK_SET); fputc(0x55, f); fclose(f); }
+  remove("save.bin"); remove("save.bin.tmp");
+  SaveData protectedSave; CHECK(saveLoadEx(protectedSave) == SAVE_LOAD_RECOVERY_REQUIRED,
+                                "both invalid slots require recovery instead of silently defaulting");
+  CHECK(protectedSave.bestWave[2] == 0, "recovery state exposes defaults without deleting invalid records");
+  FILE* slot0 = fopen("save.0", "rb"); FILE* slot1 = fopen("save.1", "rb");
+  CHECK(slot0 != nullptr && slot1 != nullptr, "invalid slot records remain in place for manual recovery");
+  if (slot0) fclose(slot0);
+  if (slot1) fclose(slot1);
 
   gameStartRunForTest(SEA_FOREST, 0, true, W_TRIDENT, 7777u);
   Sim& trident = gameSim(); trident.pr[0].alive = true; trident.pr[0].retrievable = true; trident.pr[0].stuck = true;
@@ -335,6 +523,12 @@ int main() {
   printf("[ui frames: all screens draw without crashing]\n");
   for (int lang = 0; lang < 2; ++lang) {
     g_lang = lang;
+    CHECK(gfx::textWidth(T(S_campaign_choose), 1) <= 304 && gfx::textWidth(T(S_campaign_browse), 1) <= 304,
+          "campaign control hints fit the bottom screen in language %d", lang);
+    CHECK(gfx::textWidth(T(S_run_info_controls), 1) <= 304 &&
+          gfx::textWidth(Tn(S_sacrifice_action, 100), 1) <= 304 &&
+          gfx::textWidth(T(S_sacrifice_locked), 1) <= 304,
+          "scroll and sacrifice labels fit the bottom screen in language %d", lang);
     gameStartRunForTest(SEA_FOREST, 0, false, 0, 888u + (u32)lang);
     CHECK(T(S_cat_weapons)[0] != 0, "catalog weapon tab is localized in language %d", lang);
     char rankLine[96];
@@ -365,6 +559,12 @@ int main() {
     nav.down = plat::BTN_A; gameFrame(nav, 1.0f / 60.0f); gameDraw();
   }
   printf("[visible catalog tabs + Weapons page navigation]\n");
+  int prevSection = gameCatalogJumpForTest(0, 100, -1);
+  int prevAgain = gameCatalogJumpForTest(0, prevSection, -1);
+  int nextSection = gameCatalogJumpForTest(0, 100, 1);
+  CHECK(prevSection == 204 && prevAgain == 203 && nextSection == 101,
+        "Catalog section navigation follows visual order without a last-section loop (%d,%d,%d)",
+        prevSection, prevAgain, nextSection);
   for (int lang = 0; lang < 2; ++lang) {
     g_lang = lang;
     gameStartRunForTest(SEA_FOREST, 0, false, 0, 990u + (u32)lang);
@@ -381,6 +581,16 @@ int main() {
     for (int k = 0; k < 4; ++k) { gameFrame(in, 1.0f / 60); gameDraw(); }
     in.down = plat::BTN_A; gameFrame(in, 1.0f / 60); gameDraw();
   }
+  printf("[secret developer overlay on non-gameplay menus]\n");
+  gameCampaignHubForTest(); g_debugUnlock = 0;
+  plat::Input dev; dev.down = plat::BTN_SELECT; dev.held = plat::BTN_L | plat::BTN_R | plat::BTN_X | plat::BTN_Y;
+  gameFrame(dev, 1.0f / 60.0f);
+  CHECK(gameDebugMenuForTest(), "secret developer overlay opens on campaign menu");
+  gameDraw();
+  dev = plat::Input{}; dev.down = plat::BTN_B; gameFrame(dev, 1.0f / 60.0f);
+  CHECK(!gameDebugMenuForTest(), "developer overlay closes without leaving underlying menu");
+  g_debugUnlock = 0;
+
   printf("max draw calls in a frame (all screens): %llu\n", (unsigned long long)plat::statMaxDrawsPerFrame());
   printf("worst simulation cost: %.3f ms/frame on this host\n", worst);
   printf("%s (%d failures)\n", fails ? "FAILED" : "ALL TESTS PASSED", fails);

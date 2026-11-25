@@ -10,6 +10,6 @@ soak: $(SRC) $(wildcard ../source/*.h)
 asan: $(SRC)
 	$(CXX) $(FLAGS) -g -fsanitize=address,undefined $(SRC) -o soak_asan -lm && ./soak_asan
 syntax3ds:
-	$(CXX) -std=c++17 -fsyntax-only -Wall -Wextra -Istubs -I../source ../source/platform_3ds.cpp ../source/main.cpp
+	$(CXX) -std=c++17 -D__3DS__ -fsyntax-only -Wall -Wextra -Istubs -I../source ../source/platform_3ds.cpp ../source/main.cpp
 clean:
-	rm -f soak soak_asan save.bin save.bin.tmp
+	rm -f soak soak_asan save.bin save.bin.tmp save.0 save.0.tmp save.1 save.1.tmp
